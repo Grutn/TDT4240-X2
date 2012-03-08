@@ -1,0 +1,87 @@
+\documentclass[pdftex,12pt,a4paper]{report}
+
+\usepackage[pdftex]{graphicx}
+\usepackage[x11names]{xcolor}
+\usepackage[explicit]{titlesec}
+\usepackage{anysize}
+\marginsize{2cm}{2cm}{1cm}{1cm}
+
+
+\definecolor{black}{RGB}{0,0,0}
+\definecolor{grey}{RGB}{90,90,90}
+\definecolor{lightgrey}{RGB}{110,110,110}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+\renewcommand{\familydefault}{\sfdefault}
+
+\newcommand{\myItem}[2]{\item \textbf{#1}:#2}
+
+
+\titleformat{\section}[block]
+	{\normalfont\sffamily}
+	{
+		\colorbox{grey}{\parbox[c][15pt][c]{30pt}{%
+		\hfil\color{white}\Large\thesection\hfil}}
+	}
+	{-6pt}
+	{
+		\parbox{0.9\linewidth}{%
+		\hspace*{0.2em}\color{black}\large\sffamily#1\\[-13pt]\color{grey}\titlerule}
+	}
+\titlespacing*{\section}{0pt}{3ex plus 1ex minus .2ex}{2ex plus .2ex}
+
+\titleformat{\subsection}[block]
+	{\normalfont\sffamily}
+	{
+		\colorbox{black!50}{\parbox[c][12pt][c]{25pt}{%
+		\hfil\color{white}\normalsize\thesubsection\hfil}}
+	}
+	{-4pt}
+	{
+		\parbox{0.85\linewidth}{%
+		\hspace*{0.4em}\color{black!80}\normalsize\sffamily#1\\[-12pt]\color{black!50}\titlerule}
+	}
+\titlespacing*{\subsection}{0pt}{3.5ex plus 1ex minus .2ex}{2.3ex plus .2ex}
+
+
+\titleformat{\chapter}[block]
+	{\normalfont\sffamily}
+	{
+		\begin{flushright}
+		\colorbox{black}{\parbox[c][40pt][c]{60pt}{%
+		\hfil\color{white}\Huge\thechapter\hfil}}
+		\end{flushright}
+	}
+	{0pt}
+	{\parbox{\linewidth}{%
+		\vspace*{-5em}\hspace*{0.5em}\color{black}\huge\sffamily#1\\[-25pt]\color{black}
+		\titlerule
+	}}
+\titlespacing*{\chapter}{0pt}{-2cm}{-0.6cm}
+
+\newcommand{\makemytitle}[3] %Args are Title, Subtitle, Author
+{
+	\begin{titlepage}
+	
+	\begin{center}
+	
+	{\colorbox{black!70}{\parbox[c][70pt][c]{200pt}{%
+		\color{white}\centering #2}}}
+	% Title
+	\hrule
+	\vspace{1em}
+	{\huge\sffamily #1}
+	\vspace{1em}
+	\hrule 
+	\vspace{1em}
+	
+	#3
+	\vfill
+	
+	
+	\end{center}
+	
+	\end{titlepage}
+}
+

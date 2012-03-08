@@ -1,0 +1,286 @@
+\input{../latexTing/style}
+
+\begin{document}
+
+\makemytitle{Requirements Document}
+{\LARGE TDT4120 \\ \large Software Architecture}
+{{\large\emph{Group X2}}\\[0.2cm]
+	Milos Zlatkovic \\
+	Dimitry Kongevold \\
+	Emil Grunt\\
+	Nicolay Thafvelin\\
+	Julius Buset Asplin\\
+}
+
+\tableofcontents
+
+\chapter{Introduction}
+	This document describes in short what kind of game we are going to create, and some of its features. The document also contains the requirements and constraints of the system, and what kind of quality attributes we are focusing on.
+
+\section{About the game}
+	Our game is much like the popular Nintendo game Super Smash Brothers, with some tweaks from other 2D fighting games like ``Street Fighter'', ``Tekken'' and ``Capcom VS Marvel''. The game is a 2D fighting game where  you select a character and a map and play. The player can move freely at the selected game map. If the player is hit by an object or an attack the players damage/percentage is increased, which makes it easier to hit the player out of the map. If the player falls outside a given area of the map, the player dies. If the player has more lives left he is put back onto the course with his damage/percentage reset. The goal of the game is to hit the other players of the map as many times as possible. The game ends after a given time or if all the players except one has died a given number of times. The winner is the person that has the best kill, death ratio. The game is mainly played whit xbox 360 controllers, from 2-4 players. You can play the game with the keyboard if you're only two players.
+
+\chapter{Functional requirements}
+A short description of all of the games functional requirements
+\section{Starting a game}
+	\paragraph{Summary:}
+		Before you can start to play the players have to choose their character amongst the given characters, and then choose a map.
+	\paragraph{Rationale:}
+		The players navigate in the menu with the left stick, selecting with the A button.
+		The players can select characters from an character selection menu, and a map from a map selection menu.
+		When successful selecting character and map, the game should start. 
+
+\section{Game-play}
+	\paragraph{Summary:}
+		It should be possible to attack other character with your character, and move around.
+		Target is to hit other players of the map.
+	\paragraph{Rationale:}
+		A player should be able to move the character around and hit other players characters which should result in the other characters percent/damage increasing. 
+		Higher percent/damage should results that attacks at the character applies more force in a direction, so it's easier to hit the player out of the map. 
+		The target of the game is to hit other players out of the map, and not get hit out yourself. The game is finished when the time is out or the all the players except one has used up a given number of lives.
+		The winner is the person that whit the best kill death ratio in the time mode, or the the last one standing i life mode.
+
+\section{Character}
+	\paragraph{Summary:}
+		The game should support different characters with different attributes and look. 
+	\paragraph{Rationale:}
+		Each character should have a different look and and different attributes.\\
+		A character should have this attributes
+		\begin{itemize}
+			\item Body mass
+			\item Strength
+			\item Speed
+			\item Special moves
+		\end{itemize}
+		It should be easy to add more characters without needing to recompile the game.
+
+\newpage
+\section{Map}
+	\paragraph{Summary:}
+		The game should support different maps, with different architecture and look.
+	\paragraph{Rationale:}
+		Each map should have a different architecture and look. 
+		This means that the map has different platform around on the stage that the characters can stand on, the platforms should match the image in the background. E.g. if the image has a rooftop, it should be a platform her that the character can stand on.
+		It should be easy to add more maps without needing to recompile the game.
+
+\section{Map objects and power-ups}
+	\paragraph{Summary:}
+		Objects and power-ups should show up at the map.
+		The character should be able to pick up objects and power-ups.
+	\paragraph{Rationale:}
+		It should show up objects and power-ups at random location on the map at random time throughout the game. The player should be able to pick up objects and use it in the way the object is intended to be used. The character can also throw the object at other players, which will cause damage/percentage. Power-ups can also be picked up by the character. The power-up should change some of the attributes to the character.
+
+\section{Graphics requirement}
+	\paragraph{Summary:}
+		The game is viewed in 2D from the side. In a game-play it should show the selected characters and map.
+	\paragraph{Rationale:}
+		The game should represent the \emph{characters} with an animated sprite in 2D.\\
+		The game should represent the \emph{map} with an static sprite in 2D with collision boxes for the platforms on the map.
+		The game should represent the \emph{objects} with an animated sprite in 2D.
+
+\section{Physics requirement}
+	\paragraph{Summary:}
+		The characters should be able to move and jump around at the map, whit realistic physics. Should also be possible to throw objects, attack other players (hit, shoot, special attacks), if it hits another player it should affect the player in realistic way.
+	\paragraph{Rationale:}
+		When the left stick on the controller is used it should control the character in the same direction as the stick is moved. If stick is moved upwards the character should jump, if down the player should crouch. 
+		Pressing the A or B buttons should cause the character to do an attack. You can combine A and B with the stick in a direction to do a different attack.
+		A gravity will always pull the characters and objects down to the ground.
+
+\section{Sound FX and Music}
+	\paragraph{Summary:}
+		The game should have sound FX and music
+	\paragraph{Rational:}
+		Music should play in the background while playing.\\
+		Sound FX should  be heard on:
+		\begin{itemize}
+			\item Character hit
+			\item Character special-move
+			\item Character picks up power-ups
+			\item Character uses power-up
+			\item Object is thrown and hits ground
+			\item Menu navigation
+		\end{itemize}
+
+\chapter{Quality requirements}
+Our games quality requirements
+\section{Modifiability}
+	\begin{itemize}
+		\item Add new characters, maps, objects and power-ups without recompilation
+		\item Functional components should be specified in file
+		\item Major functional components should be replaceable
+		\item Play via LAN without changing lots of code
+	\end{itemize}
+	
+\subsection{Add new characters, maps, objects and power-ups without recompilation}
+	\begin{itemize}
+	\myItem{Source}{Game developer, user}
+	\myItem{Stimulus}{Add more characters, maps, objects and power-ups to the game}
+	\myItem{Artifact}{Game system}
+	\myItem{Enviroment}{During development or after releaser}
+	\myItem{Response}{It should be possible to add more characters, maps, objects and power-ups without recompiling the game}
+	\myItem{Response Measure}{Characters, maps, objects and power-ups should be read from XML file, not from code}
+	\end{itemize}
+	
+\subsection{Functional components should be specified in file}
+	\begin{itemize}
+	\myItem{Source}{Game developer}
+	\myItem{Stimulus}{Designs the game}
+	\myItem{Artifact}{Components}
+	\myItem{Enviroment}{During development}
+	\myItem{Response}{It should be possible to change which modules are being used without change code}
+	\myItem{Response Measure}{Read which models/components to use from file}
+	\end{itemize}
+	
+\subsection{Major functional components should be replaceable}
+	\begin{itemize}
+	\myItem{Source}{Game developer}
+	\myItem{Stimulus}{Design}
+	\myItem{Artifact}{Game modules and components}
+	\myItem{Enviroment}{Before compilation/development}
+	\myItem{Response}{It should be possible to add/remove modules/components without changing other classes}
+	\myItem{Response Measure}{Classes still work if you disable modules/components}
+	\end{itemize}
+	
+\subsection{Play via LAN without changing lots of code}
+	\begin{itemize}
+	\myItem{Source}{Game developer}
+	\myItem{Stimulus}{Play game via LAN}
+	\myItem{Artifact}{Game system}
+	\myItem{Enviroment}{During development}
+	\myItem{Response}{It should be possible to implement playing via LAN without have to change many classes}
+	\myItem{Response Measure}{Create server/client class that manages the LAN part of the game, without changing lots of other classes}
+	\end{itemize}	
+
+\section{Performance}
+	\begin{itemize}
+	\item The game should run at the highest frame rate the computer can manage
+	\item The user should not experience delay in image, or slow response
+	\item The game should not load
+	\end{itemize}
+	
+	\subsection{Frame rate}
+	\begin{itemize}
+		\myItem{Source}{User}
+		\myItem{Stimulus}{Game play}
+		\myItem{Artifact}{Graphics interface}
+		\myItem{Enviroment}{Runtime}
+		\myItem{Response}{User sees animation smoothly}
+		\myItem{Response Measure}{The game should run at a high enough frame rate so the user doesn't feel like the pictures lag}
+	\end{itemize}
+	
+	\subsection{Game delay}
+	\begin{itemize}
+		\myItem{Source}{User}
+		\myItem{Stimulus}{Game play}
+		\myItem{Artifact}{Graphics interface}
+		\myItem{Enviroment}{Runtime}
+		\myItem{Response}{User should see the responses from the game immediately}
+		\myItem{Response Measure}{The game should respond to the users interference within a few milliseconds}
+	\end{itemize}
+	\subsection{Game loading}
+	\begin{itemize}
+		\myItem{Source}{User}
+		\myItem{Stimulus}{Game play}
+		\myItem{Artifact}{Game logic}
+		\myItem{Enviroment}{Runtime}
+		\myItem{Response}{User should not need to wait for a long time for the map to be loaded}
+		\myItem{Response Measure}{Maps shouldn't take more than 5 sec to load}
+	\end{itemize}
+
+\section{Portability}
+	Support pc and xbox 360 platform
+	\begin{itemize}
+		\myItem{Source}{Developer}
+		\myItem{Stimulus}{Support both pc and xbox 360}
+		\myItem{Artifact}{Implementation}
+		\myItem{Enviroment}{Design}
+		\myItem{Response}{Should be possible to compile the game for both pc and xbox 360}
+		\myItem{Response Measure}{The game works on both platforms}
+	\end{itemize}
+
+
+\section{Testability}
+	\begin{itemize}
+	\item Beta testing
+	\item To make the game testable, the system should have the possibility to control each component's internal state and inputs. And observe its outputs.
+	\item Large functional components should be replaceable with mock implementations
+	\end{itemize}
+	
+	\subsection{Beta testing}
+	\begin{itemize}
+		\myItem{Source}{Test users}
+		\myItem{Stimulus}{Beta launch of game}
+		\myItem{Artifact}{Game}
+		\myItem{Enviroment}{When game is in beta state}
+		\myItem{Response}{Full walkthrough of game with error capturing}
+		\myItem{Response Measure}{Test game}
+	\end{itemize}
+	
+	\subsection{Verifying code}
+	\begin{itemize}
+		\myItem{Source}{Developer}
+		\myItem{Stimulus}{Architecture}
+		\myItem{Artifact}{Code}
+		\myItem{Enviroment}{During creation}
+		\myItem{Response}{Code should be created in the correct way and tested}
+		\myItem{Response Measure}{Apply test-driven development to satisfy this requirement}
+	\end{itemize}
+	
+	
+\section{Usability}
+	\begin{itemize}
+	\item Easy to start-up game
+	\item Easy to use character in game
+	\end{itemize}
+	
+	\subsection{Easy to start-up game}
+	\begin{itemize}
+		\myItem{Source}{User}
+		\myItem{Stimulus}{Game start and game play}
+		\myItem{Artifact}{Game logic}
+		\myItem{Enviroment}{Initialization and runtime}
+		\myItem{Response}{The user should have no problems start the game, and starting a match at a map}
+		\myItem{Response Measure}{Should be possible to just click on the game .exe file to start the game, and easy to navigate menus to start a match}
+	\end{itemize}
+	
+	\subsection{Easy to use character in a game}
+		\begin{itemize}
+			\myItem{Source}{User}
+			\myItem{Stimulus}{Game play}
+			\myItem{Artifact}{Game logic}
+			\myItem{Enviroment}{Runtime}
+			\myItem{Response}{Should be easy for a new user to navigate on map and perform attack on other characters}
+			\myItem{Response Measure}{Easy controls for character, so you learn the controls fast}
+		\end{itemize}
+Testability:
+Easy to test basic features of the game, like hitting results in character flying and getting higher percentage.
+
+
+Usability:
+Easy to start a game.
+Easy character movement
+Easy fighting
+
+\chapter{COTS}
+Components and Technical Constraints
+\section{XNA 4 Framework}
+XNA is an API which is designed specifically towards making games. XNA is the successor for Managed Direct X, which was a thin .NET wrapper for the DirectX. It differs in having a lot of built in utility classes that perform routine tasks in games such as drawing and sound playback, and infrastructure that addresses common problems such as device management and resource handling. The XNA Framework is also notable for allowing end users to write games that run on retail Xbox 360 and Zune hardware, a privilege traditionally reserved for officially approved developers with specialized development kits. The tailoring for game development has made XNA a highly efficient platform for prototyping and development, but it also introduces several constraints on the software developed with it. The game focus makes it unsuitable for use in non-game hardware accellerated applications. It is not available for hosting as a control in a GUI form, and is heavily tied to the basic architecture Microsoft has designed for XNA games. Hosting XNA inside a Winforms application requires substantial work. XNA provides an easy interface to the mouse, keyboard and gamepads. However, only Microsoft's own Xbox 360 gamepads are supported, although DirectX itself supports a much larger array of gamepads. Furthermore, the XNA Framework provides a facility known as the Content Pipeline, an integrated system for processing and loading game data during compile and runtime. Using it imposes constraints on how resource handling and management is performed within the application. The pipeline also has limited support for graphic and audio formats. There are also subtle platform differences, only a small subset of the .NET Framework is available on the Xbox 360 and some aspects of the CLR (like arithmetic performance and automated garbage collection) work differently from the Windows implementation. When supporting both platforms, these aspects need to be taken into account.
+
+\section{SWF2XNA Framwork}
+Swf2XNA allows the use of Flash assets, animation and layout in XNA games. Box2D shapes and joints are supported visually using the Box2d.XNA port. There is a C\# library that resembles the Flash library in AS3 (Sprites, addChild, gotoAndStop, etc). Swf2XNA also includes a game framework based on XNA, allowing easy usage of XNA elements not normally found in Flash, such as shaders, particles, and regular 3D objects.
+
+\chapter{References}
+This is the references we used to complete this document
+\section{Books}
+\begin{itemize}
+\item "Software Architecture in Practice, Second Edition", Len Bass, Paul Clements, Rick Kazman, Addision-Wesley, 2003, ISBN 0-321-15495-9
+\item "Game Architecture and Design - A New Edition", Andrew Rollings and Dave Morris
+\end{itemize}
+\section{Webpages}
+\begin{itemize}
+\item https://github.com/debreuil/Swf2XNA
+\item http://en.wikipedia.org/wiki/MicrosoftXNA
+\item http://www.microsoft.com/NET/
+
+\end{itemize}
+\end{document}

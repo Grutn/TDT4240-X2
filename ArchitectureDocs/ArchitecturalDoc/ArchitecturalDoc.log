@@ -1,0 +1,272 @@
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2012.2.6)  2 MAR 2012 21:24
+entering extended mode
+**ArchitecturalDoc.tex
+("C:\Users\Thaffe\Dropbox\TDT4240 Project\ArchitecturalDoc\ArchitecturalDoc.tex
+"
+LaTeX2e <2011/06/27>
+Babel <v3.8m> and hyphenation patterns for english, afrikaans, ancientgreek, ar
+abic, armenian, assamese, basque, bengali, bokmal, bulgarian, catalan, coptic, 
+croatian, czech, danish, dutch, esperanto, estonian, farsi, finnish, french, ga
+lician, german, german-x-2009-06-19, greek, gujarati, hindi, hungarian, iceland
+ic, indonesian, interlingua, irish, italian, kannada, kurmanji, lao, latin, lat
+vian, lithuanian, malayalam, marathi, mongolian, mongolianlmc, monogreek, ngerm
+an, ngerman-x-2009-06-19, nynorsk, oriya, panjabi, pinyin, polish, portuguese, 
+romanian, russian, sanskrit, serbian, slovak, slovenian, spanish, swedish, swis
+sgerman, tamil, telugu, turkish, turkmen, ukenglish, ukrainian, uppersorbian, u
+senglishmax, welsh, loaded.
+("C:\Users\Thaffe\Dropbox\TDT4240 Project\latexTing\style.tex"
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\report.cls"
+Document Class: report 2007/10/19 v1.4h Standard LaTeX document class
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\size12.clo"
+File: size12.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphicx.sty"
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\keyval.sty"
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphics.sty"
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\trig.sty"
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\00miktex\graphics.cfg"
+File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
+)
+Package graphics Info: Driver file: pdftex.def on input line 91.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\pdftex-def\pdftex.def"
+File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\infwarerr.sty"
+Package: infwarerr 2010/04/08 v1.3 Providing info/warning/message (HO)
+)
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds.sty"
+Package: ltxcmds 2011/04/18 v1.20 LaTeX kernel commands for general use (HO)
+)
+\Gread@gobject=\count88
+))
+\Gin@req@height=\dimen103
+\Gin@req@width=\dimen104
+)
+(C:\Users\Thaffe\AppData\Roaming\MiKTeX\2.9\tex\latex\xcolor\xcolor.sty
+Package: xcolor 2007/01/21 v2.11 LaTeX color extensions (UK)
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\00miktex\color.cfg"
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package xcolor Info: Driver file: pdftex.def on input line 225.
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1337.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1341.
+Package xcolor Info: Model `RGB' extended on input line 1353.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1355.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1356.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1357.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1358.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1359.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1360.
+
+(C:\Users\Thaffe\AppData\Roaming\MiKTeX\2.9\tex\latex\xcolor\x11nam.def
+File: x11nam.def 2007/01/21 v2.11 Predefined colors according to Unix/X11 (UK)
+))
+(C:\Users\Thaffe\AppData\Roaming\MiKTeX\2.9\tex\latex\titlesec\titlesec.sty
+Package: titlesec 2011/12/15 v2.10.0 Sectioning titles
+\ttl@box=\box26
+\beforetitleunit=\skip43
+\aftertitleunit=\skip44
+\ttl@plus=\dimen105
+\ttl@minus=\dimen106
+\ttl@toksa=\toks15
+\titlewidth=\dimen107
+\titlewidthlast=\dimen108
+\titlewidthfirst=\dimen109
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\ltxmisc\anysize.sty"
+Package: anysize 1994/08/13 1.0 Contributed LaTeX2e package
+
+Package: `anysize' 1.0 <1994/08/13>
+\@Leftmargin=\dimen110
+\@Rightmargin=\dimen111
+\@Topmargin=\dimen112
+\@Bottommargin=\dimen113
+) (C:\Users\Thaffe\AppData\Roaming\MiKTeX\2.9\tex\latex\titlesec\block.tss
+File: block.tss 2011/12/15
+))
+("C:\Users\Thaffe\Dropbox\TDT4240 Project\ArchitecturalDoc\ArchitecturalDoc.aux
+")
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 3.
+LaTeX Font Info:    ... okay on input line 3.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 3.
+LaTeX Font Info:    ... okay on input line 3.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 3.
+LaTeX Font Info:    ... okay on input line 3.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 3.
+LaTeX Font Info:    ... okay on input line 3.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 3.
+LaTeX Font Info:    ... okay on input line 3.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 3.
+LaTeX Font Info:    ... okay on input line 3.
+ (C:\Users\Thaffe\AppData\Roaming\MiKTeX\2.9\tex\context\base\supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count89
+\scratchdimen=\dimen114
+\scratchbox=\box27
+\nofMPsegments=\count90
+\nofMParguments=\count91
+\everyMPshowfont=\toks16
+\MPscratchCnt=\count92
+\MPscratchDim=\dimen115
+\MPnumerator=\count93
+\makeMPintoPDFobject=\count94
+\everyMPtoPDFconversion=\toks17
+)
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 12.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 12.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 12.
+
+
+LaTeX Font Warning: Font shape `OT1/cmss/m/it' in size <14.4> not available
+(Font)              Font shape `OT1/cmss/m/sl' tried instead on input line 12.
+
+[1
+
+{C:/Users/Thaffe/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
+("C:\Users\Thaffe\Dropbox\TDT4240 Project\ArchitecturalDoc\ArchitecturalDoc.toc
+")
+\tf@toc=\write3
+ [1
+
+]
+Chapter 1.
+[2
+
+]
+Chapter 2.
+Missing character: There is no ‚ in font cmss12!
+Missing character: There is no Ä in font cmss12!
+Missing character: There is no ú in font cmss12!
+Missing character: There is no ‚ in font cmss12!
+Missing character: There is no Ä in font cmss12!
+Missing character: There is no ú in font cmss12!
+[3
+
+]
+Chapter 3.
+LaTeX Font Info:    Try loading font information for OMS+cmss on input line 40.
+
+LaTeX Font Info:    No file OMScmss.fd. on input line 40.
+
+LaTeX Font Warning: Font shape `OMS/cmss/m/n' undefined
+(Font)              using `OMS/cmsy/m/n' instead
+(Font)              for symbol `textbullet' on input line 40.
+
+[4
+
+]
+Chapter 4.
+[5
+
+]
+Chapter 5.
+Missing character: There is no ‚ in font cmss12!
+Missing character: There is no Ä in font cmss12!
+Missing character: There is no ô in font cmss12!
+[6
+
+]
+Chapter 6.
+Missing character: There is no ‚ in font cmss12!
+Missing character: There is no Ä in font cmss12!
+Missing character: There is no ú in font cmss12!
+Missing character: There is no ‚ in font cmss12!
+Missing character: There is no Ä in font cmss12!
+Missing character: There is no ù in font cmss12!
+[7
+
+]
+Chapter 7.
+<logical.jpg, id=32, 963.6pt x 722.7pt>
+File: logical.jpg Graphic file (type jpg)
+ <use logical.jpg>
+Package pdftex.def Info: logical.jpg used on input line 103.
+(pdftex.def)             Requested size: 433.616pt x 325.21199pt.
+
+<Seq.jpg, id=33, 1285.80376pt x 667.49374pt>
+File: Seq.jpg Graphic file (type jpg)
+ <use Seq.jpg>
+Package pdftex.def Info: Seq.jpg used on input line 108.
+(pdftex.def)             Requested size: 514.3124pt x 266.99277pt.
+
+Overfull \hbox (30.61552pt too wide) in paragraph at lines 108--109
+[] 
+ []
+
+<State.jpg, id=34, 1091.07625pt x 722.7pt>
+File: State.jpg Graphic file (type jpg)
+ <use State.jpg>
+Package pdftex.def Info: State.jpg used on input line 111.
+(pdftex.def)             Requested size: 490.97978pt x 325.21199pt.
+
+Overfull \hbox (7.28291pt too wide) in paragraph at lines 111--112
+[] 
+ []
+
+[8
+
+ <C:/Users/Thaffe/Dropbox/TDT4240 Project/ArchitecturalDoc/logical.jpg> <C:/Use
+rs/Thaffe/Dropbox/TDT4240 Project/ArchitecturalDoc/Seq.jpg>] [9 <C:/Users/Thaff
+e/Dropbox/TDT4240 Project/ArchitecturalDoc/State.jpg>]
+Chapter 8.
+Missing character: There is no ‚ in font cmss12!
+Missing character: There is no Ä in font cmss12!
+Missing character: There is no ì in font cmss12!
+Missing character: There is no ‚ in font cmss12!
+Missing character: There is no Ä in font cmss12!
+Missing character: There is no ì in font cmss12!
+[10
+
+]
+("C:\Users\Thaffe\Dropbox\TDT4240 Project\ArchitecturalDoc\ArchitecturalDoc.aux
+")
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 2262 strings out of 494045
+ 30514 string characters out of 3148385
+ 113615 words of memory out of 3000000
+ 5560 multiletter control sequences out of 15000+200000
+ 8561 words of font info for 30 fonts, out of 3000000 for 9000
+ 715 hyphenation exceptions out of 8191
+ 29i,5n,41p,525b,205s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss12.pfb><C:/Pr
+ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss17.pfb><C:/Program Fi
+les/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmssbx10.pfb><C:/Program Files/Mi
+KTeX 2.9/fonts/type1/public/amsfonts/cm/cmssi12.pfb><C:/Program Files/MiKTeX 2.
+9/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
+Output written on ArchitecturalDoc.pdf (11 pages, 226906 bytes).
+PDF statistics:
+ 61 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 16 words of extra memory for PDF output out of 10000 (max. 10000000)
+

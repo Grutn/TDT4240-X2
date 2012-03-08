@@ -1,0 +1,50 @@
+\contentsline {chapter}{\numberline {1}Introduction}{2}
+\contentsline {section}{\numberline {1.1}About the game}{2}
+\contentsline {chapter}{\numberline {2}Functional requirements}{3}
+\contentsline {section}{\numberline {2.1}Starting a game}{3}
+\contentsline {paragraph}{Summary:}{3}
+\contentsline {paragraph}{Rationale:}{3}
+\contentsline {section}{\numberline {2.2}Game-play}{3}
+\contentsline {paragraph}{Summary:}{3}
+\contentsline {paragraph}{Rationale:}{3}
+\contentsline {section}{\numberline {2.3}Character}{3}
+\contentsline {paragraph}{Summary:}{3}
+\contentsline {paragraph}{Rationale:}{3}
+\contentsline {section}{\numberline {2.4}Map}{4}
+\contentsline {paragraph}{Summary:}{4}
+\contentsline {paragraph}{Rationale:}{4}
+\contentsline {section}{\numberline {2.5}Map objects and power-ups}{4}
+\contentsline {paragraph}{Summary:}{4}
+\contentsline {paragraph}{Rationale:}{4}
+\contentsline {section}{\numberline {2.6}Graphics requirement}{4}
+\contentsline {paragraph}{Summary:}{4}
+\contentsline {paragraph}{Rationale:}{4}
+\contentsline {section}{\numberline {2.7}Physics requirement}{4}
+\contentsline {paragraph}{Summary:}{4}
+\contentsline {paragraph}{Rationale:}{4}
+\contentsline {section}{\numberline {2.8}Sound FX and Music}{4}
+\contentsline {paragraph}{Summary:}{4}
+\contentsline {paragraph}{Rational:}{5}
+\contentsline {chapter}{\numberline {3}Quality requirements}{6}
+\contentsline {section}{\numberline {3.1}Modifiability}{6}
+\contentsline {subsection}{\numberline {3.1.1}Add new characters, maps, objects and power-ups without recompilation}{6}
+\contentsline {subsection}{\numberline {3.1.2}Functional components should be specified in file}{6}
+\contentsline {subsection}{\numberline {3.1.3}Major functional components should be replaceable}{6}
+\contentsline {subsection}{\numberline {3.1.4}Play via LAN without changing lots of code}{7}
+\contentsline {section}{\numberline {3.2}Performance}{7}
+\contentsline {subsection}{\numberline {3.2.1}Frame rate}{7}
+\contentsline {subsection}{\numberline {3.2.2}Game delay}{7}
+\contentsline {subsection}{\numberline {3.2.3}Game loading}{8}
+\contentsline {section}{\numberline {3.3}Portability}{8}
+\contentsline {section}{\numberline {3.4}Testability}{8}
+\contentsline {subsection}{\numberline {3.4.1}Beta testing}{8}
+\contentsline {subsection}{\numberline {3.4.2}Verifying code}{9}
+\contentsline {section}{\numberline {3.5}Usability}{9}
+\contentsline {subsection}{\numberline {3.5.1}Easy to start-up game}{9}
+\contentsline {subsection}{\numberline {3.5.2}Easy to use character in a game}{9}
+\contentsline {chapter}{\numberline {4}COTS}{10}
+\contentsline {section}{\numberline {4.1}XNA 4 Framework}{10}
+\contentsline {section}{\numberline {4.2}SWF2XNA Framwork}{10}
+\contentsline {chapter}{\numberline {5}References}{11}
+\contentsline {section}{\numberline {5.1}Books}{11}
+\contentsline {section}{\numberline {5.2}Webpages}{11}

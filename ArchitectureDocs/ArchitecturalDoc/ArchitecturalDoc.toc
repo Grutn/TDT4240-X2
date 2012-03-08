@@ -1,0 +1,34 @@
+\contentsline {chapter}{\numberline {1}Introduction}{2}
+\contentsline {chapter}{\numberline {2}Architectural drivers}{3}
+\contentsline {section}{\numberline {2.1}Modify-ability}{3}
+\contentsline {section}{\numberline {2.2}Testability}{3}
+\contentsline {section}{\numberline {2.3}Performance}{3}
+\contentsline {section}{\numberline {2.4}Portability}{3}
+\contentsline {section}{\numberline {2.5}Usability}{3}
+\contentsline {chapter}{\numberline {3}Stakeholders}{4}
+\contentsline {section}{\numberline {3.1}Developers}{4}
+\contentsline {section}{\numberline {3.2}The professor}{4}
+\contentsline {section}{\numberline {3.3}End user}{4}
+\contentsline {paragraph}{The main concern}{4}
+\contentsline {chapter}{\numberline {4}Selection of Architectural Viewpoint}{5}
+\contentsline {section}{\numberline {4.1}Logical view}{5}
+\contentsline {section}{\numberline {4.2}Development view}{5}
+\contentsline {section}{\numberline {4.3}Scenario view}{5}
+\contentsline {section}{\numberline {4.4}State machine}{5}
+\contentsline {chapter}{\numberline {5}Architectural Tactics}{6}
+\contentsline {section}{\numberline {5.1}Modifiability}{6}
+\contentsline {section}{\numberline {5.2}Testability}{6}
+\contentsline {section}{\numberline {5.3}Performance}{6}
+\contentsline {section}{\numberline {5.4}Portability}{6}
+\contentsline {section}{\numberline {5.5}Usability}{6}
+\contentsline {chapter}{\numberline {6}Architectural Patterns}{7}
+\contentsline {section}{\numberline {6.1}MVC - Model, View and Controller}{7}
+\contentsline {section}{\numberline {6.2}SOA - Service Oriented Architecture}{7}
+\contentsline {section}{\numberline {6.3}Observer pattern}{7}
+\contentsline {chapter}{\numberline {7}Views}{8}
+\contentsline {section}{\numberline {7.1}Logical Views}{8}
+\contentsline {section}{\numberline {7.2}Scenario view}{8}
+\contentsline {section}{\numberline {7.3}State machine}{9}
+\contentsline {chapter}{\numberline {8}References}{10}
+\contentsline {section}{\numberline {8.1}Books}{10}
+\contentsline {section}{\numberline {8.2}Webpages}{10}
