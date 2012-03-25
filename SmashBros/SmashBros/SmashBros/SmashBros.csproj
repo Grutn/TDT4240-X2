@@ -107,6 +107,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\DD.cs" />
     <Compile Include="ScreenManager\ControllerState.cs" />
     <Compile Include="ScreenManager\GameScreen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
