@@ -7,10 +7,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using FarseerPhysics.Factories;
 using SmashBros.System;
+using FarseerPhysics.Dynamics;
 
-namespace FarseerPhysics.Dynamics
+namespace SmashBros.Views
 {
-    public class Sprite
+    public class Sprite : IView
     {
         private Texture2D texture;
         private Rectangle frame;
@@ -50,6 +51,7 @@ namespace FarseerPhysics.Dynamics
         {
 
         }
+
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {

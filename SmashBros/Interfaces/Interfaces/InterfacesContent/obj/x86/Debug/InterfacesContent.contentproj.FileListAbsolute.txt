@@ -1,1 +1,2 @@
 C:\Users\Emil\Interfaces\Interfaces\Interfaces\InterfacesContent\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\Interfaces\Interfaces\InterfacesContent\obj\x86\Debug\InterfacesContent.contentprojResolveAssemblyReference.cache

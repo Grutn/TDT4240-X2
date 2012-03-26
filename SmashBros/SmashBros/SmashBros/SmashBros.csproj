@@ -108,7 +108,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\CharacterController.cs" />
+    <Compile Include="Controllers\GameController.cs" />
+    <Compile Include="Controllers\IController.cs" />
     <Compile Include="Controllers\MapController.cs" />
+    <Compile Include="Controllers\MenuController.cs" />
+    <Compile Include="Controllers\ScreenController.cs" />
     <Compile Include="Model\Box.cs" />
     <Compile Include="Model\Character.cs" />
     <Compile Include="Model\GameModel.cs" />
@@ -136,7 +141,8 @@
     <Compile Include="System\Camera2D.cs" />
     <Compile Include="System\Constants.cs" />
     <Compile Include="System\ConvertUnits.cs" />
-    <Compile Include="System\Sprite.cs" />
+    <Compile Include="Views\IView.cs" />
+    <Compile Include="Views\Sprite.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

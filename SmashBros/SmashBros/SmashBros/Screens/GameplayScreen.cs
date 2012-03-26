@@ -12,6 +12,7 @@ using SmashBros.System;
 using FarseerPhysics.DebugViews;
 using FarseerPhysics;
 using System.Diagnostics;
+using SmashBros.Views;
 
 namespace SmashBros
 {
