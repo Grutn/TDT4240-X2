@@ -1,0 +1,2 @@
+C:\Users\tha.000\Downloads\Farseer Physics Engine 3.3.1 HelloWorld XNA\Farseer Physics Engine 3.3.1 HelloWorld XNA\DebugView XNA\Content\obj\x86\Debug\DebugView XNA Content.contentprojResolveAssemblyReference.cache
+C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\DebugView XNA\Content\obj\x86\Debug\DebugView XNA Content.contentprojResolveAssemblyReference.cache

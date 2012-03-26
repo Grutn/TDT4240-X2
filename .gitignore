@@ -1,0 +1,19 @@
+# Common files to ignore
+*.swp
+
+# Compressed Files
+*.zip
+
+# VS2010 Files
+*.suo
+
+# XNA Files
+**/bin/*
+**/obj/*
+*.chachefile
+*.Debug.cachefile
+*.ccgame
+
+# Don't ignore the drivers
+!*.dll
+SmashBros/SmashBros.sln
