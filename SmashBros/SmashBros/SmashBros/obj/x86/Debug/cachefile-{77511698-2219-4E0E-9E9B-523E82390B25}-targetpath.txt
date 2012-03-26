@@ -1,5 +1,9 @@
 Content\background.xnb
 Content\blank.xnb
 Content\gradient.xnb
+<<<<<<< HEAD
+=======
+Content\spiderman.xnb
+>>>>>>> 01dce5d7781a9cd880e8cd8463bbee4af7be31d7
 Content\gamefont.xnb
 Content\menufont.xnb

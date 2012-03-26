@@ -242,8 +242,8 @@ namespace SmashBros.System
         /// </summary>
         public void ResetCamera()
         {
-            _currentPosition = Vector2.Zero;
-            _targetPosition = new Vector2(_graphics.Viewport.Width / 2, _graphics.Viewport.Height / 2);
+            _currentPosition = ConvertUnits.ToSimUnits(_graphics.Viewport.Width/2, _graphics.Viewport.Height/2);
+            _targetPosition = Vector2.Zero;
             _minPosition = Vector2.Zero;
             _maxPosition = Vector2.Zero;
 
