@@ -9,3 +9,14 @@ C:\Users\Emil\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\bla
 C:\Users\Emil\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\gradient.xnb
 C:\Users\Emil\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\gamefont.xnb
 C:\Users\Emil\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\menufont.xnb
+C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\background.xnb
+C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\blank.xnb
+C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\gradient.xnb
+C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\gamefont.xnb
+C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\menufont.xnb
+C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\SmashBros.exe
+C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\SmashBros.pdb
+C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\obj\x86\Debug\SmashBros.csprojResolveAssemblyReference.cache
+C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\obj\x86\Debug\SmashBros.exe
+C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\obj\x86\Debug\SmashBros.pdb

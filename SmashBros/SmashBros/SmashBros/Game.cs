@@ -13,6 +13,8 @@ namespace SmashBros {
     /// <summary>
     /// This is the main type for your game
     /// </summary>
+    /// 
+    ///Test
     public class Game : Microsoft.Xna.Framework.Game
     {
         #region Fields
