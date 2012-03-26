@@ -46,6 +46,15 @@
       <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\menufont.xnb</Output>
       <Time>2012-03-25T19:20:41.083475+02:00</Time>
     </Item>
+    <Item>
+      <Source>spiderman.png</Source>
+      <Name>spiderman</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\spiderman.xnb</Output>
+      <Time>2012-03-26T13:18:05.7465487+02:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>

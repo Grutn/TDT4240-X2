@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using SmashBros.System;
 
 namespace SmashBros {
     /// <summary>
@@ -34,9 +35,16 @@ namespace SmashBros {
         public Game() {
             Content.RootDirectory = "Content";
 
-            graphics = new GraphicsDeviceManager(this);
+            IsMouseVisible = true;
 
-            Window.AllowUserResizing = true;
+            graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferWidth = 1280;
+            graphics.PreferredBackBufferHeight = 720;
+
+            ConvertUnits.SetDisplayUnitToSimUnitRatio(64f);
+
+
+            Window.AllowUserResizing = false;
             Window.ClientSizeChanged += new EventHandler<EventArgs>(Window_ClientSizeChanged);
 
             screenManager = new ScreenManager(this);

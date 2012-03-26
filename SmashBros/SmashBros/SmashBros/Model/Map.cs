@@ -4,24 +4,40 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using FarseerPhysics.Dynamics;
+using FarseerPhysics.Factories;
+using System.Runtime.Serialization;
 
-namespace SmashBros.Objects
+namespace SmashBros.Model
 {
-    class Map
+    public class Map
     {
+        public Map()
+        {
+            this.boxes = new List<Box>();
+            this.floatingBoxes = new List<Box>();
+        }
+
         /// <summary>
         /// Static image that displays the whole map.
         /// </summary>
-        Texture2D backgroundImage;
+        public Texture2D backgroundImage;
 
         /// <summary>
         /// A list of rectangles that have collisiondetection in all directions.
         /// </summary>
-        List<Rectangle> boxes;
+        public List<Box> boxes;
 
         /// <summary>
         /// A list of rectangles that only have upwards collisiondetection and only if the player is not holding down "down".
         /// </summary>
-        List<Rectangle> floatingBoxes;
+        public List<Box> floatingBoxes;
+
+
+        public void AddBoxes(params Box[] boxes)
+        {
+            this.boxes = boxes.ToList();
+        }
     }
+
 }

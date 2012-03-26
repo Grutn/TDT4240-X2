@@ -93,6 +93,7 @@
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml">
       <Private>False</Private>
     </Reference>
@@ -107,6 +108,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\MapController.cs" />
+    <Compile Include="Model\Box.cs" />
     <Compile Include="Model\Character.cs" />
     <Compile Include="Model\GameModel.cs" />
     <Compile Include="Model\Map.cs" />
@@ -130,12 +133,24 @@
     <Compile Include="Screens\OptionsMenuScreen.cs" />
     <Compile Include="Screens\PauseMenuScreen.cs" />
     <Compile Include="Screens\PlayerIndexEventArgs.cs" />
+    <Compile Include="System\Camera2D.cs" />
+    <Compile Include="System\Constants.cs" />
+    <Compile Include="System\ConvertUnits.cs" />
+    <Compile Include="System\Sprite.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\DebugView XNA\DebugView XNA.csproj">
+      <Project>{FC7845FA-13FE-4FF8-822A-A577F3F59B00}</Project>
+      <Name>DebugView XNA</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Farseer Physics Engine 3.3 XNA\Farseer Physics XNA.csproj">
+      <Project>{0A850700-1ABB-4288-A391-6726B90EBEB9}</Project>
+      <Name>Farseer Physics XNA</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SmashBrosContent\SmashBrosContent.contentproj">
       <Name>SmashBrosContent</Name>
       <XnaReferenceType>Content</XnaReferenceType>
