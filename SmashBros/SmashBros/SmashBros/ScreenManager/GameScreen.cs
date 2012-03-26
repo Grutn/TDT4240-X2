@@ -16,9 +16,25 @@ namespace SmashBros
 
     public abstract class GameScreen
     {
-        #region Properties
+        #region Fields
 
         bool isPopup = false;
+        bool isExiting = false;
+        bool otherScreenHasFocus;
+        
+        TimeSpan transitionOnTime = TimeSpan.Zero;
+        TimeSpan transitionOffTime = TimeSpan.Zero;
+
+        float transitionPosition = 1;
+
+        ScreenState screenState = ScreenState.TransitionOn;
+        ScreenManager screenManager;
+
+        PlayerIndex? controllingPlayer;
+
+        #endregion
+
+        #region Properties
 
         public bool IsPopup
         {
@@ -26,23 +42,17 @@ namespace SmashBros
             protected set { isPopup = value; }
         }
 
-        TimeSpan transitionOnTime = TimeSpan.Zero;
-
         public TimeSpan TransitionOnTime
         {
             get { return transitionOnTime; }
             protected set { transitionOnTime = value; }
         }
 
-        TimeSpan transitionOffTime = TimeSpan.Zero;
-
         public TimeSpan TransitionOffTime
         {
             get { return transitionOffTime; }
             protected set { transitionOffTime = value; }
         }
-
-        float transitionPosition = 1;
 
         public float TransitionPosition
         {
@@ -55,23 +65,17 @@ namespace SmashBros
             get { return 1f - TransitionPosition; }
         }
 
-        ScreenState screenState = ScreenState.TransitionOn;
-
         public ScreenState ScreenState
         {
             get { return screenState; }
             protected set { screenState = value; }
         }
 
-        bool isExiting = false;
-
         public bool IsExiting
         {
             get { return isExiting; }
             protected internal set { isExiting = value; }
         }
-
-        bool otherScreenHasFocus;
 
         public bool IsActive
         {
@@ -83,15 +87,11 @@ namespace SmashBros
             }
         }
 
-        ScreenManager screenManager;
-
         public ScreenManager ScreenManager
         {
             get { return screenManager; }
             internal set { screenManager = value; }
         }
-
-        PlayerIndex? controllingPlayer;
 
         public PlayerIndex? ControllingPlayer
         {

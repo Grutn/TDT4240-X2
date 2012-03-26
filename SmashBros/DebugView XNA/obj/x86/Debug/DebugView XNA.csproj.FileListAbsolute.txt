@@ -19,7 +19,6 @@ C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\DebugView XNA\obj\x86\Deb
 C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\DebugView XNA\obj\x86\Debug\DebugViewXNA.dll
 C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\DebugView XNA\obj\x86\Debug\DebugViewXNA.pdb
 C:\Users\Emil\TDT4240-X2\SmashBros\DebugView XNA\bin\x86\Debug\Content\font.xnb
-C:\Users\Emil\TDT4240-X2\SmashBros\DebugView XNA\bin\x86\Debug\DebugViewXNA.XML
 C:\Users\Emil\TDT4240-X2\SmashBros\DebugView XNA\bin\x86\Debug\DebugViewXNA.dll
 C:\Users\Emil\TDT4240-X2\SmashBros\DebugView XNA\bin\x86\Debug\DebugViewXNA.pdb
 C:\Users\Emil\TDT4240-X2\SmashBros\DebugView XNA\bin\x86\Debug\FarseerPhysicsXNA.dll

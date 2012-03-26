@@ -10,7 +10,6 @@ C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\Farseer Physics Engine 3.
 C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\Farseer Physics Engine 3.3 XNA\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
 C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\Farseer Physics Engine 3.3 XNA\obj\x86\Debug\FarseerPhysicsXNA.dll
 C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\Farseer Physics Engine 3.3 XNA\obj\x86\Debug\FarseerPhysicsXNA.pdb
-C:\Users\Emil\TDT4240-X2\SmashBros\Farseer Physics Engine 3.3 XNA\bin\x86\Debug\FarseerPhysicsXNA.XML
 C:\Users\Emil\TDT4240-X2\SmashBros\Farseer Physics Engine 3.3 XNA\bin\x86\Debug\FarseerPhysicsXNA.dll
 C:\Users\Emil\TDT4240-X2\SmashBros\Farseer Physics Engine 3.3 XNA\bin\x86\Debug\FarseerPhysicsXNA.pdb
 C:\Users\Emil\TDT4240-X2\SmashBros\Farseer Physics Engine 3.3 XNA\obj\x86\Debug\ResolveAssemblyReference.cache
