@@ -4,4 +4,3 @@ Content\gradient.xnb
 Content\spiderman.xnb
 Content\gamefont.xnb
 Content\menufont.xnb
-Content\font.xnb
