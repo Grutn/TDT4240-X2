@@ -1,0 +1,6 @@
+C:\Users\Emil\Interfaces\Interfaces\Interfaces\Interfaces\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Emil\Interfaces\Interfaces\Interfaces\Interfaces\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Users\Emil\Interfaces\Interfaces\Interfaces\Interfaces\bin\x86\Debug\Interfaces.exe
+C:\Users\Emil\Interfaces\Interfaces\Interfaces\Interfaces\bin\x86\Debug\Interfaces.pdb
+C:\Users\Emil\Interfaces\Interfaces\Interfaces\Interfaces\obj\x86\Debug\Interfaces.exe
+C:\Users\Emil\Interfaces\Interfaces\Interfaces\Interfaces\obj\x86\Debug\Interfaces.pdb
