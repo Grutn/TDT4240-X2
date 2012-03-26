@@ -22,7 +22,6 @@ namespace SmashBros
         ContentManager content;
         SpriteFont gameFont;
 
-
         Vector2 playerPosition = new Vector2(100, 100);
         Vector2 enemyPosition = new Vector2(100, 100);
 
@@ -126,6 +125,10 @@ namespace SmashBros
             _camera.Update(gameTime);
         }
 
+        /// <summary>
+        /// This should be part of the ControllerState class or a derived class.
+        /// </summary>
+        /// <param name="input"></param>
         public override void HandleInput(ControllerState input)
         {
             if (input == null)

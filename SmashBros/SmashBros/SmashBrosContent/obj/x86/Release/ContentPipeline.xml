@@ -7,7 +7,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Emil\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\background.xnb</Output>
+      <Output>C:\Users\Emil\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Release\Content\background.xnb</Output>
       <Time>2010-09-15T14:43:52+02:00</Time>
     </Item>
     <Item>
@@ -16,7 +16,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Emil\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\blank.xnb</Output>
+      <Output>C:\Users\Emil\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Release\Content\blank.xnb</Output>
       <Time>2010-09-15T14:43:52+02:00</Time>
     </Item>
     <Item>
@@ -25,7 +25,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Emil\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\gradient.xnb</Output>
+      <Output>C:\Users\Emil\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Release\Content\gradient.xnb</Output>
       <Time>2010-09-15T14:43:52+02:00</Time>
     </Item>
     <Item>
@@ -34,7 +34,7 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Emil\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\gamefont.xnb</Output>
+      <Output>C:\Users\Emil\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Release\Content\gamefont.xnb</Output>
       <Time>2010-09-15T14:43:52+02:00</Time>
     </Item>
     <Item>
@@ -43,28 +43,19 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Emil\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\menufont.xnb</Output>
+      <Output>C:\Users\Emil\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Release\Content\menufont.xnb</Output>
       <Time>2010-09-15T14:43:52+02:00</Time>
-    </Item>
-    <Item>
-      <Source>spiderman.png</Source>
-      <Name>spiderman</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\spiderman.xnb</Output>
-      <Time>2012-03-26T13:18:05.7465487+02:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>
       <TargetProfile>HiDef</TargetProfile>
-      <BuildConfiguration>Debug</BuildConfiguration>
-      <CompressContent>false</CompressContent>
+      <BuildConfiguration>Release</BuildConfiguration>
+      <CompressContent>true</CompressContent>
       <RootDirectory>C:\Users\Emil\TDT4240-X2\SmashBros\SmashBros\SmashBrosContent\</RootDirectory>
       <LoggerRootDirectory>C:\Users\Emil\TDT4240-X2\SmashBros\SmashBros\SmashBros\</LoggerRootDirectory>
-      <IntermediateDirectory>C:\Users\Emil\TDT4240-X2\SmashBros\SmashBros\SmashBrosContent\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>C:\Users\Emil\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\</OutputDirectory>
+      <IntermediateDirectory>C:\Users\Emil\TDT4240-X2\SmashBros\SmashBros\SmashBrosContent\obj\x86\Release\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\Emil\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Release\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>
