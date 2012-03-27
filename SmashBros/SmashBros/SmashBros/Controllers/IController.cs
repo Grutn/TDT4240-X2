@@ -21,7 +21,7 @@ namespace SmashBros.Controllers
         public abstract void Unload();
         public abstract void Update(GameTime gameTime);
 
-        protected void Add(IView view)
+        protected void AddView(IView view)
         {
             screen.views.Add(view);
         }

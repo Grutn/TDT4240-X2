@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using SmashBros.System;
+using SmashBros.Controllers;
 
 namespace SmashBros {
     /// <summary>
@@ -21,7 +22,8 @@ namespace SmashBros {
         #region Fields
 
         GraphicsDeviceManager graphics;
-        ScreenManager screenManager;
+        
+        //ScreenManager screenManager;
 
         static readonly string[] preloadAssets =
         {
@@ -46,13 +48,18 @@ namespace SmashBros {
 
             Window.AllowUserResizing = false;
             Window.ClientSizeChanged += new EventHandler<EventArgs>(Window_ClientSizeChanged);
+            
+            Components.Add(new ScreenController(this));
 
+
+            /*
             screenManager = new ScreenManager(this);
 
             Components.Add(screenManager);
 
             screenManager.AddScreen(new BackgroundScreen(), null);
             screenManager.AddScreen(new MainMenuScreen(), null);
+            */
         }
 
         void Window_ClientSizeChanged(object sender, EventArgs e)

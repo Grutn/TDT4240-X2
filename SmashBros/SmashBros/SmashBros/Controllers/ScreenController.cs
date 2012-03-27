@@ -27,6 +27,7 @@ namespace SmashBros.Controllers
         {
             this.views = new List<IView>();
             this.fonts = new List<SpriteFont>();
+            this.menu = new MenuController(this);
         }
 
         protected override void LoadContent()
@@ -34,14 +35,12 @@ namespace SmashBros.Controllers
             ContentManager content = Game.Content;
             spriteBatch = new SpriteBatch(Game.GraphicsDevice);
             content.Load<SpriteFont>("font");
-            content.Load<SpriteFont>("bigFont");
-
-            throw new NotImplementedException();
+            //content.Load<SpriteFont>("bigFont");
         }
 
         protected override void UnloadContent()
         {
-            throw new NotImplementedException();
+            
         }
 
         public override void Update(GameTime gameTime)
@@ -57,7 +56,6 @@ namespace SmashBros.Controllers
                 view.Draw(spriteBatch, gameTime);
             }
             spriteBatch.End();
-            throw new NotImplementedException();
         }
     }
 }

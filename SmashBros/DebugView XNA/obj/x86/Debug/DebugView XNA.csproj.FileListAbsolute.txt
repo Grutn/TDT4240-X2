@@ -28,3 +28,13 @@ C:\Users\Emil\TDT4240-X2\SmashBros\DebugView XNA\obj\x86\Debug\ResolveAssemblyRe
 C:\Users\Emil\TDT4240-X2\SmashBros\DebugView XNA\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
 C:\Users\Emil\TDT4240-X2\SmashBros\DebugView XNA\obj\x86\Debug\DebugViewXNA.dll
 C:\Users\Emil\TDT4240-X2\SmashBros\DebugView XNA\obj\x86\Debug\DebugViewXNA.pdb
+C:\Users\juliusbuset\TDT4240-X2\SmashBros\DebugView XNA\bin\x86\Debug\Content\font.xnb
+C:\Users\juliusbuset\TDT4240-X2\SmashBros\DebugView XNA\bin\x86\Debug\DebugViewXNA.dll
+C:\Users\juliusbuset\TDT4240-X2\SmashBros\DebugView XNA\bin\x86\Debug\DebugViewXNA.pdb
+C:\Users\juliusbuset\TDT4240-X2\SmashBros\DebugView XNA\bin\x86\Debug\FarseerPhysicsXNA.dll
+C:\Users\juliusbuset\TDT4240-X2\SmashBros\DebugView XNA\bin\x86\Debug\FarseerPhysicsXNA.pdb
+C:\Users\juliusbuset\TDT4240-X2\SmashBros\DebugView XNA\bin\x86\Debug\FarseerPhysicsXNA.xml
+C:\Users\juliusbuset\TDT4240-X2\SmashBros\DebugView XNA\obj\x86\Debug\DebugView XNA.csprojResolveAssemblyReference.cache
+C:\Users\juliusbuset\TDT4240-X2\SmashBros\DebugView XNA\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Users\juliusbuset\TDT4240-X2\SmashBros\DebugView XNA\obj\x86\Debug\DebugViewXNA.dll
+C:\Users\juliusbuset\TDT4240-X2\SmashBros\DebugView XNA\obj\x86\Debug\DebugViewXNA.pdb
