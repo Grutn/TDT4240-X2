@@ -28,6 +28,7 @@ namespace SmashBros.Controllers
             this.views = new List<IView>();
             this.fonts = new List<SpriteFont>();
             this.menu = new MenuController(this);
+            this.world = new World(Vector2.Zero);
         }
 
         protected override void LoadContent()

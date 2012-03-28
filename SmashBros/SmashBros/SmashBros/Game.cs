@@ -37,13 +37,8 @@ namespace SmashBros {
 
         public Game() {
             Serializing.GenereateModels();
-            var l = Serializing.LoadCharacters();
 
-            foreach (var c in l)
-            {
-                Debug.WriteLine(c.animations);
-            }
-
+            
             Content.RootDirectory = "Content";
 
             IsMouseVisible = true;

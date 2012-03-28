@@ -8,5 +8,7 @@ namespace SmashBros.System
     public static class Constants
     {
         //public static const int fps = 12;
+        public const int ThumbWith = 210;
+        public const int ThumbHeight = 210;
     }
 }

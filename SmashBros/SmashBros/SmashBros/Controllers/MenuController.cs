@@ -7,6 +7,9 @@ using Microsoft.Xna.Framework.Content;
 using SmashBros.Views;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SmashBros.Model;
+using SmashBros.System;
+using FarseerPhysics.Dynamics;
 
 namespace SmashBros.Controllers
 {
@@ -20,6 +23,9 @@ namespace SmashBros.Controllers
         MenuState state;
         ImageTexture startScreen;
         ImageTexture characterScreen;
+        List<Map> mapModels;
+        List<Character> characterModels;
+        List<Sprite> characterTextures; 
 
         public MenuController(ScreenController screen) : base(screen)
         {
@@ -32,7 +38,34 @@ namespace SmashBros.Controllers
         public override void Load(ContentManager content)
         {
             startScreen = new ImageTexture(content, "StartScreen", 0, 0);
-            characterScreen = new ImageTexture(content, "CharacterSelection", 0, 0);
+            characterScreen = new ImageTexture(content, "SelectionScreen", 0, 0);
+
+            LoadCharacters(content);
+
+            mapModels = Serializing.LoadMaps();
+        }
+
+        private void LoadCharacters(ContentManager content)
+        {
+            characterModels = Serializing.LoadCharacters();
+            characterTextures = new List<Sprite>();
+            int i = 0;
+            int row = 0, col = 0;
+            
+            foreach (Character character in characterModels)
+            {
+                var sprite = new Sprite(content, character.thumbnail, Constants.ThumbWith, 250);
+                sprite.BoundRect(screen.world, col * Constants.ThumbWith + 200, row * Constants.ThumbHeight + 210, Constants.ThumbWith, Constants.ThumbHeight, BodyType.Static);
+
+                characterTextures.Add(sprite);
+                if (i == 4)
+                {
+                    row++;
+                    col = 0;
+                }
+                else col++;
+                i++;
+            }
         }
 
         public override void Unload()
@@ -59,6 +92,9 @@ namespace SmashBros.Controllers
                     if (!characterScreen.IsActive)
                     {
                         AddView(characterScreen);
+                        foreach(Sprite character in characterTextures){
+                            AddView(character);
+                        }
                     }
 
 

@@ -68,6 +68,12 @@ namespace SmashBros.System
             {
                 Character c = new Character();
                 c.animations = "CharAnimation" + i;
+                c.thumbnail = "Characters/WolverineThumb";
+                if (i == 1)
+                {
+                    c.thumbnail = "Characters/SpidermanThumb";
+
+                }
                 Write(c,CharacterPlace,"Character"+i);
             }
         }

@@ -56,22 +56,40 @@
       <Time>2012-03-26T20:45:14.5707282+02:00</Time>
     </Item>
     <Item>
-      <Source>StartScreen.png</Source>
+      <Source>Characters\WolverineThumb.png</Source>
+      <Name>Characters\WolverineThumb</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Characters\WolverineThumb.xnb</Output>
+      <Time>2012-03-29T01:35:51.4217683+02:00</Time>
+    </Item>
+    <Item>
+      <Source>StartScreen.jpg</Source>
       <Name>StartScreen</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\StartScreen.xnb</Output>
-      <Time>2012-03-28T01:22:56.0846264+02:00</Time>
+      <Time>2012-03-29T00:45:54.2749525+02:00</Time>
     </Item>
     <Item>
-      <Source>CharacterSelection.png</Source>
-      <Name>CharacterSelection</Name>
+      <Source>SelectionScreen.jpg</Source>
+      <Name>SelectionScreen</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\CharacterSelection.xnb</Output>
-      <Time>2012-03-28T02:18:41.7897279+02:00</Time>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\SelectionScreen.xnb</Output>
+      <Time>2012-03-29T00:53:40.6939536+02:00</Time>
+    </Item>
+    <Item>
+      <Source>Characters\SpidermanThumb.png</Source>
+      <Name>Characters\SpidermanThumb</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Characters\SpidermanThumb.xnb</Output>
+      <Time>2012-03-29T01:46:25.7586717+02:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

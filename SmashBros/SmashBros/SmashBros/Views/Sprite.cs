@@ -28,6 +28,7 @@ namespace SmashBros.Views
 
         public void BoundRect(World world, float xPos, float yPos, float width, float height, BodyType type = BodyType.Dynamic)
         {
+            this.world = world;
             BoundBox = BodyFactory.CreateRectangle(
                 world,
                 ConvertUnits.ToSimUnits(width),

@@ -80,15 +80,29 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="StartScreen.png">
+    <Compile Include="StartScreen.jpg">
       <Name>StartScreen</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CharacterSelection.png">
-      <Name>CharacterSelection</Name>
+    <Compile Include="Characters\WolverineThumb.png">
+      <Name>WolverineThumb</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="SelectionScreen.jpg">
+      <Name>SelectionScreen</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Characters\SpidermanThumb.png">
+      <Name>SpidermanThumb</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
