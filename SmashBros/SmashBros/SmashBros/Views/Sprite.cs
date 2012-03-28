@@ -15,6 +15,7 @@ namespace SmashBros.Views
     {
         private Texture2D texture;
         private Rectangle frame;
+        private World world;
 
         public int FramesPerRow = 1;
         public Body BoundBox;
@@ -53,10 +54,16 @@ namespace SmashBros.Views
         }
 
 
-        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             Vector2 origin = new Vector2(frame.Width / 2f, frame.Height / 2f);
             spriteBatch.Draw(texture, ConvertUnits.ToDisplayUnits(BoundBox.Position), frame, Color.White, 0f, origin, 1f, SpriteEffects.None, 0f);
+        }
+
+        public override void Dispose()
+        {
+            texture.Dispose();
+            world.RemoveBody(BoundBox);
         }
     }
 }

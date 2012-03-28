@@ -19,9 +19,9 @@ namespace SmashBros.Controllers
         public List<IView> views;
         public List<SpriteFont> fonts;
         public World world;
-        public KeyboardState currentKey;
-        public KeyboardState oldSate;
-
+        public KeyboardState currentKeyboardState;
+        public KeyboardState oldKeyboardState;
+        Texture2D t;
         public ScreenController(Game game)
             : base(game)
         {
@@ -35,6 +35,9 @@ namespace SmashBros.Controllers
             ContentManager content = Game.Content;
             spriteBatch = new SpriteBatch(Game.GraphicsDevice);
             content.Load<SpriteFont>("font");
+
+            t = content.Load<Texture2D>("StartScreen");
+            menu.Load(content);
             //content.Load<SpriteFont>("bigFont");
         }
 
@@ -45,6 +48,8 @@ namespace SmashBros.Controllers
 
         public override void Update(GameTime gameTime)
         {
+            oldKeyboardState = currentKeyboardState;
+            currentKeyboardState = Keyboard.GetState();
             menu.Update(gameTime);
         }
 

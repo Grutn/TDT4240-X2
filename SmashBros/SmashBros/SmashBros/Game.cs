@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using SmashBros.System;
 using SmashBros.Controllers;
+using System.Diagnostics;
 
 namespace SmashBros {
     /// <summary>
@@ -35,6 +36,14 @@ namespace SmashBros {
         #region Initialization
 
         public Game() {
+            Serializing.GenereateModels();
+            var l = Serializing.LoadCharacters();
+
+            foreach (var c in l)
+            {
+                Debug.WriteLine(c.animations);
+            }
+
             Content.RootDirectory = "Content";
 
             IsMouseVisible = true;
@@ -90,9 +99,8 @@ namespace SmashBros {
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime) {
             GraphicsDevice.Clear(Color.Black);
-
             // TODO: Add your drawing code here
-
+           
             base.Draw(gameTime);
         }
 

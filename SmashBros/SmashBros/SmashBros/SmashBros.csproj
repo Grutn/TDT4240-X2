@@ -90,6 +90,10 @@
     <Reference Include="mscorlib">
       <Private>False</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.0.8.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\x86\Debug\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
@@ -114,14 +118,15 @@
     <Compile Include="Controllers\MapController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\ScreenController.cs" />
-    <Compile Include="Model\Box.cs" />
-    <Compile Include="Model\Character.cs" />
-    <Compile Include="Model\GameModel.cs" />
-    <Compile Include="Model\Map.cs" />
-    <Compile Include="Model\Move.cs" />
-    <Compile Include="Model\Player.cs" />
-    <Compile Include="Model\PowerUp.cs" />
-    <Compile Include="Model\Weapon.cs" />
+    <Compile Include="Models\Box.cs" />
+    <Compile Include="Models\Character.cs" />
+    <Compile Include="Models\GameModel.cs" />
+    <Compile Include="Models\Map.cs" />
+    <Compile Include="Models\MenuEntry.cs" />
+    <Compile Include="Models\Move.cs" />
+    <Compile Include="Models\Player.cs" />
+    <Compile Include="Models\PowerUp.cs" />
+    <Compile Include="Models\Weapon.cs" />
     <Compile Include="ScreenManager\ControllerState.cs" />
     <Compile Include="ScreenManager\GameScreen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -141,7 +146,10 @@
     <Compile Include="System\Camera2D.cs" />
     <Compile Include="System\Constants.cs" />
     <Compile Include="System\ConvertUnits.cs" />
+    <Compile Include="System\Serializing.cs" />
+    <Compile Include="Views\ImageTexture.cs" />
     <Compile Include="Views\IView.cs" />
+    <Compile Include="Views\MenuView.cs" />
     <Compile Include="Views\Sprite.cs" />
   </ItemGroup>
   <ItemGroup>

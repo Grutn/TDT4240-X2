@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 
-namespace SmashBros.Objects
+namespace SmashBros.Model
 {
     public enum PlayerState { jumping, running, attacking }
 

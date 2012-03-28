@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 
-namespace SmashBros.Objects
+namespace SmashBros.Model
 {
-    class Move
+    public class Move
     {
         /// <summary>
         /// F.Eks. Skyting vs. Melee

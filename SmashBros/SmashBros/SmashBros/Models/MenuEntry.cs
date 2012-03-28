@@ -16,7 +16,7 @@ namespace SmashBros.Views
         public Texture2D img;
         public Vector2 imgPos;
         public Color color = Color.Aquamarine;
-        public event void onClick;
+        public string onClick;
 
         public MenuEntry(SpriteFont font, string text, Vector2 pos, Action onClick)
         {

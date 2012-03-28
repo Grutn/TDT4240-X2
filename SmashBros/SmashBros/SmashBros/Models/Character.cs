@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace SmashBros.Objects
+namespace SmashBros.Model
 {
-    class Character
+    public class Character
     {
         /// <summary>
         /// Charactername.

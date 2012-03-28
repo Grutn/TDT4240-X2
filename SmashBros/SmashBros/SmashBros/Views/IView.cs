@@ -7,8 +7,10 @@ using Microsoft.Xna.Framework;
 
 namespace SmashBros.Views
 {
-    public interface IView
+    public abstract class IView
     {
-        void Draw(SpriteBatch spriteBatch, GameTime gameTime);
+        public bool IsActive { get; set; }
+        public abstract void Draw(SpriteBatch spriteBatch, GameTime gameTime);
+        public abstract void Dispose();
     }
 }

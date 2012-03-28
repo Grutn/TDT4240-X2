@@ -21,7 +21,7 @@ namespace SmashBros.Model
         /// <summary>
         /// Static image that displays the whole map.
         /// </summary>
-        public string assetName;
+        public string bgImage;
 
         /// <summary>
         /// A list of rectangles that have collisiondetection in all directions.

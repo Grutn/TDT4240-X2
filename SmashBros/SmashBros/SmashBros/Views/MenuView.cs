@@ -16,7 +16,7 @@ namespace SmashBros.Views
             this.entrys = entrys;
         }
 
-        public void Draw(SpriteBatch spriteBatch, Microsoft.Xna.Framework.GameTime gameTime)
+        public override void Draw(SpriteBatch spriteBatch, Microsoft.Xna.Framework.GameTime gameTime)
         {
             foreach(var entry in entrys){
                 Color color = entry.color;
@@ -28,6 +28,11 @@ namespace SmashBros.Views
                 }
                 spriteBatch.DrawString(entry.font, entry.text, entry.pos, color, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
             }
+        }
+
+        public override void Dispose()
+        {
+            
         }
 
 

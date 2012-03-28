@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Content;
 using SmashBros.Views;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace SmashBros.Controllers
 {
@@ -23,12 +24,28 @@ namespace SmashBros.Controllers
 
         protected void AddView(IView view)
         {
+            view.IsActive = true;
             screen.views.Add(view);
         }
 
-        protected void Remove(IView view)
+        protected bool IsKeyPressed(Keys key){
+            return screen.oldKeyboardState.IsKeyDown(key) && screen.currentKeyboardState.IsKeyUp(key);
+        }
+
+        protected bool IsKeyDown(Keys key)
+        {
+            return screen.currentKeyboardState.IsKeyDown(key);
+        }
+
+        protected bool IsKeyUp(Keys key)
+        {
+            return screen.currentKeyboardState.IsKeyUp(key);
+        }
+
+        protected void RemoveView(IView view)
         {
             screen.views.Remove(view);
+            view.IsActive = false;
         }
     }
 }
