@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
+using SmashBros.Model;
 
 namespace SmashBros.Controllers
 {
@@ -12,14 +13,14 @@ namespace SmashBros.Controllers
         MapController map;
         List<CharacterController> characters;
 
-        public GameController(ScreenController screen) : base(screen)
-        {
 
+        public GameController(ScreenController screen, List<Character> selectedCharacters, Map selectedMap) : base(screen)
+        {
         }
 
         public override void Load(ContentManager content)
         {
-            throw new NotImplementedException();
+            throw new Exception("GameLoaded");
         }
 
         public override void Unload()

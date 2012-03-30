@@ -90,7 +90,12 @@ namespace SmashBros.System
             for (int i = 0; i < 10; i++)
             {
                 Map map = new Map();
-                
+                for (int j = 0; j < 7; j++)
+                {
+                    map.boxes.Add(new Box(100, 100, i * 110, i * 110));                       
+                }
+
+                Write(map, MapPlace, "Map" + i);
             }
 
         }

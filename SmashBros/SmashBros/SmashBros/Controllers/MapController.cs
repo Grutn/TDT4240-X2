@@ -15,7 +15,7 @@ namespace SmashBros.Controllers
         private Map _currentMap;
         private List<Body> _boxes;
 
-        public MapController(ScreenController screen) : base(screen)
+        public MapController(ScreenController screen, Map currentMap) : base(screen)
         {
             _boxes = new List<Body>();
         }

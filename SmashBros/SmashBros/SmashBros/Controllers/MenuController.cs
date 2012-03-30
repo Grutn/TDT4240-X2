@@ -13,7 +13,7 @@ using FarseerPhysics.Dynamics;
 
 namespace SmashBros.Controllers
 {
-    enum MenuState
+    public enum MenuState
     {
         StartScreen, CharacterSelection, MapSelection, Options
     }
@@ -30,9 +30,11 @@ namespace SmashBros.Controllers
         public MenuController(ScreenController screen) : base(screen)
         {
 
-            List<Views.MenuEntry> entrys = new List<Views.MenuEntry>();
-            
-            AddView(new MenuView(entrys));
+        }
+
+        public MenuController(ScreenController screen, MenuState state) : base(screen)
+        {
+            this.state = state;
         }
 
         public override void Load(ContentManager content)
@@ -70,7 +72,13 @@ namespace SmashBros.Controllers
 
         public override void Unload()
         {
+            startScreen.Dispose();
+            characterScreen.Dispose();
 
+            foreach (var character in characterTextures)
+            {
+                character.Dispose();
+            }
         }
 
         public override void Update(GameTime gameTime)
@@ -89,7 +97,7 @@ namespace SmashBros.Controllers
 
                     break;
                 case MenuState.CharacterSelection:
-                    if (!characterScreen.IsActive)
+                    if (!characterTextures.First().IsActive)
                     {
                         AddView(characterScreen);
                         foreach(Sprite character in characterTextures){
@@ -97,13 +105,45 @@ namespace SmashBros.Controllers
                         }
                     }
 
+                    if (IsKeyPressed(Keys.Enter))
+                    {
+                        RemoveView(characterScreen);
+                        foreach (Sprite character in characterTextures)
+                        {
+                            RemoveView(character);
+                        }
+                        state = MenuState.MapSelection;
+                    }
+
 
 
                     break;
                 case MenuState.MapSelection:
+                    if (!characterScreen.IsActive)
+                    {
+                        AddView(characterScreen);
+                        
+                    }
 
+                    if (IsKeyPressed(Keys.Enter))
+                    {
+                        RemoveView(characterScreen);
+                        this.IsActive = false;
+                        ActivateController(new GameController(screen, characterModels.GetRange(0,4), mapModels.First()));
+                    }
                     break;
                 
+            }
+
+            if (IsKeyPressed(Keys.Escape))
+            {
+                int prevState = (int)state;
+                if (prevState != 0)
+                {
+                    prevState--;
+                }
+
+                state = (MenuState)prevState;
             }
             
         }

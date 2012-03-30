@@ -15,6 +15,10 @@ namespace SmashBros.Controllers
     {
         SpriteBatch spriteBatch;
         MenuController menu;
+        
+        List<Controller> controllers;
+        List<Controller> removeController;
+        List<Controller> addController;
 
         public List<IView> views;
         public List<SpriteFont> fonts;
@@ -25,7 +29,13 @@ namespace SmashBros.Controllers
         public ScreenController(Game game)
             : base(game)
         {
+            
             this.views = new List<IView>();
+            
+            this.controllers = new List<Controller>();
+            this.removeController = new List<Controller>();
+            this.addController = new List<Controller>();
+
             this.fonts = new List<SpriteFont>();
             this.menu = new MenuController(this);
             this.world = new World(Vector2.Zero);
@@ -38,20 +48,71 @@ namespace SmashBros.Controllers
             content.Load<SpriteFont>("font");
 
             t = content.Load<Texture2D>("StartScreen");
-            menu.Load(content);
             //content.Load<SpriteFont>("bigFont");
+
+
+            menu.IsActive = true;
+        }
+
+        public void ActivateController(Controller controller)
+        {
+            controller.Load(Game.Content);
+            this.addController.Add(controller);
+        }
+
+        public void DeactivateController(Controller controller)
+        {
+
+            removeController.Add(controller);
+            controller.Unload();
         }
 
         protected override void UnloadContent()
         {
-            
+            foreach (var c in controllers)
+            {
+                c.Unload();
+            }
+
+            this.controllers = new List<Controller>();
         }
 
         public override void Update(GameTime gameTime)
         {
+            //Save keyboard state so all controllers can access them
             oldKeyboardState = currentKeyboardState;
             currentKeyboardState = Keyboard.GetState();
-            menu.Update(gameTime);
+
+            if (removeController.Count() != 0)
+            {
+                //Loop through the removeController list to see if there are any controllers to remove
+                foreach (var controller in removeController)
+                {
+                    controllers.Remove(controller);
+                }
+                //Finished removing controllers
+                //Reset list
+                removeController.RemoveAll(a=> true);
+            }
+
+            if (addController.Count() != 0)
+            {
+                //Loop through the addController list to see if there are any controllers to add
+                foreach (var controller in addController)
+                {
+                    controllers.Add(controller);
+                }
+                //Finished adding controllers
+                //Reset list
+                addController.RemoveAll(a => true);
+            }
+
+            foreach (var controller in controllers)
+            {
+                controller.Update(gameTime);
+            }
+            
+
         }
 
         public override void Draw(GameTime gameTime)
