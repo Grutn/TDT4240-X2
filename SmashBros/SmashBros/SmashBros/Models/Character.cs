@@ -14,7 +14,7 @@ namespace SmashBros.Model
         public string name;
 
         /// <summary>
-        /// A texture that contains all pics regarding this character.
+        /// Source to the picture that contains all frames regarding this character.
         /// </summary>
         public string animations;
 
@@ -22,6 +22,10 @@ namespace SmashBros.Model
         /// thumbnail of character.
         /// </summary>
         public string thumbnail;
+        /// <summary>
+        /// Image of the whole character 
+        /// </summary>
+        public string image;
         
         /// <summary>
         /// The maximum magnitude of speed in x-direction this character can have.

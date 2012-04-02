@@ -6,34 +6,18 @@ using Microsoft.Xna.Framework.Content;
 using SmashBros.Views;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using FarseerPhysics.Dynamics;
+using System.Threading;
+using SmashBros.System;
+using System.Diagnostics;
 
 namespace SmashBros.Controllers
 {
-    public abstract class Controller
+    public abstract class Controller : IObserver<GameStateManager>
     {
         protected ScreenController screen;
 
-        private bool _isActive = false;
-
-        /// <summary>
-        /// The set methods adds the controller to active controllers on the screen,
-        /// or removes it if isActive = false
-        /// </summary>
-        public bool IsActive { 
-            get { return _isActive; }
-            set
-            {
-                _isActive = value;
-                if (_isActive)
-                {
-                    screen.ActivateController(this);
-                }
-                else
-                {
-                    screen.DeactivateController(this);
-                }
-            }
-        }
+        public bool IsActive = false;
 
         /// <summary>
         /// A controller must take in a screen because the 
@@ -46,8 +30,21 @@ namespace SmashBros.Controllers
         }
 
         public abstract void Load(ContentManager content);
+        
         public abstract void Unload();
+        
         public abstract void Update(GameTime gameTime);
+        /// <summary>
+        /// Is run when the current state of game is updated
+        /// </summary>
+        /// <param name="value"></param>
+        public abstract void OnNext(GameStateManager value);
+
+        /// <summary>
+        /// Is run when the controller is removed from the active controller list
+        /// Should be used to remove the controllers views
+        /// </summary>
+        public abstract void Deactivate();
 
         /// <summary>
         /// Adds the view to the views the screenController need to draw
@@ -56,8 +53,8 @@ namespace SmashBros.Controllers
         /// <param name="view">View to activate</param>
         protected void AddView(IView view)
         {
-            view.IsActive = true;
-            screen.views.Add(view);
+            Thread newThread = new Thread(new ParameterizedThreadStart(ControllerViewManager.AddView));
+            newThread.Start(view);
         }
 
         /// <summary>
@@ -67,29 +64,66 @@ namespace SmashBros.Controllers
         /// <param name="view">View to deactivate</param>
         protected void RemoveView(IView view)
         {
-            screen.views.Remove(view);
-            view.IsActive = false;
+            Thread newThread = new Thread(new ParameterizedThreadStart(ControllerViewManager.RemoveView));
+            newThread.Start(view);
         }
 
         /// <summary>
-        /// Another way to activate a controller
-        /// only thing it does is to set isActive on the controller to true
+        /// Add controller to the active controller list
         /// </summary>
         /// <param name="controller">controller to activate</param>
-        protected void ActivateController(Controller controller)
+        protected void AddController(Controller controller)
         {
-            controller.IsActive = true;
+            Thread newThread = new Thread(new ParameterizedThreadStart(ControllerViewManager.AddController));
+            newThread.Start(controller);
         }
 
         /// <summary>
-        /// Another way to deactivate a controller
-        /// only thing it does is to set isActive on the controller to false
+        /// Removes controller from active controller list
         /// </summary>
         /// <param name="controller">controller to deactivate</param>
-        protected void DeactivateController(Controller controller)
+        protected void RemoveController(Controller controller)
         {
-            controller.IsActive = false;
+            screen.gameStateManager.Add(controller);
+            Thread newThread = new Thread(new ParameterizedThreadStart(ControllerViewManager.RemoveController));
+            newThread.Start(controller);
         }
+        /// <summary>
+        /// The farseer worl object
+        /// </summary>
+        public World World 
+        { 
+            get { return screen.controllerViewManager.world; } 
+        }
+        /// <summary>
+        /// Which main state the whole game i in now. 
+        /// When updated, all the active controllers are notified about the update
+        /// </summary>
+        public GameState CurrentState { get { return screen.gameStateManager.CurrentState; } set { screen.gameStateManager.CurrentState = value; } }
+
+        public bool SubscribeToGameState
+        {
+            set
+            {
+                if (value)
+                {
+                    Debug.WriteLine("Driiiiiiiiiiiiit");
+                    screen.gameStateManager.Add(this);
+                }
+                else
+                {
+                    screen.gameStateManager.Remove(this);
+                }
+            }
+        }
+
+        /// <summary>
+        /// The gamepad controllers
+        /// </summary>
+        public GamepadController P1Controller { get { return screen.gamePads[0]; } }
+        public GamepadController P2Controller { get { return screen.gamePads[1]; } }
+        public GamepadController P3Controller { get { return screen.gamePads[2]; } }
+        public GamepadController P4Controller { get { return screen.gamePads[3]; } }
 
 
         #region Keyboard Functions
@@ -116,5 +150,16 @@ namespace SmashBros.Controllers
         } 
 
         #endregion
+
+        public void OnCompleted()
+        {
+            //throw new NotImplementedException();
+        }
+
+        public void OnError(Exception error)
+        {
+            //throw new NotImplementedException();
+        }
+
     }
 }

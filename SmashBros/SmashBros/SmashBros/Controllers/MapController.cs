@@ -29,7 +29,7 @@ namespace SmashBros.Controllers
         {
             foreach (var box in _currentMap.boxes)
             {
-                _boxes.Add(box.CreateBody(screen.world));
+                _boxes.Add(box.CreateBody(World));
             }
 
         }
@@ -45,6 +45,16 @@ namespace SmashBros.Controllers
         }
 
         public override void Update(GameTime gameTime)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Deactivate()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void OnNext(System.GameStateManager value)
         {
             throw new NotImplementedException();
         }

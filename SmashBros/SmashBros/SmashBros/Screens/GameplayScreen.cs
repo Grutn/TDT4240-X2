@@ -78,8 +78,8 @@ namespace SmashBros
 
             
             gameFont = content.Load<SpriteFont>("gamefont");
-            spiderman = new Sprite(content, "spiderman", 100, 100);
-            spiderman.BoundRect(_world, 100, 100, 100, 100, BodyType.Static);
+            spiderman = new Sprite(content, "spiderman", 100, 100, 100,100);
+            spiderman.BoundRect(_world, 100, 100, BodyType.Static);
 
             // Simulating longer load time
             Thread.Sleep(1000);

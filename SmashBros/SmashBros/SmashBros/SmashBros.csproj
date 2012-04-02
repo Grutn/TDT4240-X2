@@ -114,6 +114,7 @@
   <ItemGroup>
     <Compile Include="Controllers\CharacterController.cs" />
     <Compile Include="Controllers\GameController.cs" />
+    <Compile Include="Controllers\GamepadController.cs" />
     <Compile Include="Controllers\IController.cs" />
     <Compile Include="Controllers\MapController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
@@ -145,7 +146,9 @@
     <Compile Include="Screens\PlayerIndexEventArgs.cs" />
     <Compile Include="System\Camera2D.cs" />
     <Compile Include="System\Constants.cs" />
+    <Compile Include="System\ControllerViewManager.cs" />
     <Compile Include="System\ConvertUnits.cs" />
+    <Compile Include="System\GameState.cs" />
     <Compile Include="System\Serializing.cs" />
     <Compile Include="Views\ImageTexture.cs" />
     <Compile Include="Views\IView.cs" />

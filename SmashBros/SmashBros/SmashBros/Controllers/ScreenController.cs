@@ -8,73 +8,55 @@ using Microsoft.Xna.Framework.Graphics;
 using SmashBros.Views;
 using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework.Input;
+using SmashBros.System;
+using FarseerPhysics.DebugViews;
+using FarseerPhysics;
+using System.Threading;
 
 namespace SmashBros.Controllers
 {
     public class ScreenController : DrawableGameComponent
     {
-        SpriteBatch spriteBatch;
         MenuController menu;
         
-        List<Controller> controllers;
-        List<Controller> removeController;
-        List<Controller> addController;
-
-        public List<IView> views;
         public List<SpriteFont> fonts;
-        public World world;
         public KeyboardState currentKeyboardState;
         public KeyboardState oldKeyboardState;
-        Texture2D t;
+        public ControllerViewManager controllerViewManager;
+        public List<GamepadController> gamePads;
+        public GameStateManager gameStateManager;
+
+        
         public ScreenController(Game game)
             : base(game)
         {
-            
-            this.views = new List<IView>();
-            
-            this.controllers = new List<Controller>();
-            this.removeController = new List<Controller>();
-            this.addController = new List<Controller>();
-
+            this.gamePads = new List<GamepadController>();   
             this.fonts = new List<SpriteFont>();
             this.menu = new MenuController(this);
-            this.world = new World(Vector2.Zero);
+
+            this.gameStateManager = new GameStateManager();
+            this.gameStateManager.CurrentState = GameState.StartScreen;
         }
 
         protected override void LoadContent()
         {
             ContentManager content = Game.Content;
-            spriteBatch = new SpriteBatch(Game.GraphicsDevice);
+
+            controllerViewManager = new ControllerViewManager(Game.GraphicsDevice, content);
+
             content.Load<SpriteFont>("font");
 
-            t = content.Load<Texture2D>("StartScreen");
-            //content.Load<SpriteFont>("bigFont");
+            menu.Init();
 
-
-            menu.IsActive = true;
-        }
-
-        public void ActivateController(Controller controller)
-        {
-            controller.Load(Game.Content);
-            this.addController.Add(controller);
-        }
-
-        public void DeactivateController(Controller controller)
-        {
-
-            removeController.Add(controller);
-            controller.Unload();
-        }
-
-        protected override void UnloadContent()
-        {
-            foreach (var c in controllers)
+            for (int i = 0; i < 4; i++)
             {
-                c.Unload();
+                var gamepad = new GamepadController(this, i, menu);
+                gamePads.Add(gamepad);
+                ControllerViewManager.AddController(gamepad);
             }
 
-            this.controllers = new List<Controller>();
+            //controllerViewManager.AddController(menu);
+            //controllerViewManager.AddController(new GamepadController(this,1));
         }
 
         public override void Update(GameTime gameTime)
@@ -83,46 +65,12 @@ namespace SmashBros.Controllers
             oldKeyboardState = currentKeyboardState;
             currentKeyboardState = Keyboard.GetState();
 
-            if (removeController.Count() != 0)
-            {
-                //Loop through the removeController list to see if there are any controllers to remove
-                foreach (var controller in removeController)
-                {
-                    controllers.Remove(controller);
-                }
-                //Finished removing controllers
-                //Reset list
-                removeController.RemoveAll(a=> true);
-            }
-
-            if (addController.Count() != 0)
-            {
-                //Loop through the addController list to see if there are any controllers to add
-                foreach (var controller in addController)
-                {
-                    controllers.Add(controller);
-                }
-                //Finished adding controllers
-                //Reset list
-                addController.RemoveAll(a => true);
-            }
-
-            foreach (var controller in controllers)
-            {
-                controller.Update(gameTime);
-            }
-            
-
+            controllerViewManager.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
-            spriteBatch.Begin();
-            foreach (var view in views)
-            {
-                view.Draw(spriteBatch, gameTime);
-            }
-            spriteBatch.End();
+            controllerViewManager.Draw(gameTime);
         }
     }
 }
