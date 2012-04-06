@@ -6,6 +6,8 @@ using SmashBros.Model;
 using System.IO;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework;
 
 namespace SmashBros.System
 {
@@ -13,6 +15,7 @@ namespace SmashBros.System
     {
         private const string MapPlace = "Maps";
         private const string CharacterPlace = "Characters";
+        private const string ControllersPlace = "PlayerControllers";
 
         /// <summary>
         /// Loads all the map models
@@ -45,6 +48,17 @@ namespace SmashBros.System
             return models;
         }
 
+        public static List<Player> LoadPlayerControllers()
+        {
+            List<Player> models = new List<Player>();
+            foreach (var file in Directory.GetFiles(ControllersPlace))
+            {
+                models.Add(JsonConvert.DeserializeObject<Player>(Read(file)));
+            }
+
+            return models;
+        }
+
         /// <summary>
         /// Method for generating the models
         /// Only for the testing phase of the game
@@ -53,6 +67,7 @@ namespace SmashBros.System
         {
             CreateCharacterModel();
             CreateMapModel();
+            CreateControllerModels();
         }
 
         /// <summary>
@@ -102,6 +117,59 @@ namespace SmashBros.System
                 Write(map, MapPlace, "Map" + i);
             }
 
+        }
+
+        public static void CreateControllerModels()
+        {
+            if (!Directory.Exists(ControllersPlace))
+            {
+                Directory.CreateDirectory(ControllersPlace);
+            }
+            for (int i = 0; i < 4; i++)
+            {
+                Player player = new Player();
+                player.PlayerIndex = i;
+
+                //Creating keyboard for player 1 and 2
+                if (i == 0 || i == 1)
+                {
+                    player.KeyboardEnabled = true;
+                    player.KeyboardBack = Keys.Escape;
+                    player.KeyboardStart = Keys.Enter;
+                }
+                if (i == 0)
+                {
+                    player.Color = Color.Blue;
+                    player.KeyboardUp = Keys.W;
+                    player.KeyboardDown = Keys.S;
+                    player.KeyboardLeft = Keys.A;
+                    player.KeyboardRight = Keys.D;
+                    player.KeyboardHit = Keys.V;
+                    player.KeyboardSuper = Keys.B;
+                    player.KeyboardSheild = Keys.N;
+                }
+                else if (i == 1)
+                {
+                    player.Color = Color.Green;
+                    player.KeyboardUp = Keys.Up;
+                    player.KeyboardDown = Keys.Down;
+                    player.KeyboardLeft = Keys.Left;
+                    player.KeyboardRight = Keys.Right;
+                    player.KeyboardHit = Keys.J;
+                    player.KeyboardSuper = Keys.K;
+                    player.KeyboardSheild = Keys.L;
+                }
+                else if (i == 2)
+                {
+
+                }
+                else if (i == 3)
+                {
+
+                }
+
+                Write(player, ControllersPlace, "Player" + i);
+            }
         }
 
         /// <summary>

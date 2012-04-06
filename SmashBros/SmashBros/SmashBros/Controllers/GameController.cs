@@ -19,16 +19,25 @@ namespace SmashBros.Controllers
         List<CharacterController> characters;
         Sprite spiderMan;
 
-        public GameController(ScreenController screen, List<Character> selectedCharacters, Map selectedMap) : base(screen)
+        public GameController(ScreenController screen) : base(screen)
         {
+            this.characters = new List<CharacterController>();
         }
 
         public override void Load(ContentManager content)
         {
-            spiderMan = new Sprite(content, "spiderman", 100, 100, 200, 200);
-            spiderMan.BoundRect(World, 100, 100);
-            AddView(spiderMan);
-            World.Gravity = new Vector2(0, 10);
+
+            foreach (var pad in GamePadControllers)
+            {
+                if (pad.SelectedCharacter != null)
+                {
+                    var character = new CharacterController(screen, pad);
+                    characters.Add(character);
+                    AddController(character);
+                }
+            }
+            
+            World.Gravity = new Vector2(0, Constants.GamePlayGravity);
 
             var s = new Sprite(content, "spiderman", 900, 20, 600, 700);
             s.BoundRect(World, 900, 200, BodyType.Static);

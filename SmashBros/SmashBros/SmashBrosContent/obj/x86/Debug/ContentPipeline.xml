@@ -38,15 +38,6 @@
       <Time>2012-03-26T20:45:14.596711+02:00</Time>
     </Item>
     <Item>
-      <Source>gamefont.spritefont</Source>
-      <Name>gamefont</Name>
-      <Importer>FontDescriptionImporter</Importer>
-      <Processor>FontDescriptionProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\gamefont.xnb</Output>
-      <Time>2012-03-26T20:45:14.5667304+02:00</Time>
-    </Item>
-    <Item>
       <Source>menufont.spritefont</Source>
       <Name>menufont</Name>
       <Importer>FontDescriptionImporter</Importer>
@@ -144,6 +135,33 @@
       <Options>None</Options>
       <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Characters\SpidermanImage.xnb</Output>
       <Time>2012-04-02T16:13:12.142919+02:00</Time>
+    </Item>
+    <Item>
+      <Source>Fonts\gamefont.spritefont</Source>
+      <Name>Fonts\gamefont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Fonts\gamefont.xnb</Output>
+      <Time>2012-03-26T20:45:14.5667304+02:00</Time>
+    </Item>
+    <Item>
+      <Source>Fonts\Impact.spritefont</Source>
+      <Name>Fonts\Impact</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Fonts\Impact.xnb</Output>
+      <Time>2012-04-04T15:50:17.095855+02:00</Time>
+    </Item>
+    <Item>
+      <Source>Fonts\Impact.large.spritefont</Source>
+      <Name>Fonts\Impact.large</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Fonts\Impact.large.xnb</Output>
+      <Time>2012-04-04T18:05:57.7052327+02:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

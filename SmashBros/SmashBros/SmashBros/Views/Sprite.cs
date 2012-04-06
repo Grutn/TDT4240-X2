@@ -43,7 +43,27 @@ namespace SmashBros.Views
             this.BoundBox.BodyType = type;
             this.BoundBox.FixedRotation = true;
         }
-        
+
+        public override bool IsActive
+        {
+            get
+            {
+                return base.IsActive;
+            }
+            set
+            {
+                base.IsActive = value;
+                if (value)
+                {
+                    this.BoundBox.Enabled = true;
+                }
+                else
+                {
+                    this.BoundBox.Enabled = false;
+                }
+            }
+        }
+
         public Vector2 Position {
             get { return BoundBox != null ? ConvertUnits.ToDisplayUnits(BoundBox.Position) : Vector2.Zero; }
             set { if (BoundBox != null) BoundBox.Position = ConvertUnits.ToSimUnits(value); }

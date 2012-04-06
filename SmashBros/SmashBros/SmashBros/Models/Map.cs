@@ -16,6 +16,7 @@ namespace SmashBros.Model
         {
             this.boxes = new List<Box>();
             this.floatingBoxes = new List<Box>();
+            this.startingPosition = new List<Vector2>();
         }
 
         /// <summary>
@@ -32,6 +33,11 @@ namespace SmashBros.Model
         /// A list of rectangles that only have upwards collisiondetection and only if the player is not holding down "down".
         /// </summary>
         public List<Box> floatingBoxes;
+
+        /// <summary>
+        /// List with four positions that says where the players can start
+        /// </summary>
+        public List<Vector2> startingPosition;
 
 
         public void AddBoxes(params Box[] boxes)

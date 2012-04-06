@@ -360,7 +360,7 @@ namespace FarseerPhysics.Dynamics
         internal void AddBody(Body body)
         {
             Debug.Assert(!_bodyAddList.Contains(body), "You are adding the same body more than once.");
-
+            Debug.WriteLine((body == null).ToString() + " Body equals null");
             if (!_bodyAddList.Contains(body))
                 _bodyAddList.Add(body);
         }

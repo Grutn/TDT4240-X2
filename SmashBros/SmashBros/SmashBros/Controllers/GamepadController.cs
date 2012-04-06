@@ -10,6 +10,7 @@ using SmashBros.System;
 using Microsoft.Xna.Framework.Input;
 using System.Diagnostics;
 using FarseerPhysics.Dynamics.Contacts;
+using SmashBros.Model;
 
 namespace SmashBros.Controllers
 {
@@ -18,67 +19,133 @@ namespace SmashBros.Controllers
     /// </summary>
     public class GamepadController : Controller
     {
-        public int playerIndex;
-        CharacterController character;
+        
         MenuController menu;
         Sprite cursor;
 
-        public GamepadController(ScreenController screen, int playerIndex, MenuController menu) : base(screen)
+        private float HitUpTimer = 0, HitDownTimer=0, 
+            ShieldUpTimer = 0,ShieldDownTimer=0, SuperUpTimer = 0, SuperDownTimer=0;
+
+        //public int playerIndex;
+        public Player PlayerModel { get; set; }
+        public int PlayerIndex { get; set; }
+        private bool disableCursor = false;
+        public bool DisableCursor { get { return disableCursor; } 
+            set
+            {
+                if (value && cursor.IsActive)
+                {
+                    RemoveView(cursor);
+                }
+                else if (!value && !cursor.IsActive)
+                {
+                    AddView(cursor);
+                }
+
+                disableCursor = value;
+            } 
+        }
+
+        /// <summary>
+        /// The slected character can only be set by the gamepad itself, it uses the HoverCharacter and checks if Selection key is pressed
+        /// </summary>
+        public Character SelectedCharacter { get; set; }
+        /// <summary>
+        /// Assigned when the players cursor hovers a player
+        /// </summary>
+        public Character HoverCharacter { get; set; }
+
+        public GamepadController(ScreenController screen, Player playerModel, MenuController menu) : base(screen)
         {
-            this.playerIndex = playerIndex;
+           // this.playerIndex = playerIndex;
+            this.menu = menu;
+            this.PlayerModel = playerModel;
+            this.PlayerIndex = PlayerModel.PlayerIndex;
         }
 
         public override void Load(ContentManager content)
         {
-            cursor = new Sprite(content, "Cursors/Player" + playerIndex, 70, 70, 280 * playerIndex + 100, 680);
-            cursor.BoundRect(World, 1, 1, BodyType.Dynamic);
-            cursor.Category = Category.All;
-            cursor.Layer = 10;
-            cursor.Mass = 1;
-            cursor.UserData = playerIndex;
+            this.SubscribeToGameState = true;
         }
+
 
         public override void Unload()
         {
         }
 
+        private void UpdateTimer(Keys key, float elapsedTime, ButtonDown downAction, ButtonUp upAction, ButtonPressed pressAction, ref float downTimer,ref float upTimer)
+        {
+            if (IsKeyDown(key))
+            {
+                if(downAction != null)
+                    downAction.Invoke(downTimer, PlayerIndex);
+
+                downTimer += elapsedTime;
+                upTimer = 0;
+            }
+            else if (IsKeyUp(key))
+            {
+                //Check if it was a press of key
+                if (pressAction != null && screen.oldKeyboardState.IsKeyDown(key))
+                    pressAction.Invoke(PlayerIndex);
+
+                if(upAction != null)
+                    upAction.Invoke(upTimer, PlayerIndex);
+                upTimer += elapsedTime;
+                downTimer = 0;
+            }
+
+        }
+        
         public override void Update(GameTime gameTime)
         {
+            //Updates all the timers added for the keys
+            float elapsed = gameTime.ElapsedGameTime.Milliseconds;
+
+            UpdateTimer(PlayerModel.KeyboardHit, elapsed, OnHitkeyDown, OnHitKeyUp, OnHitKeyPressed, ref HitDownTimer, ref HitUpTimer);
+            
+            UpdateTimer(PlayerModel.KeyboardSheild, elapsed, OnShieldkeyDown, OnShieldKeyUp, OnShieldKeyPressed, ref ShieldDownTimer, ref ShieldUpTimer);
+
+            UpdateTimer(PlayerModel.KeyboardSuper, elapsed, OnSuperkeyDown, OnSuperKeyUp, OnSuperKeyPressed, ref SuperDownTimer, ref SuperUpTimer);
+
+
+            if (IsKeyPressed(PlayerModel.KeyboardStart) && OnStartPress != null)
+            {
+                OnStartPress.Invoke(PlayerIndex);
+            }
+
+            if (IsKeyPressed(PlayerModel.KeyboardBack ) && OnBackPress != null)
+            {
+                OnBackPress.Invoke(PlayerIndex);
+            }
+
+
+            //Update the position of the cursor
+            float directionX = 0, directionY = 0;
+            if (IsKeyDown(PlayerModel.KeyboardLeft)) 
+                directionX = -1;
+            else if (IsKeyDown(PlayerModel.KeyboardRight)) 
+                directionX = 1;
+
+            if (IsKeyDown(PlayerModel.KeyboardUp)) 
+                directionY = -1;
+            else if (IsKeyDown(PlayerModel.KeyboardDown)) 
+                directionY = 1;
+
+            if ((directionX != 0 || directionY != 0) && OnNavigation != null)
+                OnNavigation.Invoke(directionX, directionY, PlayerIndex);
+
             switch (CurrentState)
             {
                 case GameState.StartScreen :
-                    if (screen.currentKeyboardState.GetPressedKeys().Count() != 0)
+                    if(IsKeyDown(Keys.H))
+                    {
+                        throw new NotImplementedException("Show help menu to user, same help menu as in character and mapselection menu");
+                    }
+                    else if (screen.currentKeyboardState.GetPressedKeys().Count() != 0)
                     {
                         CurrentState = GameState.SelectionMenu;
-
                     }
-                    break;
-                case GameState.SelectionMenu:
-                    if (!cursor.IsActive)
-                    {
-                        AddView(cursor);
-
-                    }
-                    int directionX = 0, directionY = 0;
-                    if (playerIndex == 0)
-                    {
-                        if (IsKeyDown(Keys.A)) directionX = -1;
-                        else if (IsKeyDown(Keys.D)) directionX = 1;
-
-                        if (IsKeyDown(Keys.W)) directionY = -1;
-                        else if (IsKeyDown(Keys.S)) directionY = 1;
-                    }
-
-                    if (playerIndex == 1)
-                    {
-                        if (IsKeyDown(Keys.Left)) directionX = -1;
-                        else if (IsKeyDown(Keys.Right)) directionX = 1;
-
-                        if (IsKeyDown(Keys.Up)) directionY = -1;
-                        else if (IsKeyDown(Keys.Down)) directionY = 1;
-                    }
-
-                    MoveCursor(directionX, directionY);
                     break;
             }
         }
@@ -89,69 +156,36 @@ namespace SmashBros.Controllers
 
         public override void OnNext(GameStateManager value)
         {
+           
         }
 
-        /// <summary>
-        /// Moves cursor in direction
-        /// </summary>
-        /// <param name="directionX">direction in X of cursor -1=left 0=no dir, 1=right</param>
-        /// <param name="directionY">direction in Y of cursor -1=up 0=no dir, 1=down</param>
-        private void MoveCursor(int directionX, int directionY)
+        private void UpdateTimers(GameTime gameTime)
         {
-            float forceX, forceY;
-            if (CalculateCursorMove(directionX, cursor.VelocityX, out forceX))
-                cursor.VelocityX = 0;
 
-            if (CalculateCursorMove(directionY, cursor.VelocityY, out forceY))
-                cursor.VelocityY = 0;
-
-            cursor.ForceX = forceX;
-            cursor.ForceY = forceY;
         }
+        
+        public delegate void ButtonDown(float timeUp, int playerIndex);
+        public delegate void ButtonUp(float timeDown, int playerIndex);
+        public delegate void ButtonPressed(int playerIndex);
+        public delegate void NavigationKey(float xDirection, float yDirection, int playerIndex);
 
-        /// <summary>
-        /// Calculates the force to apply on cursor
-        /// </summary>
-        /// <param name="direction"></param>
-        /// <param name="velocity"></param>
-        /// <param name="force"></param>
-        /// <returns>true if velocity needs to be set to 0</returns>
-        private bool CalculateCursorMove(int direction, float velocity, out float force){
-            
-            if (direction != 0)
-            {
-                //If cursor has velocity in different direction than the direction tells it
-                //We multiply the force with a bigger number to make it chante direction faster
-                if ((velocity > 0 && direction < 0) ||
-                    (velocity < 0 && direction > 0))
-                {
-                    force = 25f * direction;
-                }
-                //If velocity is is less then max speed apply force in direction
-                else if (Math.Abs(velocity) < Constants.MaxCursorSpeed)
-                {
-                    force = 5f * direction;
-                }
-                else force = 0;
-            }
-            else
-            {
-                //If velocity is grater than 1 apply force in opposite direction of speed
-                //Else force = 0 and return false to set speed to 0
-                if (Math.Abs(velocity) >= 1)
-                {
-                    direction = velocity <= -1 ? 1 : -1;
-                    force = 20 * direction;
-                }
-                else
-                {
-                    force = 0;
-                    return true;
-                }
 
-            }
+        public event ButtonDown OnHitkeyDown;
+        public event ButtonUp OnHitKeyUp;
+        public event ButtonPressed OnHitKeyPressed;
 
-            return false;
-        }
+        public event ButtonDown OnSuperkeyDown;
+        public event ButtonUp OnSuperKeyUp;
+        public event ButtonPressed OnSuperKeyPressed;
+
+        public event ButtonDown OnShieldkeyDown;
+        public event ButtonUp OnShieldKeyUp;
+        public event ButtonPressed OnShieldKeyPressed;
+
+        public event ButtonPressed OnStartPress;
+        public event ButtonPressed OnBackPress;
+
+        public event NavigationKey OnNavigation;
+        
     }
 }

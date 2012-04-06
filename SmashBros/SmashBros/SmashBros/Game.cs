@@ -52,10 +52,8 @@ namespace SmashBros {
 
 
             Window.AllowUserResizing = false;
-            Window.ClientSizeChanged += new EventHandler<EventArgs>(Window_ClientSizeChanged);
             
             Components.Add(new ScreenController(this));
-
 
             /*
             screenManager = new ScreenManager(this);

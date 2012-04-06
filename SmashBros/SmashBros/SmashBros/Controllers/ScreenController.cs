@@ -12,6 +12,7 @@ using SmashBros.System;
 using FarseerPhysics.DebugViews;
 using FarseerPhysics;
 using System.Threading;
+using SmashBros.Model;
 
 namespace SmashBros.Controllers
 {
@@ -19,7 +20,7 @@ namespace SmashBros.Controllers
     {
         MenuController menu;
         
-        public List<SpriteFont> fonts;
+        public Dictionary<string,SpriteFont> fonts;
         public KeyboardState currentKeyboardState;
         public KeyboardState oldKeyboardState;
         public ControllerViewManager controllerViewManager;
@@ -30,8 +31,8 @@ namespace SmashBros.Controllers
         public ScreenController(Game game)
             : base(game)
         {
-            this.gamePads = new List<GamepadController>();   
-            this.fonts = new List<SpriteFont>();
+            this.gamePads = new List<GamepadController>();
+            this.fonts = new Dictionary<string, SpriteFont>();
             this.menu = new MenuController(this);
 
             this.gameStateManager = new GameStateManager();
@@ -44,13 +45,15 @@ namespace SmashBros.Controllers
 
             controllerViewManager = new ControllerViewManager(Game.GraphicsDevice, content);
 
-            content.Load<SpriteFont>("font");
+            fonts.Add("Impact", content.Load<SpriteFont>("Fonts/Impact"));
+            fonts.Add("Impact.large", content.Load<SpriteFont>("Fonts/Impact.large"));
 
             menu.Init();
 
-            for (int i = 0; i < 4; i++)
+            List<Player> players = Serializing.LoadPlayerControllers();
+            foreach (Player player in players)
             {
-                var gamepad = new GamepadController(this, i, menu);
+                GamepadController gamepad = new GamepadController(this, player, menu);
                 gamePads.Add(gamepad);
                 ControllerViewManager.AddController(gamepad);
             }

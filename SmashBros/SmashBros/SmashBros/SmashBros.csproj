@@ -148,8 +148,10 @@
     <Compile Include="System\Constants.cs" />
     <Compile Include="System\ControllerViewManager.cs" />
     <Compile Include="System\ConvertUnits.cs" />
+    <Compile Include="System\Draw.cs" />
     <Compile Include="System\GameState.cs" />
     <Compile Include="System\Serializing.cs" />
+    <Compile Include="Views\TextBox.cs" />
     <Compile Include="Views\ImageTexture.cs" />
     <Compile Include="Views\IView.cs" />
     <Compile Include="Views\MenuView.cs" />

@@ -10,6 +10,7 @@ using FarseerPhysics.Dynamics;
 using System.Threading;
 using SmashBros.System;
 using System.Diagnostics;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SmashBros.Controllers
 {
@@ -53,8 +54,12 @@ namespace SmashBros.Controllers
         /// <param name="view">View to activate</param>
         protected void AddView(IView view)
         {
-            Thread newThread = new Thread(new ParameterizedThreadStart(ControllerViewManager.AddView));
-            newThread.Start(view);
+            if (!view.IsActive)
+            {
+                view.IsActive = true;
+                Thread newThread = new Thread(new ParameterizedThreadStart(ControllerViewManager.AddView));
+                newThread.Start(view);
+            }
         }
 
         /// <summary>
@@ -64,8 +69,28 @@ namespace SmashBros.Controllers
         /// <param name="view">View to deactivate</param>
         protected void RemoveView(IView view)
         {
-            Thread newThread = new Thread(new ParameterizedThreadStart(ControllerViewManager.RemoveView));
-            newThread.Start(view);
+            if (view.IsActive)
+            {
+                view.IsActive = false;
+                Thread newThread = new Thread(new ParameterizedThreadStart(ControllerViewManager.RemoveView));
+                newThread.Start(view);
+            }
+        }
+
+        public void AddViews(params IView[] views)
+        {
+            foreach (var view in views)
+            {
+                AddView(view);
+            }
+        }
+
+        public void RemoveViews(params IView[] views)
+        {
+            foreach (var view in views)
+            {
+                RemoveView(view);
+            }
         }
 
         /// <summary>
@@ -101,13 +126,19 @@ namespace SmashBros.Controllers
         /// </summary>
         public GameState CurrentState { get { return screen.gameStateManager.CurrentState; } set { screen.gameStateManager.CurrentState = value; } }
 
+        public SpriteFont GetFont(string fontName)
+        {
+            return screen.fonts[fontName];
+        }
+
+        public SpriteFont FontDefualt { get { return screen.fonts["Impact"]; } }
+
         public bool SubscribeToGameState
         {
             set
             {
                 if (value)
                 {
-                    Debug.WriteLine("Driiiiiiiiiiiiit");
                     screen.gameStateManager.Add(this);
                 }
                 else
@@ -120,11 +151,7 @@ namespace SmashBros.Controllers
         /// <summary>
         /// The gamepad controllers
         /// </summary>
-        public GamepadController P1Controller { get { return screen.gamePads[0]; } }
-        public GamepadController P2Controller { get { return screen.gamePads[1]; } }
-        public GamepadController P3Controller { get { return screen.gamePads[2]; } }
-        public GamepadController P4Controller { get { return screen.gamePads[3]; } }
-
+        public List<GamepadController> GamePadControllers { get { return screen.gamePads; } }
 
         #region Keyboard Functions
         

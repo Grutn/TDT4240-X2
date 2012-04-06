@@ -2,7 +2,6 @@ Content\background.xnb
 Content\blank.xnb
 Content\gradient.xnb
 Content\spiderman.xnb
-Content\gamefont.xnb
 Content\menufont.xnb
 Content\Characters\WolverineThumb.xnb
 Content\StartScreen.xnb
@@ -14,4 +13,7 @@ Content\Cursors\Player3.xnb
 Content\Cursors\Player2.xnb
 Content\Characters\WolverineImage.xnb
 Content\Characters\SpidermanImage.xnb
+Content\Fonts\gamefont.xnb
+Content\Fonts\Impact.xnb
+Content\Fonts\Impact.large.xnb
 Content\font.xnb
