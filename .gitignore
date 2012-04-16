@@ -1,24 +1,56 @@
-# XNA 4.0 .gitignore by Brett Chalupa @ http://brettchalupa.com/programming/gitignore-for-xna-projects/
-# Common files to ignore
-*.swp
- 
-# Compressed Files
+# Compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Packages #
+############
+# it's better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
 *.zip
- 
-# VS2010 Files
+
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+*.sdf
+# OS generated files #
+######################
+.DS_Store?
+ehthumbs.db
+Icon?
+Thumbs.db
+
+# resharper
+_ReSharper.*
+*.resharper.user
+
+#VS
+[Dd]ebug/
+[Rr]elease/
+[Bb]in/
+[Oo]bj/
+*.sln.cache
 *.suo
- 
-# XNA Files
-**/bin/*
-**/obj/*
-**/**/bin/*
-**/**/obj/*
-**/**/**/bin/*
-**/**/**/obj/*
-**/**/**/**/bin/*
-**/**/**/**/obj/*
-*.chachefile
-*.Debug.cachefile
-SmashBros/DebugView XNA/bin/*
-SmashBros/DebugView XNA/obj/*
-SmashBros/Interfaces/Interfaces/InterfacesContent/obj/*
+*.csproj.user
+TestResults/
+_bin_deployableAssemblies/
+
+#Nuget.exe
+*.old
+[Pp]ackages/
+
+#Vim files
+*.orig 
