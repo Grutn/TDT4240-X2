@@ -21,5 +21,4 @@
 *.Debug.cachefile
 SmashBros/DebugView XNA/bin/*
 SmashBros/DebugView XNA/obj/*
-SmashBros/SmashBros/SmashBrosContent/*
 SmashBros/Interfaces/Interfaces/InterfacesContent/obj/*
