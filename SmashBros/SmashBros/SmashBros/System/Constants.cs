@@ -10,6 +10,9 @@ namespace SmashBros.System
         public const bool DebugMode = true;
         public const bool StartGameplay = true;
 
+        public const int WindowWidth = 1280;
+        public const int WindowHeight = 720;
+
         public const int FPS = 12;
         public const int ThumbWith = 210;
         public const int ThumbHeight = 210;

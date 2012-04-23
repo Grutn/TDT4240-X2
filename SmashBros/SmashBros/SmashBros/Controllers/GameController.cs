@@ -43,6 +43,10 @@ namespace SmashBros.Controllers
             World.Gravity = new Vector2(0, Constants.GamePlayGravity);
 
             this.camera = new CameraController(screen);
+            foreach (var c in characters)
+            {
+                this.camera.AddTarget(c);
+            }
             AddController(camera);
 
             AddController(this.map);

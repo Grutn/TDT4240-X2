@@ -23,7 +23,7 @@ namespace FarseerPhysics.DebugViews
     public class DebugViewXNA : DebugView, IDisposable
     {
         public string[] PlayerStates;
-
+        public Dictionary<string, string> DebugStuff = new Dictionary<string, string>();
         //Drawing
         private PrimitiveBatch _primitiveBatch;
         private SpriteBatch _batch;
@@ -411,6 +411,16 @@ namespace FarseerPhysics.DebugViews
                 
             }
             DrawString(x, y+130, "Player stats:" + s);
+
+            if (DebugStuff.Count() != 0)
+            {
+                string s2 = "";
+                foreach(var i in DebugStuff){
+                    s2+= "\n" + i.Key + " : " + i.Value;
+                }
+                DrawString(x, y + 300,"Debug stuff:" + s2);
+
+            }
         }
 
         public void DrawAABB(ref AABB aabb, Color color)

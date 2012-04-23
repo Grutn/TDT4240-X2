@@ -44,8 +44,8 @@ namespace SmashBros {
             IsMouseVisible = true;
 
             graphics = new GraphicsDeviceManager(this);
-            graphics.PreferredBackBufferWidth = 1280;
-            graphics.PreferredBackBufferHeight = 720;
+            graphics.PreferredBackBufferWidth = Constants.WindowWidth;
+            graphics.PreferredBackBufferHeight = Constants.WindowHeight;
             graphics.IsFullScreen = false;
 
             ConvertUnits.SetDisplayUnitToSimUnitRatio(64f);
