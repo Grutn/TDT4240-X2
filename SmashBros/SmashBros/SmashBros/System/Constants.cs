@@ -9,6 +9,7 @@ namespace SmashBros.System
     {
         public const bool DebugMode = false;
 
+
         public const int FPS = 12;
         public const int ThumbWith = 210;
         public const int ThumbHeight = 210;
