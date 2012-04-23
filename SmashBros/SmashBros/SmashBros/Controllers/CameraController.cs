@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SmashBros.Controllers
 {
@@ -16,6 +17,7 @@ namespace SmashBros.Controllers
         Camera2D camera;
         List<Sprite> targets { get; set; }
         Body box;
+        float zoom = 0.7f;
         public CameraController(ScreenController screen) : base(screen)
         {
             this.camera = screen.controllerViewManager.camera;
@@ -24,11 +26,16 @@ namespace SmashBros.Controllers
         public override void Load(ContentManager content)
         {
 
-            box = BodyFactory.CreateRectangle(World, 1280, 720, 1.0f);
-            box.IgnoreCCD = true;
-            box.IsStatic = true;
+            Viewport v = screen.GraphicsDevice.Viewport;
+            camera.Zoom = zoom;
 
-            this.camera.TrackingBody = box;
+            MoveCamera(v.Width * (1 - zoom), v.Height * (1 - zoom)); 
+            //this.camera.TrackingBody = box;
+        }
+
+        private void MoveCamera(float x, float y)
+        {
+            camera.MoveCamera(ConvertUnits.ToSimUnits(x,y));
         }
 
         public override void Unload()

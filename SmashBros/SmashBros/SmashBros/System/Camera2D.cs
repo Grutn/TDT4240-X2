@@ -47,8 +47,8 @@ namespace SmashBros.System
             _view = Matrix.Identity;
             _batchView = Matrix.Identity;
 
-            _translateCenter = new Vector2(ConvertUnits.ToSimUnits(_graphics.Viewport.Width / 2f),
-                                           ConvertUnits.ToSimUnits(_graphics.Viewport.Height / 2f));
+            _translateCenter =new Vector2(ConvertUnits.ToSimUnits(_graphics.Viewport.Width / 2f),
+                                          ConvertUnits.ToSimUnits(_graphics.Viewport.Height / 2f));
 
             ResetCamera();
         }
