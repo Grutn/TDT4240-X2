@@ -20,9 +20,19 @@ namespace SmashBros.Model
         }
 
         /// <summary>
-        /// Static image that displays the whole map.
+        /// Source name for image used in background during gameplay
         /// </summary>
         public string bgImage;
+
+        /// <summary>
+        /// Source name of thumb Image, used for map selection screen
+        /// </summary>
+        public string thumbImage;
+
+        /// <summary>
+        /// Name of the map
+        /// </summary>
+        public string name;
 
         /// <summary>
         /// A list of rectangles that have collisiondetection in all directions.
@@ -43,6 +53,20 @@ namespace SmashBros.Model
         public void AddBoxes(params Box[] boxes)
         {
             this.boxes = boxes.ToList();
+        }
+
+        public void AddBox(float x, float y, float widht, float height, float rotation = 0)
+        {
+            if (this.boxes == null) this.boxes = new List<Box>();
+
+            this.boxes.Add(new Box(widht, height, x, y, rotation));
+        }
+
+        public void AddFloatBox(float x, float y, float widht, float rotation = 0)
+        {
+            if (this.floatingBoxes == null) this.floatingBoxes = new List<Box>();
+
+            this.floatingBoxes.Add(new Box(widht, 10, x, y, rotation));
         }
     }
 

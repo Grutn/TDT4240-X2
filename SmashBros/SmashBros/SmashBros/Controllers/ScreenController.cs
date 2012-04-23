@@ -33,7 +33,6 @@ namespace SmashBros.Controllers
         {
             this.gamePads = new List<GamepadController>();
             this.fonts = new Dictionary<string, SpriteFont>();
-            this.menu = new MenuController(this);
 
             this.gameStateManager = new GameStateManager();
             this.gameStateManager.CurrentState = GameState.StartScreen;
@@ -48,18 +47,30 @@ namespace SmashBros.Controllers
             fonts.Add("Impact", content.Load<SpriteFont>("Fonts/Impact"));
             fonts.Add("Impact.large", content.Load<SpriteFont>("Fonts/Impact.large"));
 
-            menu.Init();
 
             List<Player> players = Serializing.LoadPlayerControllers();
             foreach (Player player in players)
             {
-                GamepadController gamepad = new GamepadController(this, player, menu);
+                GamepadController gamepad = new GamepadController(this, player);
                 gamePads.Add(gamepad);
                 ControllerViewManager.AddController(gamepad);
             }
 
-            //controllerViewManager.AddController(menu);
-            //controllerViewManager.AddController(new GamepadController(this,1));
+            if (Constants.StartGameplay)
+            {
+                var chars = Serializing.LoadCharacters();
+                var maps = Serializing.LoadMaps();
+                gamePads[0].SelectedCharacter = chars[0];
+                gamePads[1].SelectedCharacter = chars[1];
+
+                GameController game = new GameController(this, maps[0]);
+                ControllerViewManager.AddController(game);
+            }
+            else
+            {
+                this.menu = new MenuController(this);
+                ControllerViewManager.AddController(menu);
+            }
         }
 
         public override void Update(GameTime gameTime)

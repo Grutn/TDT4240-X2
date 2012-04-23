@@ -43,11 +43,6 @@ namespace SmashBros.Controllers
         {
         }
 
-        public void Init()
-        {
-            AddController(this);
-        }
-
         public override void Load(ContentManager content) 
         {
             startScreen = new ImageTexture(content, "StartScreen", 0, 0);
@@ -83,6 +78,8 @@ namespace SmashBros.Controllers
             mapModels = Serializing.LoadMaps();
 
             SubscribeToGameState = true;
+
+
         }
 
         private void LoadCharacters(ContentManager content)
@@ -255,7 +252,7 @@ namespace SmashBros.Controllers
                     break;
 
                 case GameState.GamePlay:
-                    AddController(new GameController(screen));
+                    AddController(new GameController(screen, mapModels[0]));
                     break;
             }
         }

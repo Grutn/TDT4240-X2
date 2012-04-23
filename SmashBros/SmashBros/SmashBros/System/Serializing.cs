@@ -11,11 +11,18 @@ using Microsoft.Xna.Framework;
 
 namespace SmashBros.System
 {
+    /// <summary>
+    /// Serializing loads different models from json textfiles. 
+    /// The models folder is defined at top of document
+    /// 
+    /// During development phase 
+    /// this class is also used to generate the models. And save to the modles folder
+    /// </summary>
     public static class Serializing
     {
-        private const string MapPlace = "Maps";
-        private const string CharacterPlace = "Characters";
-        private const string ControllersPlace = "PlayerControllers";
+        private const string MapFolder = "Maps";
+        private const string CharacterFolder = "Characters";
+        private const string ControllersFolder = "PlayerControllers";
 
         /// <summary>
         /// Loads all the map models
@@ -24,7 +31,7 @@ namespace SmashBros.System
         public static List<Map> LoadMaps()
         {
             List<Map> models = new List<Map>();
-            foreach (var file in Directory.GetFiles(MapPlace))
+            foreach (var file in Directory.GetFiles(MapFolder))
             {
                 models.Add(JsonConvert.DeserializeObject<Map>(Read(file)));
             }
@@ -40,7 +47,7 @@ namespace SmashBros.System
         {
             
             List<Character> models = new List<Character>();
-            foreach (var file in Directory.GetFiles(CharacterPlace))
+            foreach (var file in Directory.GetFiles(CharacterFolder))
             {
                 models.Add(JsonConvert.DeserializeObject<Character>(Read(file)));
             }
@@ -48,10 +55,14 @@ namespace SmashBros.System
             return models;
         }
 
+        /// <summary>
+        /// Loads the players c
+        /// </summary>
+        /// <returns>List with players</returns>
         public static List<Player> LoadPlayerControllers()
         {
             List<Player> models = new List<Player>();
-            foreach (var file in Directory.GetFiles(ControllersPlace))
+            foreach (var file in Directory.GetFiles(ControllersFolder))
             {
                 models.Add(JsonConvert.DeserializeObject<Player>(Read(file)));
             }
@@ -66,7 +77,7 @@ namespace SmashBros.System
         public static void GenereateModels()
         {
             CreateCharacterModel();
-            CreateMapModel();
+            CreateMapModels();
             CreateControllerModels();
         }
 
@@ -75,9 +86,9 @@ namespace SmashBros.System
         /// </summary>
         private static void CreateCharacterModel()
         {
-            if (!Directory.Exists(CharacterPlace))
+            if (!Directory.Exists(CharacterFolder))
             {
-                Directory.CreateDirectory(CharacterPlace);
+                Directory.CreateDirectory(CharacterFolder);
             }
             for (int i = 0; i < 10; i++)
             {
@@ -93,37 +104,43 @@ namespace SmashBros.System
 
 
                 }
-                Write(c,CharacterPlace,"Character"+i);
+                Write(c,CharacterFolder,"Character"+i);
             }
         }
 
         /// <summary>
         /// Genereates some map models
         /// </summary>
-        private static void CreateMapModel()
+        private static void CreateMapModels()
         {
-            if (!Directory.Exists(MapPlace))
+            if (!Directory.Exists(MapFolder))
             {
-                Directory.CreateDirectory(MapPlace);
+                Directory.CreateDirectory(MapFolder);
             }
+
             for (int i = 0; i < 10; i++)
             {
                 Map map = new Map();
-                for (int j = 0; j < 7; j++)
-                {
-                    map.boxes.Add(new Box(100, 100, i * 110, i * 110));                       
-                }
+                map.name = "New Place City";
+                map.bgImage = "Maps/CityMap";
+                
+                map.AddBox(400, 840, 330, 100, -9.5f);
+                map.AddBox(920, 1000, 540, 190);
+                map.AddBox(1450, 950, 560, 270);
 
-                Write(map, MapPlace, "Map" + i);
+                map.AddFloatBox(975, 500, 560);
+                map.AddFloatBox(930, 700, 740);
+
+                Write(map, MapFolder, "Map" + i);
             }
 
         }
 
         public static void CreateControllerModels()
         {
-            if (!Directory.Exists(ControllersPlace))
+            if (!Directory.Exists(ControllersFolder))
             {
-                Directory.CreateDirectory(ControllersPlace);
+                Directory.CreateDirectory(ControllersFolder);
             }
             for (int i = 0; i < 4; i++)
             {
@@ -168,7 +185,7 @@ namespace SmashBros.System
 
                 }
 
-                Write(player, ControllersPlace, "Player" + i);
+                Write(player, ControllersFolder, "Player" + i);
             }
         }
 

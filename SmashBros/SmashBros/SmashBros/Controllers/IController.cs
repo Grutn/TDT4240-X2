@@ -126,13 +126,26 @@ namespace SmashBros.Controllers
         /// </summary>
         public GameState CurrentState { get { return screen.gameStateManager.CurrentState; } set { screen.gameStateManager.CurrentState = value; } }
 
+        /// <summary>
+        /// Get font by it's name
+        /// </summary>
+        /// <param name="fontName"></param>
+        /// <returns></returns>
         public SpriteFont GetFont(string fontName)
         {
             return screen.fonts[fontName];
         }
 
+        /// <summary>
+        /// Returns the default font
+        /// </summary>
         public SpriteFont FontDefualt { get { return screen.fonts["Impact"]; } }
 
+
+        /// <summary>
+        /// If set to true the controller is subscirbed to the observable gamestate
+        /// And OnNext is triggered if gamestate is changed
+        /// </summary>
         public bool SubscribeToGameState
         {
             set

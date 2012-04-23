@@ -37,7 +37,7 @@ namespace SmashBros.Model
         [DataMember]
         public float Rotation;
 
-        public Body CreateBody(World world)
+        public Body CreateBody(World world, Category collisionCategory = Category.All)
         {
             Body b = BodyFactory.CreateRectangle(
                 world, 
@@ -47,6 +47,8 @@ namespace SmashBros.Model
                 ConvertUnits.ToSimUnits(X, Y));
 
             b.Rotation = Rotation;
+            b.CollisionCategories = collisionCategory;
+            b.IsStatic = true;
 
             return b;
         }

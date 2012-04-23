@@ -38,13 +38,13 @@
       <Time>2012-03-26T20:45:14.596711+02:00</Time>
     </Item>
     <Item>
-      <Source>menufont.spritefont</Source>
-      <Name>menufont</Name>
-      <Importer>FontDescriptionImporter</Importer>
-      <Processor>FontDescriptionProcessor</Processor>
+      <Source>StartScreen.jpg</Source>
+      <Name>StartScreen</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\menufont.xnb</Output>
-      <Time>2012-03-26T20:45:14.5707282+02:00</Time>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\StartScreen.xnb</Output>
+      <Time>2012-03-30T20:15:33.4713033+02:00</Time>
     </Item>
     <Item>
       <Source>Characters\WolverineThumb.png</Source>
@@ -54,15 +54,6 @@
       <Options>None</Options>
       <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Characters\WolverineThumb.xnb</Output>
       <Time>2012-03-29T01:35:51.4217683+02:00</Time>
-    </Item>
-    <Item>
-      <Source>StartScreen.jpg</Source>
-      <Name>StartScreen</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\StartScreen.xnb</Output>
-      <Time>2012-03-30T20:15:33.4713033+02:00</Time>
     </Item>
     <Item>
       <Source>SelectionScreen.jpg</Source>
@@ -83,15 +74,6 @@
       <Time>2012-03-29T01:46:25.7586717+02:00</Time>
     </Item>
     <Item>
-      <Source>Cursors\Player1.png</Source>
-      <Name>Cursors\Player1</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Cursors\Player1.xnb</Output>
-      <Time>2012-04-02T14:51:32.5165142+02:00</Time>
-    </Item>
-    <Item>
       <Source>Cursors\Player0.png</Source>
       <Name>Cursors\Player0</Name>
       <Importer>TextureImporter</Importer>
@@ -99,6 +81,15 @@
       <Options>None</Options>
       <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Cursors\Player0.xnb</Output>
       <Time>2012-04-02T14:46:21.4337817+02:00</Time>
+    </Item>
+    <Item>
+      <Source>Cursors\Player1.png</Source>
+      <Name>Cursors\Player1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Cursors\Player1.xnb</Output>
+      <Time>2012-04-02T14:51:32.5165142+02:00</Time>
     </Item>
     <Item>
       <Source>Cursors\Player3.png</Source>
@@ -146,6 +137,15 @@
       <Time>2012-03-26T20:45:14.5667304+02:00</Time>
     </Item>
     <Item>
+      <Source>menufont.spritefont</Source>
+      <Name>menufont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\menufont.xnb</Output>
+      <Time>2012-03-26T20:45:14.5707282+02:00</Time>
+    </Item>
+    <Item>
       <Source>Fonts\Impact.spritefont</Source>
       <Name>Fonts\Impact</Name>
       <Importer>FontDescriptionImporter</Importer>
@@ -162,6 +162,15 @@
       <Options>None</Options>
       <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Fonts\Impact.large.xnb</Output>
       <Time>2012-04-04T18:05:57.7052327+02:00</Time>
+    </Item>
+    <Item>
+      <Source>Maps\CityMap.jpg</Source>
+      <Name>Maps\CityMap</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Maps\CityMap.xnb</Output>
+      <Time>2012-04-23T12:59:52.3127947+02:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

@@ -16,8 +16,8 @@ namespace SmashBros.System
 {
     public class ControllerViewManager
     {
-        DebugViewXNA debugView;
-        Camera2D camera;
+        public DebugViewXNA debugView;
+        public Camera2D camera;
 
         private static List<Controller> controllers;
         private static bool controllersListAvailable = true;

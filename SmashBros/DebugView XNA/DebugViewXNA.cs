@@ -22,6 +22,8 @@ namespace FarseerPhysics.DebugViews
     /// </summary>
     public class DebugViewXNA : DebugView, IDisposable
     {
+        public string[] PlayerStates;
+
         //Drawing
         private PrimitiveBatch _primitiveBatch;
         private SpriteBatch _batch;
@@ -50,7 +52,7 @@ namespace FarseerPhysics.DebugViews
 #if XBOX
         public Vector2 DebugPanelPosition = new Vector2(55, 100);
 #else
-        public Vector2 DebugPanelPosition = new Vector2(40, 100);
+        public Vector2 DebugPanelPosition = new Vector2(30, 50);
 #endif
         private int _max;
         private int _avg;
@@ -81,7 +83,7 @@ namespace FarseerPhysics.DebugViews
             : base(world)
         {
             world.ContactManager.PreSolve += PreSolve;
-
+            PlayerStates = new string[3];
             //Default flags
             AppendFlags(DebugViewFlags.Shape);
             AppendFlags(DebugViewFlags.Controllers);
@@ -400,6 +402,15 @@ namespace FarseerPhysics.DebugViews
                                    "\n- Joint: " + World.Island.JointUpdateTime +
                                    "\n- Controller: " + World.ControllersUpdateTime +
                                    "\n- Total: " + World.UpdateTime);
+
+            string s = "";
+            for (int i = 0; i < PlayerStates.Length; i++)
+            {
+                if(!string.IsNullOrEmpty(PlayerStates[i]))
+                    s+= "\n- Player1 state: " + PlayerStates[0];
+                
+            }
+            DrawString(x, y+130, "Player stats:" + s);
         }
 
         public void DrawAABB(ref AABB aabb, Color color)

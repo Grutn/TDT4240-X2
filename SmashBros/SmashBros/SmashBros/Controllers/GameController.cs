@@ -13,20 +13,22 @@ using Microsoft.Xna.Framework.Input;
 
 namespace SmashBros.Controllers
 {
+    /// <summary>
+    /// Start and controlls the main gameplay
+    /// </summary>
     class GameController : Controller
     {
         MapController map;
         List<CharacterController> characters;
-        Sprite spiderMan;
 
-        public GameController(ScreenController screen) : base(screen)
+        public GameController(ScreenController screen, Map selectedMap) : base(screen)
         {
             this.characters = new List<CharacterController>();
+            this.map = new MapController(screen, selectedMap);
         }
 
         public override void Load(ContentManager content)
         {
-
             foreach (var pad in GamePadControllers)
             {
                 if (pad.SelectedCharacter != null)
@@ -42,6 +44,8 @@ namespace SmashBros.Controllers
             var s = new Sprite(content, "spiderman", 900, 20, 600, 700);
             s.BoundRect(World, 900, 200, BodyType.Static);
             AddView(s);
+
+            AddController(this.map);
         }
 
         public override void Unload()

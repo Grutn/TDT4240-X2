@@ -7,6 +7,10 @@ using Microsoft.Xna.Framework.Input;
 
 namespace SmashBros.Model
 {
+    /// <summary>
+    /// This class contains each players settings. 
+    /// This is mainly the keyboard controlls
+    /// </summary>
     public class Player
     {
         public Player()
@@ -14,7 +18,14 @@ namespace SmashBros.Model
 
         }
 
+        /// <summary>
+        /// Wich player this is 
+        /// range 0-3
+        /// </summary>
         public int PlayerIndex { get; set; }
+        /// <summary>
+        /// Color of this player
+        /// </summary>
         public Color Color { get; set; }
         /// <summary>
         /// Tells wheter or not the keyboard is possible to use for this player
