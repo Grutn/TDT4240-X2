@@ -96,6 +96,24 @@ namespace SmashBros.System
                 c.animations = "Characters/SpidermanThumb" + i;
                 c.thumbnail = "Characters/WolverineThumb";
                 c.image = "Characters/WolverineImage";
+                c.a = new Move()
+                {
+                    range = false,
+                    adjustable = false,
+                    minWait = 0,
+                    maxWait = 0,
+                    minPower = 10,
+                    maxPower = 10,
+                    minDamage = 10,
+                    maxDamage = 10,
+                    sqRange = 1000,
+                    bodyRange = 1000,
+                    //sqSpeed = 10,
+                    //bodySpeed = 10,
+                    sqWidth = 10,
+                    sqHeight = 10,
+                    duration = 100
+                };
                 
                 if (i == 1)
                 {

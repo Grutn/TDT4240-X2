@@ -407,7 +407,7 @@ namespace FarseerPhysics.DebugViews
             for (int i = 0; i < PlayerStates.Length; i++)
             {
                 if(!string.IsNullOrEmpty(PlayerStates[i]))
-                    s+= "\n- Player1 state: " + PlayerStates[0];
+                    s+= "\n- Player" +i +" state: " + PlayerStates[i];
                 
             }
             DrawString(x, y+130, "Player stats:" + s);

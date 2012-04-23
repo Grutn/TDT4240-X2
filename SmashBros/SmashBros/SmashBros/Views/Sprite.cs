@@ -21,6 +21,7 @@ namespace SmashBros.Views
         Vector2 spritePos;
         Vector2 boundBoxSize;
         BodyType bodyType;
+        public Vector2 size;
 
 
         public int FramesPerRow = 1;
@@ -29,6 +30,7 @@ namespace SmashBros.Views
         public Sprite(ContentManager content, string assetName, int frameWidth, int frameHeight, float xPos, float yPos)
         {
             this.frame = new Rectangle(0, 0, frameWidth, frameHeight);
+            this.size = ConvertUnits.ToSimUnits(frameWidth, frameHeight);
             this.texture = content.Load<Texture2D>(assetName);
             this.spritePos = ConvertUnits.ToSimUnits(xPos, yPos);
             this.Scale = 1f;

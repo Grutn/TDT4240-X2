@@ -179,6 +179,11 @@ namespace SmashBros.Controllers
             return screen.oldKeyboardState.IsKeyDown(key) && screen.currentKeyboardState.IsKeyUp(key);
         }
 
+        protected bool IsKeyPressedReversed(Keys key)
+        {
+            return screen.oldKeyboardState.IsKeyUp(key) && screen.currentKeyboardState.IsKeyDown(key);
+        }
+
         protected bool IsKeyDown(Keys key)
         {
             return screen.currentKeyboardState.IsKeyDown(key);

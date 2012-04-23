@@ -83,18 +83,32 @@ namespace SmashBros.Controllers
 
             //Update the position of the cursor
             float directionX = 0, directionY = 0;
-            if (IsKeyDown(PlayerModel.KeyboardLeft)) 
+            bool newDirection = false;
+            if (IsKeyDown(PlayerModel.KeyboardLeft))
+            {
                 directionX = -1;
-            else if (IsKeyDown(PlayerModel.KeyboardRight)) 
+                newDirection = IsKeyPressedReversed(PlayerModel.KeyboardLeft);
+            }
+
+            else if (IsKeyDown(PlayerModel.KeyboardRight))
+            {
                 directionX = 1;
+                newDirection = IsKeyPressedReversed(PlayerModel.KeyboardRight);
+            }
 
-            if (IsKeyDown(PlayerModel.KeyboardUp)) 
+            if (IsKeyDown(PlayerModel.KeyboardUp))
+            {
                 directionY = -1;
-            else if (IsKeyDown(PlayerModel.KeyboardDown)) 
+                newDirection = IsKeyPressedReversed(PlayerModel.KeyboardUp);
+            }
+            else if (IsKeyDown(PlayerModel.KeyboardDown))
+            {
                 directionY = 1;
-
+                newDirection = IsKeyPressedReversed(PlayerModel.KeyboardDown);
+            }
+            
             if ((directionX != 0 || directionY != 0) && OnNavigation != null)
-                OnNavigation.Invoke(directionX, directionY, PlayerIndex);
+                OnNavigation.Invoke(directionX, directionY, PlayerIndex, newDirection);
 
             switch (CurrentState)
             {
@@ -148,7 +162,7 @@ namespace SmashBros.Controllers
         public delegate void ButtonDown(float xDirection, float yDirection, float timeUp, int playerIndex);
         public delegate void ButtonUp(float timeDown, int playerIndex);
         public delegate void ButtonPressed(int playerIndex);
-        public delegate void NavigationKey(float xDirection, float yDirection, int playerIndex);
+        public delegate void NavigationKey(float xDirection, float yDirection, int playerIndex, bool newDirection);
 
 
         public event ButtonDown OnHitkeyDown;

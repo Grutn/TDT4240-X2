@@ -10,6 +10,8 @@ using SmashBros.Views;
 using System.Threading;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
+using FarseerPhysics.Dynamics.Contacts;
+using System.Diagnostics;
 
 namespace SmashBros.Controllers
 {
@@ -17,8 +19,12 @@ namespace SmashBros.Controllers
 
     public enum AttackState { none, attacking, shielding, chargingHit, chargingSuper }
 
+    class MoveInfo { public Vector2 direction; public float chargeTime; public List<int> playerIndexes; public Move move; }
+
     class CharacterController : Controller
     {
+        public int playerIndex;
+        
         /// <summary>
         /// Currently chosen character of this player.
         /// </summary>
@@ -61,6 +67,10 @@ namespace SmashBros.Controllers
 
         public Vector2 position;
 
+        public Vector2 navigation;
+
+        public bool newDirection;
+
         /// <summary>
         /// A powerUp the player currently is in posetion of.
         /// </summary>
@@ -88,14 +98,22 @@ namespace SmashBros.Controllers
         /// </summary>
         public Body moveBox;
 
+        public Vector2 moveDirection;
+
         public float chargeTime;
 
-        public bool startWhenReady;
+        public float attackTimeLeft;
+
+        public bool startMoveWhenReady;
 
         public CharacterController(ScreenController screen, GamepadController pad) 
             : base(screen)
         {
             this.pad = pad;
+            model = pad.SelectedCharacter;
+            damagePoints = 0;
+            faceRight = true;
+            playerIndex = pad.PlayerIndex;
         }
 
         public override void Load(ContentManager content)
@@ -104,8 +122,9 @@ namespace SmashBros.Controllers
             character.BoundRect(World, 100, 100);
             AddView(character);
 
-            character.BoundBox.CollisionCategories = Category.Cat10;
-            character.BoundBox.CollidesWith = Category.All & ~Category.Cat10;
+            character.BoundBox.CollisionCategories = Category.Cat11;
+            character.BoundBox.CollidesWith = Category.All & ~Category.Cat11;
+            character.BoundBox.OnCollision += Collision;
 
             pad.OnNavigation += OnNavigation;
             pad.OnHitkeyDown += OnHitKeyDown;
@@ -142,7 +161,7 @@ namespace SmashBros.Controllers
                     }
                     break;
             }
-
+            
             switch (attackState)
             {
                 case AttackState.chargingHit:
@@ -151,17 +170,33 @@ namespace SmashBros.Controllers
                 case AttackState.chargingSuper:
                     chargeTime += gameTime.ElapsedGameTime.Milliseconds;
                     break;
+                case AttackState.attacking:
+                    attackTimeLeft -= gameTime.ElapsedGameTime.Milliseconds;
+                    if (attackTimeLeft <= 0)
+                    {
+                        moveBox.Dispose();
+                        attackState = AttackState.none;
+                    }
+                    break;
+                case AttackState.shielding:
+
+                    break;
             }
 
-            if (startWhenReady && chargeTime > move.minWait)
-
+            if (startMoveWhenReady && chargeTime > move.minWait) BeginMove();
+            
             position = character.Position;
 
             if (Constants.DebugMode)
             {
                 screen.controllerViewManager.debugView.PlayerStates[pad.PlayerIndex] =
-                    movementState.ToString() + " & " + attackState.ToString();
+                    movementState.ToString() + " & " + attackState.ToString()
+                    + "\n jumpsLeft: " +jumpsLeft
+                    + "\n Ypos: " + character.PositionY
+                    + "\n YposChar: " + position.Y
+                    + "\n newDir: " + newDirection;
             }
+
         }
 
         public override void OnNext(GameStateManager value)
@@ -172,17 +207,26 @@ namespace SmashBros.Controllers
         {
         }
 
-        private void OnNavigation(float directionX, float directionY, int playerIndex)
+        private void OnNavigation(float directionX, float directionY, int playerIndex, bool newDirection)
         {
+            this.newDirection = newDirection;//(Math.Abs(navigation.X - directionX) > 0.7 && Math.Abs(directionX) > 0.9) || (Math.Abs(navigation.Y - directionY) > 0.7 && Math.Abs(directionY) > 0.9);
+            this.navigation = new Vector2(directionX, directionY);
             if (directionY < 0)
             {
-                if (jumpsLeft > 1 && character.VelocityY > -10)
+                if (this.newDirection && jumpsLeft > 1)
                 {
                     movementState = MovementState.jumping;
-                    character.Impulse = new Vector2(0, -15);
+                    character.VelocityY = -10;
                     jumpsLeft--;
                 }
             }
+            
+            if (directionY > 0.9)// && character.BoundBox.ContactList.Contact.FixtureB.CollisionCategories == Category.Cat10)
+            {
+                character.BoundBox.CollidesWith = Category.All & ~Category.Cat10 & ~Category.Cat11;
+                character.BoundBox.Awake = true;
+            }
+            else character.BoundBox.CollidesWith = Category.All & ~Category.Cat11;
             
             if (movementState == MovementState.jumping)
             {
@@ -196,6 +240,9 @@ namespace SmashBros.Controllers
                 else if (Math.Abs(character.VelocityX) > 10)
                     movementState = MovementState.running;
             }
+            
+            if(attackState == AttackState.none && directionX!=0) faceRight = directionX > 0;
+
         }
 
         private void OnHitKeyDown(float directionX, float directionY, float downTimer, int playerIndex)
@@ -203,10 +250,17 @@ namespace SmashBros.Controllers
 
             if (attackState == AttackState.none)
             {
+                if(directionX == 0 && directionY == 0)
+                    moveDirection.X = faceRight? 1 : -1;
+                else if(Math.Abs(directionX) > Math.Abs(directionY))
+                    moveDirection.X = directionX > 0? 1 : -1;
+                else
+                    moveDirection.Y = directionY > 0? 1 : -1;
+
                 if (movementState == MovementState.none && (directionX > 0.9 || directionY > 0.9))
                 {
                     attackState = AttackState.chargingHit;
-                    startWhenReady = false;
+                    startMoveWhenReady = false;
                     if (Math.Abs(directionX) > Math.Abs(directionY))
                         move = model.aLR;
                     else if (directionY > 0) move = model.aDown;
@@ -216,7 +270,6 @@ namespace SmashBros.Controllers
                 {
                     attackState = AttackState.attacking;
                     move = model.a;
-                    //moveDirection = directionX == 0 && directionY == 0? (faceRight? 'R' : 'L') : (directionX > directionY? (directionX > 0? 'R' : 'L') : (directionY > 0? 'D' : 'U'));
                     BeginMove();
                 } 
             }
@@ -226,33 +279,52 @@ namespace SmashBros.Controllers
         {
             if (attackState == AttackState.chargingHit)
             {
-                if (chargeTime > move.minWait)
-                {
-                    BeginMove();
-                }
-                else startWhenReady = true;
+                if (chargeTime > move.minWait) BeginMove();
+                else startMoveWhenReady = true;
             }
         }
 
         private void BeginMove()
         {
-            moveBox = BodyFactory.CreateRectangle(World, move.sqWidth, move.sqHeight, 0, character.Position, move);
+            attackTimeLeft = move.duration;
+            moveBox = BodyFactory.CreateRectangle(World, ConvertUnits.ToSimUnits(move.sqWidth), ConvertUnits.ToSimUnits(move.sqHeight), 0, character.BoundBox.Position, move);
             moveBox.IgnoreGravity = true;
-            moveBox.CollidesWith = Category.Cat1;
-            moveBox.OnCollision += (geom1, geom2, list) => 
-            {
-                Vector2 power;
-                if (move.maxWait == 0)
-                    power = move.maxPower;
-                else
-                    power = chargeTime > move.maxWait ?
-                        move.maxPower : (chargeTime - move.minWait) / (move.maxWait - move.minWait) * (move.maxPower - move.minPower) + move.minPower;
-                
-                geom2.Body.ApplyLinearImpulse(power);
-                return false;
-            };
+            moveBox.IsStatic = false;
+            moveBox.CollidesWith = Category.Cat11;
+            moveBox.CollisionCategories = Category.Cat20;
             moveBox.Friction = 0;
-            moveBox.LinearVelocity = move.sqSpeed;
+            moveBox.LinearVelocity = moveDirection*move.sqRange/move.duration;
+            moveBox.UserData = new MoveInfo() { direction = moveDirection, chargeTime = chargeTime, playerIndexes = new List<int>() { playerIndex }, move = move };
+        }
+
+        private bool Collision(Fixture geom1, Fixture geom2, Contact list)
+        {
+            if (geom1.Body.Position.Y + character.size.Y / 2 <= geom2.Body.Position.Y)//(geom2.CollisionCategories == Category.All|| geom2.CollisionCategories == Category.Cat10) && 
+            {
+                jumpsLeft = 3;
+                return true;
+            }
+            else if (geom2.CollisionCategories == Category.Cat20)
+            {
+                MoveInfo moveInfo = (MoveInfo)geom2.Body.UserData;
+                if (!moveInfo.playerIndexes.Contains(playerIndex))
+                {
+                    //Debug.WriteLine("HIIIIIIIT");
+
+                    ((MoveInfo)geom2.Body.UserData).playerIndexes.Add(playerIndex);
+                    Move hit = moveInfo.move;
+                    Vector2 direction = moveInfo.direction;
+                    float chargeTime = moveInfo.chargeTime;
+                    float ratio = 0;
+                    if (chargeTime > hit.maxWait) ratio = 1;
+                    else ratio = (chargeTime - hit.minWait) / (hit.maxWait - hit.minWait);
+                    int power = (int)ratio * (hit.maxPower - hit.minPower) + hit.minPower;
+
+                    character.BoundBox.ApplyLinearImpulse(direction * power * (1 + damagePoints / 100));
+                    damagePoints += (int)ratio * (hit.maxDamage - hit.minDamage) + hit.minDamage;
+                }
+            }
+            return false;
         }
     }
 }

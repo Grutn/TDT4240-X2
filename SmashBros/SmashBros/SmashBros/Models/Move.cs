@@ -26,26 +26,33 @@ namespace SmashBros.Model
         /// <summary>
         /// Minimum og maksimun slagkraft, regnes med hensyn til min-/max-Wait.
         /// </summary>
-        public Vector2 minPower, maxPower;
+        public int minPower, maxPower;
+
+        /// <summary>
+        /// Minimun and maximun damage done by move.
+        /// </summary>
+        public int minDamage, maxDamage;
 
         /// <summary>
         /// Vektorer som viser forflyttelse til kropp, og angrepsfirkant relativt til kropp.
         /// </summary>
-        public Vector2 sqRange, bodyRange;
+        public int sqRange, bodyRange;
 
+        /*
         /// <summary>
         /// Hastighet til henholdsvis agrepsfirkant og kropp.
         /// </summary>
-        public Vector2 sqSpeed, bodySpeed;
-        
-        /// <summary>
-        /// Tid det tar for firkant/kropp og bevege seg.
-        /// </summary>
-        public int duration;
-        
+        public int sqSpeed, bodySpeed;
+        */
+
         /// <summary>
         /// Bredde/høyde til angrepsfirkant
         /// </summary>
         public int sqWidth, sqHeight;
+
+        /// <summary>
+        /// Tid det tar for firkant/kropp og bevege seg.
+        /// </summary>
+        public int duration;
     }
 }
