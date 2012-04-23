@@ -309,7 +309,7 @@ namespace SmashBros.Controllers
                 MoveInfo moveInfo = (MoveInfo)geom2.Body.UserData;
                 if (!moveInfo.playerIndexes.Contains(playerIndex))
                 {
-                    Debug.WriteLine("HIIIIIIIT");
+                    //Debug.WriteLine("HIIIIIIIT");
 
                     ((MoveInfo)geom2.Body.UserData).playerIndexes.Add(playerIndex);
                     Move hit = moveInfo.move;

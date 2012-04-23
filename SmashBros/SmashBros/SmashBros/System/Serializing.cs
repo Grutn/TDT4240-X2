@@ -93,7 +93,7 @@ namespace SmashBros.System
             for (int i = 0; i < 10; i++)
             {
                 Character c = new Character();
-                c.animations = "CharAnimation" + i;
+                c.animations = "Characters/SpidermanThumb" + i;
                 c.thumbnail = "Characters/WolverineThumb";
                 c.image = "Characters/WolverineImage";
                 c.a = new Move()
@@ -145,6 +145,7 @@ namespace SmashBros.System
                 map.AddBox(400, 840, 330, 100, -9.5f);
                 map.AddBox(920, 1000, 540, 190);
                 map.AddBox(1450, 950, 560, 270);
+                map.AddBox(445, 940, 420, 290);
 
                 map.AddFloatBox(975, 500, 560);
                 map.AddFloatBox(930, 700, 740);

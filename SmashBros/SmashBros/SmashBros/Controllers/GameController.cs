@@ -19,6 +19,7 @@ namespace SmashBros.Controllers
     class GameController : Controller
     {
         MapController map;
+        CameraController camera;
         List<CharacterController> characters;
 
         public GameController(ScreenController screen, Map selectedMap) : base(screen)
@@ -41,9 +42,12 @@ namespace SmashBros.Controllers
             
             World.Gravity = new Vector2(0, Constants.GamePlayGravity);
 
-            var s = new Sprite(content, "spiderman", 900, 20, 600, 700);
-            s.BoundRect(World, 900, 200, BodyType.Static);
-            AddView(s);
+            this.camera = new CameraController(screen);
+            foreach (var c in characters)
+            {
+                this.camera.AddTarget(c);
+            }
+            AddController(camera);
 
             AddController(this.map);
         }

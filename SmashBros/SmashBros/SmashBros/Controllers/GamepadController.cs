@@ -20,31 +20,13 @@ namespace SmashBros.Controllers
     public class GamepadController : Controller
     {
         
-        MenuController menu;
-        Sprite cursor;
-
         private float HitUpTimer = 0, HitDownTimer=0, 
             ShieldUpTimer = 0,ShieldDownTimer=0, SuperUpTimer = 0, SuperDownTimer=0;
 
         //public int playerIndex;
         public Player PlayerModel { get; set; }
         public int PlayerIndex { get; set; }
-        private bool disableCursor = false;
-        public bool DisableCursor { get { return disableCursor; } 
-            set
-            {
-                if (value && cursor.IsActive)
-                {
-                    RemoveView(cursor);
-                }
-                else if (!value && !cursor.IsActive)
-                {
-                    AddView(cursor);
-                }
-
-                disableCursor = value;
-            } 
-        }
+       
 
         /// <summary>
         /// The slected character can only be set by the gamepad itself, it uses the HoverCharacter and checks if Selection key is pressed

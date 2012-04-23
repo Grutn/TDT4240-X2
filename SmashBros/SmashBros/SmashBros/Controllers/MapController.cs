@@ -32,7 +32,7 @@ namespace SmashBros.Controllers
         {
             foreach (var box in map.boxes)
             {
-                boxes.Add(box.CreateBody(World));
+                boxes.Add(box.CreateBody(World, Category.Cat9));
             }
 
             foreach (var box in map.floatingBoxes)
