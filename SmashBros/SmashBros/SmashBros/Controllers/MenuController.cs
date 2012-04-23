@@ -83,6 +83,8 @@ namespace SmashBros.Controllers
             mapModels = Serializing.LoadMaps();
 
             SubscribeToGameState = true;
+
+
         }
 
         private void LoadCharacters(ContentManager content)

@@ -26,7 +26,7 @@ namespace SmashBros.Model
         /// <summary>
         /// Minimum og maksimun slagkraft, regnes med hensyn til min-/max-Wait.
         /// </summary>
-        public int minPower, maxPower;
+        public Vector2 minPower, maxPower;
 
         /// <summary>
         /// Vektorer som viser forflyttelse til kropp, og angrepsfirkant relativt til kropp.

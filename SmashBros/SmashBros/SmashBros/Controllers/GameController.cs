@@ -26,7 +26,6 @@ namespace SmashBros.Controllers
 
         public override void Load(ContentManager content)
         {
-
             foreach (var pad in GamePadControllers)
             {
                 if (pad.SelectedCharacter != null)

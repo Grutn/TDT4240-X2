@@ -73,12 +73,12 @@ namespace SmashBros.Controllers
         {
         }
 
-        private void UpdateTimer(Keys key, float elapsedTime, ButtonDown downAction, ButtonUp upAction, ButtonPressed pressAction, ref float downTimer,ref float upTimer)
+        private void UpdateTimer(Keys key, float directionX, float directionY, float elapsedTime, ButtonDown downAction, ButtonUp upAction, ButtonPressed pressAction, ref float downTimer, ref float upTimer)
         {
             if (IsKeyDown(key))
             {
-                if(downAction != null)
-                    downAction.Invoke(downTimer, PlayerIndex);
+                if(downAction != null && downTimer == 0)
+                    downAction.Invoke(directionX, directionY, upTimer, PlayerIndex);
 
                 downTimer += elapsedTime;
                 upTimer = 0;
@@ -89,8 +89,8 @@ namespace SmashBros.Controllers
                 if (pressAction != null && screen.oldKeyboardState.IsKeyDown(key))
                     pressAction.Invoke(PlayerIndex);
 
-                if(upAction != null)
-                    upAction.Invoke(upTimer, PlayerIndex);
+                if(upAction != null && screen.oldKeyboardState.IsKeyDown(key))
+                    upAction.Invoke(downTimer, PlayerIndex);
                 upTimer += elapsedTime;
                 downTimer = 0;
             }
@@ -99,26 +99,6 @@ namespace SmashBros.Controllers
         
         public override void Update(GameTime gameTime)
         {
-            //Updates all the timers added for the keys
-            float elapsed = gameTime.ElapsedGameTime.Milliseconds;
-
-            UpdateTimer(PlayerModel.KeyboardHit, elapsed, OnHitkeyDown, OnHitKeyUp, OnHitKeyPressed, ref HitDownTimer, ref HitUpTimer);
-            
-            UpdateTimer(PlayerModel.KeyboardSheild, elapsed, OnShieldkeyDown, OnShieldKeyUp, OnShieldKeyPressed, ref ShieldDownTimer, ref ShieldUpTimer);
-
-            UpdateTimer(PlayerModel.KeyboardSuper, elapsed, OnSuperkeyDown, OnSuperKeyUp, OnSuperKeyPressed, ref SuperDownTimer, ref SuperUpTimer);
-
-
-            if (IsKeyPressed(PlayerModel.KeyboardStart) && OnStartPress != null)
-            {
-                OnStartPress.Invoke(PlayerIndex);
-            }
-
-            if (IsKeyPressed(PlayerModel.KeyboardBack ) && OnBackPress != null)
-            {
-                OnBackPress.Invoke(PlayerIndex);
-            }
-
 
             //Update the position of the cursor
             float directionX = 0, directionY = 0;
@@ -148,6 +128,26 @@ namespace SmashBros.Controllers
                     }
                     break;
             }
+
+            //Updates all the timers added for the keys
+            float elapsed = gameTime.ElapsedGameTime.Milliseconds;
+
+            UpdateTimer(PlayerModel.KeyboardHit, directionX, directionY, elapsed, OnHitkeyDown, OnHitKeyUp, OnHitKeyPressed, ref HitDownTimer, ref HitUpTimer);
+
+            UpdateTimer(PlayerModel.KeyboardSheild, directionX, directionY, elapsed, OnShieldkeyDown, OnShieldKeyUp, OnShieldKeyPressed, ref ShieldDownTimer, ref ShieldUpTimer);
+
+            UpdateTimer(PlayerModel.KeyboardSuper, directionX, directionY, elapsed, OnSuperkeyDown, OnSuperKeyUp, OnSuperKeyPressed, ref SuperDownTimer, ref SuperUpTimer);
+
+
+            if (IsKeyPressed(PlayerModel.KeyboardStart) && OnStartPress != null)
+            {
+                OnStartPress.Invoke(PlayerIndex);
+            }
+
+            if (IsKeyPressed(PlayerModel.KeyboardBack) && OnBackPress != null)
+            {
+                OnBackPress.Invoke(PlayerIndex);
+            }
         }
 
         public override void Deactivate()
@@ -163,8 +163,8 @@ namespace SmashBros.Controllers
         {
 
         }
-        
-        public delegate void ButtonDown(float timeUp, int playerIndex);
+
+        public delegate void ButtonDown(float xDirection, float yDirection, float timeUp, int playerIndex);
         public delegate void ButtonUp(float timeDown, int playerIndex);
         public delegate void ButtonPressed(int playerIndex);
         public delegate void NavigationKey(float xDirection, float yDirection, int playerIndex);

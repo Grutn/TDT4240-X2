@@ -7,7 +7,7 @@ namespace SmashBros.System
 {
     public static class Constants
     {
-        public const bool DebugMode = false;
+        public const bool DebugMode = true;
 
         public const int FPS = 12;
         public const int ThumbWith = 210;
