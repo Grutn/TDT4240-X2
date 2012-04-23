@@ -307,7 +307,7 @@ namespace SmashBros.Controllers
             }
         }
 
-        private void OnCursorNavigate(float directionX, float directionY, int playerIndex)
+        private void OnCursorNavigate(float directionX, float directionY, int playerIndex, bool newDirection)
         {
             playerCursors[playerIndex].PositionX += directionX * Constants.MaxCursorSpeed;
             playerCursors[playerIndex].PositionY += directionY * Constants.MaxCursorSpeed;
