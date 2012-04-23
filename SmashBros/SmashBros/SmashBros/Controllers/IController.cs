@@ -56,9 +56,7 @@ namespace SmashBros.Controllers
         {
             if (!view.IsActive)
             {
-                view.IsActive = true;
-                Thread newThread = new Thread(new ParameterizedThreadStart(ControllerViewManager.AddView));
-                newThread.Start(view);
+                screen.controllerViewManager.AddView(view);
             }
         }
 
@@ -71,9 +69,8 @@ namespace SmashBros.Controllers
         {
             if (view.IsActive)
             {
-                view.IsActive = false;
-                Thread newThread = new Thread(new ParameterizedThreadStart(ControllerViewManager.RemoveView));
-                newThread.Start(view);
+                screen.controllerViewManager.RemoveView(view);
+
             }
         }
 
@@ -99,8 +96,10 @@ namespace SmashBros.Controllers
         /// <param name="controller">controller to activate</param>
         protected void AddController(Controller controller)
         {
-            Thread newThread = new Thread(new ParameterizedThreadStart(ControllerViewManager.AddController));
-            newThread.Start(controller);
+            if (!controller.IsActive)
+            {
+                screen.controllerViewManager.AddController(controller);
+            }
         }
 
         /// <summary>
@@ -109,9 +108,10 @@ namespace SmashBros.Controllers
         /// <param name="controller">controller to deactivate</param>
         protected void RemoveController(Controller controller)
         {
-            screen.gameStateManager.Add(controller);
-            Thread newThread = new Thread(new ParameterizedThreadStart(ControllerViewManager.RemoveController));
-            newThread.Start(controller);
+            if (controller.IsActive)
+            {
+                screen.controllerViewManager.AddController(controller);
+            }
         }
         /// <summary>
         /// The farseer worl object

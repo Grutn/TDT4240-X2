@@ -19,7 +19,7 @@ namespace SmashBros.Controllers
         Camera2D camera;
         List<CharacterController> characters{ get; set; }
         DateTime time;
-
+            
         public CameraController(ScreenController screen) : base(screen)
         {
             this.characters = new List<CharacterController>();
@@ -57,17 +57,22 @@ namespace SmashBros.Controllers
             maxX += 200;
 
             minY -= 200;
-            maxY += 200;
+           // maxY += 200;
 
-
-            camera.Position = new Vector2((minX + maxX) / 2, (minY + maxY) / 2);
-            camera.Zoom = MathHelper.Min(
+            float zoom = MathHelper.Min(
                 Constants.WindowWidth / (maxX - minX),
                 Constants.WindowHeight / (maxY - minY)
             );
 
+            camera.MinPosition = new Vector2(750/zoom, 300/zoom);
+            camera.MaxPosition = new Vector2(3000, 3000);
+            camera.Position = new Vector2((minX + maxX) / 2, (minY + maxY) / 2);
+            camera.Zoom = zoom;
 
-            Debug("Zoom", camera.Zoom);
+            Debug("Zoom", zoom);
+            Debug("Min pos", camera.MinPosition.X, camera.MinPosition.Y);
+            Debug("Max pos", camera.MaxPosition.X, camera.MaxPosition.Y);
+            Debug("Position", camera.Position.X, camera.Position.Y);
         }
 
         public override void OnNext(GameStateManager value)

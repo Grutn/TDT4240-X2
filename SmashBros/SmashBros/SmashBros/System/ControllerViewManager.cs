@@ -10,6 +10,7 @@ using SmashBros.Views;
 using System.Diagnostics;
 using SmashBros.Controllers;
 using FarseerPhysics;
+using System.Collections.Concurrent;
 using Microsoft.Xna.Framework.Content;
 
 namespace SmashBros.System
@@ -19,11 +20,11 @@ namespace SmashBros.System
         public DebugViewXNA debugView;
         public Camera2D camera;
 
-        private static List<Controller> controllers;
-        private static bool controllersListAvailable = true;
-        
-        private static List<IView> views;
-        private static bool viewListAvailable = true;
+        private List<Controller> controllers;
+        private ConcurrentQueue<Tuple<Controller,bool>> controllerQueue;
+
+        private List<IView> views;
+        private ConcurrentQueue<Tuple<IView,bool>> viewQueue;
 
         GraphicsDevice graphicsDevice;
         SpriteBatch batch;
@@ -41,6 +42,8 @@ namespace SmashBros.System
             this.graphicsDevice = graphicsDevice;
             this.batch = new SpriteBatch(graphicsDevice);
             this.world = new World(Vector2.Zero);
+            this.controllerQueue = new ConcurrentQueue<Tuple<Controller,bool>>();
+            this.viewQueue = new ConcurrentQueue<Tuple<IView,bool>>();
 
             if (Constants.DebugMode && debugView == null)
             {
@@ -62,9 +65,27 @@ namespace SmashBros.System
 
         public void Update(GameTime gameTime)
         {
+            while (!controllerQueue.IsEmpty)
+            {
+                Tuple<Controller,bool> cont;
+                if (controllerQueue.TryDequeue(out cont))
+                {
+                    if (cont.Item2)
+                    {
+                        if (!controllers.Contains(cont.Item1))
+                            controllers.Add(cont.Item1);
+
+                    }
+                    else
+                    {
+                        if (controllers.Contains(cont.Item1))
+                            controllers.Remove(cont.Item1);
+                    }
+                }
+            }
+
             if (controllers.Count() != 0)
             {
-                controllersListAvailable = false;
                 foreach (var controller in controllers)
                 {
                     if (controller.IsActive)
@@ -78,7 +99,6 @@ namespace SmashBros.System
                     }
                 }
             }
-            controllersListAvailable = true;
 
             //We update the world
             world.Step((float)gameTime.ElapsedGameTime.TotalMilliseconds * 0.001f);
@@ -88,13 +108,28 @@ namespace SmashBros.System
         public void Draw(GameTime gameTime)
         {
             batch.Begin(0,null, null, null, null, null, camera.View);
-            
+            while (!viewQueue.IsEmpty)
+            {
+                Tuple<IView,bool> cont;
+                if (viewQueue.TryDequeue(out cont))
+                {
+                    if (cont.Item2)
+                    {
+                        if (!views.Contains(cont.Item1))
+                            views.Add(cont.Item1);
+
+                    }
+                    else
+                    {
+                        if (views.Contains(cont.Item1))
+                            views.Remove(cont.Item1);
+                    }
+                }
+            }  
             if (views.Count() != 0)
             {
-                viewListAvailable = false;
                 views.OrderBy(a=> a.Layer).ToList().ForEach(a => a.Draw(batch, gameTime));
             }
-            viewListAvailable = true;
 
             batch.End();
 
@@ -107,14 +142,12 @@ namespace SmashBros.System
             }
         }
 
-        public static void AddView(object obj)
+        public void AddView(IView view)
         {
-            IView view = (IView)obj;
             if (!views.Contains(view))
             {
-                while (!viewListAvailable) ;
                 view.IsActive = true;
-                views.Add(view);
+                viewQueue.Enqueue(new Tuple<IView, bool>(view, true));
             }
             else
             {
@@ -122,14 +155,12 @@ namespace SmashBros.System
             }
         }
 
-        public static void RemoveView(object obj)
+        public void RemoveView(IView view)
         {
-            IView view = (IView)obj;
             if (views.Contains(view))
             {
-                while (!viewListAvailable) ;
                 view.IsActive = false;
-                views.Remove(view);
+                viewQueue.Enqueue(new Tuple<IView,bool>(view,false));
             }
             else
             {
@@ -137,13 +168,11 @@ namespace SmashBros.System
             }
         }
 
-        public static void AddController(object obj)
+        public void AddController(Controller controller)
         {
-            Controller controller = (Controller)obj;
             if (!controllers.Contains(controller))
             {
-                while (!controllersListAvailable) ;
-                controllers.Add(controller);
+                controllerQueue.Enqueue(new Tuple<Controller,bool>(controller,true));
             }
             else
             {
@@ -151,13 +180,11 @@ namespace SmashBros.System
             }
         }
 
-        public static void RemoveController(object obj)
+        public void RemoveController(Controller controller)
         {
-            Controller controller = (Controller)obj;
             if (controllers.Contains(controller))
             {
-                while (!controllersListAvailable) ;
-                controllers.Remove(controller);
+                controllerQueue.Enqueue(new Tuple<Controller,bool>(controller, false));
                 controller.Deactivate();
             }
             else

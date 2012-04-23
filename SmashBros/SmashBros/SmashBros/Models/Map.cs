@@ -68,6 +68,12 @@ namespace SmashBros.Model
 
             this.floatingBoxes.Add(new Box(widht, 10, x, y, rotation));
         }
+
+        public void AddStartPos(float x, float y)
+        {
+            if (this.startingPosition == null) this.startingPosition = new List<Vector2>();
+            this.startingPosition.Add(new Vector2(x, y));
+        }
     }
 
 }

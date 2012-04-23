@@ -53,7 +53,7 @@ namespace SmashBros.Controllers
             {
                 GamepadController gamepad = new GamepadController(this, player);
                 gamePads.Add(gamepad);
-                ControllerViewManager.AddController(gamepad);
+                controllerViewManager.AddController(gamepad);
             }
 
             if (Constants.StartGameplay)
@@ -64,12 +64,12 @@ namespace SmashBros.Controllers
                 gamePads[1].SelectedCharacter = chars[1];
 
                 GameController game = new GameController(this, maps[0]);
-                ControllerViewManager.AddController(game);
+                controllerViewManager.AddController(game);
             }
             else
             {
                 this.menu = new MenuController(this);
-                ControllerViewManager.AddController(menu);
+                controllerViewManager.AddController(menu);
             }
         }
 

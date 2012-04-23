@@ -159,8 +159,6 @@ namespace SmashBros.Controllers
 
         public override void Update(GameTime gameTime)
         {
-            
-
             switch (CurrentState)
             {
                 case GameState.SelectionMenu:

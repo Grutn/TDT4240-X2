@@ -124,13 +124,19 @@ namespace SmashBros.System
                 map.name = "New Place City";
                 map.bgImage = "Maps/CityMap";
                 
-                map.AddBox(400, 840, 330, 100, -9.5f);
-                map.AddBox(920, 1000, 540, 190);
-                map.AddBox(1450, 950, 560, 270);
-                map.AddBox(445, 940, 420, 290);
+                map.AddBox(600, 980, 330, 100, -9.5f);
+                map.AddBox(1100, 1270, 540, 450);
+                map.AddBox(1640, 1230, 560, 540);
+                map.AddBox(100/*630*/, 1200, 1000/*420*/, 570);
 
-                map.AddFloatBox(975, 500, 560);
-                map.AddFloatBox(930, 700, 740);
+                map.AddFloatBox(1120, 830, 560);
+                map.AddFloatBox(1160, 630, 740);
+
+
+                map.AddStartPos(650, 800);
+                map.AddStartPos(1700, 850);
+                map.AddStartPos(850, 700);
+                map.AddStartPos(1400, 700);
 
                 Write(map, MapFolder, "Map" + i);
             }

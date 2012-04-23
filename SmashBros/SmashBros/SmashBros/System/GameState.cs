@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SmashBros.Controllers;
+using System.Diagnostics;
 
 namespace SmashBros.System
 {
@@ -42,7 +43,7 @@ namespace SmashBros.System
 
         public void Add(Controller controller){
             tracker.Subscribe(controller);
-            tracker.UpdateSubscribers(this);
+            controller.OnNext(this);
         }
 
         internal void Remove(Controller controller)
@@ -55,7 +56,6 @@ namespace SmashBros.System
     {
 
         private List<IObserver<GameStateManager>> observers;
-
         public GameStateTracker()
         {
             observers = new List<IObserver<GameStateManager>>();
@@ -63,14 +63,18 @@ namespace SmashBros.System
  
         public IDisposable Subscribe(IObserver<GameStateManager> observer)
         {
-            observers.Add(observer);
+            if (!observers.Contains(observer))
+            {
+                observers.Add(observer);
+            }
 
             return null;
         }
 
         public IDisposable UnSubscribe(IObserver<GameStateManager> observer)
         {
-            observers.Remove(observer);
+            if(observers.Contains(observer))
+                observers.Remove(observer);
             return null;
         }
  
