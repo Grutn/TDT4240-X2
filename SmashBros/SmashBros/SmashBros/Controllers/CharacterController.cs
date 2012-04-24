@@ -45,15 +45,17 @@ namespace SmashBros.Controllers
                 if (_state != value)
                 {
                     _state = value;
+                    if (value != State.running) character.fps = Constants.FPS;
                     switch (_state)
                     {
                         case State.none:
                             attackMode = false;
                             inAir = false;
+                            character.StartAnimation("none", 0, 2, true);
                             break;
                         case State.running:
                             attackMode = false;
-                            character.StartAnimation("run", 0, 13, true);
+                            character.StartAnimation("run", 2, 13, true);
                             break;
                         case State.braking:
                             attackMode = false;
@@ -61,16 +63,20 @@ namespace SmashBros.Controllers
                         case State.jumping:
                             attackMode = false;
                             inAir = true;
+                            character.StartAnimation("jumping", 18, 24, false);
                             break;
                         case State.falling:
                             attackMode = false;
                             inAir = true;
+                            character.StartAnimation("falling", 24, 25, true);
                             break;
                         case State.takingHit:
                             attackMode = true;
+                            character.StartAnimation("takingHit", 14, 16, true);
                             break;
                         case State.attacking:
                             attackMode = true;
+                            character.StartAnimation("hit", 28, 35, true);
                             break;
                         case State.shielding:
                             attackMode = true;
@@ -246,7 +252,7 @@ namespace SmashBros.Controllers
 
         public override void Update(GameTime gameTime)
         {
-            if(!attackMode && Math.Abs(character.VelocityX) < Math.Abs(model.maxSpeed * navigation.X)) character.VelocityX += navigation.X * model.acceleration * gameTime.ElapsedGameTime.Milliseconds / 1000f;
+            if(!attackMode && (Math.Abs(character.VelocityX) < Math.Abs(model.maxSpeed * navigation.X) || character.VelocityX * navigation.X < 0)) character.VelocityX += navigation.X * model.acceleration * gameTime.ElapsedGameTime.Milliseconds / 1000f;
             if(inAir) character.VelocityY += model.gravity * gameTime.ElapsedGameTime.Milliseconds / 1000f;
             else if(character.VelocityX * navigation.X < 0 || navigation.X == 0) character.VelocityX -= (character.VelocityX / model.maxSpeed) * 3 * model.acceleration * gameTime.ElapsedGameTime.Milliseconds / 1000;
 
@@ -255,13 +261,11 @@ namespace SmashBros.Controllers
             switch (state)
             {
                 case State.none:
+                    if (Math.Floor(character.VelocityX) != 0) state = State.running;
                     break;
                 case State.running:
                     if (navigation.X * character.VelocityX <= 0) state = State.braking;
-                    else
-                    {
-                        character.fps = (int)MathHelper.Clamp(Math.Abs(character.VelocityX) * 5, 5, 100);
-                    }
+                    else character.fps = (int)MathHelper.Clamp(Math.Abs(character.VelocityX) * 5, 5, 100);
                     break;
                 case State.braking:
                     if (navigation.X == 0 && Math.Floor(character.VelocityX) == 0) state = State.none;
@@ -314,7 +318,7 @@ namespace SmashBros.Controllers
 
             if (!attackMode)
             {
-                if (!inAir && directionX !=0 && directionX * character.VelocityX >= 0) faceRight = directionX > 0;
+                if (directionX !=0 && directionX * character.VelocityX >= 0) faceRight = directionX > 0;
                 if (directionY < 0 && newDirection && jumpsLeft > 1)
                 {
                     state = State.jumping;
