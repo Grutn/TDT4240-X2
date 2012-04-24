@@ -35,7 +35,7 @@ namespace SmashBros.Views
         /// </summary>
         /// <param name="gameTime"></param>
         /// <returns>true if animation reach end frame</returns>
-        public bool DoAnimation(ref float elapsedTime, int fps, int framesPerRow, Rectangle frame)
+        public bool DoAnimation(ref float elapsedTime, int fps, int framesPerRow, ref Rectangle frame)
         {
             if ((CurrentFrame <= ToFrame) || (Loop && FromFrame < ToFrame))
             {
@@ -237,10 +237,10 @@ namespace SmashBros.Views
         public void StartAnimation(int frameStart, int frameEnd, bool loop = false, string name = null)
         {
             this.animations = new List<SpriteAnimation>();
-            AddAnimations(frameStart, frameEnd, loop, name);
+            AddAnimation(frameStart, frameEnd, loop, name);
         }
 
-        public void AddAnimations(int frameStart, int frameEnd, bool loop = false, string name = null)
+        public void AddAnimation(int frameStart, int frameEnd, bool loop = false, string name = null)
         {
             this.animations.Add(new SpriteAnimation(frameStart, frameEnd, loop, name));
         }
@@ -249,7 +249,7 @@ namespace SmashBros.Views
         {
             this.animations = new List<SpriteAnimation>();
         }
-
+        /*
         /// <summary>
         /// Stops the running animation
         /// If atFrame = -1 it stops at current fram, else if atFrame > 1 it animates to the given frame and stops
@@ -260,7 +260,7 @@ namespace SmashBros.Views
             animateLoop = false;
             animateTo = animateCurrent;
         }
-
+        */
 
         public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
@@ -269,7 +269,7 @@ namespace SmashBros.Views
                 SpriteAnimation ani = animations.First();
                 //Updates the elapsed time
                 elapsedTime += gameTime.ElapsedGameTime.Milliseconds;
-                if (ani.DoAnimation(ref elapsedTime, fps, FramesPerRow, frame))
+                if (ani.DoAnimation(ref elapsedTime, fps, FramesPerRow, ref frame))
                 {
                     if (!ani.Loop || (animations.Last() != ani))
                     {

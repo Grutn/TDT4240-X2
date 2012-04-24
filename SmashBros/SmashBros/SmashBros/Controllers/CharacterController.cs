@@ -44,18 +44,18 @@ namespace SmashBros.Controllers
             {
                 if (_state != value)
                 {
-                    _state = value;
                     if (value != State.running) character.fps = Constants.FPS;
-                    switch (_state)
+                    switch (value)
                     {
                         case State.none:
                             attackMode = false;
                             inAir = false;
-                            character.StartAnimation("none", 0, 2, true);
+                            if (_state == State.running) character.AddAnimation(0, 2, true);
+                            else character.StartAnimation(0, 2, true);
                             break;
                         case State.running:
                             attackMode = false;
-                            character.StartAnimation("run", 2, 13, true);
+                            character.StartAnimation(2, 13, true);
                             break;
                         case State.braking:
                             attackMode = false;
@@ -63,20 +63,21 @@ namespace SmashBros.Controllers
                         case State.jumping:
                             attackMode = false;
                             inAir = true;
-                            character.StartAnimation("jumping", 18, 24, false);
+                            character.StartAnimation(18, 24, false);
+                            character.AddAnimation(24, 25, true);
                             break;
                         case State.falling:
                             attackMode = false;
                             inAir = true;
-                            character.StartAnimation("falling", 24, 25, true);
+                            character.StartAnimation(24, 25, true);
                             break;
                         case State.takingHit:
                             attackMode = true;
-                            character.StartAnimation("takingHit", 14, 16, true);
+                            character.StartAnimation(14, 16, true);
                             break;
                         case State.attacking:
                             attackMode = true;
-                            character.StartAnimation("hit", 28, 35, true);
+                            character.StartAnimation(28, 35, true);
                             break;
                         case State.shielding:
                             attackMode = true;
@@ -87,7 +88,8 @@ namespace SmashBros.Controllers
                         case State.chargingSuper:
                             attackMode = true;
                             break;
-                    } 
+                    }
+                    _state = value;
                 }
             }
         }
@@ -127,7 +129,12 @@ namespace SmashBros.Controllers
                 }
             }
         }
-        
+
+        /// <summary>
+        /// Whether the character is standing on a box which can be gone through.
+        /// </summary>
+        public bool onSoftBox;
+
         /// <summary>
         /// Whether the character is in an attackstate.
         /// </summary>
@@ -228,7 +235,7 @@ namespace SmashBros.Controllers
             character.Scale = 0.6f;
             character.BoundRect(World, 60, 120);
             character.Layer = 100;
-            character.FramesPerRow = 8;
+            character.FramesPerRow = 9;
             character.BoundBox.Friction = 0;
             character.BoundBox.IgnoreGravity = true;
             AddView(character);
@@ -264,12 +271,12 @@ namespace SmashBros.Controllers
                     if (Math.Floor(character.VelocityX) != 0) state = State.running;
                     break;
                 case State.running:
-                    if (navigation.X * character.VelocityX <= 0) state = State.braking;
+                    if (navigation.X * character.VelocityX < 0 || navigation.X == 0) state = State.braking;
                     else character.fps = (int)MathHelper.Clamp(Math.Abs(character.VelocityX) * 5, 5, 100);
                     break;
                 case State.braking:
-                    if (navigation.X == 0 && Math.Floor(character.VelocityX) == 0) state = State.none;
-                    else if (navigation.X * character.VelocityX >= 0) state = State.running;
+                    if (navigation.X == 0 && Math.Round(character.VelocityX) == 0) state = State.none;
+                    else if (navigation.X * character.VelocityX > 0) state = State.running;
                     break;
                 case State.jumping:
                     if (character.VelocityY >= 0) state = State.falling;
@@ -328,7 +335,7 @@ namespace SmashBros.Controllers
                 if (directionY > 0.9)
                 {
                     character.BoundBox.CollidesWith = Category.All & ~Category.Cat10 & ~Category.Cat11;
-                    state = State.falling;
+                    if(onSoftBox) state = State.falling;
                     //character.BoundBox.Awake = true;
                 }
                 else character.BoundBox.CollidesWith = Category.All & ~Category.Cat11; 
@@ -337,7 +344,7 @@ namespace SmashBros.Controllers
 
         private void OnHitKeyDown(float directionX, float directionY, float downTimer, int playerIndex)
         {
-            if (state == State.none)
+            if (!attackMode)
             {
                 if (Math.Abs(navigation.X) >= Math.Abs(navigation.Y) || !inAir && navigation.Y > 0) moveDirection = faceRight ? new Vector2(1, 0) : new Vector2(-1, 0);
                 else moveDirection = !inAir || navigation.Y < 0? new Vector2(0,-1) : new Vector2(0,1);
@@ -387,6 +394,7 @@ namespace SmashBros.Controllers
             if ((geom2.CollisionCategories == Category.Cat9 || geom2.CollisionCategories == Category.Cat10) && (geom1.Body.Position.Y + character.size.Y / 2 <= geom2.Body.Position.Y + (float)geom2.Body.UserData / 2 && character.VelocityY >= 0))//(geom2.CollisionCategories == Category.All|| geom2.CollisionCategories == Category.Cat10) && 
             {
                 inAir = false;
+                if (geom2.CollisionCategories == Category.Cat10) onSoftBox = true;
                 if (!attackMode)
                 {
                     state = character.VelocityX != 0 ?
@@ -420,9 +428,10 @@ namespace SmashBros.Controllers
 
         private void Seperation(Fixture geom1, Fixture geom2)
         {
-            if ((geom2.CollisionCategories == Category.Cat10 || geom2.CollisionCategories ==  Category.Cat9) && jumpsLeft !=2)
+            if (geom2.CollisionCategories == Category.Cat10 || geom2.CollisionCategories ==  Category.Cat9)
             {
-                if(!attackMode) state = State.falling;
+                if (!attackMode && jumpsLeft != 2) state = State.falling;
+                onSoftBox = false;
                 jumpsLeft = 2;
             }
         }
