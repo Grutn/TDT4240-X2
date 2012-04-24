@@ -155,13 +155,6 @@
     <Reference Include="Microsoft.Xna.Framework.Content.Pipeline.XImporter, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Maps\CityMap.jpg">
-      <Name>CityMap</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Characters\SpidermanAnimation.png">
       <Name>SpidermanAnimation</Name>
       <Importer>TextureImporter</Importer>
@@ -171,6 +164,18 @@
   <ItemGroup>
     <Compile Include="Menu\PopupMenu.png">
       <Name>PopupMenu</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Maps\CityBg.jpg">
+      <Name>CityBg</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Maps\CityMap.png">
+      <Name>CityMap</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

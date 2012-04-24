@@ -110,15 +110,6 @@
       <Time>2012-04-02T16:13:12.142919+02:00</Time>
     </Item>
     <Item>
-      <Source>Maps\CityMap.jpg</Source>
-      <Name>Maps\CityMap</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Maps\CityMap.xnb</Output>
-      <Time>2012-04-23T22:25:37.5742234+02:00</Time>
-    </Item>
-    <Item>
       <Source>Fonts\gamefont.spritefont</Source>
       <Name>Fonts\gamefont</Name>
       <Importer>FontDescriptionImporter</Importer>
@@ -189,6 +180,24 @@
       <Options>None</Options>
       <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Menu\PopupMenu.xnb</Output>
       <Time>2012-04-24T13:23:10.5293105+02:00</Time>
+    </Item>
+    <Item>
+      <Source>Maps\CityBg.jpg</Source>
+      <Name>Maps\CityBg</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Maps\CityBg.xnb</Output>
+      <Time>2012-04-24T19:46:35.5053722+02:00</Time>
+    </Item>
+    <Item>
+      <Source>Maps\CityMap.png</Source>
+      <Name>Maps\CityMap</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Maps\CityMap.xnb</Output>
+      <Time>2012-04-24T17:51:45.4326414+02:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
