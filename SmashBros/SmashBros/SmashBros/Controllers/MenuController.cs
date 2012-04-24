@@ -22,7 +22,9 @@ namespace SmashBros.Controllers
 
     public class MenuController : Controller
     {
-        public MenuState MenuState;
+        MenuState menuState;
+        PopupMenuController popupMenu;
+
         ImageTexture startScreen;
         ImageTexture characterScreen;
         TextBox tipsText;
@@ -45,8 +47,11 @@ namespace SmashBros.Controllers
 
         public override void Load(ContentManager content) 
         {
-            startScreen = new ImageTexture(content, "StartScreen", 0, 0);
-            characterScreen = new ImageTexture(content, "SelectionScreen", 0, 0);
+            popupMenu = new PopupMenuController(screen);
+            AddController(popupMenu);
+
+            startScreen = new ImageTexture(content, "Menu/StartScreen", 0, 0);
+            characterScreen = new ImageTexture(content, "Menu/SelectionScreen", 0, 0);
 
             tipsText = new TextBox("Press H for helpmenu", FontDefualt, 10, 690, Color.White,0.8f);
             tipsText.Layer = 100;
@@ -307,8 +312,12 @@ namespace SmashBros.Controllers
 
         private void OnCursorNavigate(float directionX, float directionY, int playerIndex, bool newDirection)
         {
-            playerCursors[playerIndex].PositionX += directionX * Constants.MaxCursorSpeed;
-            playerCursors[playerIndex].PositionY += directionY * Constants.MaxCursorSpeed;
+            var cursor = playerCursors[playerIndex];
+
+            cursor.PositionX = MathHelper.Clamp(cursor.PositionX + directionX * Constants.MaxCursorSpeed,
+                10, Constants.WindowWidth - 25);
+            cursor.PositionY = MathHelper.Clamp(cursor.PositionY + directionY * Constants.MaxCursorSpeed,
+                10, Constants.WindowHeight - 30);
 
         }
 

@@ -93,7 +93,7 @@ namespace SmashBros.System
             for (int i = 0; i < 10; i++)
             {
                 Character c = new Character();
-                c.animations = "Characters/SpidermanThumb" + i;
+                c.animations = "Characters/SpidermanAnimation";
                 c.thumbnail = "Characters/WolverineThumb";
                 c.image = "Characters/WolverineImage";
                 c.a = new Move()
@@ -141,14 +141,15 @@ namespace SmashBros.System
                 Map map = new Map();
                 map.name = "New Place City";
                 map.bgImage = "Maps/CityMap";
-                
-                map.AddBox(600, 980, 330, 100, -9.5f);
-                map.AddBox(1100, 1270, 540, 450);
-                map.AddBox(1640, 1230, 560, 540);
-                map.AddBox(100/*630*/, 1200, 1000/*420*/, 570);
 
-                map.AddFloatBox(1120, 830, 560);
-                map.AddFloatBox(1160, 630, 740);
+                map.AddBox(610, 960, 300, 100, -9.3f);
+                map.AddBox(790, 955, 120, 100, 17f);
+                map.AddBox(1100, 1270, 560, 450);
+                map.AddBox(1670, 1230, 580, 540);
+                map.AddBox(650, 1240, 410, 570);
+
+                map.AddFloatBox(1170, 620, 550);
+                map.AddFloatBox(1125, 815, 730);
 
 
                 map.AddStartPos(650, 800);

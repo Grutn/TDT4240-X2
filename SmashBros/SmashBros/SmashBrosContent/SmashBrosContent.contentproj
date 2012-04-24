@@ -60,7 +60,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="StartScreen.jpg">
+    <Compile Include="Menu\StartScreen.jpg">
       <Name>StartScreen</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -74,7 +74,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SelectionScreen.jpg">
+    <Compile Include="Menu\SelectionScreen.jpg">
       <Name>SelectionScreen</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -157,6 +157,20 @@
   <ItemGroup>
     <Compile Include="Maps\CityMap.jpg">
       <Name>CityMap</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Characters\SpidermanAnimation.png">
+      <Name>SpidermanAnimation</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Menu\PopupMenu.png">
+      <Name>PopupMenu</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

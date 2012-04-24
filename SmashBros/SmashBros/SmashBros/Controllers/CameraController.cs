@@ -69,10 +69,10 @@ namespace SmashBros.Controllers
             camera.Position = new Vector2((minX + maxX) / 2, (minY + maxY) / 2);
             camera.Zoom = zoom;
 
-            Debug("Zoom", zoom);
-            Debug("Min pos", camera.MinPosition.X, camera.MinPosition.Y);
-            Debug("Max pos", camera.MaxPosition.X, camera.MaxPosition.Y);
-            Debug("Position", camera.Position.X, camera.Position.Y);
+            DebugWrite("Zoom", zoom);
+            DebugWrite("Min pos", camera.MinPosition.X, camera.MinPosition.Y);
+            DebugWrite("Max pos", camera.MaxPosition.X, camera.MaxPosition.Y);
+            DebugWrite("Position", camera.Position.X, camera.Position.Y);
         }
 
         public override void OnNext(GameStateManager value)

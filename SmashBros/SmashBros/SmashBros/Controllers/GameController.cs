@@ -30,14 +30,18 @@ namespace SmashBros.Controllers
 
         public override void Load(ContentManager content)
         {
+            int i = 0;
             foreach (var pad in GamePadControllers)
             {
                 if (pad.SelectedCharacter != null)
                 {
-                    var character = new CharacterController(screen, pad);
+                    var character = new CharacterController(screen, pad, map.CurrentMap.startingPosition[i]);
                     characters.Add(character);
                     AddController(character);
+
+                    i++;
                 }
+
             }
             
             World.Gravity = new Vector2(0, Constants.GamePlayGravity);
@@ -58,23 +62,14 @@ namespace SmashBros.Controllers
 
         public override void Update(GameTime gameTime)
         {
-            if (IsKeyDown(Keys.D))
-            {
-            }else if (IsKeyDown(Keys.A))
-            {
-            }else if (IsKeyDown(Keys.W))
-            {
-            }
         }
 
         public override void Deactivate()
         {
-            throw new NotImplementedException();
         }
 
         public override void OnNext(GameStateManager value)
         {
-            throw new NotImplementedException();
         }
     }
 }

@@ -9,6 +9,10 @@ using System.Diagnostics;
 
 namespace SmashBros.Views
 {
+    /// <summary>
+    /// ImageTexture is a texture that can be drawn on multiple position
+    /// and easily animated
+    /// </summary>
     public class ImageTexture : IView
     {
         private Texture2D img;
@@ -42,6 +46,18 @@ namespace SmashBros.Views
                 Positions[entryId] = new Vector2(x, y);
             }else
                 Positions.Add(entryId, new Vector2(x, y));
+        }
+
+        public string AnimationName { get; private set; }
+        /// <summary>
+        /// Animates texture at positionIndex
+        /// </summary>
+        /// <param name="xTo">new X position</param>
+        /// <param name="yTo">new Y position</param>
+        /// <param name="timeInMs">Time to use to animate</param>
+        public void Animate(string animationName, int xTo, int yTo, float timeInMs, bool loop = false, int positionIndex = 0)
+        {
+            this.AnimationName = animationName;
         }
 
         public void RemoveDrawPosition(int entryId)

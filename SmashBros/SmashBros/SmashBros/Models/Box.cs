@@ -46,7 +46,7 @@ namespace SmashBros.Model
                 1f, 
                 ConvertUnits.ToSimUnits(X, Y));
 
-            b.Rotation = Rotation;
+            b.Rotation = (float)(Math.PI * Rotation / 180.0);
             b.CollisionCategories = collisionCategory;
             b.IsStatic = true;
 
