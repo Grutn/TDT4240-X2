@@ -2,9 +2,7 @@ Content\background.xnb
 Content\blank.xnb
 Content\gradient.xnb
 Content\spiderman.xnb
-Content\Menu\StartScreen.xnb
 Content\Characters\WolverineThumb.xnb
-Content\Menu\SelectionScreen.xnb
 Content\Characters\SpidermanThumb.xnb
 Content\Cursors\Player0.xnb
 Content\Cursors\Player1.xnb
@@ -13,11 +11,12 @@ Content\Cursors\Player2.xnb
 Content\Characters\WolverineImage.xnb
 Content\Characters\SpidermanImage.xnb
 <<<<<<< HEAD
-Content\Maps\CityMap.xnb
 Content\Characters\SpidermanAnimation.xnb
 Content\Menu\PopupMenu.xnb
+Content\Maps\CityBg.xnb
+Content\Maps\CityMap.xnb
 =======
->>>>>>> 024efc925a3410fedb61b159f19f5d9e4f4808c5
+>>>>>>> 74b7ba164c978c61b9238c74fc139af08887b684
 Content\Fonts\gamefont.xnb
 Content\menufont.xnb
 Content\Fonts\Impact.xnb
@@ -30,5 +29,5 @@ Content\Menu\SelectionScreen.xnb
 Content\Menu\PopupMenu.xnb
 Content\Maps\CityBg.xnb
 Content\Maps\CityMap.xnb
->>>>>>> 024efc925a3410fedb61b159f19f5d9e4f4808c5
+>>>>>>> 74b7ba164c978c61b9238c74fc139af08887b684
 Content\font.xnb
