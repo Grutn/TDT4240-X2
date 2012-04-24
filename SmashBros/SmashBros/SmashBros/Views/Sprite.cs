@@ -12,6 +12,61 @@ using System.Diagnostics;
 
 namespace SmashBros.Views
 {
+    class SpriteAnimation
+    {
+        public SpriteAnimation(int fromFrame, int toFrame, bool loop = false, string name = "")
+        {
+            this.CurrentFrame = fromFrame;
+            this.FromFrame = fromFrame;
+            this.ToFrame = toFrame;
+            this.Loop = loop;
+            this.Name = name;
+        }
+
+        public string Name;
+        public int FromFrame;
+        public int ToFrame;
+        public int CurrentFrame;
+        public bool Loop;
+
+        /// <summary>
+        /// Does animation if elapsed time is big enought
+        /// returnes true if animation has reach the end frame
+        /// </summary>
+        /// <param name="gameTime"></param>
+        /// <returns>true if animation reach end frame</returns>
+        public bool DoAnimation(ref float elapsedTime, int fps, int framesPerRow, Rectangle frame)
+        {
+            if ((CurrentFrame <= ToFrame) || (Loop && FromFrame < ToFrame))
+            {
+                //Set animateCurrent frame to animateFrom frame, 
+                //if animate has reached animateTo frame
+                if (CurrentFrame == ToFrame)
+                {
+                    //If not loop set aniamteTo = animateFrom so animations stops
+                    if (!Loop)
+                    {
+                        ToFrame = FromFrame;
+                    }
+                    CurrentFrame = FromFrame;
+                }
+                //Check if elapsed time is large enough for the gams fps
+                if (elapsedTime >= 1000 / fps)
+                {
+                    elapsedTime = 0;
+                    int row = (int)Math.Floor((double)CurrentFrame / framesPerRow);
+
+                    frame.Y = frame.Height * row;
+                    frame.X = frame.Width * (CurrentFrame - row * framesPerRow);
+
+                    CurrentFrame++;
+                }
+            }
+
+            return CurrentFrame == ToFrame;
+        }
+    }
+
     public class Sprite : IView
     {
         
@@ -21,8 +76,7 @@ namespace SmashBros.Views
         Vector2 spritePos;
         BodyType bodyType;
         float elapsedTime;
-        bool animateLoop;
-        int animateFrom = 0, animateTo = 0, animateCurrent = 0;
+        List<SpriteAnimation> animations;
         public Vector2 size;
         public int fps = Constants.FPS;
 
@@ -36,6 +90,7 @@ namespace SmashBros.Views
             this.texture = content.Load<Texture2D>(assetName);
             this.spritePos = ConvertUnits.ToSimUnits(xPos, yPos);
             this.Scale = 1f;
+            this.animations = new List<SpriteAnimation>();
         }
 
         public void BoundRect(World world, float width, float height, BodyType type = BodyType.Dynamic)
@@ -172,7 +227,6 @@ namespace SmashBros.Views
         public override object UserData { set { this.BoundBox.UserData = value; base.UserData = value; } }
 
 
-        public string AnimationName { get; private set; }
         /// <summary>
         /// Start animation, from frame start to frameEnd
         /// and loops if loop == true
@@ -180,13 +234,20 @@ namespace SmashBros.Views
         /// <param name="frameStart"></param>
         /// <param name="frameEnd"></param>
         /// <param name="loop"></param>
-        public void StartAnimation(string name, int frameStart, int frameEnd, bool loop = false)
+        public void StartAnimation(int frameStart, int frameEnd, bool loop = false, string name = null)
         {
-            AnimationName = name;
-            animateFrom = animateCurrent = frameStart;
-            animateTo = frameEnd;
-            animateLoop = loop;
-            elapsedTime = 0;
+            this.animations = new List<SpriteAnimation>();
+            AddAnimations(frameStart, frameEnd, loop, name);
+        }
+
+        public void AddAnimations(int frameStart, int frameEnd, bool loop = false, string name = null)
+        {
+            this.animations.Add(new SpriteAnimation(frameStart, frameEnd, loop, name));
+        }
+
+        public void ClearAnimations()
+        {
+            this.animations = new List<SpriteAnimation>();
         }
 
         /// <summary>
@@ -203,34 +264,20 @@ namespace SmashBros.Views
 
         public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            if ((animateCurrent <= animateTo) || (animateLoop && animateFrom < animateTo))
+            if (animations.Count() != 0)
             {
-                //Set animateCurrent frame to animateFrom frame, 
-                //if animate has reached animateTo frame
-                if (animateCurrent == animateTo)
-                {
-                    //If not loop set aniamteTo = animateFrom so animations stops
-                    if (!animateLoop)
-                    {
-                        animateTo = animateFrom;
-                    }
-                    animateCurrent = animateFrom;
-                }
-
-                //Updates gametime
+                SpriteAnimation ani = animations.First();
+                //Updates the elapsed time
                 elapsedTime += gameTime.ElapsedGameTime.Milliseconds;
-                //Check if elapsed time is large enough for the gams fps
-                if (elapsedTime >= 1000 / fps)
+                if (ani.DoAnimation(ref elapsedTime, fps, FramesPerRow, frame))
                 {
-                    elapsedTime = 0;
-                    int row = (int)Math.Floor((double)animateCurrent / FramesPerRow);
-
-                    frame.Y = frame.Height * row;
-                    frame.X = frame.Width * (animateCurrent - row * FramesPerRow);
-                    
-                    animateCurrent++;
+                    if (!ani.Loop || (animations.Last() != ani))
+                    {
+                        animations.Remove(ani);
+                    }
                 }
             }
+            
 
             Vector2 origin = new Vector2(frame.Width / 2f, frame.Height / 2f);
             spriteBatch.Draw(texture, ConvertUnits.ToDisplayUnits(BoundBox.Position), frame, Color.White, Rotation, origin, Scale, SpriteEffect, 0f);
