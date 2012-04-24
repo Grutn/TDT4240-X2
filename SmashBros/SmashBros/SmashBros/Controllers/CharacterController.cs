@@ -106,25 +106,31 @@ namespace SmashBros.Controllers
 
         public bool startMoveWhenReady;
 
-        public CharacterController(ScreenController screen, GamepadController pad) 
+        private Vector2 startPos;
+
+        public CharacterController(ScreenController screen, GamepadController pad, Vector2 startPos) 
             : base(screen)
         {
+            this.startPos = startPos;
             this.pad = pad;
-            model = pad.SelectedCharacter;
-            damagePoints = 0;
-            faceRight = true;
-            playerIndex = pad.PlayerIndex;
+            this.model = pad.SelectedCharacter;
+            this.damagePoints = 0;
+            this.faceRight = true;
+            this.playerIndex = pad.PlayerIndex;
         }
 
         public override void Load(ContentManager content)
         {
-            character = new Sprite(content, "spiderman", 100, 100, 200, 200);
-            character.BoundRect(World, 100, 100);
+            character = new Sprite(content, model.animations, 200, 200, 200, 200);
+            character.Scale = 0.6f;
+            character.BoundRect(World, 60, 120);
+            character.Layer = 100;
             AddView(character);
 
             character.BoundBox.CollisionCategories = Category.Cat11;
             character.BoundBox.CollidesWith = Category.All & ~Category.Cat11;
             character.BoundBox.OnCollision += Collision;
+            character.Position = startPos;
 
             pad.OnNavigation += OnNavigation;
             pad.OnHitkeyDown += OnHitKeyDown;
@@ -150,8 +156,14 @@ namespace SmashBros.Controllers
                     }
                     break;
                 case MovementState.running:
+                    if(character.AnimationName != "run")
+                        character.StartAnimation("run",0, 13, true);
+
                     if (Math.Abs(character.VelocityX) < 10)
+                    {
+                        character.StopAnimation();
                         movementState = MovementState.none;
+                    }
                     break;
                 case MovementState.falling:
                     if (position.Y == character.Position.Y)
@@ -187,15 +199,12 @@ namespace SmashBros.Controllers
             
             position = character.Position;
 
-            if (Constants.DebugMode)
-            {
-                screen.controllerViewManager.debugView.PlayerStates[pad.PlayerIndex] =
-                    movementState.ToString() + " & " + attackState.ToString()
-                    + "\n jumpsLeft: " +jumpsLeft
-                    + "\n Ypos: " + character.PositionY
-                    + "\n YposChar: " + position.Y
-                    + "\n newDir: " + newDirection;
-            }
+
+            string p = "Player " + pad.PlayerIndex+ " ";
+            DebugWrite(p + " state", movementState.ToString(), attackState.ToString());
+            DebugWrite(p + "Jumps", jumpsLeft);
+            DebugWrite(p + "Y & YChar", character.PositionY, position.Y);
+            DebugWrite(p + "newDir", newDirection);
 
         }
 

@@ -119,6 +119,7 @@
     <Compile Include="Controllers\IController.cs" />
     <Compile Include="Controllers\MapController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
+    <Compile Include="Controllers\PopupMenuController.cs" />
     <Compile Include="Controllers\ScreenController.cs" />
     <Compile Include="Models\Box.cs" />
     <Compile Include="Models\Character.cs" />

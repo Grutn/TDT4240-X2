@@ -206,13 +206,15 @@ namespace SmashBros.Controllers
             //throw new NotImplementedException();
         }
 
-        public void Debug(string name, params object[] values)
+        public void DebugWrite(string name, params object[] values)
         {
-            if (screen.controllerViewManager.debugView.DebugStuff.ContainsKey(name))
-                screen.controllerViewManager.debugView.DebugStuff[name] = string.Join(" & ", values);
-            else
-                screen.controllerViewManager.debugView.DebugStuff.Add(name, string.Join(" & ", values));
-                    
+            if (Constants.DebugMode)
+            {
+                if (screen.controllerViewManager.debugView.DebugStuff.ContainsKey(name))
+                    screen.controllerViewManager.debugView.DebugStuff[name] = string.Join(" & ", values);
+                else
+                    screen.controllerViewManager.debugView.DebugStuff.Add(name, string.Join(" & ", values));
+            }   
         }
     }
 }

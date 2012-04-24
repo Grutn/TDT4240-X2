@@ -18,9 +18,11 @@ namespace SmashBros.Views
         Texture2D texture;
         Rectangle frame;
         World world;
-        Vector2 spritePos;
-        Vector2 boundBoxSize;
+        Vector2 spritePos, boundBoxSize;
         BodyType bodyType;
+        float elapsedTime;
+        bool animateLoop;
+        int animateFrom = 0, animateTo = 0, animateCurrent = 0;
         public Vector2 size;
 
 
@@ -165,23 +167,73 @@ namespace SmashBros.Views
         public float Rotation { get; set; }
         public float Scale { get; set; }
 
+        public SpriteEffects SpriteEffect { get; set; }
+
         public override object UserData { set { this.BoundBox.UserData = value; base.UserData = value; } }
 
-        public void StartAnimation(int frameStart, int frameEnd, bool loop)
-        {
 
+        public string AnimationName { get; private set; }
+        /// <summary>
+        /// Start animation, from frame start to frameEnd
+        /// and loops if loop == true
+        /// </summary>
+        /// <param name="frameStart"></param>
+        /// <param name="frameEnd"></param>
+        /// <param name="loop"></param>
+        public void StartAnimation(string name, int frameStart, int frameEnd, bool loop = false)
+        {
+            AnimationName = name;
+            animateFrom = animateCurrent = frameStart;
+            animateTo = frameEnd;
+            animateLoop = loop;
+            elapsedTime = 0;
         }
 
-        public void StopAnimation()
+        /// <summary>
+        /// Stops the running animation
+        /// If atFrame = -1 it stops at current fram, else if atFrame > 1 it animates to the given frame and stops
+        /// </summary>
+        /// <param name="atFrame"></param>
+        public void StopAnimation(int atFrame = -1)
         {
-
+            animateLoop = false;
+            animateTo = animateCurrent;
         }
 
 
         public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
+            if ((animateCurrent <= animateTo) || (animateLoop && animateFrom < animateTo))
+            {
+                //Set animateCurrent frame to animateFrom frame, 
+                //if animate has reached animateTo frame
+                if (animateCurrent == animateTo)
+                {
+                    //If not loop set aniamteTo = animateFrom so animations stops
+                    if (!animateLoop)
+                    {
+                        animateTo = animateFrom;
+                    }
+                    animateCurrent = animateFrom;
+                }
+
+                //Updates gametime
+                elapsedTime += gameTime.ElapsedGameTime.Milliseconds;
+                //Check if elapsed time is large enough for the gams fps
+                if (elapsedTime >= 1000 / Constants.FPS)
+                {
+                    elapsedTime = 0;
+                    int row = (int)Math.Floor((double)animateCurrent / FramesPerRow);
+
+                    frame.Y = frame.Height * row;
+                    frame.X = frame.Width * (animateCurrent - row * FramesPerRow);
+                    
+                    animateCurrent++;
+                }
+            }
+
             Vector2 origin = new Vector2(frame.Width / 2f, frame.Height / 2f);
-            spriteBatch.Draw(texture, ConvertUnits.ToDisplayUnits(BoundBox.Position), frame, Color.White, Rotation, origin, Scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texture, ConvertUnits.ToDisplayUnits(BoundBox.Position), frame, Color.White, Rotation, origin, Scale, SpriteEffect, 0f);
         }
 
         public override void Dispose()

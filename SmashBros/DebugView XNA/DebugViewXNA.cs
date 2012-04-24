@@ -22,7 +22,6 @@ namespace FarseerPhysics.DebugViews
     /// </summary>
     public class DebugViewXNA : DebugView, IDisposable
     {
-        public string[] PlayerStates;
         public Dictionary<string, string> DebugStuff = new Dictionary<string, string>();
         //Drawing
         private PrimitiveBatch _primitiveBatch;
@@ -52,7 +51,7 @@ namespace FarseerPhysics.DebugViews
 #if XBOX
         public Vector2 DebugPanelPosition = new Vector2(55, 100);
 #else
-        public Vector2 DebugPanelPosition = new Vector2(30, 50);
+        public Vector2 DebugPanelPosition = new Vector2(10, 10);
 #endif
         private int _max;
         private int _avg;
@@ -83,7 +82,6 @@ namespace FarseerPhysics.DebugViews
             : base(world)
         {
             world.ContactManager.PreSolve += PreSolve;
-            PlayerStates = new string[3];
             //Default flags
             AppendFlags(DebugViewFlags.Shape);
             AppendFlags(DebugViewFlags.Controllers);
@@ -403,22 +401,13 @@ namespace FarseerPhysics.DebugViews
                                    "\n- Controller: " + World.ControllersUpdateTime +
                                    "\n- Total: " + World.UpdateTime);
 
-            string s = "";
-            for (int i = 0; i < PlayerStates.Length; i++)
-            {
-                if(!string.IsNullOrEmpty(PlayerStates[i]))
-                    s+= "\n- Player" +i +" state: " + PlayerStates[i];
-                
-            }
-            DrawString(x, y+130, "Player stats:" + s);
-
             if (DebugStuff.Count() != 0)
             {
                 string s2 = "";
                 foreach(var i in DebugStuff){
-                    s2+= "\n" + i.Key + " : " + i.Value;
+                    s2+= "\n - " + i.Key + " : " + i.Value;
                 }
-                DrawString(x, y + 300,"Debug stuff:" + s2);
+                DrawString(x, y + 120,"Debug stuff:" + s2);
 
             }
         }
