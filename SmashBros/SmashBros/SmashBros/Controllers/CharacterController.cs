@@ -136,29 +136,27 @@ namespace SmashBros.Controllers
 
         public override void Update(GameTime gameTime)
         {
+            if (position.Y < character.Position.Y)
+            {
+                movementState = MovementState.falling;
+            }
+            else if (position.Y > character.Position.Y)
+            {
+                movementState = MovementState.jumping;
+            }
+            
             switch (movementState)
             {
                 case MovementState.jumping:
-                    //Only collid with solide ground while jumping uppwards
-                    if (position.Y < character.Position.Y)
-                    {
-                        movementState = MovementState.falling;
-                    }
-                    else if (position.Y == character.Position.Y)
-                    {
-                        //movementState = MovementState.none;
-                    }
+                    if (position.Y == character.Position.Y) movementState = MovementState.none;
                     break;
                 case MovementState.running:
-                    if (Math.Abs(character.VelocityX) < 10)
-                        movementState = MovementState.none;
+                    if (Math.Abs(character.VelocityX) < 10) movementState = MovementState.none;
                     break;
                 case MovementState.falling:
-                    if (position.Y == character.Position.Y)
-                    {
-                        movementState = MovementState.none;
-                        jumpsLeft = 3;
-                    }
+                    if (position.Y == character.Position.Y) movementState = MovementState.none;
+                    break;
+                case MovementState.none:
                     break;
             }
             
@@ -224,7 +222,7 @@ namespace SmashBros.Controllers
             if (directionY > 0.9)// && character.BoundBox.ContactList.Contact.FixtureB.CollisionCategories == Category.Cat10)
             {
                 character.BoundBox.CollidesWith = Category.All & ~Category.Cat10 & ~Category.Cat11;
-                character.BoundBox.Awake = true;
+                //character.BoundBox.Awake = true;
             }
             else character.BoundBox.CollidesWith = Category.All & ~Category.Cat11;
             
@@ -299,7 +297,7 @@ namespace SmashBros.Controllers
 
         private bool Collision(Fixture geom1, Fixture geom2, Contact list)
         {
-            if (geom1.Body.Position.Y + character.size.Y / 2 <= geom2.Body.Position.Y)//(geom2.CollisionCategories == Category.All|| geom2.CollisionCategories == Category.Cat10) && 
+            if (geom1.Body.Position.Y + character.size.Y / 2 <= geom2.Body.Position.Y && character.VelocityY > 0)//(geom2.CollisionCategories == Category.All|| geom2.CollisionCategories == Category.Cat10) && 
             {
                 jumpsLeft = 3;
                 return true;
