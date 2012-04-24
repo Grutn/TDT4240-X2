@@ -92,7 +92,13 @@ namespace SmashBros.System
             }
             for (int i = 0; i < 10; i++)
             {
-                Character c = new Character();
+                Character c = new Character() { 
+                    maxSpeed = 5,
+                    acceleration = 10,
+                    weight = 100,
+                    jumpStartVelocity = 10,
+                    gravity = 20
+                };
                 c.animations = "Characters/SpidermanAnimation";
                 c.thumbnail = "Characters/WolverineThumb";
                 c.image = "Characters/WolverineImage";
@@ -108,8 +114,6 @@ namespace SmashBros.System
                     maxDamage = 10,
                     sqRange = 1000,
                     bodyRange = 1000,
-                    //sqSpeed = 10,
-                    //bodySpeed = 10,
                     sqWidth = 10,
                     sqHeight = 10,
                     duration = 100

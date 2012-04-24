@@ -49,6 +49,8 @@ namespace SmashBros.Model
             b.Rotation = (float)(Math.PI * Rotation / 180.0);
             b.CollisionCategories = collisionCategory;
             b.IsStatic = true;
+            b.Friction = 0.7f;
+            b.UserData = ConvertUnits.ToSimUnits(Height);
 
             return b;
         }

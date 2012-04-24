@@ -18,12 +18,13 @@ namespace SmashBros.Views
         Texture2D texture;
         Rectangle frame;
         World world;
-        Vector2 spritePos, boundBoxSize;
+        Vector2 spritePos;
         BodyType bodyType;
         float elapsedTime;
         bool animateLoop;
         int animateFrom = 0, animateTo = 0, animateCurrent = 0;
         public Vector2 size;
+        public int fps = Constants.FPS;
 
 
         public int FramesPerRow = 1;
@@ -32,7 +33,6 @@ namespace SmashBros.Views
         public Sprite(ContentManager content, string assetName, int frameWidth, int frameHeight, float xPos, float yPos)
         {
             this.frame = new Rectangle(0, 0, frameWidth, frameHeight);
-            this.size = ConvertUnits.ToSimUnits(frameWidth, frameHeight);
             this.texture = content.Load<Texture2D>(assetName);
             this.spritePos = ConvertUnits.ToSimUnits(xPos, yPos);
             this.Scale = 1f;
@@ -41,7 +41,7 @@ namespace SmashBros.Views
         public void BoundRect(World world, float width, float height, BodyType type = BodyType.Dynamic)
         {
             this.world = world;
-            this.boundBoxSize = ConvertUnits.ToSimUnits(width, height);
+            this.size = ConvertUnits.ToSimUnits(width, height);
             this.bodyType = type;
             this.BoundBox = BodyFactory.CreateRectangle(world, ConvertUnits.ToSimUnits(width), ConvertUnits.ToSimUnits(height), 1f, spritePos);
             this.BoundBox.BodyType = type;
@@ -220,7 +220,7 @@ namespace SmashBros.Views
                 //Updates gametime
                 elapsedTime += gameTime.ElapsedGameTime.Milliseconds;
                 //Check if elapsed time is large enough for the gams fps
-                if (elapsedTime >= 1000 / Constants.FPS)
+                if (elapsedTime >= 1000 / fps)
                 {
                     elapsedTime = 0;
                     int row = (int)Math.Floor((double)animateCurrent / FramesPerRow);

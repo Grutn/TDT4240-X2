@@ -45,7 +45,12 @@ namespace SmashBros.Model
         /// <summary>
         /// The hight of the characters jump.
         /// </summary>
-        public int jumpHeight;
+        public int jumpStartVelocity;
+
+        /// <summary>
+        /// A force that affects the character at all time. It can be negative or positiv, and it is only to vary the speed of different characters fall.
+        /// </summary>
+        public int gravity;
 
         /// <summary>
         /// The corresponding moves when the player presses A whilest holding the stick in some direction, and etc.

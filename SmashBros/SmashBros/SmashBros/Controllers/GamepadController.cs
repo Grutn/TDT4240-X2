@@ -107,7 +107,7 @@ namespace SmashBros.Controllers
                 newDirection = IsKeyPressedReversed(PlayerModel.KeyboardDown);
             }
             
-            if ((directionX != 0 || directionY != 0) && OnNavigation != null)
+            if (OnNavigation != null)
                 OnNavigation.Invoke(directionX, directionY, PlayerIndex, newDirection);
 
             switch (CurrentState)
