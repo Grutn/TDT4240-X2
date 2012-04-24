@@ -12,6 +12,7 @@ using SmashBros.System;
 using FarseerPhysics.Dynamics;
 using System.Diagnostics;
 using FarseerPhysics.Dynamics.Contacts;
+using FarseerPhysics.Factories;
 
 namespace SmashBros.Controllers
 {
@@ -22,7 +23,6 @@ namespace SmashBros.Controllers
 
     public class MenuController : Controller
     {
-        MenuState menuState;
         PopupMenuController popupMenu;
 
         ImageTexture startScreen;
@@ -36,6 +36,7 @@ namespace SmashBros.Controllers
         List<Sprite> characterThumbs;
         List<ImageTexture> characterImages;
         List<Sprite> playerCursors;
+        Body optionsBox, helpBox;
 
         public MenuController(ScreenController screen) : base(screen)
         {
@@ -47,25 +48,29 @@ namespace SmashBros.Controllers
 
         public override void Load(ContentManager content) 
         {
+            //Adds the popupmenu to the controllers stack
             popupMenu = new PopupMenuController(screen);
             AddController(popupMenu);
 
+            //Loads the background for selectionmenuy and startscreen
             startScreen = new ImageTexture(content, "Menu/StartScreen", 0, 0);
             characterScreen = new ImageTexture(content, "Menu/SelectionScreen", 0, 0);
 
+            //Initialize tips text
             tipsText = new TextBox("Press H for helpmenu", FontDefualt, 10, 690, Color.White,0.8f);
             tipsText.Layer = 100;
 
+            //Init continiue text
             continueText = new TextBox("Press ENTER to continue", GetFont("Impact.large"), 400, 320, Color.White, 1f);
-            continueText.Layer = 100;
+            continueText.Layer = 1002;
             continueText.TextBackground = Draw.ColoredRectangle(screen.GraphicsDevice, 600, 80, Color.Red);
             continueText.BackgroundOffset = new Vector2(-70, -5);
 
-
+//Change tip text if xbox
 #if XBOX
             tipsText.Text = "Press back button for help";
 #endif
-
+            //Inits the player select labels
             playerSelect = new List<TextBox>(); 
 
             for (int i = 1; i < 5; i++)
@@ -77,10 +82,18 @@ namespace SmashBros.Controllers
                 playerSelect.Add(l);
             }
 
+            //Loads characters
             LoadCharacters(content);
+            //Loads cursor
             LoadCursors(content);
-
-            mapModels = Serializing.LoadMaps();
+            //Loads Maps
+            LoadMaps(content);
+            
+            //Adds collision box at help and option button
+            helpBox = CreateBtn(90, 40, 180, 80);
+            
+            //Adds collision box at help and option button
+            optionsBox = CreateBtn(Constants.WindowWidth - 100, 40, 180, 80);
 
             SubscribeToGameState = true;
 
@@ -140,7 +153,7 @@ namespace SmashBros.Controllers
                 Sprite cursor = new Sprite(content, "Cursors/Player" + pad.PlayerIndex, 70, 70, 280 * pad.PlayerIndex + 100, 680);
                 cursor.BoundRect(World, 1, 1, BodyType.Dynamic);
                 cursor.Category = Category.All;
-                cursor.Layer = 10;
+                cursor.Layer = 1001;
                 cursor.Mass = 1;
                 cursor.UserData = pad.PlayerIndex;
                 playerCursors.Add(cursor);
@@ -149,6 +162,12 @@ namespace SmashBros.Controllers
                 pad.OnBackPress += OnBackPress;
             }
 
+        }
+
+        private void LoadMaps(ContentManager content)
+        {
+            //Loads all the map models from json textfiles
+            mapModels = Serializing.LoadMaps();
         }
         
         public override void Unload()
@@ -235,10 +254,11 @@ namespace SmashBros.Controllers
                     AddView(startScreen);
                     AddView(tipsText);
 
+                    popupMenu.State = PopupState.hidden;
                     break;
                 case GameState.SelectionMenu :
                     AddView(characterScreen);
-
+                    
                     tipsText.Text = "Press ENTER to continiue";
                     tipsText.Scale = 2f;
 
@@ -252,9 +272,12 @@ namespace SmashBros.Controllers
                     //characterScreen.Position(1280, 0);
                     AddViews(characterThumbs.ToArray());
                     AddViews(playerCursors.ToArray());
+
+                    popupMenu.State = PopupState.colapsed;
                     break;
 
                 case GameState.GamePlay:
+                    popupMenu.State = PopupState.removed;
                     AddController(new GameController(screen, mapModels[0]));
                     break;
             }
@@ -302,7 +325,7 @@ namespace SmashBros.Controllers
             ImageTexture img = characterImages[index];
             img.RemoveDrawPosition(playerIndex);
 
-            if (img.Positions.Count() == 0)
+            if (img.ImagesCount == 0)
             {
                 characterThumbs[index].Scale = 1f;
                 characterThumbs[index].Rotation = 0f;
@@ -330,6 +353,18 @@ namespace SmashBros.Controllers
                 RemoveView(playerCursors[playerIndex]);
                 pad.SelectedCharacter = pad.HoverCharacter;
             }
+
+            if ((bool)helpBox.UserData || (bool)optionsBox.UserData)
+            {
+                popupMenu.State = PopupState.show;
+            }
+            else
+            {
+                popupMenu.State = PopupState.colapsed;
+            }
+
+
+
         }
 
         private void OnDeSelectPress(int playerIndex)
@@ -349,11 +384,51 @@ namespace SmashBros.Controllers
             {
                 CurrentState = GameState.GamePlay;
             }
+            else
+            {
+
+                switch (CurrentState)
+                {
+                    case GameState.StartScreen:
+                        break;
+                    case GameState.SelectionMenu:
+                        break;
+                    case GameState.OptionsMenu:
+                        break;
+                    case GameState.GamePlay:
+                        popupMenu.State = PopupState.show;
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
 
         private void OnBackPress(int playerIndex)
         {
 
+        }
+
+        private bool onBtnCol(Fixture btn, Fixture cursor, Contact contact)
+        {
+            btn.Body.UserData = true;
+            return true;
+        }
+
+        private void onBtnSep(Fixture btn, Fixture cursor)
+        {
+            btn.Body.UserData = false;
+        }
+
+        private Body CreateBtn(int x, int y, int width, int height){
+            Body btn = BodyFactory.CreateRectangle(World, ConvertUnits.ToSimUnits(width), ConvertUnits.ToSimUnits(height), 1f);
+            btn.Position = ConvertUnits.ToSimUnits(x, y);
+            btn.IsSensor = true;
+            btn.UserData = false;
+            btn.OnCollision += onBtnCol;
+            btn.OnSeparation += onBtnSep;
+
+            return btn;
         }
     }
 }

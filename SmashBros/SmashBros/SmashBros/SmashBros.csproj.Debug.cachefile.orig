@@ -12,12 +12,23 @@ Content\Cursors\Player3.xnb
 Content\Cursors\Player2.xnb
 Content\Characters\WolverineImage.xnb
 Content\Characters\SpidermanImage.xnb
+<<<<<<< HEAD
+Content\Maps\CityMap.xnb
 Content\Characters\SpidermanAnimation.xnb
 Content\Menu\PopupMenu.xnb
+=======
+>>>>>>> 024efc925a3410fedb61b159f19f5d9e4f4808c5
 Content\Fonts\gamefont.xnb
 Content\menufont.xnb
 Content\Fonts\Impact.xnb
 Content\Fonts\Impact.large.xnb
+<<<<<<< HEAD
+=======
+Content\Characters\SpidermanAnimation.xnb
+Content\Menu\StartScreen.xnb
+Content\Menu\SelectionScreen.xnb
+Content\Menu\PopupMenu.xnb
 Content\Maps\CityBg.xnb
 Content\Maps\CityMap.xnb
+>>>>>>> 024efc925a3410fedb61b159f19f5d9e4f4808c5
 Content\font.xnb

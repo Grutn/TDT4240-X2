@@ -25,6 +25,15 @@ namespace SmashBros.Model
         public string bgImage;
 
         /// <summary>
+        /// Source for the real map
+        /// </summary>
+        public string mapImage;
+
+        /// <summary>
+        /// Of much the map is offset from the 
+        /// </summary>
+        public Vector2 mapPosition;
+        /// <summary>
         /// Source name of thumb Image, used for map selection screen
         /// </summary>
         public string thumbImage;

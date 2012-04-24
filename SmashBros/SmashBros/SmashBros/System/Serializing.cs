@@ -144,22 +144,25 @@ namespace SmashBros.System
             {
                 Map map = new Map();
                 map.name = "New Place City";
-                map.bgImage = "Maps/CityMap";
+                map.bgImage = "Maps/CityBg";
+                map.mapImage = "Maps/CityMap";
 
-                map.AddBox(610, 960, 300, 100, -9.3f);
-                map.AddBox(790, 955, 120, 100, 17f);
-                map.AddBox(1100, 1270, 560, 450);
-                map.AddBox(1670, 1230, 580, 540);
-                map.AddBox(650, 1240, 410, 570);
+                int mx = -420;
 
-                map.AddFloatBox(1170, 620, 550);
-                map.AddFloatBox(1125, 815, 730);
+                map.AddBox(610+mx, 960, 300, 100, -9.3f);
+                map.AddBox(790 + mx, 955, 120, 100, 17f);
+                map.AddBox(1100 + mx, 1270, 560, 450);
+                map.AddBox(1670 + mx, 1230, 580, 540);
+                map.AddBox(650 + mx, 1240, 410, 570);
+
+                map.AddFloatBox(1170 + mx, 620, 550);
+                map.AddFloatBox(1125 + mx, 815, 730);
 
 
-                map.AddStartPos(650, 800);
-                map.AddStartPos(1700, 850);
-                map.AddStartPos(850, 700);
-                map.AddStartPos(1400, 700);
+                map.AddStartPos(650 + mx, 800);
+                map.AddStartPos(1700 + mx, 850);
+                map.AddStartPos(850 + mx, 700);
+                map.AddStartPos(1400 + mx, 700);
 
                 Write(map, MapFolder, "Map" + i);
             }

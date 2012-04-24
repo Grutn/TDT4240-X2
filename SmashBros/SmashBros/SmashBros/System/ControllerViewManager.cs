@@ -107,10 +107,9 @@ namespace SmashBros.System
 
         public void Draw(GameTime gameTime)
         {
-            batch.Begin(0,null, null, null, null, null, camera.View);
             while (!viewQueue.IsEmpty)
             {
-                Tuple<IView,bool> cont;
+                Tuple<IView, bool> cont;
                 if (viewQueue.TryDequeue(out cont))
                 {
                     if (cont.Item2)
@@ -125,13 +124,27 @@ namespace SmashBros.System
                             views.Remove(cont.Item1);
                     }
                 }
-            }  
-            if (views.Count() != 0)
-            {
-                views.OrderBy(a=> a.Layer).ToList().ForEach(a => a.Draw(batch, gameTime));
             }
 
-            batch.End();
+
+           
+            if (views.Count() != 0)
+            {
+                var v = views.OrderBy(a => a.Layer);
+                foreach (var item in v)
+                {
+                    if (item.StaticPosition)
+                        batch.Begin();
+                    else
+                        batch.Begin(0, null, null, null, null, null, camera.View);
+
+                    item.Draw(batch, gameTime);
+                    batch.End();
+                }
+                //views.Where(a=> !a.StaticPosition).OrderBy(a=> a.Layer).ToList().ForEach(a => a.Draw(batch, gameTime));
+            }
+
+            //batch.End();
 
             if (Constants.DebugMode)
             {

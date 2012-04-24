@@ -14,6 +14,7 @@ namespace SmashBros.Views
             Layer = 0;
         }
         public virtual bool IsActive { get; set; }
+        public bool StaticPosition { get; set; }
         public float Layer { get; set; }
         public abstract void Draw(SpriteBatch spriteBatch, GameTime gameTime);
         public abstract void Dispose();
