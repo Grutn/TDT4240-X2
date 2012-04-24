@@ -48,15 +48,16 @@ namespace SmashBros.Views
                 Positions.Add(entryId, new Vector2(x, y));
         }
 
+        public string AnimationName { get; private set; }
         /// <summary>
         /// Animates texture at positionIndex
         /// </summary>
         /// <param name="xTo">new X position</param>
         /// <param name="yTo">new Y position</param>
         /// <param name="timeInMs">Time to use to animate</param>
-        public void Animate(int xTo, int yTo, float timeInMs, bool loop = false, int positionIndex = 0)
+        public void Animate(string animationName, int xTo, int yTo, float timeInMs, bool loop = false, int positionIndex = 0)
         {
-
+            this.AnimationName = animationName;
         }
 
         public void RemoveDrawPosition(int entryId)
