@@ -121,6 +121,7 @@
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\PopupMenuController.cs" />
     <Compile Include="Controllers\ScreenController.cs" />
+    <Compile Include="Controllers\SoundController.cs" />
     <Compile Include="Models\Box.cs" />
     <Compile Include="Models\Character.cs" />
     <Compile Include="Models\GameModel.cs" />

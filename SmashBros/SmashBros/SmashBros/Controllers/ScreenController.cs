@@ -26,6 +26,7 @@ namespace SmashBros.Controllers
         public ControllerViewManager controllerViewManager;
         public List<GamepadController> gamePads;
         public GameStateManager gameStateManager;
+        public SoundController soundController;
 
         
         public ScreenController(Game game)
@@ -36,6 +37,7 @@ namespace SmashBros.Controllers
 
             this.gameStateManager = new GameStateManager();
             this.gameStateManager.CurrentState = GameState.StartScreen;
+            this.soundController = new SoundController(this);
         }
 
         protected override void LoadContent()
@@ -58,6 +60,7 @@ namespace SmashBros.Controllers
 
             if (Constants.StartGameplay)
             {
+                gameStateManager.CurrentState = GameState.GamePlay;
                 var chars = Serializing.LoadCharacters();
                 var maps = Serializing.LoadMaps();
                 gamePads[0].SelectedCharacter = chars[0];

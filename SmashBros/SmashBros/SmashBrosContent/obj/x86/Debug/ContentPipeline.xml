@@ -254,12 +254,12 @@
       <Time>2012-04-25T02:33:25.6029452+02:00</Time>
     </Item>
     <Item>
-      <Source>Sound\hit.wav</Source>
-      <Name>Sound\hit</Name>
+      <Source>Sound\Game\hit.wav</Source>
+      <Name>Sound\Game\hit</Name>
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Sound\hit.xnb</Output>
+      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Sound\Game\hit.xnb</Output>
       <Time>2012-04-25T05:43:10.6025499+02:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>

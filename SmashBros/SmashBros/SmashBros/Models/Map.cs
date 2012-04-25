@@ -69,6 +69,11 @@ namespace SmashBros.Model
         /// </summary>
         public Box zoomBox;
 
+        /// <summary>
+        /// The assetname of the maps backgroundMusic.
+        /// </summary>
+        public string backgroundMusic;
+
 
         public void AddBoxes(params Box[] boxes)
         {

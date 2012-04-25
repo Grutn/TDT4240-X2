@@ -348,7 +348,7 @@ namespace FarseerPhysics.Dynamics.Contacts
 
                 //Reverse the order of the reported fixtures. The first fixture is always the one that the
                 //user subscribed to.
-                if (FixtureB.OnCollision != null)
+                if (FixtureB != null && FixtureB.OnCollision != null)
                     Enabled = FixtureB.OnCollision(FixtureB, FixtureA, this);
 
                 //BeginContact can also return false and disable the contact

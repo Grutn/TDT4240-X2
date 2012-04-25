@@ -26,7 +26,9 @@ namespace SmashBros.Model
         /// Image of the whole character 
         /// </summary>
         public string image;
-        
+
+        public string sound_selected, sound_won, sound_jump; //, sound_hit, sound_chargingHit....
+
         /// <summary>
         /// The maximum magnitude of speed in x-direction this character can have.
         /// </summary>

@@ -18,9 +18,9 @@ namespace SmashBros.Controllers
 {
     public enum State { none, running, braking, jumping, falling, takingHit, attacking, shielding, chargingHit, chargingSuper }
 
-    class MoveInfo { public Vector2 direction; public float chargeTime; public List<int> playerIndexes; public Move move; }
+    internal class MoveInfo { public Vector2 direction; public float chargeTime; public List<int> playerIndexes; public Move move; }
 
-    class CharacterController : Controller
+    public class CharacterController : Controller
     {
         public int playerIndex;
         
@@ -144,12 +144,26 @@ namespace SmashBros.Controllers
         /// <summary>
         /// Whether or not the player is in an invounerable state.
         /// </summary>
-        public bool invounerable;
+        private bool _invounerable;
+        public bool invounerable
+        {
+            get { return _invounerable; }
+            set
+            {
+                _invounerable = value;
+                character.Blinking = value;
+            }
+        }
+
+        /// <summary>
+        /// Time left of invounerability.
+        /// </summary>
+        public float invounerableTimeLeft = 0;
 
         /// <summary>
         /// Time left to when the character reappears on the map.
         /// </summary>
-        public float timeToReset;
+        public float resetTimeLeft = -1;
 
         /// <summary>
         /// Number of jumps left. One of them is supermove, and once super is used, jumpsleft = 0.
@@ -241,11 +255,12 @@ namespace SmashBros.Controllers
         public void Reset(Vector2 startPos)
         {
             RemoveView(character);
-            character.IsActive = false;
+            character.BoundBox.IsStatic = true;
             character.Position = startPos;
-            character.Rotation = (float)Math.PI;
-            character.Scale = 0.1f;
-
+            resetTimeLeft = 4000;
+            invounerableTimeLeft = 5000;
+            invounerable = true;
+            if(moveBox != null) moveBox.Dispose();
         }
 
         public override void Load(ContentManager content)
@@ -278,63 +293,90 @@ namespace SmashBros.Controllers
 
         public override void Update(GameTime gameTime)
         {
-            if (timeToReset > 0)
+            if (resetTimeLeft > 0)
             {
-
+                resetTimeLeft -= gameTime.ElapsedGameTime.Milliseconds;
+                if (resetTimeLeft <= 0)
+                {
+                    resetTimeLeft = -1;
+                    character.Rotation = 0;
+                    character.Scale = 0.6f;
+                }
+                else if (resetTimeLeft <= 2000 && resetTimeLeft >= 1000)
+                {
+                    state = State.falling;
+                    AddView(character);
+                    character.BoundBox.IsStatic = false;
+                    character.Scale = (2 - resetTimeLeft / 1000) * 0.6f;
+                    character.Rotation += (float)Math.PI * 2 * gameTime.ElapsedGameTime.Milliseconds / 1000;
+                }
             }
-            
-            if(!attackMode && (Math.Abs(character.VelocityX) < Math.Abs(model.maxSpeed * navigation.X) || character.VelocityX * navigation.X < 0)) character.VelocityX += navigation.X * model.acceleration * gameTime.ElapsedGameTime.Milliseconds / 1000f;
-            if(inAir) character.VelocityY += model.gravity * gameTime.ElapsedGameTime.Milliseconds / 1000f;
-            else if(character.VelocityX * navigation.X < 0 || navigation.X == 0) character.VelocityX -= (character.VelocityX / model.maxSpeed) * 3 * model.acceleration * gameTime.ElapsedGameTime.Milliseconds / 1000;
-
-            position = character.Position;
-            NaturalState();
-
-            switch (state)
+            else
             {
-                case State.none:
-                    break;
-                case State.running:
-                    character.fps = (int)MathHelper.Clamp(Math.Abs(character.VelocityX) * 4, 5, 100);
-                    break;
-                case State.braking:
-                    break;
-                case State.jumping:
-                    break;
-                case State.falling:
-                    break;
-                case State.chargingHit:
-                    chargeTime += gameTime.ElapsedGameTime.Milliseconds;
-                    if (startMoveWhenReady && chargeTime > move.minWait) BeginMove();
-                    break;
-                case State.chargingSuper:
-                    chargeTime += gameTime.ElapsedGameTime.Milliseconds;
-                    if (startMoveWhenReady && chargeTime > move.minWait || chargeTime > move.maxWait) BeginMove();
-                    break;
-                case State.attacking:
-                    attackTimeLeft -= gameTime.ElapsedGameTime.Milliseconds;
-                    if (attackTimeLeft <= 0)
+                if (invounerable)
+                {
+                    invounerableTimeLeft -= gameTime.ElapsedGameTime.Milliseconds;
+                    if (invounerableTimeLeft <= 0)
                     {
-                        moveBox.Dispose();
-                        attackMode = false;
-                        NaturalState();
+                        invounerable = false;
+                        character.Opacity = 1;
                     }
-                    else if(move.adjustable){
-                        float angle = moveBox.LinearVelocity.X == 0 ? 0 : (float)Math.Atan(moveBox.LinearVelocity.Y / moveBox.LinearVelocity.X);
-                        angle += faceRight ? 
-                            navigation.Y * move.adjustAcc * gameTime.ElapsedGameTime.Milliseconds / 1000 : 
-                            -navigation.Y * move.adjustAcc * gameTime.ElapsedGameTime.Milliseconds / 1000;
-                        moveBox.LinearVelocity = new Vector2(angle) * moveBox.LinearVelocity.Length();
-                    }
-                    break;
-                case State.shielding:
-                    break;
-            }
+                }
+                
+                if (!attackMode && (Math.Abs(character.VelocityX) < Math.Abs(model.maxSpeed * navigation.X) || character.VelocityX * navigation.X < 0)) character.VelocityX += navigation.X * model.acceleration * gameTime.ElapsedGameTime.Milliseconds / 1000f;
+                if (inAir) character.VelocityY += model.gravity * gameTime.ElapsedGameTime.Milliseconds / 1000f;
+                else if (character.VelocityX * navigation.X < 0 || navigation.X == 0) character.VelocityX -= (character.VelocityX / model.maxSpeed) * 3 * model.acceleration * gameTime.ElapsedGameTime.Milliseconds / 1000;
 
-            string p = "Player " + pad.PlayerIndex+ " ";
-            DebugWrite(p + "Jumps: ", jumpsLeft);
-            DebugWrite(p + "State: ", state);
-            DebugWrite(p + "inAir: ", newDirection);
+                position = character.Position;
+                NaturalState();
+
+                switch (state)
+                {
+                    case State.none:
+                        break;
+                    case State.running:
+                        character.fps = (int)MathHelper.Clamp(Math.Abs(character.VelocityX) * 4, 5, 100);
+                        break;
+                    case State.braking:
+                        break;
+                    case State.jumping:
+                        break;
+                    case State.falling:
+                        break;
+                    case State.chargingHit:
+                        chargeTime += gameTime.ElapsedGameTime.Milliseconds;
+                        if (startMoveWhenReady && chargeTime > move.minWait) BeginMove();
+                        break;
+                    case State.chargingSuper:
+                        chargeTime += gameTime.ElapsedGameTime.Milliseconds;
+                        if (startMoveWhenReady && chargeTime > move.minWait || chargeTime > move.maxWait) BeginMove();
+                        break;
+                    case State.attacking:
+                        attackTimeLeft -= gameTime.ElapsedGameTime.Milliseconds;
+                        if (attackTimeLeft <= 0)
+                        {
+                            moveBox.Dispose();
+                            attackMode = false;
+                            NaturalState();
+                        }
+                        else if (move.adjustable)
+                        {
+                            float angle = moveBox.LinearVelocity.X == 0 ? 0 : (float)Math.Atan(moveBox.LinearVelocity.Y / moveBox.LinearVelocity.X);
+                            angle += faceRight ?
+                                navigation.Y * move.adjustAcc * gameTime.ElapsedGameTime.Milliseconds / 1000 :
+                                -navigation.Y * move.adjustAcc * gameTime.ElapsedGameTime.Milliseconds / 1000;
+                            moveBox.LinearVelocity = new Vector2(angle) * moveBox.LinearVelocity.Length();
+                        }
+                        break;
+                    case State.shielding:
+                        break;
+                }
+
+                string p = "Player " + pad.PlayerIndex + " ";
+                DebugWrite(p + "Jumps: ", jumpsLeft);
+                DebugWrite(p + "State: ", state);
+                DebugWrite(p + "inAir: ", newDirection);
+            }
 
         }
 
@@ -359,7 +401,7 @@ namespace SmashBros.Controllers
 
         private void OnNavigation(float directionX, float directionY, int playerIndex, bool newDirection)
         {
-            if (!attackMode)
+            if (!attackMode && resetTimeLeft < 0)
             {
                 if (directionX !=0 && directionX * character.VelocityX >= 0) faceRight = directionX > 0;
                 if (directionY < 0 && newDirection && jumpsLeft > 1)
@@ -447,7 +489,7 @@ namespace SmashBros.Controllers
             else if (geom2.CollisionCategories == Category.Cat20)
             {
                 MoveInfo moveInfo = (MoveInfo)geom2.Body.UserData;
-                if (!moveInfo.playerIndexes.Contains(playerIndex))
+                if (!moveInfo.playerIndexes.Contains(playerIndex) && !invounerable)
                 {
                     moveInfo.playerIndexes.Add(playerIndex);
                     Move hit = moveInfo.move;
@@ -464,7 +506,7 @@ namespace SmashBros.Controllers
                     
                     Manifold man;
                     list.GetManifold(out man);
-                    if(OnHit != null) OnHit.Invoke(ConvertUnits.ToDisplayUnits(geom2.Body.Position), damage, damagePoints, moveInfo.playerIndexes.First(), playerIndex);
+                    if(OnHit != null) OnHit.Invoke(ConvertUnits.ToDisplayUnits(geom2.Body.Position), damage, power, damagePoints, moveInfo.playerIndexes.First(), playerIndex);
                 }
             }
             else if (geom2.CollisionCategories == Category.Cat8)
@@ -479,15 +521,19 @@ namespace SmashBros.Controllers
             if ((geom2.CollisionCategories == Category.Cat10 || geom2.CollisionCategories ==  Category.Cat9)
                 && geom1.Body.ContactList.Contact.FixtureB.CollisionCategories != Category.Cat11)
             {
+                inAir = true;
                 if (!attackMode && jumpsLeft != 2) state = State.falling;
                 onSoftBox = false;
                 jumpsLeft = 2;
+                character.BoundBox.Awake = true;
+                character.VelocityY -= 0.5f;
             }
         }
 
-        public delegate void HitOccured(Vector2 pos, int damageDone, int newDamagepoints, int puncher_playerIndex, int reciever_playerIndex);
+        public delegate void HitOccured(Vector2 pos, int damageDone, int power, int newDamagepoints, int puncher_playerIndex, int reciever_playerIndex);
         public delegate void CharacterDied(CharacterController characterController);
 
+        public event SmashBros.Controllers.SoundController.PlayerSound PlayerSound;
         public event HitOccured OnHit;
         public event CharacterDied OnCharacterDeath;
     }

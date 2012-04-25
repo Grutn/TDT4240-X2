@@ -48,6 +48,8 @@ namespace SmashBros.Controllers
 
         public override void Load(ContentManager content) 
         {
+            screen.soundController.Load(content, this);
+
             //Adds the popupmenu to the controllers stack
             popupMenu = new PopupMenuController(screen);
             AddController(popupMenu);

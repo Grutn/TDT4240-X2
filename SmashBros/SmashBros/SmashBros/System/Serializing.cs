@@ -163,6 +163,7 @@ namespace SmashBros.System
                 map.name = "New Place City";
                 map.bgImage = "Maps/CityBg";
                 map.mapImage = "Maps/CityMap";
+                map.backgroundMusic = "Sound/main";
                 map.size = new Box(3500, 1600, -800, 0);
                 map.zoomBox = new Box(3000, 1400, -800, 0);
 

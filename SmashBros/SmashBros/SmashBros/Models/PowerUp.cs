@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SmashBros.Model
 {
-    class PowerUp
+    public class PowerUp
     {
         /// <summary>
         /// The duration of the powerup. Countdown starts when some player is equipped with the powerup.

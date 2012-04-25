@@ -79,6 +79,9 @@ namespace SmashBros.Views
         List<SpriteAnimation> animations;
         public Vector2 size;
         public int fps = Constants.FPS;
+        public float Opacity = 1;
+        public bool Blinking = false;
+        private bool blinkUp = false;
 
 
         public int FramesPerRow = 1;
@@ -278,9 +281,28 @@ namespace SmashBros.Views
                 }
             }
             
-
             Vector2 origin = new Vector2(frame.Width / 2f, frame.Height / 2f);
-            spriteBatch.Draw(texture, ConvertUnits.ToDisplayUnits(BoundBox.Position), frame, Color.White, Rotation, origin, Scale, SpriteEffect, 0f);
+
+            if (Blinking)
+            {
+                if (blinkUp)
+                {
+                    Opacity += 0.03f;
+                    if (Opacity > 1)
+                    {
+                        blinkUp = false;
+                        Opacity = 1;
+                    }
+                }
+                else
+                {
+                    Opacity -= 0.03f;
+                    if (Opacity < 0.1) blinkUp = true;
+                }
+            }
+            else Opacity = 1;
+
+            spriteBatch.Draw(texture, ConvertUnits.ToDisplayUnits(BoundBox.Position), frame, new Color(255,255,255, Opacity), Rotation, origin, Scale, SpriteEffect, 0f);
         }
 
         public override void Dispose()

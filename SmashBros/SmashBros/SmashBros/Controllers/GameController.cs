@@ -23,9 +23,6 @@ namespace SmashBros.Controllers
         CameraController camera;
         Dictionary<int,PlayerStats> players;
 
-        SoundEffect sound_background;
-        SoundEffectInstance sound_instance;
-        SoundEffect sound_hit;
         List<ImageTexture> hitImgs;
 
         public GameController(ScreenController screen, Map selectedMap) : base(screen)
@@ -36,15 +33,8 @@ namespace SmashBros.Controllers
 
         public override void Load(ContentManager content)
         {
-            sound_hit = content.Load<SoundEffect>("Sound/hit");
 
-            if (Constants.Music)
-            {
-                sound_background = content.Load<SoundEffect>("Sound/main");
-                sound_instance = sound_background.CreateInstance();
-                sound_instance.IsLooped = true;
-                sound_instance.Play();
-            }
+            screen.soundController.Load(content, this, map.CurrentMap.backgroundMusic);
             
             this.camera = new CameraController(screen, map.Model.zoomBox);
 
@@ -69,6 +59,8 @@ namespace SmashBros.Controllers
                     var character = new CharacterController(screen, pad, map.CurrentMap.startingPosition[i]);
                     //Add HitHappens listener
                     character.OnHit += OnPlayerHit;
+                    // Add Playerdeath listener.
+                    character.OnCharacterDeath += OnPlayerDeath;
                     //Adds the controller 
                     AddController(character);
 
@@ -118,9 +110,9 @@ namespace SmashBros.Controllers
         {
         }
 
-        private void OnPlayerHit(Vector2 pos, int damageDone, int newDamagepoints, int puncher, int reciever)
+        private void OnPlayerHit(Vector2 pos, int damageDone, int hitPower, int newDamagepoints, int puncher, int reciever)
         {
-            sound_hit.Play();
+            if(GameSound != null)GameSound.Invoke(GameSoundType.hit, MathHelper.Clamp((float)hitPower/25, 0.4f, 1.0f), MathHelper.Clamp(damageDone/10-1.0f, -1.0f, 1.0f));
             this.players[puncher].DidHit(damageDone, reciever);
             this.players[reciever].GotHit(newDamagepoints);
 
@@ -139,11 +131,16 @@ namespace SmashBros.Controllers
 
         private void OnPlayerDeath(CharacterController characterController)
         {
+            GameSound.Invoke(GameSoundType.death);
             Vector2 pos = characterController.position;
             int playerIndex = characterController.playerIndex;
             Random r = new Random();
             characterController.Reset(map.CurrentMap.startingPosition[r.Next(0 ,4)]);
+
+            // lifes--
         }
+
+        public event SmashBros.Controllers.SoundController.GameSound GameSound;
     }
 
     internal class PlayerStats
@@ -202,6 +199,5 @@ namespace SmashBros.Controllers
             this.DamagePoints = damagePoints;
             this.percentBox.Text = damagePoints + "%";
         }
-
     }
 }
