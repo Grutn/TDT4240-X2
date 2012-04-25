@@ -12,6 +12,7 @@ using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using FarseerPhysics.Dynamics.Contacts;
 using System.Diagnostics;
+using FarseerPhysics.Collision;
 
 namespace SmashBros.Controllers
 {
@@ -50,34 +51,50 @@ namespace SmashBros.Controllers
                         case State.none:
                             attackMode = false;
                             inAir = false;
-                            if (_state == State.running) character.AddAnimation(0, 2, true);
-                            else character.StartAnimation(0, 2, true);
+                            if (_state == State.running || _state == State.attacking) character.AddAnimation(0, 2, true);
+                            else if (_state == State.falling || _state == State.jumping)
+                            {
+                                character.StartAnimation(model.ani_landStart, model.ani_landEnd, false);
+                                character.AddAnimation(model.ani_noneStart, model.ani_noneEnd, true);
+                            }
+                            else character.StartAnimation(model.ani_noneStart, model.ani_noneEnd, true);
                             break;
                         case State.running:
                             attackMode = false;
-                            character.StartAnimation(2, 13, true);
+                            if (_state == State.falling || _state == State.jumping)
+                            {
+                                character.StartAnimation(model.ani_landStart, model.ani_landEnd, false);
+                                character.AddAnimation(model.ani_runStart, model.ani_runEnd, true);
+                            }
+                            else character.StartAnimation(model.ani_runStart, model.ani_runEnd, true);
                             break;
                         case State.braking:
                             attackMode = false;
+                            if (_state == State.falling || _state == State.jumping)
+                            {
+                                character.StartAnimation(model.ani_landStart, model.ani_landEnd, false);
+                                character.AddAnimation(model.ani_brake, model.ani_brake, true);
+                            }
+                            else character.StartAnimation(model.ani_brake, model.ani_brake, true);
                             break;
                         case State.jumping:
                             attackMode = false;
                             inAir = true;
-                            character.StartAnimation(18, 24, false);
-                            character.AddAnimation(24, 25, true);
+                            character.StartAnimation(model.ani_jumpStart, model.ani_jumpEnd, false);
+                            character.AddAnimation(model.ani_fallStart, model.ani_fallEnd, true);
                             break;
                         case State.falling:
                             attackMode = false;
                             inAir = true;
-                            character.StartAnimation(24, 25, true);
+                            character.StartAnimation(model.ani_fallStart, model.ani_fallEnd, true);
                             break;
                         case State.takingHit:
                             attackMode = true;
-                            character.StartAnimation(14, 16, true);
+                            character.StartAnimation(model.ani_takeHitStart, model.ani_takeHitEnd, true);
                             break;
                         case State.attacking:
                             attackMode = true;
-                            character.StartAnimation(28, 35, true);
+                            character.StartAnimation(move.aniFrom, move.aniTo, true);
                             break;
                         case State.shielding:
                             attackMode = true;
@@ -112,23 +129,7 @@ namespace SmashBros.Controllers
         /// <summary>
         /// The character is in air or on ground?
         /// </summary>
-        public bool _inAir;
-        public bool inAir
-        {
-            get { return _inAir; }
-            set
-            {
-                _inAir = value;
-                if (value) 
-                {
-                    
-                }
-                else 
-                {
-                
-                }
-            }
-        }
+        public bool inAir;
 
         /// <summary>
         /// Whether the character is standing on a box which can be gone through.
@@ -197,6 +198,9 @@ namespace SmashBros.Controllers
         /// </summary>
         public Body moveBox;
 
+        /// <summary>
+        /// Which direction move should go.
+        /// </summary>
         public Vector2 moveDirection;
 
         /// <summary>
@@ -264,22 +268,18 @@ namespace SmashBros.Controllers
             else if(character.VelocityX * navigation.X < 0 || navigation.X == 0) character.VelocityX -= (character.VelocityX / model.maxSpeed) * 3 * model.acceleration * gameTime.ElapsedGameTime.Milliseconds / 1000;
 
             position = character.Position;
+            NaturalState();
 
             switch (state)
             {
                 case State.none:
-                    if (Math.Floor(character.VelocityX) != 0) state = State.running;
                     break;
                 case State.running:
-                    if (navigation.X * character.VelocityX < 0 || navigation.X == 0) state = State.braking;
-                    else character.fps = (int)MathHelper.Clamp(Math.Abs(character.VelocityX) * 5, 5, 100);
+                    character.fps = (int)MathHelper.Clamp(Math.Abs(character.VelocityX) * 4, 5, 100);
                     break;
                 case State.braking:
-                    if (navigation.X == 0 && Math.Round(character.VelocityX) == 0) state = State.none;
-                    else if (navigation.X * character.VelocityX > 0) state = State.running;
                     break;
                 case State.jumping:
-                    if (character.VelocityY >= 0) state = State.falling;
                     break;
                 case State.falling:
                     break;
@@ -296,7 +296,15 @@ namespace SmashBros.Controllers
                     if (attackTimeLeft <= 0)
                     {
                         moveBox.Dispose();
-                        state = State.none;
+                        attackMode = false;
+                        NaturalState();
+                    }
+                    else if(move.adjustable){
+                        float angle = moveBox.LinearVelocity.X == 0 ? 0 : (float)Math.Atan(moveBox.LinearVelocity.Y / moveBox.LinearVelocity.X);
+                        angle += faceRight ? 
+                            navigation.Y * move.adjustAcc * gameTime.ElapsedGameTime.Milliseconds / 1000 : 
+                            -navigation.Y * move.adjustAcc * gameTime.ElapsedGameTime.Milliseconds / 1000;
+                        moveBox.LinearVelocity = new Vector2(angle) * moveBox.LinearVelocity.Length();
                     }
                     break;
                 case State.shielding:
@@ -310,6 +318,17 @@ namespace SmashBros.Controllers
 
         }
 
+        private void NaturalState()
+        {
+            if (!attackMode)
+            {
+                if (inAir) state = character.VelocityY < 0? State.jumping : State.falling;
+                else if (Math.Round(character.VelocityX) == 0) state = State.none;
+                else if (navigation.X == 0 || navigation.X * character.VelocityX < 0) state = State.braking;
+                else state = State.running;
+            }
+        }
+
         public override void OnNext(GameStateManager value)
         {
         }
@@ -320,9 +339,6 @@ namespace SmashBros.Controllers
 
         private void OnNavigation(float directionX, float directionY, int playerIndex, bool newDirection)
         {
-            this.newDirection = newDirection;
-            this.navigation = new Vector2(directionX, directionY);
-
             if (!attackMode)
             {
                 if (directionX !=0 && directionX * character.VelocityX >= 0) faceRight = directionX > 0;
@@ -336,10 +352,12 @@ namespace SmashBros.Controllers
                 {
                     character.BoundBox.CollidesWith = Category.All & ~Category.Cat10 & ~Category.Cat11;
                     if(onSoftBox) state = State.falling;
-                    //character.BoundBox.Awake = true;
                 }
                 else character.BoundBox.CollidesWith = Category.All & ~Category.Cat11; 
             }
+
+            this.newDirection = newDirection;
+            this.navigation = new Vector2(directionX, directionY);
         }
 
         private void OnHitKeyDown(float directionX, float directionY, float downTimer, int playerIndex)
@@ -350,15 +368,14 @@ namespace SmashBros.Controllers
                 else moveDirection = !inAir || navigation.Y < 0? new Vector2(0,-1) : new Vector2(0,1);
                 if (newDirection)
                 {
-                    state = State.chargingHit;
                     startMoveWhenReady = false;
                     if (moveDirection.X != 0)
                         move = model.aLR;
                     else move = moveDirection.Y > 0 ? model.aDown : model.aUp;
+                    state = State.chargingHit;
                 }
                 else
                 {
-                    state = State.attacking;
                     move = model.a;
                     BeginMove();
                 } 
@@ -376,14 +393,21 @@ namespace SmashBros.Controllers
 
         private void BeginMove()
         {
-            attackTimeLeft = move.duration;
             moveBox = BodyFactory.CreateRectangle(World, ConvertUnits.ToSimUnits(move.sqWidth), ConvertUnits.ToSimUnits(move.sqHeight), 0, character.BoundBox.Position, move);
             moveBox.IgnoreGravity = true;
             moveBox.IsStatic = false;
             moveBox.CollidesWith = Category.Cat11;
             moveBox.CollisionCategories = Category.Cat20;
             moveBox.Friction = 0;
-            moveBox.LinearVelocity = moveDirection*move.sqRange/move.duration;
+
+            if (move.adjustable)
+            {
+                if (Math.Abs(navigation.X) >= Math.Abs(navigation.Y) || !inAir && navigation.Y > 0) moveDirection = faceRight ? new Vector2(1, 0) : new Vector2(-1, 0);
+                else moveDirection = !inAir || navigation.Y < 0 ? new Vector2(0, -1) : new Vector2(0, 1); 
+            }
+            attackTimeLeft = move.duration;
+
+            moveBox.LinearVelocity = moveDirection*move.sqRange/move.duration*1000;
             moveBox.UserData = new MoveInfo() { direction = moveDirection, chargeTime = chargeTime, playerIndexes = new List<int>() { playerIndex }, move = move };
 
             state = State.attacking;
@@ -395,11 +419,7 @@ namespace SmashBros.Controllers
             {
                 inAir = false;
                 if (geom2.CollisionCategories == Category.Cat10) onSoftBox = true;
-                if (!attackMode)
-                {
-                    state = character.VelocityX != 0 ?
-                        (navigation.X * character.VelocityX > 0 ? State.running : State.braking) : State.none;
-                }
+                NaturalState();
                 jumpsLeft = 3;
                 character.VelocityY = 0;
                 return true;
@@ -409,7 +429,7 @@ namespace SmashBros.Controllers
                 MoveInfo moveInfo = (MoveInfo)geom2.Body.UserData;
                 if (!moveInfo.playerIndexes.Contains(playerIndex))
                 {
-                    ((MoveInfo)geom2.Body.UserData).playerIndexes.Add(playerIndex);
+                    moveInfo.playerIndexes.Add(playerIndex);
                     Move hit = moveInfo.move;
                     Vector2 direction = moveInfo.direction;
                     if(direction.Y == 0) direction.Y -= 0.4f;
@@ -418,9 +438,17 @@ namespace SmashBros.Controllers
                     if (chargeTime > hit.maxWait) ratio = 1;
                     else ratio = (chargeTime - hit.minWait) / (hit.maxWait - hit.minWait);
                     int power = (int)ratio * (hit.maxPower - hit.minPower) + hit.minPower;
-
+                    int damage = (int)ratio * (hit.maxDamage - hit.minDamage) + hit.minDamage;
                     character.BoundBox.ApplyLinearImpulse(direction * power * (1 + damagePoints / 100));
-                    damagePoints += (int)ratio * (hit.maxDamage - hit.minDamage) + hit.minDamage;
+                    damagePoints += damage;
+                    
+                    Manifold man;
+                    list.GetManifold(out man);
+                    Debug.WriteLine("man" + man == null);
+                    Debug.WriteLine("dam" + damage == null);
+                    Debug.WriteLine("dampo" + damagePoints == null);
+                    Debug.WriteLine("moveinf" + moveInfo.playerIndexes == null);
+                    if(HitHappens != null) HitHappens(man.LocalPoint, damage, damagePoints, moveInfo.playerIndexes.First(), playerIndex);
                 }
             }
             return false;
@@ -428,12 +456,21 @@ namespace SmashBros.Controllers
 
         private void Seperation(Fixture geom1, Fixture geom2)
         {
-            if (geom2.CollisionCategories == Category.Cat10 || geom2.CollisionCategories ==  Category.Cat9)
+            if ((geom2.CollisionCategories == Category.Cat10 || geom2.CollisionCategories ==  Category.Cat9)
+                && geom1.Body.ContactList.Contact.FixtureB.CollisionCategories != Category.Cat11)
             {
                 if (!attackMode && jumpsLeft != 2) state = State.falling;
                 onSoftBox = false;
                 jumpsLeft = 2;
             }
         }
+
+        // TIL THAFFE: Her, jeg husker ikke hva mer du ville jeg skulle fikse, og jeg har ingen anelse om pos som den blir sendt nå er riktig. Jeg brukte
+        //             noe som heter manifold uten å teste det en eneste gang.... :( jeje...
+        // HAHAHHAHAHAHHA!!! SYYYKT LOL MED SLÅLYDER FORESSTEN :D
+
+        public delegate void HitOccured(Vector2 pos, int damageDone, int newDamagepoints, int puncher, int reciever);
+
+        public event HitOccured HitHappens;
     }
 }

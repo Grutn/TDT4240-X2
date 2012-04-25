@@ -57,5 +57,8 @@ namespace SmashBros.Model
         /// </summary>
         public Move a, aUp, aDown, aLR,
             x, xUp, xDown, xLR;
+
+        public int ani_noneStart, ani_noneEnd, ani_runStart, ani_runEnd, ani_jumpStart, ani_jumpEnd, ani_fallStart,
+            ani_fallEnd, ani_landStart, ani_landEnd, ani_brake, ani_takeHitStart, ani_takeHitEnd;
     }
 }
