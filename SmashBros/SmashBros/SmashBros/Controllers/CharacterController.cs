@@ -140,6 +140,16 @@ namespace SmashBros.Controllers
         /// Whether the character is in an attackstate.
         /// </summary>
         public bool attackMode;
+        
+        /// <summary>
+        /// Whether or not the player is in an invounerable state.
+        /// </summary>
+        public bool invounerable;
+
+        /// <summary>
+        /// Time left to when the character reappears on the map.
+        /// </summary>
+        public float timeToReset;
 
         /// <summary>
         /// Number of jumps left. One of them is supermove, and once super is used, jumpsleft = 0.
@@ -150,11 +160,6 @@ namespace SmashBros.Controllers
         /// An int that describes how much damage the player has taken in the current game/characterlife.
         /// </summary>
         public int damagePoints = 0;
-
-        /// <summary>
-        /// Number of lifes left.
-        /// </summary>
-        public int lifes;
 
         /// <summary>
         /// The current position of character sprite.
@@ -233,6 +238,16 @@ namespace SmashBros.Controllers
             this.playerIndex = pad.PlayerIndex;
         }
 
+        public void Reset(Vector2 startPos)
+        {
+            RemoveView(character);
+            character.IsActive = false;
+            character.Position = startPos;
+            character.Rotation = (float)Math.PI;
+            character.Scale = 0.1f;
+
+        }
+
         public override void Load(ContentManager content)
         {
             character = new Sprite(content, model.animations, 200, 200, 200, 200);
@@ -263,6 +278,11 @@ namespace SmashBros.Controllers
 
         public override void Update(GameTime gameTime)
         {
+            if (timeToReset > 0)
+            {
+
+            }
+            
             if(!attackMode && (Math.Abs(character.VelocityX) < Math.Abs(model.maxSpeed * navigation.X) || character.VelocityX * navigation.X < 0)) character.VelocityX += navigation.X * model.acceleration * gameTime.ElapsedGameTime.Milliseconds / 1000f;
             if(inAir) character.VelocityY += model.gravity * gameTime.ElapsedGameTime.Milliseconds / 1000f;
             else if(character.VelocityX * navigation.X < 0 || navigation.X == 0) character.VelocityX -= (character.VelocityX / model.maxSpeed) * 3 * model.acceleration * gameTime.ElapsedGameTime.Milliseconds / 1000;
@@ -444,12 +464,12 @@ namespace SmashBros.Controllers
                     
                     Manifold man;
                     list.GetManifold(out man);
-                    Debug.WriteLine("man" + man == null);
-                    Debug.WriteLine("dam" + damage == null);
-                    Debug.WriteLine("dampo" + damagePoints == null);
-                    Debug.WriteLine("moveinf" + moveInfo.playerIndexes == null);
-                    if(HitHappens != null) HitHappens.Invoke(ConvertUnits.ToDisplayUnits((geom1.Body.Position+ geom2.Body.Position)/2), damage, damagePoints, moveInfo.playerIndexes.First(), playerIndex);
+                    if(OnHit != null) OnHit.Invoke(ConvertUnits.ToDisplayUnits(geom2.Body.Position), damage, damagePoints, moveInfo.playerIndexes.First(), playerIndex);
                 }
+            }
+            else if (geom2.CollisionCategories == Category.Cat8)
+            {
+                if (OnCharacterDeath != null) OnCharacterDeath.Invoke(this);
             }
             return false;
         }
@@ -465,12 +485,10 @@ namespace SmashBros.Controllers
             }
         }
 
-        // TIL THAFFE: Her, jeg husker ikke hva mer du ville jeg skulle fikse, og jeg har ingen anelse om pos som den blir sendt nå er riktig. Jeg brukte
-        //             noe som heter manifold uten å teste det en eneste gang.... :( jeje...
-        // HAHAHHAHAHAHHA!!! SYYYKT LOL MED SLÅLYDER FORESSTEN :D
+        public delegate void HitOccured(Vector2 pos, int damageDone, int newDamagepoints, int puncher_playerIndex, int reciever_playerIndex);
+        public delegate void CharacterDied(CharacterController characterController);
 
-        public delegate void HitOccured(Vector2 pos, int damageDone, int newDamagepoints, int puncher, int reciever);
-
-        public event HitOccured HitHappens;
+        public event HitOccured OnHit;
+        public event CharacterDied OnCharacterDeath;
     }
 }

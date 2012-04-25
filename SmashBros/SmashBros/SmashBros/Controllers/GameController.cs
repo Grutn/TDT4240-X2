@@ -48,7 +48,6 @@ namespace SmashBros.Controllers
             
             this.camera = new CameraController(screen);
 
-
             this.hitImgs = new List<ImageTexture>(){
                 new ImageTexture(content, "GameStuff/Pow") 
                 {Layer = 101, Origin = new Vector2(150/2,102/2), Scale = 0.1f },
@@ -69,7 +68,7 @@ namespace SmashBros.Controllers
                 {
                     var character = new CharacterController(screen, pad, map.CurrentMap.startingPosition[i]);
                     //Add HitHappens listener
-                    character.HitHappens += OnPlayerHit;
+                    character.OnHit += OnPlayerHit;
                     //Adds the controller 
                     AddController(character);
 
@@ -136,6 +135,14 @@ namespace SmashBros.Controllers
         private void OnHitAnimationDone(ImageTexture target, ImageInfo imagePosition)
         {
             target.RemovePosition(imagePosition);
+        }
+
+        private void OnPlayerDeath(CharacterController characterController)
+        {
+            Vector2 pos = characterController.position;
+            int playerIndex = characterController.playerIndex;
+            Random r = new Random();
+            characterController.Reset(map.CurrentMap.startingPosition[r.Next(0 ,4)]);
         }
     }
 
