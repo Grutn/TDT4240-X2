@@ -62,6 +62,7 @@ namespace SmashBros.Controllers
 
             //Init continiue text
             continueText = new TextBox("Press ENTER to continue", GetFont("Impact.large"), 400, 320, Color.White, 1f);
+            continueText.StaticPosition = true;
             continueText.Layer = 1002;
             continueText.TextBackground = Draw.ColoredRectangle(screen.GraphicsDevice, 600, 80, Color.Red);
             continueText.BackgroundOffset = new Vector2(-70, -5);
