@@ -86,7 +86,7 @@ namespace SmashBros.Controllers
         {
         }
 
-        internal void AddTarget(CharacterController character)
+        internal void AddCharacterTarget(CharacterController character)
         {
             this.characters.Add(character);
         }

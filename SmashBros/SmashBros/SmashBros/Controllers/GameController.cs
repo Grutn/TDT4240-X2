@@ -21,56 +21,85 @@ namespace SmashBros.Controllers
     {
         MapController map;
         CameraController camera;
-        List<CharacterController> characters;
+        Dictionary<int,PlayerStats> players;
 
         SoundEffect sound_background;
         SoundEffectInstance sound_instance;
         SoundEffect sound_hit;
+        List<ImageTexture> hitImgs;
 
         public GameController(ScreenController screen, Map selectedMap) : base(screen)
         {
-            this.characters = new List<CharacterController>();
+            this.players = new Dictionary<int,PlayerStats>();
             this.map = new MapController(screen, selectedMap);
         }
 
         public override void Load(ContentManager content)
         {
+            sound_hit = content.Load<SoundEffect>("Sound/hit");
+
             if (Constants.Music)
             {
                 sound_background = content.Load<SoundEffect>("Sound/main");
-                sound_hit = content.Load<SoundEffect>("Sound/hit");
                 sound_instance = sound_background.CreateInstance();
                 sound_instance.IsLooped = true;
                 sound_instance.Play();
             }
             
+            this.camera = new CameraController(screen);
+
+
+            this.hitImgs = new List<ImageTexture>(){
+                new ImageTexture(content, "GameStuff/Pow") 
+                {Layer = 101, Origin = new Vector2(150/2,102/2), Scale = 0.1f },
+                new ImageTexture(content, "GameStuff/Bang") 
+                {Layer = 101, Origin = new Vector2(150/2,130/2), Scale = 0.1f },
+                new ImageTexture(content, "GameStuff/Bam") 
+                {Layer = 101, Origin = new Vector2(150/2,125/2), Scale = 0.1f }
+            };
+            this.hitImgs.ForEach(a => a.OnAnimationDone += OnHitAnimationDone);
+            AddViews(hitImgs.ToArray());
+
+            //Loops through the gamepads to check which controllers that has selected characters
+            //And crates CharacterCOntrooles for them
             int i = 0;
             foreach (var pad in GamePadControllers)
             {
                 if (pad.SelectedCharacter != null)
                 {
                     var character = new CharacterController(screen, pad, map.CurrentMap.startingPosition[i]);
-                    characters.Add(character);
+                    //Add HitHappens listener
+                    character.HitHappens += OnPlayerHit;
+                    //Adds the controller 
                     AddController(character);
 
-                    character.HitHappens += (a, b, c, d, e) =>
-                    {
-                        sound_hit.Play();
-                    };
+                    Vector2 percentPos = new Vector2( 300 * pad.PlayerIndex +70, Constants.WindowHeight -120); 
+
+                    TextBox percent = new TextBox("0%", GetFont("Impact.large"), percentPos + new Vector2(80,50), Color.Black, 1f);
+                    percent.StaticPosition = true;
+                    percent.Layer = 150;
+                    percent.Origin = new Vector2(20, 0);
+                    AddView(percent);
+
+                    TextBox player = new TextBox("Player " + (pad.PlayerIndex + 1), FontDefualt, percentPos + new Vector2(70, 100), pad.PlayerModel.Color, 0.6f);
+                    player.StaticPosition = true;
+                    player.Layer = 150;
+                    AddView(player);
+
+                    ImageTexture percentBg = new ImageTexture(content, "GameStuff/PlayerPercentBg", percentPos);
+                    percentBg.StaticPosition = true;
+                    percentBg.Layer = 149;
+                    AddView(percentBg);
+
+                    this.camera.AddCharacterTarget(character);
+                    this.players.Add(pad.PlayerIndex, new PlayerStats(character, percent, player, percentBg));
                     i++;
                 }
 
             }
             
             World.Gravity = new Vector2(0, Constants.GamePlayGravity);
-
-            this.camera = new CameraController(screen);
-            foreach (var c in characters)
-            {
-                this.camera.AddTarget(c);
-            }
             AddController(camera);
-
             AddController(this.map);
         }
 
@@ -89,5 +118,83 @@ namespace SmashBros.Controllers
         public override void OnNext(GameStateManager value)
         {
         }
+
+        private void OnPlayerHit(Vector2 pos, int damageDone, int newDamagepoints, int puncher, int reciever)
+        {
+            sound_hit.Play();
+            this.players[puncher].DidHit(damageDone, reciever);
+            this.players[reciever].GotHit(newDamagepoints);
+
+            Random r = new Random();
+           
+            DebugWrite("Random", r.Next(0, hitImgs.Count()), hitImgs.Count());
+
+            ImageInfo inf = hitImgs[r.Next(0, hitImgs.Count())].AddPosition(pos);
+            inf.StartAnimation(pos- new Vector2(30, 30), 180, false, 0.7f);
+        }
+
+        private void OnHitAnimationDone(ImageTexture target, ImageInfo imagePosition)
+        {
+            target.RemovePosition(imagePosition);
+        }
+    }
+
+    internal class PlayerStats
+    {
+        public PlayerStats(CharacterController controller, TextBox percentText, TextBox playerText, ImageTexture percentBg)
+        {
+
+            this.PlayerDamageDone = new Dictionary<int, int>();
+            this.PlayerKills = new Dictionary<int, int>();
+            this.Controller = controller;
+            this.percentBox = percentText;
+            this.percentBg = percentBg;
+            this.playerText = playerText;
+        }
+
+        public void Dispose()
+        {
+
+        }
+
+        private TextBox percentBox;
+        private TextBox playerText;
+        private ImageTexture percentBg;
+
+        public CharacterController Controller { get; private set; }
+        public Dictionary<int,int> PlayerDamageDone { get; private set; }
+        public Dictionary<int,int> PlayerKills { get; private set; }
+        public int DamageDone { get { return PlayerDamageDone.Sum(a => a.Value); } }
+        public int DamagePoints { get; set; }
+        public int HitsDone { get; private set; }
+
+
+
+        public void DidHit(int damageDone, int playerIndexReciever){
+            HitsDone++;
+            if (PlayerDamageDone.ContainsKey(playerIndexReciever))
+                PlayerDamageDone[playerIndexReciever] += damageDone;
+            else
+                PlayerDamageDone.Add(playerIndexReciever, damageDone);
+        }
+
+        public void KilledPlayer(int playerIndexKilled)
+        {
+            if (PlayerKills.ContainsKey(playerIndexKilled))
+                PlayerKills[playerIndexKilled]++;
+            else
+                PlayerKills.Add(playerIndexKilled,1);    
+        }
+
+        public void Died()
+        {
+
+        }
+
+        public void GotHit(int damagePoints){
+            this.DamagePoints = damagePoints;
+            this.percentBox.Text = damagePoints + "%";
+        }
+
     }
 }

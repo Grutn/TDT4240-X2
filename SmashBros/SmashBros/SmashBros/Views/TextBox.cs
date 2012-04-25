@@ -15,14 +15,21 @@ namespace SmashBros.Views
         }
 
         public TextBox(string text, SpriteFont font, float x, float y, Color color, float scale = 1f)
+            :this(text, font, new Vector2(x, y), color, scale)
+        {
+        }
+
+        public TextBox(string text, SpriteFont font, Vector2 pos, Color color, float scale = 1f)
         {
             this.Text = text;
             this.Font = font;
-            this.Position = new Vector2(x, y);
+            this.Position = pos;
             this.TextColor = color;
             this.Scale = scale;
             this.BackgroundOffset = Vector2.Zero;
-        }
+        } 
+
+
 
         public string Text { get; set; }
         public Color TextColor { get; set; }
@@ -39,7 +46,7 @@ namespace SmashBros.Views
             {
                 spriteBatch.Draw(TextBackground, Position + BackgroundOffset, Color.White);
             }
-            spriteBatch.DrawString(Font, Text, Position, TextColor, Rotation, Vector2.Zero, Scale, SpriteEffects.None, 0f);
+            spriteBatch.DrawString(Font, Text, Position, TextColor, Rotation, Origin, Scale, SpriteEffects.None, 0f);
         }
 
         public override void Dispose()

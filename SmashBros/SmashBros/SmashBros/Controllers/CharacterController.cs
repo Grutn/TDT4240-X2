@@ -448,7 +448,7 @@ namespace SmashBros.Controllers
                     Debug.WriteLine("dam" + damage == null);
                     Debug.WriteLine("dampo" + damagePoints == null);
                     Debug.WriteLine("moveinf" + moveInfo.playerIndexes == null);
-                    if(HitHappens != null) HitHappens(man.LocalPoint, damage, damagePoints, moveInfo.playerIndexes.First(), playerIndex);
+                    if(HitHappens != null) HitHappens.Invoke(ConvertUnits.ToDisplayUnits((geom1.Body.Position+geom2.Body.Position)/2), damage, damagePoints, moveInfo.playerIndexes.First(), playerIndex);
                 }
             }
             return false;

@@ -304,7 +304,7 @@ namespace SmashBros.Controllers
                 AddView(img);
             }
 
-            img.AddDrawPosition(playerIndex, playerIndex * 250, 400);
+            img.AddPosition(playerIndex * 250, 400, playerIndex);
 
             return true;
         }
@@ -324,9 +324,9 @@ namespace SmashBros.Controllers
 
             int index = characterModels.IndexOf(c);
             ImageTexture img = characterImages[index];
-            img.RemoveDrawPosition(playerIndex);
+            img.RemovePosition(playerIndex);
 
-            if (img.ImagesCount == 0)
+            if (img.PosCount == 0)
             {
                 characterThumbs[index].Scale = 1f;
                 characterThumbs[index].Rotation = 0f;

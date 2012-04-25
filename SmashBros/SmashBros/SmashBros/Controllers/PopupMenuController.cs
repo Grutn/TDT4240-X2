@@ -107,7 +107,7 @@ namespace SmashBros.Controllers
                         AddView(bg);
 
 
-                    bg.Animate("ani", 
+                    bg.Animate(0, 
                         screen.controllerViewManager.camera.Position+ 
                         new Vector2(175,y) - 
                         new Vector2(Constants.WindowWidth/2, Constants.WindowHeight/2), 
