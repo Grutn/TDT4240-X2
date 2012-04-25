@@ -10,6 +10,7 @@ using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using SmashBros.System;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 
 namespace SmashBros.Controllers
 {
@@ -22,6 +23,10 @@ namespace SmashBros.Controllers
         CameraController camera;
         List<CharacterController> characters;
 
+        SoundEffect sound_background;
+        SoundEffectInstance sound_instance;
+        SoundEffect sound_hit;
+
         public GameController(ScreenController screen, Map selectedMap) : base(screen)
         {
             this.characters = new List<CharacterController>();
@@ -30,6 +35,15 @@ namespace SmashBros.Controllers
 
         public override void Load(ContentManager content)
         {
+            if (Constants.Music)
+            {
+                sound_background = content.Load<SoundEffect>("Sound/main");
+                sound_hit = content.Load<SoundEffect>("Sound/hit");
+                sound_instance = sound_background.CreateInstance();
+                sound_instance.IsLooped = true;
+                sound_instance.Play();
+            }
+            
             int i = 0;
             foreach (var pad in GamePadControllers)
             {
@@ -39,6 +53,10 @@ namespace SmashBros.Controllers
                     characters.Add(character);
                     AddController(character);
 
+                    character.HitHappens += (a, b, c, d, e) =>
+                    {
+                        sound_hit.Play();
+                    };
                     i++;
                 }
 

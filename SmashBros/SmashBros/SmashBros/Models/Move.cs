@@ -19,6 +19,11 @@ namespace SmashBros.Model
         public bool adjustable;
 
         /// <summary>
+        /// Maximum radians per sec the movedirection changes with navigation.
+        /// </summary>
+        public float adjustAcc;
+
+        /// <summary>
         /// Minimum/Maximum ventetid før angrepsfirkant opprettes og angrepet utføres.
         /// </summary>
         public int minWait, maxWait;
@@ -36,7 +41,7 @@ namespace SmashBros.Model
         /// <summary>
         /// Vektorer som viser forflyttelse til kropp, og angrepsfirkant relativt til kropp.
         /// </summary>
-        public int sqRange, bodyRange;
+        public float sqRange, bodyRange;
 
         /*
         /// <summary>
@@ -54,5 +59,10 @@ namespace SmashBros.Model
         /// Tid det tar for firkant/kropp og bevege seg.
         /// </summary>
         public int duration;
+
+        /// <summary>
+        /// From what frame to what frame the animation of the move is.
+        /// </summary>
+        public int aniFrom, aniTo;
     }
 }

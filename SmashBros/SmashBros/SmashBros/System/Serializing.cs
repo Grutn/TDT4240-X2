@@ -97,7 +97,21 @@ namespace SmashBros.System
                     acceleration = 10,
                     weight = 100,
                     jumpStartVelocity = 10,
-                    gravity = 20
+                    gravity = 20,
+
+                    ani_noneStart = 0,
+                    ani_noneEnd = 2,
+                    ani_runStart = 2,
+                    ani_runEnd = 13,
+                    ani_brake = 44,
+                    ani_jumpStart = 18,
+                    ani_jumpEnd = 24,
+                    ani_fallStart = 24,
+                    ani_fallEnd = 26,
+                    ani_landStart = 26,
+                    ani_landEnd = 28,
+                    ani_takeHitStart = 14,
+                    ani_takeHitEnd = 16
                 };
                 c.animations = "Characters/SpidermanAnimation";
                 c.thumbnail = "Characters/WolverineThumb";
@@ -112,11 +126,14 @@ namespace SmashBros.System
                     maxPower = 10,
                     minDamage = 10,
                     maxDamage = 10,
-                    sqRange = 1000,
-                    bodyRange = 1000,
+                    sqRange = 0.8f,
+                    bodyRange = 1,
                     sqWidth = 10,
                     sqHeight = 10,
-                    duration = 100
+                    duration = 250,
+                    
+                    aniFrom = 28,
+                    aniTo = 35
                 };
                 
                 if (i == 1)
