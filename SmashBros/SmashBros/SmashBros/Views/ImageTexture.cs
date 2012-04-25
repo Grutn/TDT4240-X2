@@ -22,6 +22,8 @@ namespace SmashBros.Views
         private ConcurrentQueue<Tuple<bool, ImageInfo>> imageQueue;
         public float Rotation { get; set; }
         public float Scale { get; set; }
+        public Rectangle? SourceRect;
+        public int FramesPrRow = 0;
         public int PosCount { get { return imagesPos.Count(); } }
 
         public ImageTexture(ContentManager content, string assetName)
@@ -43,6 +45,15 @@ namespace SmashBros.Views
             : this(content, assetName)
         {
             imagesPos.Add(new ImageInfo(pos, Scale));
+        }
+
+        public void SetFrame(ImageInfo info, int frame)
+        {
+            
+        }
+
+        public void SetFrame(int posIndex, int width, int height, int column = 0, int row = 0)
+        {
         }
 
         public void Position(float x, float y)
@@ -70,12 +81,13 @@ namespace SmashBros.Views
             {
                 var c = imagesPos.Where(a => a.Id == posId);
                 i = c.Count() != 0 ? c.First() : null;
-                i.CurrentPos = pos;
+                if(i != null)
+                    i.CurrentPos = pos;
             }
 
             if(i == null)
             {
-                i = new ImageInfo(pos, Scale);
+                i = new ImageInfo(pos, Scale) { Id = posId };
                 imageQueue.Enqueue(Tuple.Create(true, i));
             }
             return i;
@@ -124,6 +136,11 @@ namespace SmashBros.Views
             RemovePosition(imagesPos[index]);
         }
 
+        public void RemoveId(int id)
+        {
+            imagesPos.RemoveAll(a => a.Id == id);
+        }
+
         public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             while (!imageQueue.IsEmpty)
@@ -150,7 +167,18 @@ namespace SmashBros.Views
                 {
                     OnAnimationDone.Invoke(this, i);
                 }
-                spriteBatch.Draw(img, i.CurrentPos, null, Color.White, Rotation, Origin, i.CurrentScale, SpriteEffects.None, 0);
+                Rectangle? r = SourceRect;
+
+                if (SourceRect.HasValue)
+                {
+                    int row = (int)Math.Floor((double)i.CurrentFrame / this.FramesPrRow);
+
+                    r = new Rectangle(SourceRect.Value.Width * (i.CurrentFrame - row * FramesPrRow),
+                        row * SourceRect.Value.Height, 
+                        SourceRect.Value.Width, SourceRect.Value.Height);
+                }
+                
+                spriteBatch.Draw(img, i.CurrentPos, r, Color.White, Rotation, Origin, i.CurrentScale, SpriteEffects.None, 0);
             }
         }
 
@@ -177,6 +205,7 @@ namespace SmashBros.Views
         {
             this.CurrentPos = pos;
             this.CurrentScale = scale;
+
         }
 
         public void StartAnimation(float toX, float toY, float time, bool loop, float endScale = 1f)
@@ -239,6 +268,7 @@ namespace SmashBros.Views
         }
 
         public Vector2 CurrentPos;
+        public int CurrentFrame;
         public float CurrentScale;
         public int Id = -1;
         private Vector2 startPos;

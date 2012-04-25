@@ -50,18 +50,18 @@ namespace SmashBros.Controllers
                 w = Model.size.Width, h = Model.size.Height;
 
             CreateEdge(x, y, 10, h);//left
-            CreateEdge(x, y, w, 10);//top
+            CreateEdge(x, y, w, 10, Category.Cat7);//top
             CreateEdge(x + w, y, 10, h);//right
             CreateEdge(x, y + h, w, 10);//bottom
 
         }
 
-        private void CreateEdge(float x, float y, float width, float height)
+        private void CreateEdge(float x, float y, float width, float height, Category cat = Category.Cat8)
         {
             Body b = BodyFactory.CreateRectangle(World, ConvertUnits.ToSimUnits(width), ConvertUnits.ToSimUnits(height), 1f);
             b.IsSensor = true;
             b.Position = ConvertUnits.ToSimUnits(x+width/2, y+height/2);
-            b.CollisionCategories = Category.Cat8;
+            b.CollisionCategories = cat;
             boxes.Add(b);
         }
 

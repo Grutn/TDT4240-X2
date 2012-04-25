@@ -7,8 +7,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\background.xnb</Output>
-      <Time>2012-04-25T02:30:50.5974658+02:00</Time>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\background.xnb</Output>
+      <Time>2012-03-26T20:45:14.5637358+02:00</Time>
     </Item>
     <Item>
       <Source>blank.png</Source>
@@ -16,8 +16,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\blank.xnb</Output>
-      <Time>2012-04-25T02:30:50.5974658+02:00</Time>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\blank.xnb</Output>
+      <Time>2012-03-26T20:45:14.564735+02:00</Time>
     </Item>
     <Item>
       <Source>gradient.png</Source>
@@ -25,8 +25,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\gradient.xnb</Output>
-      <Time>2012-04-25T02:30:50.5984664+02:00</Time>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\gradient.xnb</Output>
+      <Time>2012-03-26T20:45:14.5687328+02:00</Time>
     </Item>
     <Item>
       <Source>spiderman.png</Source>
@@ -34,8 +34,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\spiderman.xnb</Output>
-      <Time>2012-04-25T02:30:50.6133183+02:00</Time>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\spiderman.xnb</Output>
+      <Time>2012-03-26T20:45:14.596711+02:00</Time>
     </Item>
     <Item>
       <Source>Menu\StartScreen.jpg</Source>
@@ -43,8 +43,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Menu\StartScreen.xnb</Output>
-      <Time>2012-04-25T02:30:50.5944681+02:00</Time>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Menu\StartScreen.xnb</Output>
+      <Time>2012-03-30T20:15:33.4713033+02:00</Time>
     </Item>
     <Item>
       <Source>Characters\WolverineThumb.png</Source>
@@ -52,8 +52,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Characters\WolverineThumb.xnb</Output>
-      <Time>2012-04-25T02:30:50.5694829+02:00</Time>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Characters\WolverineThumb.xnb</Output>
+      <Time>2012-03-29T01:35:51.4217683+02:00</Time>
     </Item>
     <Item>
       <Source>Menu\SelectionScreen.jpg</Source>
@@ -61,8 +61,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Menu\SelectionScreen.xnb</Output>
-      <Time>2012-04-25T02:30:50.5924705+02:00</Time>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Menu\SelectionScreen.xnb</Output>
+      <Time>2012-04-24T13:22:40.128597+02:00</Time>
     </Item>
     <Item>
       <Source>Characters\SpidermanThumb.png</Source>
@@ -70,8 +70,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Characters\SpidermanThumb.xnb</Output>
-      <Time>2012-04-25T02:30:50.568055+02:00</Time>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Characters\SpidermanThumb.xnb</Output>
+      <Time>2012-03-29T01:46:25.7586717+02:00</Time>
     </Item>
     <Item>
       <Source>Cursors\Player0.png</Source>
@@ -79,8 +79,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Cursors\Player0.xnb</Output>
-      <Time>2012-04-25T02:30:50.5704835+02:00</Time>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Cursors\Player0.xnb</Output>
+      <Time>2012-04-02T14:46:21.4337817+02:00</Time>
     </Item>
     <Item>
       <Source>Cursors\Player1.png</Source>
@@ -88,8 +88,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Cursors\Player1.xnb</Output>
-      <Time>2012-04-25T02:30:50.5714828+02:00</Time>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Cursors\Player1.xnb</Output>
+      <Time>2012-04-02T14:51:32.5165142+02:00</Time>
     </Item>
     <Item>
       <Source>Cursors\Player3.png</Source>
@@ -97,8 +97,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Cursors\Player3.xnb</Output>
-      <Time>2012-04-25T02:30:50.572482+02:00</Time>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Cursors\Player3.xnb</Output>
+      <Time>2012-04-02T14:50:50.6589942+02:00</Time>
     </Item>
     <Item>
       <Source>Cursors\Player2.png</Source>
@@ -106,8 +106,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Cursors\Player2.xnb</Output>
-      <Time>2012-04-25T02:30:50.5714828+02:00</Time>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Cursors\Player2.xnb</Output>
+      <Time>2012-04-02T14:51:14.1131651+02:00</Time>
     </Item>
     <Item>
       <Source>Characters\WolverineImage.png</Source>
@@ -115,8 +115,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Characters\WolverineImage.xnb</Output>
-      <Time>2012-04-25T02:30:50.5694829+02:00</Time>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Characters\WolverineImage.xnb</Output>
+      <Time>2012-04-02T14:06:53.706487+02:00</Time>
     </Item>
     <Item>
       <Source>Characters\SpidermanImage.png</Source>
@@ -124,8 +124,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Characters\SpidermanImage.xnb</Output>
-      <Time>2012-04-25T02:30:50.5323203+02:00</Time>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Characters\SpidermanImage.xnb</Output>
+      <Time>2012-04-02T16:13:12.142919+02:00</Time>
     </Item>
     <Item>
       <Source>Characters\SpidermanAnimation.png</Source>
@@ -133,8 +133,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Characters\SpidermanAnimation.xnb</Output>
-      <Time>2012-04-25T02:30:50.5302257+02:00</Time>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Characters\SpidermanAnimation.xnb</Output>
+      <Time>2012-04-25T01:29:21.1237829+02:00</Time>
     </Item>
     <Item>
       <Source>Menu\PopupMenu.png</Source>
@@ -142,8 +142,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Menu\PopupMenu.xnb</Output>
-      <Time>2012-04-25T02:30:50.590472+02:00</Time>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Menu\PopupMenu.xnb</Output>
+      <Time>2012-04-24T13:23:10.5293105+02:00</Time>
     </Item>
     <Item>
       <Source>Maps\CityBg.jpg</Source>
@@ -151,8 +151,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Maps\CityBg.xnb</Output>
-      <Time>2012-04-25T02:30:50.5774941+02:00</Time>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Maps\CityBg.xnb</Output>
+      <Time>2012-04-24T19:46:35.5053722+02:00</Time>
     </Item>
     <Item>
       <Source>Maps\CityMap.png</Source>
@@ -160,44 +160,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Maps\CityMap.xnb</Output>
-      <Time>2012-04-25T02:30:50.5884717+02:00</Time>
-    </Item>
-    <Item>
-      <Source>GameStuff\Pow.png</Source>
-      <Name>GameStuff\Pow</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\GameStuff\Pow.xnb</Output>
-      <Time>2012-04-25T16:24:27.3270115+02:00</Time>
-    </Item>
-    <Item>
-      <Source>GameStuff\Bang.png</Source>
-      <Name>GameStuff\Bang</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\GameStuff\Bang.xnb</Output>
-      <Time>2012-04-25T16:24:27.3270115+02:00</Time>
-    </Item>
-    <Item>
-      <Source>GameStuff\Bam.png</Source>
-      <Name>GameStuff\Bam</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\GameStuff\Bam.xnb</Output>
-      <Time>2012-04-25T16:24:27.3270115+02:00</Time>
-    </Item>
-    <Item>
-      <Source>GameStuff\Zap.png</Source>
-      <Name>GameStuff\Zap</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\GameStuff\Zap.xnb</Output>
-      <Time>2012-04-25T16:24:27.3270115+02:00</Time>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Maps\CityMap.xnb</Output>
+      <Time>2012-04-24T17:51:45.4326414+02:00</Time>
     </Item>
     <Item>
       <Source>GameStuff\PlayerPercentBg.png</Source>
@@ -205,8 +169,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\GameStuff\PlayerPercentBg.xnb</Output>
-      <Time>2012-04-25T16:24:27.3270115+02:00</Time>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\GameStuff\PlayerPercentBg.xnb</Output>
+      <Time>2012-04-25T14:58:43.6965438+02:00</Time>
     </Item>
     <Item>
       <Source>Fonts\gamefont.spritefont</Source>
@@ -214,8 +178,8 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Fonts\gamefont.xnb</Output>
-      <Time>2012-04-25T02:30:50.5754802+02:00</Time>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Fonts\gamefont.xnb</Output>
+      <Time>2012-03-26T20:45:14.5667304+02:00</Time>
     </Item>
     <Item>
       <Source>menufont.spritefont</Source>
@@ -223,8 +187,8 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\menufont.xnb</Output>
-      <Time>2012-04-25T02:30:50.5984664+02:00</Time>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\menufont.xnb</Output>
+      <Time>2012-03-26T20:45:14.5707282+02:00</Time>
     </Item>
     <Item>
       <Source>Fonts\Impact.spritefont</Source>
@@ -232,8 +196,8 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Fonts\Impact.xnb</Output>
-      <Time>2012-04-25T02:30:50.574481+02:00</Time>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Fonts\Impact.xnb</Output>
+      <Time>2012-04-04T15:50:17.095855+02:00</Time>
     </Item>
     <Item>
       <Source>Fonts\Impact.large.spritefont</Source>
@@ -241,8 +205,8 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Fonts\Impact.large.xnb</Output>
-      <Time>2012-04-25T02:30:50.5734822+02:00</Time>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Fonts\Impact.large.xnb</Output>
+      <Time>2012-04-04T18:05:57.7052327+02:00</Time>
     </Item>
     <Item>
       <Source>Sound\main.wav</Source>
@@ -250,8 +214,8 @@
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Sound\main.xnb</Output>
-      <Time>2012-04-25T02:33:25.6029452+02:00</Time>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Sound\main.xnb</Output>
+      <Time>2012-04-25T09:58:56.1458208+02:00</Time>
     </Item>
     <Item>
       <Source>Sound\hit.wav</Source>
@@ -259,8 +223,44 @@
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Sound\hit.xnb</Output>
-      <Time>2012-04-25T05:43:10.6025499+02:00</Time>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Sound\hit.xnb</Output>
+      <Time>2012-04-25T09:58:56.1328293+02:00</Time>
+    </Item>
+    <Item>
+      <Source>GameStuff\GameEffects.png</Source>
+      <Name>GameStuff\GameEffects</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\GameStuff\GameEffects.xnb</Output>
+      <Time>2012-04-25T19:09:46.8489311+02:00</Time>
+    </Item>
+    <Item>
+      <Source>Characters\RoketRacoonAnimation.png</Source>
+      <Name>Characters\RoketRacoonAnimation</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Characters\RoketRacoonAnimation.xnb</Output>
+      <Time>2012-04-25T23:52:21.4116901+02:00</Time>
+    </Item>
+    <Item>
+      <Source>Characters\RoketRacoonPose.png</Source>
+      <Name>Characters\RoketRacoonPose</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Characters\RoketRacoonPose.xnb</Output>
+      <Time>2012-04-26T00:34:31.4069343+02:00</Time>
+    </Item>
+    <Item>
+      <Source>Characters\RoketRacoonThumb.png</Source>
+      <Name>Characters\RoketRacoonThumb</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Characters\RoketRacoonThumb.xnb</Output>
+      <Time>2012-04-26T00:00:59.9280772+02:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
@@ -268,10 +268,10 @@
       <TargetProfile>HiDef</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBrosContent\</RootDirectory>
-      <LoggerRootDirectory>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\</LoggerRootDirectory>
-      <IntermediateDirectory>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBrosContent\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBrosContent\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBrosContent\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>
@@ -300,7 +300,7 @@
       </Assembly>
       <Assembly>
         <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
-        <Value>2012-03-23T19:29:45.810491+01:00</Value>
+        <Value>2012-03-23T19:04:18.1256994+01:00</Value>
       </Assembly>
     </Assemblies>
   </Asset>

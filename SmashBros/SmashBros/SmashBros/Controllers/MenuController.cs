@@ -255,7 +255,6 @@ namespace SmashBros.Controllers
                     AddView(startScreen);
                     AddView(tipsText);
 
-                    popupMenu.State = PopupState.hidden;
                     break;
                 case GameState.SelectionMenu :
                     AddView(characterScreen);
@@ -274,11 +273,9 @@ namespace SmashBros.Controllers
                     AddViews(characterThumbs.ToArray());
                     AddViews(playerCursors.ToArray());
 
-                    popupMenu.State = PopupState.colapsed;
                     break;
 
                 case GameState.GamePlay:
-                    popupMenu.State = PopupState.removed;
                     AddController(new GameController(screen, mapModels[0]));
                     break;
             }
@@ -304,7 +301,7 @@ namespace SmashBros.Controllers
                 AddView(img);
             }
 
-            img.AddPosition(playerIndex * 250, 400, playerIndex);
+            img.AddPosition(playerIndex * 260, 450, playerIndex);
 
             return true;
         }
@@ -324,7 +321,7 @@ namespace SmashBros.Controllers
 
             int index = characterModels.IndexOf(c);
             ImageTexture img = characterImages[index];
-            img.RemovePosition(playerIndex);
+            img.RemoveId(playerIndex);
 
             if (img.PosCount == 0)
             {
@@ -384,24 +381,6 @@ namespace SmashBros.Controllers
             if (continueText.IsActive)
             {
                 CurrentState = GameState.GamePlay;
-            }
-            else
-            {
-
-                switch (CurrentState)
-                {
-                    case GameState.StartScreen:
-                        break;
-                    case GameState.SelectionMenu:
-                        break;
-                    case GameState.OptionsMenu:
-                        break;
-                    case GameState.GamePlay:
-                        popupMenu.State = PopupState.show;
-                        break;
-                    default:
-                        break;
-                }
             }
         }
 

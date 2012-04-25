@@ -16,10 +16,6 @@ Content\Characters\SpidermanAnimation.xnb
 Content\Menu\PopupMenu.xnb
 Content\Maps\CityBg.xnb
 Content\Maps\CityMap.xnb
-Content\GameStuff\Pow.xnb
-Content\GameStuff\Bang.xnb
-Content\GameStuff\Bam.xnb
-Content\GameStuff\Zap.xnb
 Content\GameStuff\PlayerPercentBg.xnb
 Content\Fonts\gamefont.xnb
 Content\menufont.xnb
@@ -27,4 +23,8 @@ Content\Fonts\Impact.xnb
 Content\Fonts\Impact.large.xnb
 Content\Sound\main.xnb
 Content\Sound\hit.xnb
+Content\GameStuff\GameEffects.xnb
+Content\Characters\RoketRacoonAnimation.xnb
+Content\Characters\RoketRacoonPose.xnb
+Content\Characters\RoketRacoonThumb.xnb
 Content\font.xnb

@@ -26,7 +26,7 @@ namespace SmashBros.Controllers
         SoundEffect sound_background;
         SoundEffectInstance sound_instance;
         SoundEffect sound_hit;
-        List<ImageTexture> hitImgs;
+        ImageTexture effectImg;
 
         public GameController(ScreenController screen, Map selectedMap) : base(screen)
         {
@@ -48,16 +48,14 @@ namespace SmashBros.Controllers
             
             this.camera = new CameraController(screen, map.Model.zoomBox);
 
-            this.hitImgs = new List<ImageTexture>(){
-                new ImageTexture(content, "GameStuff/Pow") 
-                {Layer = 101, Origin = new Vector2(150f/2, 102/2), Scale = 0.1f },
-                new ImageTexture(content, "GameStuff/Bang") 
-                {Layer = 101, Origin = new Vector2(150f/2,130f/2), Scale = 0.1f },
-                new ImageTexture(content, "GameStuff/Bam") 
-                {Layer = 101, Origin = new Vector2(150f/2,125f/2), Scale = 0.1f }
-            };
-            this.hitImgs.ForEach(a => a.OnAnimationDone += OnHitAnimationDone);
-            AddViews(hitImgs.ToArray());
+            //The effects image for hits
+            this.effectImg = new ImageTexture(content, "GameStuff/GameEffects");
+            this.effectImg.Layer = 110;
+            this.effectImg.Scale = 0.1f;
+            this.effectImg.OnAnimationDone += OnHitAnimationDone;
+            this.effectImg.SourceRect = new Rectangle(0, 0, 200, 200);
+            this.effectImg.FramesPrRow = 2;
+            this.AddView(effectImg);
 
             //Loops through the gamepads to check which controllers that has selected characters
             //And crates CharacterCOntrooles for them
@@ -126,10 +124,10 @@ namespace SmashBros.Controllers
 
             Random r = new Random();
            
-            DebugWrite("Random", r.Next(0, hitImgs.Count()), hitImgs.Count());
 
-            ImageInfo inf = hitImgs[r.Next(0, hitImgs.Count())].AddPosition(pos);
-            inf.StartAnimation(pos- new Vector2(30, 30), 2000, false, 0.7f);
+            ImageInfo inf = effectImg.AddPosition(pos);
+            inf.CurrentFrame = r.Next(0, 4);
+            inf.StartAnimation(pos- new Vector2(30, 30), 180, false, 0.7f);
         }
 
         private void OnHitAnimationDone(ImageTexture target, ImageInfo imagePosition)

@@ -45,6 +45,8 @@ namespace SmashBros.Controllers
             UpdateBgPos();
             bg.Layer = 1000;
             AddView(bg);
+
+            SubscribeToGameState = true;
         }
 
 
@@ -71,6 +73,36 @@ namespace SmashBros.Controllers
 
         public override void OnNext(GameStateManager value)
         {
+            switch (value.PreviousState)
+            {
+                case GameState.StartScreen:
+                    break;
+                case GameState.SelectionMenu:
+                    break;
+                case GameState.OptionsMenu:
+                    break;
+                case GameState.GamePlay:
+                    break;
+                default:
+                    break;
+            }
+
+            switch (value.CurrentState)
+            {
+                case GameState.StartScreen:
+                    State = PopupState.hidden;
+                    break;
+                case GameState.SelectionMenu:
+                    State = PopupState.colapsed;
+                    break;
+                case GameState.OptionsMenu:
+                    break;
+                case GameState.GamePlay:
+                    State = PopupState.removed;
+                    break;
+                default:
+                    break;
+            }
         }
 
         public override void Deactivate()
