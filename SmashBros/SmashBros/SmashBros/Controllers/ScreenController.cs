@@ -64,7 +64,7 @@ namespace SmashBros.Controllers
                 var chars = Serializing.LoadCharacters();
                 var maps = Serializing.LoadMaps();
                 gamePads[0].SelectedCharacter = chars[0];
-                gamePads[1].SelectedCharacter = chars[1];
+                gamePads[1].SelectedCharacter = chars[2];
 
                 GameController game = new GameController(this, maps[0]);
                 controllerViewManager.AddController(game);

@@ -113,6 +113,7 @@ namespace SmashBros.System
                     ani_takeHitStart = 14,
                     ani_takeHitEnd = 16
                 };
+
                 c.animations = "Characters/SpidermanAnimation";
                 c.thumbnail = "Characters/WolverineThumb";
                 c.image = "Characters/WolverineImage";
@@ -131,7 +132,6 @@ namespace SmashBros.System
                     sqWidth = 10,
                     sqHeight = 10,
                     duration = 250,
-                    
                     aniFrom = 28,
                     aniTo = 35
                 };
@@ -140,8 +140,64 @@ namespace SmashBros.System
                 {
                     c.thumbnail = "Characters/SpidermanThumb";
                     c.image = "Characters/SpidermanImage";
+                }
 
+                if (i == 2)
+                {
+                    c.thumbnail = "Characters/RoketRacoonThumb";
+                    c.image = "Characters/RoketRacoonPose";
+                    c.animations = "Characters/RoketRacoonAnimation";
+                    c.ani_noneStart = 0;
+                    c.ani_noneEnd = 0;
+                    c.ani_runStart = 1;
+                    c.ani_runEnd = 12;
+                    c.ani_brake = 35;
+                    c.ani_jumpStart = 16;
+                    c.ani_jumpEnd = 20;
+                    c.ani_fallStart = 20;
+                    c.ani_fallEnd = 20;
+                    c.ani_landStart = 20;
+                    c.ani_landEnd = 22;
+                    c.ani_takeHitStart = 12;
+                    c.ani_takeHitEnd = 14;
 
+                    c.a = new Move()
+                    {
+                        range = false,
+                        adjustable = false,
+                        minWait = 0,
+                        maxWait = 0,
+                        minPower = 1,
+                        maxPower = 1,
+                        minDamage = 70,
+                        maxDamage = 100,
+                        sqRange = 0.8f,
+                        bodyRange = 1,
+                        sqWidth = 10,
+                        sqHeight = 10,
+                        duration = 250,
+                        aniFrom = 23,
+                        aniTo = 28
+                    };
+
+                    c.aUp = new Move()
+                    {
+                        range = false,
+                        adjustable = false,
+                        minWait = 0,
+                        maxWait = 0,
+                        minPower = 10,
+                        maxPower = 10,
+                        minDamage = 10,
+                        maxDamage = 10,
+                        sqRange = 0.8f,
+                        bodyRange = 1,
+                        sqWidth = 10,
+                        sqHeight = 10,
+                        duration = 250,
+                        aniFrom = 29,
+                        aniTo = 34
+                    };
                 }
                 Write(c,CharacterFolder,"Character"+i);
             }
@@ -165,7 +221,7 @@ namespace SmashBros.System
                 map.mapImage = "Maps/CityMap";
                 map.backgroundMusic = "Sound/main";
                 map.size = new Box(3500, 1600, -800, 0);
-                map.zoomBox = new Box(3000, 1400, -800, 0);
+                map.zoomBox = new Box(3000, 1300, -800, 100);
 
                 int mx = -420;
 

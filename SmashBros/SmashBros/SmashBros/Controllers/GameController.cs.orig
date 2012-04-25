@@ -23,7 +23,14 @@ namespace SmashBros.Controllers
         CameraController camera;
         Dictionary<int,PlayerStats> players;
 
+<<<<<<< HEAD
+        List<ImageTexture> hitImgs;
+=======
+        SoundEffect sound_background;
+        SoundEffectInstance sound_instance;
+        SoundEffect sound_hit;
         ImageTexture effectImg;
+>>>>>>> 5d32392089cb478eb381b4d2668f0cc3c9a20a63
 
         public GameController(ScreenController screen, Map selectedMap) : base(screen)
         {

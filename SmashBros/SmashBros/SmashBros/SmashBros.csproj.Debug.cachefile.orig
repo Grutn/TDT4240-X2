@@ -2,7 +2,9 @@ Content\background.xnb
 Content\blank.xnb
 Content\gradient.xnb
 Content\spiderman.xnb
+Content\Menu\StartScreen.xnb
 Content\Characters\WolverineThumb.xnb
+Content\Menu\SelectionScreen.xnb
 Content\Characters\SpidermanThumb.xnb
 Content\Cursors\Player0.xnb
 Content\Cursors\Player1.xnb
@@ -10,24 +12,23 @@ Content\Cursors\Player3.xnb
 Content\Cursors\Player2.xnb
 Content\Characters\WolverineImage.xnb
 Content\Characters\SpidermanImage.xnb
-<<<<<<< HEAD
 Content\Characters\SpidermanAnimation.xnb
 Content\Menu\PopupMenu.xnb
 Content\Maps\CityBg.xnb
 Content\Maps\CityMap.xnb
-=======
->>>>>>> 74b7ba164c978c61b9238c74fc139af08887b684
+Content\GameStuff\PlayerPercentBg.xnb
 Content\Fonts\gamefont.xnb
 Content\menufont.xnb
 Content\Fonts\Impact.xnb
 Content\Fonts\Impact.large.xnb
+Content\Sound\main.xnb
 <<<<<<< HEAD
+Content\Sound\Game\hit.xnb
 =======
-Content\Characters\SpidermanAnimation.xnb
-Content\Menu\StartScreen.xnb
-Content\Menu\SelectionScreen.xnb
-Content\Menu\PopupMenu.xnb
-Content\Maps\CityBg.xnb
-Content\Maps\CityMap.xnb
->>>>>>> 74b7ba164c978c61b9238c74fc139af08887b684
+Content\Sound\hit.xnb
+Content\GameStuff\GameEffects.xnb
+Content\Characters\RoketRacoonAnimation.xnb
+Content\Characters\RoketRacoonPose.xnb
+Content\Characters\RoketRacoonThumb.xnb
+>>>>>>> 5d32392089cb478eb381b4d2668f0cc3c9a20a63
 Content\font.xnb
