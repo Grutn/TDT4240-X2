@@ -63,6 +63,7 @@ namespace SmashBros.Views
 
         public ImageInfo AddPosition(Vector2 pos, int posId = -1)
         {
+
             ImageInfo i = null;
             //Sjekker om pos id eksisterer fra før
             if (posId != -1)
@@ -149,7 +150,6 @@ namespace SmashBros.Views
                 {
                     OnAnimationDone.Invoke(this, i);
                 }
-//                spriteBatch.Draw(img, pos.Value, null, Color.White, Rotation, Vector2.Zero, Scale, 0, 0f);
                 spriteBatch.Draw(img, i.CurrentPos, null, Color.White, Rotation, Origin, i.CurrentScale, SpriteEffects.None, 0);
             }
         }
@@ -195,6 +195,8 @@ namespace SmashBros.Views
             this.timeUsed = 0;
             this.animationOn = true;
             this.endScale = endScale;
+            this.animatePos = endPos.X != startPos.X || endPos.Y != startPos.Y;
+            this.animateScale = endScale != startScale;
         }
 
         /// <summary>
@@ -214,6 +216,7 @@ namespace SmashBros.Views
                     if (loop)
                     {
                         CurrentPos = startPos;
+                        CurrentScale = endScale;
                     }
                     else
                     {
@@ -225,8 +228,10 @@ namespace SmashBros.Views
                 }
                 else
                 {
-                    CurrentScale = startScale + (endScale - startScale) * percent;
-                    CurrentPos = startPos + (endPos - startPos) * percent;
+                    if(animateScale)
+                        CurrentScale = startScale + (endScale +- startScale) * percent;
+                    if(animatePos)
+                        CurrentPos = startPos + (endPos - startPos) * percent;
                 }
             }
 
@@ -244,5 +249,7 @@ namespace SmashBros.Views
         private float timeTotal;
         private bool loop;
         private bool animationOn = false;
+        private bool animateScale = false;
+        private bool animatePos = false;
     }
 }
