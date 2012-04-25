@@ -18,20 +18,18 @@ namespace SmashBros.Controllers
     {
         Camera2D camera;
         List<CharacterController> characters{ get; set; }
-        DateTime time;
+        Box zoomBox;
             
-        public CameraController(ScreenController screen) : base(screen)
+        public CameraController(ScreenController screen, Box zoomBox) : base(screen)
         {
             this.characters = new List<CharacterController>();
             this.camera = screen.controllerViewManager.camera;
+            this.zoomBox = zoomBox;
         }
 
         public override void Load(ContentManager content)
         {
 
-            time = DateTime.Now;
-
-            
         }
 
         public override void Unload()
@@ -59,23 +57,25 @@ namespace SmashBros.Controllers
             minY -= 200;
            // maxY += 200;
 
-            maxY = MathHelper.Clamp(maxY, 0, 1400);
-            maxX = MathHelper.Clamp(maxX, 0, 1920);
-            float zoom = MathHelper.Min(
+            //maxY = MathHelper.Clamp(maxY, 0, mapSize.Height);
+            //maxX = MathHelper.Clamp(maxX, 0, mapSize.Width);
+            //minX = MathHelper.Clamp(minX,mapSize.X, 10000);
+            //minY = MathHelper.Clamp(minY, mapSize.Y, 10000);
+
+
+            float zoom =MathHelper.Clamp(MathHelper.Min(
                 Constants.WindowWidth / (maxX - minX),
                 Constants.WindowHeight / (maxY - minY)
-            );
+            ), Constants.MinZoom, Constants.MaxZoom);
 
-            //camera.MinPosition = new Vector2(750/zoom, 300/zoom);
-            //camera.MaxPosition = new Vector2(3000, 3000);
-
+            if (zoomBox != null)
+            {
+                Vector2 halfWindow = new Vector2(Constants.WindowWidth, Constants.WindowHeight) / (2 * zoom);
+                camera.MaxPosition = new Vector2(zoomBox.X + zoomBox.Width - halfWindow.X, zoomBox.Y + zoomBox.Height - halfWindow.Y);
+                camera.MinPosition = new Vector2(zoomBox.X + halfWindow.X, zoomBox.Y + halfWindow.Y);
+            }
             camera.Position = new Vector2((minX + maxX) / 2, (minY + maxY) / 2);
             camera.Zoom = zoom;
-
-            DebugWrite("Zoom", zoom);
-            DebugWrite("Min pos", camera.MinPosition.X, camera.MinPosition.Y);
-            DebugWrite("Max pos", camera.MaxPosition.X, camera.MaxPosition.Y);
-            DebugWrite("Position", camera.Position.X, camera.Position.Y);
         }
 
         public override void OnNext(GameStateManager value)

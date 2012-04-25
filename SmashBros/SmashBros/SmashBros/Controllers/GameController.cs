@@ -46,15 +46,15 @@ namespace SmashBros.Controllers
                 sound_instance.Play();
             }
             
-            this.camera = new CameraController(screen);
+            this.camera = new CameraController(screen, map.Model.zoomBox);
 
             this.hitImgs = new List<ImageTexture>(){
                 new ImageTexture(content, "GameStuff/Pow") 
-                {Layer = 101, Origin = new Vector2(150/2,102/2), Scale = 0.1f },
+                {Layer = 101, Origin = new Vector2(150f/2, 102/2), Scale = 0.1f },
                 new ImageTexture(content, "GameStuff/Bang") 
-                {Layer = 101, Origin = new Vector2(150/2,130/2), Scale = 0.1f },
+                {Layer = 101, Origin = new Vector2(150f/2,130f/2), Scale = 0.1f },
                 new ImageTexture(content, "GameStuff/Bam") 
-                {Layer = 101, Origin = new Vector2(150/2,125/2), Scale = 0.1f }
+                {Layer = 101, Origin = new Vector2(150f/2,125f/2), Scale = 0.1f }
             };
             this.hitImgs.ForEach(a => a.OnAnimationDone += OnHitAnimationDone);
             AddViews(hitImgs.ToArray());
@@ -129,7 +129,7 @@ namespace SmashBros.Controllers
             DebugWrite("Random", r.Next(0, hitImgs.Count()), hitImgs.Count());
 
             ImageInfo inf = hitImgs[r.Next(0, hitImgs.Count())].AddPosition(pos);
-            inf.StartAnimation(pos- new Vector2(30, 30), 180, false, 0.7f);
+            inf.StartAnimation(pos- new Vector2(30, 30), 2000, false, 0.7f);
         }
 
         private void OnHitAnimationDone(ImageTexture target, ImageInfo imagePosition)

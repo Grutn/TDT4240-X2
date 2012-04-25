@@ -58,6 +58,17 @@ namespace SmashBros.Model
         /// </summary>
         public List<Vector2> startingPosition;
 
+        /// <summary>
+        /// How large the map is, edges is placed at the edges of this size
+        /// X and y becomes the offset of the rectangle
+        /// </summary>
+        public Box size;
+
+        /// <summary>
+        /// The zooming bounds of the map
+        /// </summary>
+        public Box zoomBox;
+
 
         public void AddBoxes(params Box[] boxes)
         {
