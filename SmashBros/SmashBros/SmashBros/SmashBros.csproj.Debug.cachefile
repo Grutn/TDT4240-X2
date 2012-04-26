@@ -21,6 +21,9 @@ Content\GameStuff\GameEffects.xnb
 Content\Characters\RoketRacoonAnimation.xnb
 Content\Characters\RoketRacoonPose.xnb
 Content\Characters\RoketRacoonThumb.xnb
+Content\Characters\SupermanFatPose.xnb
+Content\Characters\SupermanFatThumb.xnb
+Content\Characters\SupermanFatAnimation.xnb
 Content\Fonts\gamefont.xnb
 Content\menufont.xnb
 Content\Fonts\Impact.xnb
@@ -47,4 +50,5 @@ Content\Sound\Spiderman\pain.xnb
 Content\Sound\Spiderman\punch.xnb
 Content\Sound\Spiderman\selected.xnb
 Content\Sound\Spiderman\web.xnb
+Content\Maps\CityMapThumb.xnb
 Content\font.xnb

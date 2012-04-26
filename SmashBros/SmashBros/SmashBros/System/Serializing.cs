@@ -180,8 +180,8 @@ namespace SmashBros.System
                         sqWidth = 10,
                         sqHeight = 10,
                         duration = 250,
-                        aniFrom = 42,
-                        aniTo = 53
+                        aniFrom = 23,
+                        aniTo = 28
                     };
 
                     c.aUp = new Move()
@@ -203,6 +203,63 @@ namespace SmashBros.System
                         aniTo = 34
                     };
                 }
+                else if (i == 3)
+                {
+                    c.thumbnail = "Characters/SupermanFatThumb";
+                    c.image = "Characters/SupermanFatPose";
+                    c.animations = "Characters/SupermanFatAnimation";
+                    c.ani_noneStart = 0;
+                    c.ani_noneEnd = 0;
+                    c.ani_runStart = 0;
+                    c.ani_runEnd = 0;
+                    c.ani_brake = 0;
+                    c.ani_jumpStart = 0;
+                    c.ani_jumpEnd = 0;
+                    c.ani_fallStart = 0;
+                    c.ani_fallEnd = 0;
+                    c.ani_landStart = 0;
+                    c.ani_landEnd = 0;
+                    c.ani_takeHitStart = 0;
+                    c.ani_takeHitEnd = 0;
+
+                    c.a = new Move()
+                    {
+                        range = false,
+                        adjustable = false,
+                        minWait = 0,
+                        maxWait = 0,
+                        minPower = 1,
+                        maxPower = 1,
+                        minDamage = 70,
+                        maxDamage = 100,
+                        sqRange = 0.8f,
+                        bodyRange = 1,
+                        sqWidth = 10,
+                        sqHeight = 10,
+                        duration = 250,
+                        aniFrom = 0,
+                        aniTo = 0
+                    };
+
+                    c.aUp = new Move()
+                    {
+                        range = false,
+                        adjustable = false,
+                        minWait = 0,
+                        maxWait = 0,
+                        minPower = 10,
+                        maxPower = 10,
+                        minDamage = 10,
+                        maxDamage = 10,
+                        sqRange = 0.8f,
+                        bodyRange = 1,
+                        sqWidth = 10,
+                        sqHeight = 10,
+                        duration = 250,
+                        aniFrom = 0,
+                        aniTo = 0
+                    };
+                }
                 Write(c,CharacterFolder,"Character"+i);
             }
         }
@@ -217,12 +274,13 @@ namespace SmashBros.System
                 Directory.CreateDirectory(MapFolder);
             }
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 5; i++)
             {
                 Map map = new Map();
                 map.name = "New Place City";
                 map.bgImage = "Maps/CityBg";
                 map.mapImage = "Maps/CityMap";
+                map.thumbImage = "Maps/CityMapThumb";
                 map.backgroundMusic = "Sound/main";
                 map.size = new Box(3500, 1600, -800, 0);
                 map.zoomBox = new Box(3000, 1300, -800, 100);
@@ -280,6 +338,8 @@ namespace SmashBros.System
                 }
                 else if (i == 1)
                 {
+                    player.KeyboardBack = Keys.Back;
+
                     player.Color = Color.Green;
                     player.KeyboardUp = Keys.Up;
                     player.KeyboardDown = Keys.Down;
@@ -291,7 +351,15 @@ namespace SmashBros.System
                 }
                 else if (i == 2)
                 {
-
+                    player.KeyboardBack = Keys.Back;
+                    player.Color = Color.Yellow;
+                    player.KeyboardUp = Keys.NumPad8;
+                    player.KeyboardDown = Keys.NumPad5;
+                    player.KeyboardLeft = Keys.NumPad4;
+                    player.KeyboardRight = Keys.NumPad6;
+                    player.KeyboardHit = Keys.NumPad1;
+                    player.KeyboardSuper = Keys.NumPad2;
+                    player.KeyboardSheild = Keys.NumPad3;
                 }
                 else if (i == 3)
                 {

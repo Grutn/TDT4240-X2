@@ -25,7 +25,7 @@ namespace SmashBros.Controllers
         // Menu sounds:
         private Dictionary<MenuSoundType, object> menuSounds;
 
-        public SoundController(ScreenController screen) : base(screen)
+        public SoundController(ScreenManager screen) : base(screen)
         {
             
         }
@@ -61,7 +61,7 @@ namespace SmashBros.Controllers
                     gameSounds = new Dictionary<GameSoundType, SoundEffect>();
                     gameSounds.Add(GameSoundType.hit, content.Load<SoundEffect>("Sound/Wolwerine/pain"));
                     gameSounds.Add(GameSoundType.death, content.Load<SoundEffect>("Sound/Game/hit"));
-                    ((GameController)controller).GameSound += PlayGameSound;
+                    ((GamePlayController)controller).GameSound += PlayGameSound;
 
                     playerSounds = new Dictionary<int, Dictionary<PlayerSoundType, SoundEffect>>();
 
@@ -76,6 +76,8 @@ namespace SmashBros.Controllers
                 backgroundMusic.IsLooped = true;
                 backgroundMusic.Play();
             }
+
+            SubscribeToGameState = true;
         }
 
         public void LoadCharacter(ContentManager content, CharacterController controller)

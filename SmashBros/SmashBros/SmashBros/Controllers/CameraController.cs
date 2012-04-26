@@ -20,10 +20,10 @@ namespace SmashBros.Controllers
         List<CharacterController> characters{ get; set; }
         Box zoomBox;
             
-        public CameraController(ScreenController screen, Box zoomBox) : base(screen)
+        public CameraController(ScreenManager screen, Box zoomBox) : base(screen)
         {
             this.characters = new List<CharacterController>();
-            this.camera = screen.controllerViewManager.camera;
+            this.camera = screen.ControllerViewManager.camera;
             this.zoomBox = zoomBox;
         }
 

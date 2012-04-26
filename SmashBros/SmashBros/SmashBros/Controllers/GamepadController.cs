@@ -37,7 +37,7 @@ namespace SmashBros.Controllers
         /// </summary>
         public Character HoverCharacter { get; set; }
 
-        public GamepadController(ScreenController screen, Player playerModel) : base(screen)
+        public GamepadController(ScreenManager screen, Player playerModel) : base(screen)
         {
            // this.playerIndex = playerIndex;
             this.PlayerModel = playerModel;
@@ -67,10 +67,10 @@ namespace SmashBros.Controllers
             else if (IsKeyUp(key))
             {
                 //Check if it was a press of key
-                if (pressAction != null && screen.oldKeyboardState.IsKeyDown(key))
+                if (pressAction != null && Screen.oldKeyboardState.IsKeyDown(key))
                     pressAction.Invoke(PlayerIndex);
 
-                if(upAction != null && screen.oldKeyboardState.IsKeyDown(key))
+                if(upAction != null && Screen.oldKeyboardState.IsKeyDown(key))
                     upAction.Invoke(downTimer, PlayerIndex);
                 upTimer += elapsedTime;
                 downTimer = 0;
@@ -80,7 +80,6 @@ namespace SmashBros.Controllers
         
         public override void Update(GameTime gameTime)
         {
-
             //Update the position of the cursor
             float directionX = 0, directionY = 0;
             bool newDirection = false;
@@ -117,7 +116,7 @@ namespace SmashBros.Controllers
                     {
                         throw new NotImplementedException("Show help menu to user, same help menu as in character and mapselection menu");
                     }
-                    else if (screen.currentKeyboardState.GetPressedKeys().Count() != 0)
+                    else if (Screen.currentKeyboardState.GetPressedKeys().Count() != 0)
                     {
                         CurrentState = GameState.CharacterMenu;
                     }
@@ -165,22 +164,22 @@ namespace SmashBros.Controllers
         public delegate void NavigationKey(float xDirection, float yDirection, int playerIndex, bool newDirection);
 
 
-        public event ButtonDown OnHitkeyDown;
-        public event ButtonUp OnHitKeyUp;
-        public event ButtonPressed OnHitKeyPressed;
+        public ButtonDown OnHitkeyDown;
+        public ButtonUp OnHitKeyUp;
+        public ButtonPressed OnHitKeyPressed;
 
-        public event ButtonDown OnSuperkeyDown;
-        public event ButtonUp OnSuperKeyUp;
-        public event ButtonPressed OnSuperKeyPressed;
+        public ButtonDown OnSuperkeyDown;
+        public ButtonUp OnSuperKeyUp;
+        public ButtonPressed OnSuperKeyPressed;
 
-        public event ButtonDown OnShieldkeyDown;
-        public event ButtonUp OnShieldKeyUp;
-        public event ButtonPressed OnShieldKeyPressed;
+        public ButtonDown OnShieldkeyDown;
+        public ButtonUp OnShieldKeyUp;
+        public ButtonPressed OnShieldKeyPressed;
 
-        public event ButtonPressed OnStartPress;
-        public event ButtonPressed OnBackPress;
+        public ButtonPressed OnStartPress;
+        public ButtonPressed OnBackPress;
 
-        public event NavigationKey OnNavigation;
+        public NavigationKey OnNavigation;
         
     }
 }

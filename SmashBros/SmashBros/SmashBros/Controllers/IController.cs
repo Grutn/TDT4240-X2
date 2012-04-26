@@ -16,7 +16,7 @@ namespace SmashBros.Controllers
 {
     public abstract class Controller : IObserver<GameStateManager>
     {
-        protected ScreenController screen;
+        protected ScreenManager Screen;
 
         public bool IsActive = false;
 
@@ -25,9 +25,9 @@ namespace SmashBros.Controllers
         /// screen is used to essential features of the controller
         /// </summary>
         /// <param name="screen"></param>
-        public Controller(ScreenController screen)
+        public Controller(ScreenManager screen)
         {
-            this.screen = screen;
+            this.Screen = screen;
         }
 
         public abstract void Load(ContentManager content);
@@ -56,7 +56,7 @@ namespace SmashBros.Controllers
         {
             if (!view.IsActive)
             {
-                screen.controllerViewManager.AddView(view);
+                Screen.ControllerViewManager.AddView(view);
             }
         }
 
@@ -69,7 +69,7 @@ namespace SmashBros.Controllers
         {
             if (view.IsActive)
             {
-                screen.controllerViewManager.RemoveView(view);
+                Screen.ControllerViewManager.RemoveView(view);
 
             }
         }
@@ -98,7 +98,7 @@ namespace SmashBros.Controllers
         {
             if (!controller.IsActive)
             {
-                screen.controllerViewManager.AddController(controller);
+                Screen.ControllerViewManager.AddController(controller);
             }
         }
 
@@ -110,7 +110,7 @@ namespace SmashBros.Controllers
         {
             if (controller.IsActive)
             {
-                screen.controllerViewManager.AddController(controller);
+                Screen.ControllerViewManager.AddController(controller);
             }
         }
         /// <summary>
@@ -118,13 +118,13 @@ namespace SmashBros.Controllers
         /// </summary>
         public World World 
         { 
-            get { return screen.controllerViewManager.world; } 
+            get { return Screen.ControllerViewManager.world; } 
         }
         /// <summary>
         /// Which main state the whole game i in now. 
         /// When updated, all the active controllers are notified about the update
         /// </summary>
-        public GameState CurrentState { get { return screen.gameStateManager.CurrentState; } set { screen.gameStateManager.CurrentState = value; } }
+        public GameState CurrentState { get { return Screen.gameStateManager.CurrentState; } set { Screen.gameStateManager.CurrentState = value; } }
 
         /// <summary>
         /// Get font by it's name
@@ -133,13 +133,13 @@ namespace SmashBros.Controllers
         /// <returns></returns>
         public SpriteFont GetFont(string fontName)
         {
-            return screen.fonts[fontName];
+            return Screen.fonts[fontName];
         }
 
         /// <summary>
         /// Returns the default font
         /// </summary>
-        public SpriteFont FontDefualt { get { return screen.fonts["Impact"]; } }
+        public SpriteFont FontDefualt { get { return Screen.fonts["Impact"]; } }
 
 
         /// <summary>
@@ -152,11 +152,11 @@ namespace SmashBros.Controllers
             {
                 if (value)
                 {
-                    screen.gameStateManager.Add(this);
+                    Screen.gameStateManager.Add(this);
                 }
                 else
                 {
-                    screen.gameStateManager.Remove(this);
+                    Screen.gameStateManager.Remove(this);
                 }
             }
         }
@@ -164,7 +164,7 @@ namespace SmashBros.Controllers
         /// <summary>
         /// The gamepad controllers
         /// </summary>
-        public List<GamepadController> GamePadControllers { get { return screen.gamePads; } }
+        public List<GamepadController> GamePadControllers { get { return Screen.gamePads; } }
 
         #region Keyboard Functions
         
@@ -176,22 +176,22 @@ namespace SmashBros.Controllers
         /// <returns></returns>
         protected bool IsKeyPressed(Keys key)
         {
-            return screen.oldKeyboardState.IsKeyDown(key) && screen.currentKeyboardState.IsKeyUp(key);
+            return Screen.oldKeyboardState.IsKeyDown(key) && Screen.currentKeyboardState.IsKeyUp(key);
         }
 
         protected bool IsKeyPressedReversed(Keys key)
         {
-            return screen.oldKeyboardState.IsKeyUp(key) && screen.currentKeyboardState.IsKeyDown(key);
+            return Screen.oldKeyboardState.IsKeyUp(key) && Screen.currentKeyboardState.IsKeyDown(key);
         }
 
         protected bool IsKeyDown(Keys key)
         {
-            return screen.currentKeyboardState.IsKeyDown(key);
+            return Screen.currentKeyboardState.IsKeyDown(key);
         }
 
         protected bool IsKeyUp(Keys key)
         {
-            return screen.currentKeyboardState.IsKeyUp(key);
+            return Screen.currentKeyboardState.IsKeyUp(key);
         } 
 
         #endregion
@@ -210,10 +210,10 @@ namespace SmashBros.Controllers
         {
             if (Constants.DebugMode)
             {
-                if (screen.controllerViewManager.debugView.DebugStuff.ContainsKey(name))
-                    screen.controllerViewManager.debugView.DebugStuff[name] = string.Join(" & ", values);
+                if (Screen.ControllerViewManager.debugView.DebugStuff.ContainsKey(name))
+                    Screen.ControllerViewManager.debugView.DebugStuff[name] = string.Join(" & ", values);
                 else
-                    screen.controllerViewManager.debugView.DebugStuff.Add(name, string.Join(" & ", values));
+                    Screen.ControllerViewManager.debugView.DebugStuff.Add(name, string.Join(" & ", values));
             }   
         }
     }

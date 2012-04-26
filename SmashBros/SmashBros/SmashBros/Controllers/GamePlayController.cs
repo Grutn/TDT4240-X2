@@ -17,7 +17,7 @@ namespace SmashBros.Controllers
     /// <summary>
     /// Start and controlls the main gameplay
     /// </summary>
-    class GameController : Controller
+    class GamePlayController : Controller
     {
         MapController map;
         CameraController camera;
@@ -25,7 +25,7 @@ namespace SmashBros.Controllers
 
         ImageTexture effectImg;
 
-        public GameController(ScreenController screen, Map selectedMap) : base(screen)
+        public GamePlayController(ScreenManager screen, Map selectedMap) : base(screen)
         {
             this.players = new Dictionary<int,PlayerStats>();
             this.map = new MapController(screen, selectedMap);
@@ -34,9 +34,9 @@ namespace SmashBros.Controllers
         public override void Load(ContentManager content)
         {
 
-            screen.soundController.Load(content, this, map.CurrentMap.backgroundMusic);
+            Screen.soundController.Load(content, this, map.CurrentMap.backgroundMusic);
             
-            this.camera = new CameraController(screen, map.Model.zoomBox);
+            this.camera = new CameraController(Screen, map.Model.zoomBox);
 
             //The effects image for hits
             this.effectImg = new ImageTexture(content, "GameStuff/GameEffects");
@@ -54,7 +54,7 @@ namespace SmashBros.Controllers
             {
                 if (pad.SelectedCharacter != null)
                 {
-                    var character = new CharacterController(screen, pad, map.CurrentMap.startingPosition[i]);
+                    var character = new CharacterController(Screen, pad, map.CurrentMap.startingPosition[i]);
                     //Add HitHappens listener
                     character.OnHit += OnPlayerHit;
                     // Add Playerdeath listener.
@@ -82,6 +82,8 @@ namespace SmashBros.Controllers
 
                     this.camera.AddCharacterTarget(character);
                     this.players.Add(pad.PlayerIndex, new PlayerStats(character, percent, player, percentBg));
+
+                    pad.OnStartPress += OnStartPress;
                     i++;
                 }
 
@@ -136,6 +138,19 @@ namespace SmashBros.Controllers
             characterController.Reset(map.CurrentMap.startingPosition[r.Next(0 ,4)]);
 
             // lifes--
+        }
+
+        private void OnStartPress(int playerIndex)
+        {
+            switch (CurrentState)
+            {
+                case GameState.GamePlay:
+                    CurrentState = GameState.GamePause;
+                    break;
+                case GameState.GamePause:
+                    CurrentState = GameState.GamePlay;
+                    break;
+            }
         }
 
         public event SmashBros.Controllers.SoundController.GameSound GameSound;

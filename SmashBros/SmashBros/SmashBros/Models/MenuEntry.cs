@@ -6,24 +6,24 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SmashBros.Model;
 
-namespace SmashBros.Views
+namespace SmashBros.Models
 {
-    class MenuEntry
+    public class MenuEntry
     {
-        public SpriteFont font;
-        public String text;
-        public Vector2 pos;
-        public Texture2D img;
-        public Vector2 imgPos;
-        public Color color = Color.Aquamarine;
-        public string onClick;
-
-        public MenuEntry(SpriteFont font, string text, Vector2 pos, Action onClick)
+        public MenuEntry(string text)
         {
-            this.font = font;
             this.text = text;
-            this.pos = pos;
-            this.onClick += onClick;
+            this.color = Color.Black;
+            this.selectedColor = Color.White;
+            this.selectedSize = 1.3f;
         }
+
+        public String text;
+        public Texture2D bgImg;
+        public Vector2 bgOffset;
+        public Color selectedColor;
+        public Color color;
+        public float selectedSize;
+        public float size;
     }
 }

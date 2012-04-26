@@ -20,7 +20,7 @@ namespace SmashBros.Controllers
         private ImageTexture map;
         private List<Body> boxes;
 
-        public MapController(ScreenController screen, Map currentMap) : base(screen)
+        public MapController(ScreenManager screen, Map currentMap) : base(screen)
         {
             this.boxes = new List<Body>();
             this.Model = currentMap;

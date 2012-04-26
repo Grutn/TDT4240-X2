@@ -7,8 +7,8 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\DebugView XNA\bin\x86\Debug\Content\font.xnb</Output>
-      <Time>2012-04-25T02:30:49.7539888+02:00</Time>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\DebugView XNA\bin\x86\Debug\Content\font.xnb</Output>
+      <Time>2012-03-26T20:45:13.3569313+02:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
@@ -16,10 +16,10 @@
       <TargetProfile>Reach</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>C:\Users\juliusbuset\TDT4240-X2\SmashBros\DebugView XNA\Content\</RootDirectory>
-      <LoggerRootDirectory>C:\Users\juliusbuset\TDT4240-X2\SmashBros\DebugView XNA\</LoggerRootDirectory>
-      <IntermediateDirectory>C:\Users\juliusbuset\TDT4240-X2\SmashBros\DebugView XNA\Content\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>C:\Users\juliusbuset\TDT4240-X2\SmashBros\DebugView XNA\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\DebugView XNA\Content\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\DebugView XNA\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\DebugView XNA\Content\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\DebugView XNA\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>
@@ -48,7 +48,7 @@
       </Assembly>
       <Assembly>
         <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
-        <Value>2012-03-23T19:29:45.810491+01:00</Value>
+        <Value>2012-03-23T19:04:18.1256994+01:00</Value>
       </Assembly>
     </Assemblies>
   </Asset>

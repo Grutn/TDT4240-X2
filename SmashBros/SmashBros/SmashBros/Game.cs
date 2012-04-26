@@ -53,7 +53,7 @@ namespace SmashBros {
 
             Window.AllowUserResizing = false;
             
-            Components.Add(new ScreenController(this));
+            Components.Add(new ScreenManager(this));
 
             /*
             screenManager = new ScreenManager(this);

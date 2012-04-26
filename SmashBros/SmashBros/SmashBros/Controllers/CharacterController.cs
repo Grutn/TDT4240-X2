@@ -243,7 +243,7 @@ namespace SmashBros.Controllers
         /// </summary>
         private Vector2 startPos;
 
-        public CharacterController(ScreenController screen, GamepadController pad, Vector2 startPos) 
+        public CharacterController(ScreenManager screen, GamepadController pad, Vector2 startPos) 
             : base(screen)
         {
             this.startPos = startPos;
@@ -287,7 +287,7 @@ namespace SmashBros.Controllers
             pad.OnNavigation += OnNavigation;
             pad.OnHitkeyDown += OnHitKeyDown;
 
-            screen.soundController.LoadCharacter(content, this);
+            Screen.soundController.LoadCharacter(content, this);
         }
 
         public override void Unload()

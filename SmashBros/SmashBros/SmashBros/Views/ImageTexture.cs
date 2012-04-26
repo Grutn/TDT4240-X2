@@ -93,6 +93,14 @@ namespace SmashBros.Views
             return i;
         }
 
+        public bool IsAnimating
+        {
+            get
+            {
+                return imagesPos.Any(a => a.AnimationOn);
+            }
+        }
+
         /// <summary>
         /// Animates texture at positionIndex
         /// </summary>
@@ -101,7 +109,7 @@ namespace SmashBros.Views
         /// <param name="timeInMs">Time to use to animate</param>
         public void Animate(float toX, float toY, float timeInMs, bool loop = false, float scale = 1f)
         {
-            Animate(imagesPos.First(), toX, toY, timeInMs, loop);
+            Animate(imagesPos.First(), toX, toY, timeInMs, loop, scale);
         }
 
         public void Animate(int posIndex, float toX, float toY, float timeInMs, bool loop = false, float scale = 1f)
@@ -120,7 +128,7 @@ namespace SmashBros.Views
             Animate(posIndex,toPos.X,toPos.Y, timeInMs, loop, scale);
         }
 
-        public void Animate(int posIndex, float scale, float time, bool loop = false)
+        public void AnimateScale(int posIndex, float scale, float time, bool loop = false)
         {
             Animate(posIndex, imagesPos[posIndex].CurrentPos, time, loop, scale);
         }
@@ -193,7 +201,7 @@ namespace SmashBros.Views
 
     public class ImageInfo{
 
-        public ImageInfo(float x, float y, float scale)
+        public ImageInfo(float x, float y, float scale = 1f)
         {
             this.CurrentPos = new Vector2(x, y);
             this.CurrentScale = scale;
@@ -201,7 +209,7 @@ namespace SmashBros.Views
             this.startScale = scale;
         }
 
-        public ImageInfo(Vector2 pos, float scale)
+        public ImageInfo(Vector2 pos, float scale = 1f)
         {
             this.CurrentPos = pos;
             this.CurrentScale = scale;
@@ -222,8 +230,9 @@ namespace SmashBros.Views
             this.loop = loop;
             this.timeTotal = time;
             this.timeUsed = 0;
-            this.animationOn = true;
             this.endScale = endScale;
+
+            //Check what kind of animation that is started
             this.animatePos = endPos.X != startPos.X || endPos.Y != startPos.Y;
             this.animateScale = endScale != startScale;
         }
@@ -234,7 +243,7 @@ namespace SmashBros.Views
         /// <param name="gameTime"></param>
         /// <returns>true if animation was done</returns>
         public bool UpdateAnimation(GameTime gameTime){
-            if (animationOn)
+            if (AnimationOn)
             {
                 timeUsed += gameTime.ElapsedGameTime.Milliseconds;
 
@@ -251,6 +260,7 @@ namespace SmashBros.Views
                     {
                         CurrentPos = endPos;
                         CurrentScale = endScale;
+                        AnimationOn = false;
                         return true;
                     }
 
@@ -278,7 +288,8 @@ namespace SmashBros.Views
         private int timeUsed;
         private float timeTotal;
         private bool loop;
-        private bool animationOn = false;
+
+        public bool AnimationOn { get { return animateScale || animatePos; } set { animatePos = false; animateScale = false; } }
         private bool animateScale = false;
         private bool animatePos = false;
     }
