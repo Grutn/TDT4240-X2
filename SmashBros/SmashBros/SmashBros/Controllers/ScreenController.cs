@@ -71,6 +71,7 @@ namespace SmashBros.Controllers
             }
             else
             {
+                gameStateManager.CurrentState = GameState.SelectionMenu;
                 this.menu = new MenuController(this);
                 controllerViewManager.AddController(menu);
             }

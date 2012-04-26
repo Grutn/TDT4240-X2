@@ -27,7 +27,7 @@ namespace SmashBros.Model
         /// </summary>
         public string image;
 
-        public string sound_selected, sound_won, sound_jump; //, sound_hit, sound_chargingHit....
+        public string sound_selected, sound_won, sound_jump, sound_kill, sound_punch; //, sound_hit, sound_chargingHit....
 
         /// <summary>
         /// The maximum magnitude of speed in x-direction this character can have.
