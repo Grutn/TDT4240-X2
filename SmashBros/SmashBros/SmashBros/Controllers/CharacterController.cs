@@ -80,6 +80,7 @@ namespace SmashBros.Controllers
                         case State.jumping:
                             attackMode = false;
                             inAir = true;
+                            PlayerSound.Invoke(playerIndex, PlayerSoundType.jump);
                             character.StartAnimation(model.ani_jumpStart, model.ani_jumpEnd, false);
                             character.AddAnimation(model.ani_fallStart, model.ani_fallEnd, true);
                             break;
@@ -285,6 +286,8 @@ namespace SmashBros.Controllers
 
             pad.OnNavigation += OnNavigation;
             pad.OnHitkeyDown += OnHitKeyDown;
+
+            screen.soundController.LoadCharacter(content, this);
         }
 
         public override void Unload()
@@ -518,8 +521,7 @@ namespace SmashBros.Controllers
 
         private void Seperation(Fixture geom1, Fixture geom2)
         {
-            if ((geom2.CollisionCategories == Category.Cat10 || geom2.CollisionCategories ==  Category.Cat9)
-                && geom1.Body.ContactList.Contact.FixtureB.CollisionCategories != Category.Cat11)
+            if (geom2.CollisionCategories == Category.Cat10 || geom2.CollisionCategories ==  Category.Cat9)
             {
                 inAir = true;
                 if (!attackMode && jumpsLeft != 2) state = State.falling;

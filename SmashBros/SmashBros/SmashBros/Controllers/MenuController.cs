@@ -32,7 +32,7 @@ namespace SmashBros.Controllers
         List<TextBox> playerSelect;
 
         List<Map> mapModels;
-        List<Character> characterModels;
+        public List<Character> characterModels;
         List<Sprite> characterThumbs;
         List<ImageTexture> characterImages;
         List<Sprite> playerCursors;
@@ -48,8 +48,6 @@ namespace SmashBros.Controllers
 
         public override void Load(ContentManager content) 
         {
-            screen.soundController.Load(content, this);
-
             //Adds the popupmenu to the controllers stack
             popupMenu = new PopupMenuController(screen);
             AddController(popupMenu);
@@ -100,7 +98,9 @@ namespace SmashBros.Controllers
 
             SubscribeToGameState = true;
 
+            screen.soundController.Load(content, this);
 
+            MenuSound.Invoke(MenuSoundType.choose);
         }
 
         private void LoadCharacters(ContentManager content)
@@ -352,6 +352,7 @@ namespace SmashBros.Controllers
                 pad.OnNavigation -= OnCursorNavigate;
                 RemoveView(playerCursors[playerIndex]);
                 pad.SelectedCharacter = pad.HoverCharacter;
+                MenuSound.Invoke(MenuSoundType.characterSelected, pad.HoverCharacter);
             }
 
             if ((bool)helpBox.UserData || (bool)optionsBox.UserData)
@@ -412,5 +413,7 @@ namespace SmashBros.Controllers
 
             return btn;
         }
+
+        public event SmashBros.Controllers.SoundController.MenuSound MenuSound;
     }
 }

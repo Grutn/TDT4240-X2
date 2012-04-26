@@ -7,8 +7,8 @@ namespace SmashBros.System
 {
     public static class Constants
     {
-        public const bool DebugMode = !true;
-        public const bool StartGameplay = true;
+        public const bool DebugMode = true;
+        public const bool StartGameplay = !true;
         public const bool Music = !true;
 
 

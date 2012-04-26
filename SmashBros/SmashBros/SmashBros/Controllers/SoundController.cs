@@ -9,9 +9,9 @@ using SmashBros.Model;
 
 namespace SmashBros.Controllers
 {
-    public enum PlayerSoundType { jump, hit, chargingHit, chargedHit, super, chargingSuper, chargedSuper }
-    public enum GameSoundType { hit, death }
-    public enum MenuSoundType { }
+    public enum PlayerSoundType { jump, hit, chargingHit, chargedHit, super, chargingSuper, chargedSuper, kill }
+    public enum GameSoundType { hit, death, deathFar }
+    public enum MenuSoundType { choose, characterSelected, toMapSelection, optionsInOut }
 
     public class SoundController : Controller
     {
@@ -23,7 +23,7 @@ namespace SmashBros.Controllers
         private Dictionary<int, Dictionary<PlayerSoundType, SoundEffect>> playerSounds;
         
         // Menu sounds:
-        private Dictionary<MenuSoundType, SoundEffect> menuSounds;
+        private Dictionary<MenuSoundType, object> menuSounds;
 
         public SoundController(ScreenController screen) : base(screen)
         {
@@ -43,13 +43,23 @@ namespace SmashBros.Controllers
                     break;
                 case GameState.SelectionMenu:
                     background = "";
+                    menuSounds = new Dictionary<MenuSoundType, object>();
+                    menuSounds.Add(MenuSoundType.choose, content.Load<SoundEffect>("Sound/Menu/chooseCharacter"));
+                    //menuSounds.Add(MenuSoundType.optionsInOut, content.Load<SoundEffect>("Sound/"));
+                    //menuSounds.Add(MenuSoundType.toMapSelection, content.Load<SoundEffect>("Sound/"));
+                    
+                    menuSounds.Add(MenuSoundType.characterSelected, new Dictionary<Character, SoundEffect>());
+                    foreach (Character character in ((MenuController)controller).characterModels)
+                        try { ((Dictionary<Character, SoundEffect>)menuSounds[MenuSoundType.characterSelected]).Add(character, content.Load<SoundEffect>(character.sound_selected)); }
+                        catch { }
+                    ((MenuController)controller).MenuSound += PlayMenuSound;
                     break;
                 case GameState.OptionsMenu:
                     background = "";
                     break;
                 case GameState.GamePlay:
                     gameSounds = new Dictionary<GameSoundType, SoundEffect>();
-                    gameSounds.Add(GameSoundType.hit, content.Load<SoundEffect>("Sound/Game/hit"));
+                    gameSounds.Add(GameSoundType.hit, content.Load<SoundEffect>("Sound/Wolwerine/pain"));
                     gameSounds.Add(GameSoundType.death, content.Load<SoundEffect>("Sound/Game/hit"));
                     ((GameController)controller).GameSound += PlayGameSound;
 
@@ -71,8 +81,11 @@ namespace SmashBros.Controllers
         public void LoadCharacter(ContentManager content, CharacterController controller)
         {
             playerSounds.Add(controller.playerIndex, new Dictionary<PlayerSoundType, SoundEffect>());
-            
-            playerSounds[controller.playerIndex].Add(PlayerSoundType.jump, content.Load<SoundEffect>(controller.model.sound_jump));
+
+            try { playerSounds[controller.playerIndex].Add(PlayerSoundType.jump, content.Load<SoundEffect>(controller.model.sound_jump)); }
+            catch { }
+            try { playerSounds[controller.playerIndex].Add(PlayerSoundType.kill, content.Load<SoundEffect>(controller.model.sound_kill)); }
+            catch { }
             controller.PlayerSound += PlayPlayerSound;
         }
 
@@ -95,17 +108,28 @@ namespace SmashBros.Controllers
         public delegate void GameSound(GameSoundType soundtype, float volume = 1, float pitch = 0);
         public void PlayGameSound(GameSoundType soundtype, float volume, float pitch)
         {
-            gameSounds[soundtype].Play(volume, pitch, 0.0f);
+            SoundEffect effect;
+            if(gameSounds.TryGetValue(soundtype, out effect)) effect.Play(volume, pitch, 0.0f);
         }
         public delegate void PlayerSound(int playerIndex, PlayerSoundType soundtype);
         public void PlayPlayerSound(int playerIndex, PlayerSoundType soundtype)
         {
-            playerSounds[playerIndex][soundtype].Play();
+            SoundEffect effect;
+            if(playerSounds[playerIndex].TryGetValue(soundtype, out effect)) effect.Play();
         }
-        public delegate void MenuSound(PlayerSoundType soundtype);
-        public void PlayMenuSound(MenuSoundType soundtype)
+        public delegate void MenuSound(MenuSoundType soundtype, Character character = null);
+        public void PlayMenuSound(MenuSoundType soundtype, Character character)
         {
-            menuSounds[soundtype].Play();
+            if (soundtype == MenuSoundType.characterSelected)
+            {
+                SoundEffect effect;
+                if (((Dictionary<Character, SoundEffect>)menuSounds[soundtype]).TryGetValue(character, out effect)) effect.Play();
+            }
+            else
+            {
+                object effect;
+                if (menuSounds.TryGetValue(soundtype, out effect)) ((SoundEffect)effect).Play();
+            }
         }
     }
 }

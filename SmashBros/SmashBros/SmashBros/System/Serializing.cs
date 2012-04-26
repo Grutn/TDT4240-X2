@@ -140,6 +140,10 @@ namespace SmashBros.System
                 {
                     c.thumbnail = "Characters/SpidermanThumb";
                     c.image = "Characters/SpidermanImage";
+                    c.sound_selected = "Sound/Spiderman/selected";
+                    c.sound_jump = "Sound/Spiderman/jump";
+                    c.sound_kill = "Sound/Wolwerine/kill";
+                    c.sound_punch = "Sound/Spiderman/punch";
                 }
 
                 if (i == 2)
