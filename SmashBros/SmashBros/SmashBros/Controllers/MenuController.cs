@@ -18,7 +18,7 @@ namespace SmashBros.Controllers
 {
     public enum MenuState
     {
-        None, CharacterSelectionComplete
+        StartScreen,CharacterSelection,MapSelection
     }
 
     public class MenuController : Controller
@@ -188,7 +188,7 @@ namespace SmashBros.Controllers
         {
             switch (CurrentState)
             {
-                case GameState.SelectionMenu:
+                case GameState.CharacterMenu:
 
                     int playersSelected = 0;
                     foreach (var pad in GamePadControllers)
@@ -234,7 +234,7 @@ namespace SmashBros.Controllers
                     RemoveView(startScreen);
                     RemoveView(tipsText);
                     break;
-                case GameState.SelectionMenu:
+                case GameState.CharacterMenu:
                     RemoveView(characterScreen);
                     RemoveViews(characterThumbs.ToArray());
                     RemoveViews(playerCursors.ToArray());
@@ -249,6 +249,10 @@ namespace SmashBros.Controllers
                     }
 
                     break;
+
+                case GameState.MapsMenu :
+
+                    break;
             }
 
             switch (value.CurrentState)
@@ -258,7 +262,7 @@ namespace SmashBros.Controllers
                     AddView(tipsText);
 
                     break;
-                case GameState.SelectionMenu :
+                case GameState.CharacterMenu :
                     AddView(characterScreen);
                     
                     tipsText.Text = "Press ENTER to continiue";

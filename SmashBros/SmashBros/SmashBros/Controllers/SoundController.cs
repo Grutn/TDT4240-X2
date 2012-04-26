@@ -41,10 +41,10 @@ namespace SmashBros.Controllers
                 case GameState.StartScreen:
                     background = "";
                     break;
-                case GameState.SelectionMenu:
+                case GameState.CharacterMenu:
                     background = "";
                     break;
-                case GameState.OptionsMenu:
+                case GameState.MapsMenu:
                     background = "";
                     break;
                 case GameState.GamePlay:

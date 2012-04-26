@@ -77,9 +77,9 @@ namespace SmashBros.Controllers
             {
                 case GameState.StartScreen:
                     break;
-                case GameState.SelectionMenu:
+                case GameState.CharacterMenu:
                     break;
-                case GameState.OptionsMenu:
+                case GameState.MapsMenu:
                     break;
                 case GameState.GamePlay:
                     break;
@@ -92,10 +92,10 @@ namespace SmashBros.Controllers
                 case GameState.StartScreen:
                     State = PopupState.hidden;
                     break;
-                case GameState.SelectionMenu:
+                case GameState.CharacterMenu:
                     State = PopupState.colapsed;
                     break;
-                case GameState.OptionsMenu:
+                case GameState.MapsMenu:
                     break;
                 case GameState.GamePlay:
                     State = PopupState.removed;

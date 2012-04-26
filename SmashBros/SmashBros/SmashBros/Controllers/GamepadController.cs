@@ -119,7 +119,7 @@ namespace SmashBros.Controllers
                     }
                     else if (screen.currentKeyboardState.GetPressedKeys().Count() != 0)
                     {
-                        CurrentState = GameState.SelectionMenu;
+                        CurrentState = GameState.CharacterMenu;
                     }
                     break;
             }

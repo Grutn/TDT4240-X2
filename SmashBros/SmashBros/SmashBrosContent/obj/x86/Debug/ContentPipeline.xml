@@ -218,15 +218,6 @@
       <Time>2012-04-25T09:58:56.1458208+02:00</Time>
     </Item>
     <Item>
-      <Source>Sound\hit.wav</Source>
-      <Name>Sound\hit</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Sound\hit.xnb</Output>
-      <Time>2012-04-25T09:58:56.1328293+02:00</Time>
-    </Item>
-    <Item>
       <Source>GameStuff\GameEffects.png</Source>
       <Name>GameStuff\GameEffects</Name>
       <Importer>TextureImporter</Importer>
@@ -261,6 +252,15 @@
       <Options>None</Options>
       <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Characters\RoketRacoonThumb.xnb</Output>
       <Time>2012-04-26T00:00:59.9280772+02:00</Time>
+    </Item>
+    <Item>
+      <Source>Sound\Game\hit.wav</Source>
+      <Name>Sound\Game\hit</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Sound\Game\hit.xnb</Output>
+      <Time>2012-04-26T01:32:38.1990506+02:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

@@ -176,8 +176,8 @@ namespace SmashBros.System
                         sqWidth = 10,
                         sqHeight = 10,
                         duration = 250,
-                        aniFrom = 23,
-                        aniTo = 28
+                        aniFrom = 42,
+                        aniTo = 53
                     };
 
                     c.aUp = new Move()
