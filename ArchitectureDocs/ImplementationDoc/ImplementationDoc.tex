@@ -1,10 +1,12 @@
 \documentclass[a4paper,oneside,10pt]{article}
 
+
+\usepackage{multirow}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% TODO
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% TODO1		How to select character.
-% TODO2		Attack buttons
+% TODO1		Something todo
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% DOCUMENT
@@ -20,21 +22,19 @@ Dimitry Kongevold\\
 Nicolay Thafvelin\\
 Milos Zlatkovic\\}
 \maketitle
-
-\texttt{ \\ }
-
-\begin{abstract}
-This document describes product delivered by team X2 in the courseTDT4240 Software Architecture. The document contains: design and implementation details, tests run on the final product and during the development, the User’s manual and the list of inconsistencies between implementation and the architecture.\\
-
-The main attribute that have been focus under development of the project is modifiability. Game, as in now, is just an engine with the possibilities to add new features, characters, maps and power ups. Those opportunities could be explored by an advanced user as well as a developer, or future support personnel, by adding an XML file to a specific folder.
-\end{abstract}
 \clearpage{}
 
 \tableofcontents 
 \cleardoublepage{}
 \pagestyle{plain} 
 
+\section{Introduction}
+This document describes product delivered by team X2 in the courseTDT4240 Software Architecture. The document contains: design and implementation details, tests run on the final product and during the development, the User’s manual and the list of inconsistencies between implementation and the architecture.\\
+
+The main attribute that have been focus under development of the project is modifiability. Game, as in now, is just an engine with the possibilities to add new features, characters, maps and power ups. Those opportunities could be explored by an advanced user as well as a developer, or future support personnel, by adding an XML file to a specific folder.
+
 \section{Implementation Details}
+\input{implementation}
 
 \section{User's Manual}
 \input{manual}
