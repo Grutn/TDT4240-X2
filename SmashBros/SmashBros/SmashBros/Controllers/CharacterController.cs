@@ -18,7 +18,22 @@ namespace SmashBros.Controllers
 {
     public enum State { none, running, braking, jumping, falling, takingHit, attacking, shielding, chargingHit, chargingSuper }
 
-    internal class MoveInfo { public Vector2 direction; public float chargeTime; public List<int> playerIndexes; public Move move; }
+    internal class MoveInfo
+    {
+        public Vector2 Xdirection;
+        public float ChargeTime;
+        public List<int> PlayerIndexes;
+        public Move Move;
+
+        public MoveInfo(CharacterController controller)
+        {
+            Xdirection = controller.faceRight ? new Vector2(1, 1) : new Vector2(-1, 1);
+            ChargeTime = controller.chargeTime;
+            PlayerIndexes = new List<int>();
+            PlayerIndexes.Add(controller.playerIndex);
+            Move = controller.move;
+        }
+    }
 
     public class CharacterController : Controller
     {
@@ -80,7 +95,7 @@ namespace SmashBros.Controllers
                         case State.jumping:
                             attackMode = false;
                             inAir = true;
-                            PlayerSound.Invoke(playerIndex, PlayerSoundType.jump);
+                            PlayerSound.Invoke(playerIndex, PlayerSoundType.Jump);
                             character.StartAnimation(model.ani_jumpStart, model.ani_jumpEnd, false);
                             character.AddAnimation(model.ani_fallStart, model.ani_fallEnd, true);
                             break;
@@ -95,10 +110,12 @@ namespace SmashBros.Controllers
                             break;
                         case State.attacking:
                             attackMode = true;
-                            character.StartAnimation(move.aniFrom, move.aniTo, true);
+                            character.StartAnimation(move.AniFrom, move.AniTo, false);
+                            if (move.Type == MoveType.Body) character.Velocity = ((BodyMove)move).BodySpeed;
                             break;
                         case State.shielding:
                             attackMode = true;
+                            //invounerable = true;
                             break;
                         case State.chargingHit:
                             attackMode = true;
@@ -219,11 +236,6 @@ namespace SmashBros.Controllers
         public Body moveBox;
 
         /// <summary>
-        /// Which direction move should go.
-        /// </summary>
-        public Vector2 moveDirection;
-
-        /// <summary>
         /// How long the character has charged the attack.
         /// </summary>
         public float chargeTime;
@@ -237,6 +249,11 @@ namespace SmashBros.Controllers
         /// Is set to true if the character releases attackbutton before minimun chargetime has passed.
         /// </summary>
         public bool startMoveWhenReady;
+
+        /// <summary>
+        /// Whether the movebox have bin created etc.
+        /// </summary>
+        private bool moveStarted;
 
         /// <summary>
         /// Startposition for when the character comes to life.
@@ -253,13 +270,13 @@ namespace SmashBros.Controllers
             this.playerIndex = pad.PlayerIndex;
         }
 
-        public void Reset(Vector2 startPos)
+        public void Reset(Vector2 startPos, bool behindMap)
         {
             RemoveView(character);
             character.BoundBox.IsStatic = true;
             character.Position = startPos;
             resetTimeLeft = 4000;
-            invounerableTimeLeft = 5000;
+            invounerableTimeLeft = 3000;
             invounerable = true;
             if(moveBox != null) moveBox.Dispose();
         }
@@ -284,8 +301,11 @@ namespace SmashBros.Controllers
             
             character.Position = startPos;
 
-            pad.OnNavigation += OnNavigation;
-            pad.OnHitkeyDown += OnHitKeyDown;
+            pad.OnNavigation += Navigation;
+            pad.OnHitkeyDown += HitKeyDown;
+            pad.OnHitKeyUp += HitKeyUp;
+            pad.OnSuperkeyDown += SuperKeyDown;
+            pad.OnSuperKeyUp += SuperKeyUp;
 
             screen.soundController.LoadCharacter(content, this);
         }
@@ -325,10 +345,17 @@ namespace SmashBros.Controllers
                         character.Opacity = 1;
                     }
                 }
-                
-                if (!attackMode && (Math.Abs(character.VelocityX) < Math.Abs(model.maxSpeed * navigation.X) || character.VelocityX * navigation.X < 0)) character.VelocityX += navigation.X * model.acceleration * gameTime.ElapsedGameTime.Milliseconds / 1000f;
-                if (inAir) character.VelocityY += model.gravity * gameTime.ElapsedGameTime.Milliseconds / 1000f;
-                else if (character.VelocityX * navigation.X < 0 || navigation.X == 0) character.VelocityX -= (character.VelocityX / model.maxSpeed) * 3 * model.acceleration * gameTime.ElapsedGameTime.Milliseconds / 1000;
+
+                Vector2 velocityPlus = new Vector2(0, 0);
+                if (!attackMode && (Math.Abs(character.VelocityX) < Math.Abs(model.maxSpeed * navigation.X) || character.VelocityX * navigation.X < 0))
+                    velocityPlus.X += navigation.X * model.acceleration * gameTime.ElapsedGameTime.Milliseconds / 1000f;
+                if (inAir && (!attackMode || move.Type != MoveType.Body || !((BodyMove)move).ConstantSpeed))
+                    velocityPlus.Y += model.gravity * gameTime.ElapsedGameTime.Milliseconds / 1000f;
+                else if (character.VelocityX * navigation.X < 0 || navigation.X == 0) 
+                    velocityPlus.X += -(character.VelocityX / model.maxSpeed) * 3 * model.acceleration * gameTime.ElapsedGameTime.Milliseconds / 1000;
+
+                character.Velocity += velocityPlus;
+                if (state == State.attacking && move.Type == MoveType.Body) moveBox.LinearVelocity += velocityPlus;
 
                 position = character.Position;
                 NaturalState();
@@ -348,30 +375,44 @@ namespace SmashBros.Controllers
                         break;
                     case State.chargingHit:
                         chargeTime += gameTime.ElapsedGameTime.Milliseconds;
-                        if (startMoveWhenReady && chargeTime > move.minWait) BeginMove();
+                        if (startMoveWhenReady && chargeTime > ((ChargeMove)move).MinWait) state = State.attacking;
                         break;
                     case State.chargingSuper:
                         chargeTime += gameTime.ElapsedGameTime.Milliseconds;
-                        if (startMoveWhenReady && chargeTime > move.minWait || chargeTime > move.maxWait) BeginMove();
+                        if (startMoveWhenReady && chargeTime > ((ChargeMove)move).MinWait || chargeTime > ((ChargeMove)move).MaxWait) state = State.attacking;
                         break;
                     case State.attacking:
                         attackTimeLeft -= gameTime.ElapsedGameTime.Milliseconds;
                         if (attackTimeLeft <= 0)
                         {
-                            moveBox.Dispose();
                             attackMode = false;
                             NaturalState();
                         }
-                        else if (move.adjustable)
+                        else if (move.Duration - move.End <= attackTimeLeft)
                         {
-                            float angle = moveBox.LinearVelocity.X == 0 ? 0 : (float)Math.Atan(moveBox.LinearVelocity.Y / moveBox.LinearVelocity.X);
-                            angle += faceRight ?
-                                navigation.Y * move.adjustAcc * gameTime.ElapsedGameTime.Milliseconds / 1000 :
-                                -navigation.Y * move.adjustAcc * gameTime.ElapsedGameTime.Milliseconds / 1000;
-                            moveBox.LinearVelocity = new Vector2(angle) * moveBox.LinearVelocity.Length();
+                            moveBox.Dispose();
+                        }
+                        else if (move.Duration - move.Start <= attackTimeLeft)
+                        {
+                            if (!moveStarted) StartMove();
+                            if (move.Adjustable)
+                            {
+                                float angle = moveBox.LinearVelocity.X == 0 ? 0 : (float)Math.Atan(moveBox.LinearVelocity.Y / moveBox.LinearVelocity.X);
+                                angle += faceRight ?
+                                    navigation.Y * ((AdjustableMove)move).AdjustAcc * gameTime.ElapsedGameTime.Milliseconds / 1000 :
+                                    -navigation.Y * ((AdjustableMove)move).AdjustAcc * gameTime.ElapsedGameTime.Milliseconds / 1000;
+                                moveBox.LinearVelocity = new Vector2(angle) * moveBox.LinearVelocity.Length();
+                            }
                         }
                         break;
                     case State.shielding:
+                        break;
+                    case State.takingHit:
+                        if (character.VelocityY >= 0)
+                        {
+                            attackMode = false;
+                            NaturalState();
+                        }
                         break;
                 }
 
@@ -402,7 +443,7 @@ namespace SmashBros.Controllers
         {
         }
 
-        private void OnNavigation(float directionX, float directionY, int playerIndex, bool newDirection)
+        private void Navigation(float directionX, float directionY, int playerIndex, bool newDirection)
         {
             if (!attackMode && resetTimeLeft < 0)
             {
@@ -425,97 +466,135 @@ namespace SmashBros.Controllers
             this.navigation = new Vector2(directionX, directionY);
         }
 
-        private void OnHitKeyDown(float directionX, float directionY, float downTimer, int playerIndex)
+        private void HitKeyDown(float directionX, float directionY, float downTimer, int playerIndex)
         {
             if (!attackMode)
             {
-                if (Math.Abs(navigation.X) >= Math.Abs(navigation.Y) || !inAir && navigation.Y > 0) moveDirection = faceRight ? new Vector2(1, 0) : new Vector2(-1, 0);
-                else moveDirection = !inAir || navigation.Y < 0? new Vector2(0,-1) : new Vector2(0,1);
-                if (newDirection)
+                if (newDirection && (Math.Abs(navigation.X) > 0.9 || Math.Abs(navigation.Y) > 0.9))
                 {
-                    startMoveWhenReady = false;
-                    if (moveDirection.X != 0)
-                        move = model.aLR;
-                    else move = moveDirection.Y > 0 ? model.aDown : model.aUp;
-                    state = State.chargingHit;
+                    if (Math.Abs(navigation.X) >= Math.Abs(navigation.Y) || !inAir && navigation.Y > 0) move = model.aLR;
+                    else move = inAir && navigation.Y > 0 ? model.aDown : model.aUp;
                 }
                 else
                 {
                     move = model.a;
-                    BeginMove();
-                } 
+                }
+
+                if (move.Type == MoveType.Charge)
+                {
+                    startMoveWhenReady = false;
+                    state = State.chargingHit;
+                }
+                else
+                {
+                    state = State.attacking;
+                    if (move.Start == 0) StartMove();
+                }
             }
         }
 
-        private void OnHitKeyUp(float downTimer, int playerIndex)
+        private void SuperKeyDown(float directionX, float directionY, float downTimer, int playerIndex)
+        {
+            if (!attackMode)
+            {
+                if (navigation.X == 0 && navigation.Y == 0)
+                {
+                    move = Math.Abs(character.VelocityX) < 3 ? move = model.x : model.xLR;
+                }
+                else if (Math.Abs(navigation.X) > Math.Abs(navigation.Y)) move = model.xLR;
+                else if (navigation.Y > 0) move = model.xDown;
+                else if (jumpsLeft > 0)
+                {
+                    move = model.xUp;
+                    jumpsLeft = 0;
+                }
+                else return;
+
+                if (move.Type == MoveType.Charge)
+                {
+                    startMoveWhenReady = false;
+                    state = State.chargingHit;
+                }
+                else
+                {
+                    state = State.attacking;
+                    if (move.Start == 0) StartMove();
+                }
+            }
+        }
+
+        private void HitKeyUp(float downTimer, int playerIndex)
         {
             if (state == State.chargingHit)
             {
-                if (chargeTime > move.minWait) BeginMove();
+                if (chargeTime > ((ChargeMove)move).MinWait) StartMove();
                 else startMoveWhenReady = true;
             }
         }
 
-        private void BeginMove()
+        private void SuperKeyUp(float downTimer, int playerIndex)
         {
-            moveBox = BodyFactory.CreateRectangle(World, ConvertUnits.ToSimUnits(move.sqWidth), ConvertUnits.ToSimUnits(move.sqHeight), 0, character.BoundBox.Position, move);
+            if (state == State.chargingSuper)
+            {
+                if (chargeTime > ((ChargeMove)move).MinWait) StartMove();
+                else startMoveWhenReady = true;
+            }
+        }
+
+        private void StartMove()
+        {
+            moveBox = BodyFactory.CreateRectangle(World, ConvertUnits.ToSimUnits(move.SqSize.X), ConvertUnits.ToSimUnits(move.SqSize.Y), 0,
+                character.BoundBox.Position + move.SqFrom, new MoveInfo(this));
             moveBox.IgnoreGravity = true;
             moveBox.IsStatic = false;
             moveBox.CollidesWith = Category.Cat11;
             moveBox.CollisionCategories = Category.Cat20;
-            moveBox.Friction = 0;
-
-            if (move.adjustable)
-            {
-                if (Math.Abs(navigation.X) >= Math.Abs(navigation.Y) || !inAir && navigation.Y > 0) moveDirection = faceRight ? new Vector2(1, 0) : new Vector2(-1, 0);
-                else moveDirection = !inAir || navigation.Y < 0 ? new Vector2(0, -1) : new Vector2(0, 1); 
-            }
-            attackTimeLeft = move.duration;
-
-            moveBox.LinearVelocity = moveDirection*move.sqRange/move.duration*1000;
-            moveBox.UserData = new MoveInfo() { direction = moveDirection, chargeTime = chargeTime, playerIndexes = new List<int>() { playerIndex }, move = move };
-
-            state = State.attacking;
+            
+            Vector2 speed = (move.SqTo - move.SqFrom) / (move.End - move.Start);
+            moveBox.LinearVelocity = faceRight ? (speed + character.Velocity) * new Vector2(1, 1) : (speed + character.Velocity) * new Vector2(-1, 1);
+            //moveBox.UserData = new MoveInfo(this);
         }
 
-        private bool Collision(Fixture geom1, Fixture geom2, Contact list)
+        private bool Collision(Fixture chara, Fixture obj, Contact list)
         {
-            if ((geom2.CollisionCategories == Category.Cat9 || geom2.CollisionCategories == Category.Cat10) && (geom1.Body.Position.Y + character.size.Y / 2 <= geom2.Body.Position.Y + (float)geom2.Body.UserData / 2 && character.VelocityY >= 0))//(geom2.CollisionCategories == Category.All|| geom2.CollisionCategories == Category.Cat10) && 
+            if ((obj.CollisionCategories == Category.Cat9 || obj.CollisionCategories == Category.Cat10)
+                && (chara.Body.Position.Y + character.size.Y / 2 <= obj.Body.Position.Y - (float)obj.Body.UserData / 2 && character.VelocityY >= 0))
             {
                 inAir = false;
-                if (geom2.CollisionCategories == Category.Cat10) onSoftBox = true;
+                if (obj.CollisionCategories == Category.Cat10) onSoftBox = true;
                 NaturalState();
                 jumpsLeft = 3;
                 character.VelocityY = 0;
                 return true;
             }
-            else if (geom2.CollisionCategories == Category.Cat20)
+            else if (obj.CollisionCategories == Category.Cat9) return true;
+            else if (obj.CollisionCategories == Category.Cat20)
             {
-                MoveInfo moveInfo = (MoveInfo)geom2.Body.UserData;
-                if (!moveInfo.playerIndexes.Contains(playerIndex) && !invounerable)
+                MoveInfo moveInfo = (MoveInfo)obj.Body.UserData;
+                if (!moveInfo.PlayerIndexes.Contains(playerIndex) && !invounerable)
                 {
-                    moveInfo.playerIndexes.Add(playerIndex);
-                    Move hit = moveInfo.move;
-                    Vector2 direction = moveInfo.direction;
-                    if(direction.Y == 0) direction.Y -= 0.4f;
-                    float chargeTime = moveInfo.chargeTime;
+                    moveInfo.PlayerIndexes.Add(playerIndex);
+
+                    Move move = moveInfo.Move;
                     float ratio = 0;
-                    if (chargeTime > hit.maxWait) ratio = 1;
-                    else ratio = (chargeTime - hit.minWait) / (hit.maxWait - hit.minWait);
-                    int power = (int)ratio * (hit.maxPower - hit.minPower) + hit.minPower;
-                    int damage = (int)ratio * (hit.maxDamage - hit.minDamage) + hit.minDamage;
-                    character.BoundBox.ApplyLinearImpulse(direction * power * (1 + damagePoints / 100));
+                    if (move.Type == MoveType.Charge && moveInfo.ChargeTime < ((ChargeMove)move).MaxWait)
+                        ratio = moveInfo.ChargeTime / ((ChargeMove)move).MaxWait;
+                    else ratio = 1;
+                    Vector2 power = ratio * move.Power;
+                    int damage = (int)ratio * move.Damage;
+
+                    character.Velocity = moveInfo.Xdirection * power * (1 + damagePoints / 100);
+                    if (Math.Abs(character.VelocityY) == 0) character.VelocityY = -1;
                     damagePoints += damage;
-                    
-                    Manifold man;
-                    list.GetManifold(out man);
-                    if(OnHit != null) OnHit.Invoke(ConvertUnits.ToDisplayUnits(geom2.Body.Position), damage, power, damagePoints, moveInfo.playerIndexes.First(), playerIndex);
+                    state = State.takingHit;
+
+                    if (OnHit != null) OnHit.Invoke(ConvertUnits.ToDisplayUnits(obj.Body.Position), damage, damagePoints, moveInfo.PlayerIndexes.First(), playerIndex, move.hitSound);
+
+                    if (move.Adjustable && ((AdjustableMove)move).StopAtHit) attackTimeLeft = 0;
                 }
             }
-            else if (geom2.CollisionCategories == Category.Cat8)
-            {
-                if (OnCharacterDeath != null) OnCharacterDeath.Invoke(this);
-            }
+            else if (obj.CollisionCategories == Category.Cat7 || obj.CollisionCategories == Category.Cat8) OnCharacterDeath.Invoke(this, obj.CollisionCategories == Category.Cat7);
+            
             return false;
         }
 
@@ -532,8 +611,8 @@ namespace SmashBros.Controllers
             }
         }
 
-        public delegate void HitOccured(Vector2 pos, int damageDone, int power, int newDamagepoints, int puncher_playerIndex, int reciever_playerIndex);
-        public delegate void CharacterDied(CharacterController characterController);
+        public delegate void HitOccured(Vector2 pos, int damageDone, int newDamagepoints, int puncher_playerIndex, int reciever_playerIndex, GameSoundType soundtype);
+        public delegate void CharacterDied(CharacterController characterController, bool behindScreen = false);
 
         public event SmashBros.Controllers.SoundController.PlayerSound PlayerSound;
         public event HitOccured OnHit;

@@ -24,6 +24,7 @@ namespace SmashBros.Controllers
         Dictionary<int,PlayerStats> players;
 
         ImageTexture effectImg;
+        private int resetPos = 0;
 
         public GameController(ScreenController screen, Map selectedMap) : base(screen)
         {
@@ -108,11 +109,12 @@ namespace SmashBros.Controllers
         {
         }
 
-        private void OnPlayerHit(Vector2 pos, int damageDone, int hitPower, int newDamagepoints, int puncher, int reciever)
+        private void OnPlayerHit(Vector2 pos, int damageDone, int newDamagepoints, int puncher, int reciever, GameSoundType soundtype)
         {
-            if(GameSound != null)GameSound.Invoke(GameSoundType.hit, MathHelper.Clamp((float)hitPower/25, 0.4f, 1.0f), MathHelper.Clamp(damageDone/10-1.0f, -1.0f, 1.0f));
+            GameSound.Invoke(soundtype);
+            
             this.players[puncher].DidHit(damageDone, reciever);
-            this.players[reciever].GotHit(newDamagepoints);
+            this.players[reciever].GotHit(newDamagepoints, puncher);
 
             Random r = new Random();
            
@@ -127,15 +129,22 @@ namespace SmashBros.Controllers
             target.RemovePosition(imagePosition);
         }
 
-        private void OnPlayerDeath(CharacterController characterController)
+        private void OnPlayerDeath(CharacterController characterController, bool behindScreen)
         {
-            GameSound.Invoke(GameSoundType.death);
+            GameSound.Invoke(GameSoundType.death);//behindScreen? GameSoundType.deathFar : GameSoundType.death);
             Vector2 pos = characterController.position;
             int playerIndex = characterController.playerIndex;
-            Random r = new Random();
-            characterController.Reset(map.CurrentMap.startingPosition[r.Next(0 ,4)]);
-
             // lifes--
+            // if lifes > 0
+            characterController.Reset(map.CurrentMap.startingPosition[resetPos], behindScreen);
+            if (resetPos == 3) resetPos = 0;
+            else resetPos++;
+            // else unload characterController
+            int gotKilled = characterController.playerIndex;
+            int killer = players[gotKilled].LastHitBy;
+            players[killer].Killed(characterController.playerIndex);
+
+
         }
 
         public event SmashBros.Controllers.SoundController.GameSound GameSound;
@@ -169,6 +178,7 @@ namespace SmashBros.Controllers
         public int DamageDone { get { return PlayerDamageDone.Sum(a => a.Value); } }
         public int DamagePoints { get; set; }
         public int HitsDone { get; private set; }
+        public int LastHitBy { get; private set; }
 
 
 
@@ -180,22 +190,18 @@ namespace SmashBros.Controllers
                 PlayerDamageDone.Add(playerIndexReciever, damageDone);
         }
 
-        public void KilledPlayer(int playerIndexKilled)
+        public void Killed(int playerIndex)
         {
-            if (PlayerKills.ContainsKey(playerIndexKilled))
-                PlayerKills[playerIndexKilled]++;
+            if (PlayerKills.ContainsKey(playerIndex))
+                PlayerKills[playerIndex]++;
             else
-                PlayerKills.Add(playerIndexKilled,1);    
+                PlayerKills.Add(playerIndex,1);    
         }
 
-        public void Died()
-        {
-
-        }
-
-        public void GotHit(int damagePoints){
+        public void GotHit(int damagePoints, int playerIndex){
             this.DamagePoints = damagePoints;
             this.percentBox.Text = damagePoints + "%";
+            this.LastHitBy = playerIndex;
         }
     }
 }

@@ -117,24 +117,7 @@ namespace SmashBros.System
                 c.animations = "Characters/SpidermanAnimation";
                 c.thumbnail = "Characters/WolverineThumb";
                 c.image = "Characters/WolverineImage";
-                c.a = new Move()
-                {
-                    range = false,
-                    adjustable = false,
-                    minWait = 0,
-                    maxWait = 0,
-                    minPower = 10,
-                    maxPower = 10,
-                    minDamage = 10,
-                    maxDamage = 10,
-                    sqRange = 0.8f,
-                    bodyRange = 1,
-                    sqWidth = 10,
-                    sqHeight = 10,
-                    duration = 250,
-                    aniFrom = 28,
-                    aniTo = 35
-                };
+                c.a = new Move(10, 250, 0, 28, 35, new Vector2(0.2f, 0.8f), new Vector2(0.5f, 0.5f), new Vector2(10, 0), new Vector2(10, 10));
                 
                 if (i == 1)
                 {
@@ -165,43 +148,8 @@ namespace SmashBros.System
                     c.ani_takeHitStart = 12;
                     c.ani_takeHitEnd = 14;
 
-                    c.a = new Move()
-                    {
-                        range = false,
-                        adjustable = false,
-                        minWait = 0,
-                        maxWait = 0,
-                        minPower = 1,
-                        maxPower = 1,
-                        minDamage = 70,
-                        maxDamage = 100,
-                        sqRange = 0.8f,
-                        bodyRange = 1,
-                        sqWidth = 10,
-                        sqHeight = 10,
-                        duration = 250,
-                        aniFrom = 23,
-                        aniTo = 28
-                    };
-
-                    c.aUp = new Move()
-                    {
-                        range = false,
-                        adjustable = false,
-                        minWait = 0,
-                        maxWait = 0,
-                        minPower = 10,
-                        maxPower = 10,
-                        minDamage = 10,
-                        maxDamage = 10,
-                        sqRange = 0.8f,
-                        bodyRange = 1,
-                        sqWidth = 10,
-                        sqHeight = 10,
-                        duration = 250,
-                        aniFrom = 29,
-                        aniTo = 34
-                    };
+                    c.a = new Move(100, 250, 0, 23, 28, new Vector2(0, 0), new Vector2(1, 0), new Vector2(1, 0), new Vector2(10, 10));
+                    c.aUp = new Move(10, 250, 0, 29, 34, new Vector2(0, 0), new Vector2(0, 1), new Vector2(10, 0), new Vector2(10, 10));
                 }
                 Write(c,CharacterFolder,"Character"+i);
             }
