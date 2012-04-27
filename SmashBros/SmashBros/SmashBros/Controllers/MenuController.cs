@@ -24,7 +24,7 @@ namespace SmashBros.Controllers
 
     public class MenuController : Controller
     {
-        PopupMenuController popupMenu;
+        OverlayMenuController popupMenu;
         CursorController cursors;
         GamePlayController gameController;
         Map selectedMap;
@@ -60,15 +60,18 @@ namespace SmashBros.Controllers
 
         public override void Load(ContentManager content) 
         {
-            //Adds the popupmenu to the controllers stack
-            popupMenu = new PopupMenuController(Screen);
-            AddController(popupMenu);
-
+            //Creates the controller for the cursor
             cursors = new CursorController(Screen);
             cursors.OnCursorClick += OnCursorClick;
             cursors.OnCursorCollision += OnCursorCollision;
             cursors.OnCursorSeparation += OnCursorSeparation;
             AddController(cursors);
+
+            //Adds the popupmenu to the controllers stack
+            popupMenu = new OverlayMenuController(Screen, cursors);
+            AddController(popupMenu);
+
+            
 
             //Loads the background for selectionmenuy and startscreen
             startScreen = new ImageTexture(content, "Menu/StartScreen", 0, 0);
@@ -112,10 +115,10 @@ namespace SmashBros.Controllers
             LoadCharacters(content);
             
             //Adds collision box at help and option button
-            helpBox = CreateBtn(90, 40, 180, 80);
+            helpBox = CreateBtn(90, 40, 180, 80, "help");
             
             //Adds collision box at help and option button
-            optionsBox = CreateBtn(Constants.WindowWidth - 100, 40, 180, 80);
+            optionsBox = CreateBtn(Constants.WindowWidth - 100, 40, 180, 80, "options");
 
             Screen.soundController.Load(content, this);
 
@@ -319,52 +322,64 @@ namespace SmashBros.Controllers
 
         private void OnCursorClick(int playerIndex, object targetData, CursorModel cursor, bool selectKey)
         {
-            if (targetData.GetType() == typeof(bool))
+            if (cursor.TargetCategory == Category.Cat5)
             {
-                popupMenu.State = PopupState.Options;
-            }
-            else
-            {
-                switch (CurrentState)
+                if (targetData.GetType() == typeof(string))
                 {
-                    case GameState.StartScreen:
-                        break;
-                    case GameState.CharacterMenu:
-                        if (selectKey)
-                        {
-                            GamePadControllers[playerIndex].SelectedCharacter = (Character)targetData;
-                            cursors.DisableCursor(playerIndex);
-                        }
-                        else
-                        {
-                            GamePadControllers[playerIndex].SelectedCharacter = null;
-                            cursors.EnableCursor(playerIndex);
-                        }
-                        break;
-                    case GameState.MapsMenu:
-                        if (selectKey)
-                        {
-                            selectedMap = (Map)targetData;
-                            cursors.EnableCursors = false;
-                            AddView(continueText);
-                        }
-                        else
-                        {
-                            RemoveView(continueText);
-                            cursors.EnableCursors = true;
-                        }
+                    string s = targetData.ToString();
+                    if (s == "options")
+                    {
+                        popupMenu.State = PopupState.Options;
+                    }
+                    else if (s == "help")
+                    {
+                        popupMenu.State = PopupState.Help;
+                    }
+                }
+                else
+                {
+                    switch (CurrentState)
+                    {
+                        case GameState.StartScreen:
+                            break;
+                        case GameState.CharacterMenu:
+                            if (selectKey)
+                            {
+                                GamePadControllers[playerIndex].SelectedCharacter = (Character)targetData;
+                                cursors.DisableCursor(playerIndex);
+                            }
+                            else
+                            {
+                                GamePadControllers[playerIndex].SelectedCharacter = null;
+                                cursors.EnableCursor(playerIndex);
+                            }
+                            break;
+                        case GameState.MapsMenu:
+                            if (selectKey)
+                            {
+                                selectedMap = (Map)targetData;
+                                cursors.EnableCursors = false;
+                                AddView(continueText);
+                            }
+                            else
+                            {
+                                RemoveView(continueText);
+                                cursors.EnableCursors = true;
+                            }
 
-                        break;
-                    case GameState.GamePlay:
-                        break;
-                    default:
-                        break;
+                            break;
+                        case GameState.GamePlay:
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
         }
 
         private void OnCursorCollision(int playerIndex, object targetData, CursorModel cursor)
         {
+            if (targetData == null) return;
             if (targetData.GetType() == typeof(Character))
             {
                 Character c = (Character)targetData;
@@ -428,12 +443,12 @@ namespace SmashBros.Controllers
 
         }
 
-        private Body CreateBtn(int x, int y, int width, int height){
+        private Body CreateBtn(int x, int y, int width, int height, string btnName){
             Body btn = BodyFactory.CreateRectangle(World, ConvertUnits.ToSimUnits(width), ConvertUnits.ToSimUnits(height), 1f);
             btn.Position = ConvertUnits.ToSimUnits(x, y);
             btn.CollisionCategories = Category.Cat5;
             btn.IsSensor = true;
-            btn.UserData = false;
+            btn.UserData = btnName;
 
             return btn;
         }

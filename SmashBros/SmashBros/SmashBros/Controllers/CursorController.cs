@@ -10,6 +10,7 @@ using FarseerPhysics.Dynamics;
 using SmashBros.Model;
 using FarseerPhysics.Dynamics.Contacts;
 using SmashBros.Models;
+using System.Diagnostics;
 
 namespace SmashBros.Controllers
 {
@@ -93,6 +94,8 @@ namespace SmashBros.Controllers
         {
             set
             {
+                DebugWrite("cursor", value);
+
                 if (value)
                 {
                     ResetCursors();
@@ -147,6 +150,11 @@ namespace SmashBros.Controllers
             playerCursors[playerIndex].Enabled = true;
         }
 
+        public void SetCursorCollisionCategory(Category cat = Category.Cat5)
+        {
+            playerCursors.ForEach(a => a.Cursor.BoundBox.CollidesWith = cat);
+        }
+
         private bool OnCollision(Fixture cursor, Fixture box, Contact contact)
         {
             int playerIndex = (int)cursor.Body.UserData;
@@ -163,49 +171,16 @@ namespace SmashBros.Controllers
         {
             int playerIndex = (int)cursor.Body.UserData;
             var cursorModel = playerCursors[playerIndex];
+
+            if(OnCursorSeparation != null) 
+                OnCursorSeparation.Invoke(playerIndex, cursorModel.CurrentTarget == null ? null : cursorModel.CurrentTarget.UserData, cursorModel);
+
             cursorModel.CurrentTarget = null;
-
-            if(OnCursorSeparation != null) OnCursorSeparation.Invoke(playerIndex, null, cursorModel);
-
-            //var data = box.Body.UserData;
-
-            //if (data.GetType() == typeof(Character))
-            //{
-            //    Character c = (Character)box.Body.UserData;
-            //    int playerIndex = (int)cursor.Body.UserData;
-
-            //    //Check if the selected character model still is the same, somtimes 
-            //    //the next collision reacts before separation function with old is run
-            //    //Set to null if same model
-            //    if (GamePadControllers[playerIndex].HoverCharacter == c)
-            //    {
-            //        GamePadControllers[playerIndex].HoverCharacter = null;
-            //    }
-
-            //    int index = characterModels.IndexOf(c);
-            //    ImageTexture img = characterImages[index];
-            //    img.RemoveId(playerIndex);
-
-            //    if (img.PosCount == 0)
-            //    {
-            //        characterThumbs[index].Scale = 1f;
-            //        characterThumbs[index].Rotation = 0f;
-            //        RemoveView(img);
-            //    }
-            //}
-            //else if (data.GetType() == typeof(Map))
-            //{
-
-            //}
-            //else if (data.GetType() == typeof(bool))
-            //{
-            //    box.Body.UserData = false;
-            //}
-
         }
 
         private void OnCursorNavigate(float directionX, float directionY, int playerIndex, bool newDirection)
         {
+            Debug.WriteLine("Cursor move " + playerIndex);
             var cursor = playerCursors[playerIndex];
             cursor.SetPosition(cursor.Cursor.PositionX + directionX * Constants.MaxCursorSpeed,
                 cursor.Cursor.PositionY + directionY * Constants.MaxCursorSpeed);
@@ -232,11 +207,14 @@ namespace SmashBros.Controllers
         }
 
         
-        
-        public delegate void CursorAction(int playerIndex, object targetData, CursorModel cursor);
-        public delegate void CursorClick(int playerIndex, object targetData, CursorModel cursor, bool selectKey);
+        //Events of for cursor
         public CursorAction OnCursorCollision;
         public CursorAction OnCursorSeparation;
         public CursorClick OnCursorClick;
     }
+
+    public delegate void CursorAction(int playerIndex, object targetData, CursorModel cursor);
+    public delegate void CursorClick(int playerIndex, object targetData, CursorModel cursor, bool selectKey);
+
+
 }

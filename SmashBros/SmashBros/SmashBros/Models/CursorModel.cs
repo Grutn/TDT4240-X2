@@ -22,7 +22,7 @@ namespace SmashBros.Models
             Cursor.Category = Category.Cat4;
             Cursor.CollidesWith = Category.Cat5;
 
-            Cursor.Layer = 1001;
+            Cursor.Layer = 1002;
             Cursor.Mass = 1;
             Cursor.UserData = pad.PlayerIndex;
 
@@ -47,6 +47,17 @@ namespace SmashBros.Models
         public OnCollisionEventHandler OnCollision;
         public OnSeparationEventHandler OnSeparation;
         public Body CurrentTarget;
+        public Category TargetCategory
+        {
+            get
+            {
+                if (CurrentTarget != null)
+                {
+                    return CurrentTarget.FixtureList.First().CollisionCategories;
+                }
+                return Category.All;
+            }
+        }
 
         private bool enabled;
         public bool Enabled
