@@ -85,6 +85,11 @@ namespace SmashBros.System
             currentKeyboardState = Keyboard.GetState();
 
             ControllerViewManager.Update(gameTime);
+
+            if (currentKeyboardState.IsKeyUp(Keys.D6) && oldKeyboardState.IsKeyDown(Keys.D6))
+            {
+                Serializing.Reload();
+            }
         }
 
         public override void Draw(GameTime gameTime)

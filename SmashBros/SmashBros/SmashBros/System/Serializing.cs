@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using System.Diagnostics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
+using System.Reflection;
 
 namespace SmashBros.System
 {
@@ -28,31 +29,72 @@ namespace SmashBros.System
         /// Loads all the map models
         /// </summary>
         /// <returns>List with maps</returns>
+        static List<Map> maps;
         public static List<Map> LoadMaps()
         {
-            List<Map> models = new List<Map>();
+            maps = new List<Map>();
             foreach (var file in Directory.GetFiles(MapFolder))
             {
-                models.Add(JsonConvert.DeserializeObject<Map>(Read(file)));
+                maps.Add(JsonConvert.DeserializeObject<Map>(Read(file)));
             }
 
-            return models;
+            return maps;
+        }
+
+        public static void Reload()
+        {
+            int i = 0;
+            foreach (var file in Directory.GetFiles(CharacterFolder))
+            {
+                Character newC = (Character)JsonConvert.DeserializeObject<Character>(Read(file));
+                Character c = charlist[i];
+                Update(ref c, ref newC);
+
+
+                i++;
+            }
+
+        }
+
+        public static void Update(ref Character copyObject, ref Character o)
+        {
+            Type type = o.GetType();
+
+            while (type != null)
+            {
+                UpdateForType(type, ref o, ref copyObject);
+                type = type.BaseType;
+            }
+        }
+
+
+        private static void UpdateForType(Type type, ref Character source, ref Character destination)
+        {
+            FieldInfo[] myObjectFields = type.GetFields(
+                BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
+
+            foreach (FieldInfo fi in myObjectFields)
+            {
+                fi.SetValue(destination, fi.GetValue(source));
+            }
         }
 
         /// <summary>
         /// Loads all the character models
         /// </summary>
         /// <returns>List with all the character models</returns>
+        static List<Character> charlist;
         public static List<Character> LoadCharacters()
         {
             
-            List<Character> models = new List<Character>();
+            charlist = new List<Character>();
             foreach (var file in Directory.GetFiles(CharacterFolder))
             {
-                models.Add(JsonConvert.DeserializeObject<Character>(Read(file)));
+                charlist.Add(JsonConvert.DeserializeObject<Character>(Read(file)));
             }
 
-            return models;
+
+            return charlist;
         }
 
         /// <summary>
@@ -84,6 +126,9 @@ namespace SmashBros.System
         /// <summary>
         /// Genereates some charactermodels
         /// </summary>
+        /// 
+
+
         private static void CreateCharacterModel()
         {
             if (!Directory.Exists(CharacterFolder))
@@ -135,6 +180,10 @@ namespace SmashBros.System
                     aniFrom = 28,
                     aniTo = 35
                 };
+
+                c.aLR = new Move();
+
+                c.x = new Move();
                 
                 if (i == 1)
                 {

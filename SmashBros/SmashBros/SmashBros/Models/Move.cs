@@ -6,6 +6,11 @@ using Microsoft.Xna.Framework;
 
 namespace SmashBros.Model
 {
+    public class Fitte :Move
+    {
+        public int Saft;
+    }
+
     public class Move
     {
         /// <summary>
@@ -64,5 +69,7 @@ namespace SmashBros.Model
         /// From what frame to what frame the animation of the move is.
         /// </summary>
         public int aniFrom, aniTo;
+
+        public Vector2 v;
     }
 }

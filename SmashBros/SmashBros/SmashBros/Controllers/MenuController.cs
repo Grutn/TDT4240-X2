@@ -383,36 +383,9 @@ namespace SmashBros.Controllers
                 }
 
                 img.AddPosition(playerIndex * 260, 450, playerIndex);
+            }else if(targetData.GetType() == typeof(Map)){
+                var map = mapThumbs[mapModels.IndexOf((Map)targetData)];
             }
-            //{
-            //    Character c = (Character)data;
-            //    int playerIndex = (int)cursor.Body.UserData;
-
-            //    //Sets the hovered character model to the gamepad, so it can look for selection key press
-            //    GamePadControllers[playerIndex].HoverCharacter = c;
-
-            //    //Get the characterModels index -> same index as characterThumb and characterImages
-            //    int index = characterModels.IndexOf(c);
-
-            //    characterThumbs[index].Scale = 1.05f;
-            //    characterThumbs[index].Rotation = 0.05f;
-
-            //    ImageTexture img = characterImages[index];
-            //    if (!img.IsActive)
-            //    {
-            //        AddView(img);
-            //    }
-
-            //    img.AddPosition(playerIndex * 260, 450, playerIndex);
-            //}
-            //else if (data.GetType() == typeof(Map))
-            //{
-            //    cursor.Body.UserData = data;
-            //}
-            //else if (data.GetType() == typeof(bool))
-            //{
-            //    box.Body.UserData = true;
-            //}
         }
 
         private void OnCursorSeparation(int playerIndex, object targetData, CursorModel cursor)

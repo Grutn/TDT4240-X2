@@ -105,6 +105,7 @@ namespace SmashBros.System
             camera.Update(gameTime);
         }
 
+        
         public void Draw(GameTime gameTime)
         {
             while (!viewQueue.IsEmpty)
@@ -115,7 +116,10 @@ namespace SmashBros.System
                     if (cont.Item2)
                     {
                         if (!views.Contains(cont.Item1))
+                        {
                             views.Add(cont.Item1);
+                            views = views.OrderBy(a => a.Layer).ToList();
+                        }
 
                     }
                     else
@@ -124,14 +128,14 @@ namespace SmashBros.System
                             views.Remove(cont.Item1);
                     }
                 }
+
             }
 
 
            
             if (views.Count() != 0)
             {
-                var v = views.OrderBy(a => a.Layer);
-                foreach (var item in v)
+                foreach (var item in views)
                 {
                     if (item.StaticPosition)
                         batch.Begin();

@@ -59,9 +59,9 @@ namespace SmashBros.Models
                     enabled = value;
 
                     Cursor.BoundBox.Enabled = enabled;
-                    Pad.OnNavigation -= Navigation;
-                    Cursor.BoundBox.OnCollision -= OnCollision;
-                    Cursor.BoundBox.OnSeparation -= OnSeparation;
+                    //Pad.OnNavigation -= Navigation;
+                    //Cursor.BoundBox.OnCollision -= OnCollision;
+                    //Cursor.BoundBox.OnSeparation -= OnSeparation;
                     if (enabled)
                     {
                         Pad.OnNavigation += Navigation;
