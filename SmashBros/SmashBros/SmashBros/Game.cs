@@ -46,7 +46,7 @@ namespace SmashBros {
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferWidth = Constants.WindowWidth;
             graphics.PreferredBackBufferHeight = Constants.WindowHeight;
-            graphics.IsFullScreen = false;
+            graphics.IsFullScreen = Constants.FullScreen;
 
             ConvertUnits.SetDisplayUnitToSimUnitRatio(64f);
 
@@ -54,15 +54,6 @@ namespace SmashBros {
             Window.AllowUserResizing = false;
             
             Components.Add(new ScreenManager(this));
-
-            /*
-            screenManager = new ScreenManager(this);
-
-            Components.Add(screenManager);
-
-            screenManager.AddScreen(new BackgroundScreen(), null);
-            screenManager.AddScreen(new MainMenuScreen(), null);
-            */
         }
 
         void Window_ClientSizeChanged(object sender, EventArgs e)

@@ -41,6 +41,11 @@ namespace SmashBros.System
             this.soundController = new SoundController(this);
         }
 
+        public void Exit()
+        {
+            Exit();
+        }
+
         protected override void LoadContent()
         {
             ContentManager content = Game.Content;
