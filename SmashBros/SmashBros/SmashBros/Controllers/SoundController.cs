@@ -125,7 +125,7 @@ namespace SmashBros.Controllers
 
             if (Constants.Music && background != "")
             {
-                _backgroundMusic = content.Load<SoundEffect>(background);
+                //_backgroundMusic = content.Load<SoundEffect>(background);
                 backgroundMusic = _backgroundMusic.CreateInstance();
                 backgroundMusic.IsLooped = true;
                 backgroundMusic.Play();

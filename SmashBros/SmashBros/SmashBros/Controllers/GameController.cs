@@ -24,7 +24,7 @@ namespace SmashBros.Controllers
         Dictionary<int,PlayerStats> players;
 
         ImageTexture effectImg;
-        private int resetPos = 0;
+        private int resetPos = 0; 
 
         public GameController(ScreenController screen, Map selectedMap) : base(screen)
         {
@@ -35,7 +35,7 @@ namespace SmashBros.Controllers
         public override void Load(ContentManager content)
         {
 
-            screen.soundController.Load(content, this, map.CurrentMap.backgroundMusic);
+            //screen.soundController.Load(content, this, map.CurrentMap.backgroundMusic);
             
             this.camera = new CameraController(screen, map.Model.zoomBox);
 

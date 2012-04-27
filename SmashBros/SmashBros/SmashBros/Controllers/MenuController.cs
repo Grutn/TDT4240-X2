@@ -98,7 +98,7 @@ namespace SmashBros.Controllers
 
             SubscribeToGameState = true;
 
-            screen.soundController.Load(content, this);
+            screen.soundController.LoadSelectionMenuSounds(content, this);
 
             MenuSound.Invoke(MenuSoundType.choose);
         }
