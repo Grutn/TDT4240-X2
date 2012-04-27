@@ -152,7 +152,8 @@ namespace SmashBros.Controllers
 
         public void SetCursorCollisionCategory(Category cat = Category.Cat5)
         {
-            playerCursors.ForEach(a => a.Cursor.BoundBox.CollidesWith = cat);
+            if (playerCursors != null)
+                playerCursors.ForEach(a => a.Cursor.BoundBox.CollidesWith = cat);
         }
 
         private bool OnCollision(Fixture cursor, Fixture box, Contact contact)

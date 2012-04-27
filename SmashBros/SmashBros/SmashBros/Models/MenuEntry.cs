@@ -16,7 +16,8 @@ namespace SmashBros.Models
             this.text = text;
             this.color = Color.Black;
             this.selectedColor = Color.White;
-            this.selectedSize = 1.2f;
+            this.selectedScale = 1.1f;
+            this.scale = 1.0f;
             this.action = action;
         }
 
@@ -25,8 +26,8 @@ namespace SmashBros.Models
         public Vector2 bgOffset;
         public Color selectedColor;
         public Color color;
-        public float selectedSize;
-        public float size;
+        public float selectedScale;
+        public float scale;
         public bool selected;
         public Body boundBox;
         public Vector2 textSize;

@@ -14,7 +14,7 @@ namespace SmashBros.Views
     class MenuView : IView
     {
         int menuWidht = 800;
-        int menuHeight = 600;
+        int menuHeight = 400;
         List<MenuEntry> entries;
         SpriteFont font;
         public Vector2 StartingPosition;
@@ -27,25 +27,30 @@ namespace SmashBros.Views
 
         public void SetEntries(World world, params MenuEntry[] entries)
         {
-            foreach (var e in entries)
+            foreach (var e in this.entries)
             {
                 if(e.boundBox != null)
                     e.boundBox.Dispose();
             }
 
             this.entries = new List<MenuEntry>();
-            int i = 0;
+            int i = 0; 
+            float yPos = StartingPosition.Y +40;
+
             foreach (var e in entries)
             {
                 e.textSize = font.MeasureString(e.text);
                 e.boundBox = BodyFactory.CreateRectangle(world, 
-                    ConvertUnits.ToSimUnits(menuWidht), ConvertUnits.ToSimUnits(60), 1f);
+                    ConvertUnits.ToSimUnits(menuWidht), ConvertUnits.ToSimUnits(45), 1f);
                 e.boundBox.CollisionCategories = Category.Cat6;
                 e.boundBox.IsSensor = true;
-                e.boundBox.Position = ConvertUnits.ToSimUnits(StartingPosition.X+ menuWidht/2 +50, StartingPosition.Y + 70 * i + 40);
+                e.boundBox.Position = ConvertUnits.ToSimUnits(StartingPosition.X + menuWidht / 2 + 50, yPos) +
+                    ConvertUnits.ToSimUnits(new Vector2(0, menuHeight / 2 - (entries.Count() * 60) / 2));
+                   
                 e.boundBox.UserData = e;
                 e.entryIndex = i;
                 i++;
+                yPos += e.textSize.Y + 20;
 
                 this.entries.Add(e);
             }
@@ -61,13 +66,13 @@ namespace SmashBros.Views
             int i = 0;
             foreach(var entry in entries){
                 Color color = entry.color;
-                float scale = 1.0f;
-                if (entry.selected)
+                float scale = entry.scale;
+                if (entry.selected && entry.action != null)
                 {
                     color = entry.selectedColor;
-                    scale = entry.selectedSize;
+                    scale = entry.selectedScale;
                 }
-                spriteBatch.DrawString(font, entry.text, ConvertUnits.ToDisplayUnits(entry.boundBox.Position) - entry.textSize/2, 
+                spriteBatch.DrawString(font, entry.text, ConvertUnits.ToDisplayUnits(entry.boundBox.Position) - entry.textSize / 2, 
                     color, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
             }
         }

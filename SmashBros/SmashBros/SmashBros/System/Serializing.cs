@@ -9,6 +9,7 @@ using System.Diagnostics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 using System.Reflection;
+using SmashBros.Models;
 
 namespace SmashBros.System
 {
@@ -39,52 +40,6 @@ namespace SmashBros.System
             }
 
             return maps;
-        }
-
-        public static void Reload()
-        {
-            int i = 0;
-            foreach (var file in Directory.GetFiles(CharacterFolder))
-            {
-                Character newC = (Character)JsonConvert.DeserializeObject<Character>(Read(file));
-                Character c = charlist[i];
-                Update(c, newC);
-
-
-                i++;
-            }
-
-
-            i = 0;
-            foreach (var file in Directory.GetFiles(MapFolder))
-            {
-                Map newC = (Map)JsonConvert.DeserializeObject<Map>(Read(file));
-                Map c = maps[i];
-                Update(c, newC);
-
-
-                i++;
-            }
-
-        }
-
-        private static void Update(object copyObject, object o)
-        {
-            Type type = o.GetType();
-
-            while (type != null)
-            {
-
-                FieldInfo[] myObjectFields = type.GetFields(
-                BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
-
-                foreach (FieldInfo fi in myObjectFields)
-                {
-                    fi.SetValue(copyObject, fi.GetValue(o));
-                }
-
-                type = type.BaseType;
-            }
         }
 
         /// <summary>
@@ -120,12 +75,37 @@ namespace SmashBros.System
             return models;
         }
 
+        public static GameOptions LoadGameOptions()
+        {
+            return JsonConvert.DeserializeObject<GameOptions>(Read("gameOptions.txt"));
+        }
+
+        public static void SaveGameOptions(GameOptions options)
+        {
+            SaveFile("gameOptions.txt", options);
+        }
+
+        public static void SaveFile(string filename, object obj)
+        {
+            using (StreamWriter outfile = new StreamWriter(filename))
+            {
+                outfile.Write(JsonConvert.SerializeObject(obj, Formatting.Indented));
+            }
+        }
+
         /// <summary>
         /// Method for generating the models
         /// Only for the testing phase of the game
         /// </summary>
         public static void GenereateModels()
         {
+            if (!File.Exists("gameOptions.txt"))
+            {
+                using (StreamWriter outfile = new StreamWriter("gameOptions.txt"))
+                {
+                    outfile.Write(JsonConvert.SerializeObject(new GameOptions(), Formatting.Indented));
+                }
+            }
             CreateCharacterModel();
             CreateMapModels();
             CreateControllerModels();
@@ -383,6 +363,53 @@ namespace SmashBros.System
             }
 
             return text;
+        }
+
+
+        public static void Reload()
+        {
+            int i = 0;
+            foreach (var file in Directory.GetFiles(CharacterFolder))
+            {
+                Character newC = (Character)JsonConvert.DeserializeObject<Character>(Read(file));
+                Character c = charlist[i];
+                Update(c, newC);
+
+
+                i++;
+            }
+
+
+            i = 0;
+            foreach (var file in Directory.GetFiles(MapFolder))
+            {
+                Map newC = (Map)JsonConvert.DeserializeObject<Map>(Read(file));
+                Map c = maps[i];
+                Update(c, newC);
+
+
+                i++;
+            }
+
+        }
+
+        private static void Update(object copyObject, object o)
+        {
+            Type type = o.GetType();
+
+            while (type != null)
+            {
+
+                FieldInfo[] myObjectFields = type.GetFields(
+                BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
+
+                foreach (FieldInfo fi in myObjectFields)
+                {
+                    fi.SetValue(copyObject, fi.GetValue(o));
+                }
+
+                type = type.BaseType;
+            }
         }
 
     }

@@ -24,10 +24,17 @@ namespace SmashBros.Controllers
 
     public class MenuController : Controller
     {
+
+        //Controllers that menucontroller holds
         OverlayMenuController popupMenu;
         CursorController cursors;
         GamePlayController gameController;
+        
+        //Models tha controller holds
         Map selectedMap;
+        GameOptions gameOptions;
+        List<Map> mapModels;
+        public List<Character> characterModels;
 
         ImageTexture startScreen;
         ImageTexture selectionScreen;
@@ -35,8 +42,6 @@ namespace SmashBros.Controllers
         TextBox continueText;
         List<TextBox> playerSelect;
 
-        List<Map> mapModels;
-        public List<Character> characterModels;
         //Index of character that players hover
         public Dictionary<int, int> characterHover;
         
@@ -60,6 +65,7 @@ namespace SmashBros.Controllers
 
         public override void Load(ContentManager content) 
         {
+            gameOptions = Serializing.LoadGameOptions();
             //Creates the controller for the cursor
             cursors = new CursorController(Screen);
             cursors.OnCursorClick += OnCursorClick;
@@ -68,7 +74,7 @@ namespace SmashBros.Controllers
             AddController(cursors);
 
             //Adds the popupmenu to the controllers stack
-            popupMenu = new OverlayMenuController(Screen, cursors);
+            popupMenu = new OverlayMenuController(Screen, cursors, gameOptions);
             AddController(popupMenu);
 
             
@@ -114,11 +120,9 @@ namespace SmashBros.Controllers
             //Loads characters
             LoadCharacters(content);
             
-            //Adds collision box at help and option button
-            helpBox = CreateBtn(90, 40, 180, 80, "help");
-            
-            //Adds collision box at help and option button
-            optionsBox = CreateBtn(Constants.WindowWidth - 100, 40, 180, 80, "options");
+            //Creates the help and options button
+            helpBox = CreateBtn(Constants.WindowWidth - 100, 40, 180, 80, "help");
+            optionsBox = CreateBtn(90, 40, 180, 80, "options");
 
             Screen.soundController.LoadSelectionMenuSounds(content, this);
 
@@ -323,7 +327,7 @@ namespace SmashBros.Controllers
 
         private void OnCursorClick(int playerIndex, object targetData, CursorModel cursor, bool selectKey)
         {
-            if (cursor.TargetCategory == Category.Cat5)
+            if (cursor.TargetCategory == Category.Cat5 || cursor.TargetCategory == Category.Cat6)
             {
                 if (targetData.GetType() == typeof(string))
                 {
@@ -401,12 +405,31 @@ namespace SmashBros.Controllers
                 img.AddPosition(playerIndex * 260, 450, playerIndex);
             }else if(targetData.GetType() == typeof(Map)){
                 var map = mapThumbs[mapModels.IndexOf((Map)targetData)];
+                map.Rotation = 0.01f;
+                map.Scale = 1.1f;
             }
         }
 
         private void OnCursorSeparation(int playerIndex, object targetData, CursorModel cursor)
         {
-            characterImages[characterHover[playerIndex]].RemoveId(playerIndex);
+            if (cursor.TargetCategory == Category.Cat5)
+            {
+                if(characterHover.ContainsKey(playerIndex)){
+                    var i = characterHover[playerIndex];
+                    if (i != -1)
+                    {
+                        characterImages[i].RemoveId(playerIndex);
+
+                        if (!characterHover.Any(a => a.Value == i && a.Key != playerIndex))
+                        {
+                            characterThumbs[i].Rotation = 0;
+                            characterThumbs[i].Scale = 1f;
+                        }
+
+                        characterHover[playerIndex] = -1;
+                    }
+                }
+            }
         }
 
         private void OnStartPress(int playerIndex)
