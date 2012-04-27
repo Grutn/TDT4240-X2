@@ -161,7 +161,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Maps\CityMap.xnb</Output>
-      <Time>2012-04-24T17:51:45.4326414+02:00</Time>
+      <Time>2012-04-27T22:39:43.869638+02:00</Time>
     </Item>
     <Item>
       <Source>GameStuff\PlayerPercentBg.png</Source>
@@ -233,7 +233,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Characters\SupermanFatAnimation.xnb</Output>
-      <Time>2012-04-26T13:24:21.061969+02:00</Time>
+      <Time>2012-04-27T21:55:58.1208712+02:00</Time>
     </Item>
     <Item>
       <Source>Fonts\gamefont.spritefont</Source>
