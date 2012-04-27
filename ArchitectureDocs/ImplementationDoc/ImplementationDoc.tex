@@ -1,0 +1,85 @@
+\documentclass[a4paper,twoside,10pt]{article}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% TODO
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TODO1		How to select character.
+% TODO2		Attack buttons
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% DOCUMENT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\pagestyle{empty} 
+
+\title{TDT4240 Programvarearkitektur\\X2}
+\author{Julius Buset Asplin\\
+Emil Grunt\\
+Håvard Kindem\\
+Dimitry Kongevold\\
+Nicolay Thafvelin\\
+Milos Zlatkovic\\}
+\maketitle
+
+\texttt{ \\ }
+
+\begin{abstract}
+This document describes the implementation, usage and test report on our TDT4240 project, Smash Bros.
+\end{abstract}
+\clearpage{}
+
+\tableofcontents 
+\cleardoublepage{}
+\pagestyle{plain} 
+
+
+
+
+\section{Implementation Details}
+
+\section{User's Manual}
+\subsection{Requirements}
+\begin{itemize}
+\item Visual Studio 2010 \cite{bib:visualstudio}\\
+As the project is built using Visual Studio 2010, this recommended. It is possible to compile the project in earlier versions as well, but this means rebuilding the project structure or convert it.
+
+\item XNA Game Studio 4 \cite{bib:xna}\\
+This is required.
+\end{itemize}
+
+\subsection{Getting started}
+To compile and run the project, open it up in Visual Studio and simply press F5. This will compile and run the program. The first screen you will see is the character selection screen. Here you can select your characters by moving your pointer with the XBox control pad or the W, A, S, D keys for player 1 and the arrow keys for player 2. Player 1 select his or her character by pressing v and player 2 by pressing j. After selecting your characters, start the game by pressing return. Here you can move around with the XBox control pad or the W, A, S, D keys for player 1 and the arrow keys for player 2. You can attack using v for player 1 and j for player 2.
+
+\subsection{Gameplay}
+The goal of the game is to knowck the opposing player(s) off the map. This is done by attacking them and usingthe knockback effect of the attack to get them off. Hitting your opponen(s) will increase the power of the knockback and further improve your ability to kick them off the map. When a player is kicked off the map, he will respawn after a few seconds, loosing a "life".
+
+\section{Test Report}
+
+
+\clearpage{}
+\bibliography{}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% BIBLIOGRAPHY
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{thebibliography}{2}
+%	\bibitem{bib:w3} Kopka, H., Daly P.W., \emph{A Guide to LaTeX},
+%		Addison-Wesley, Reading, MA, 1999.
+%	\bibitem{bib:phpnet} PHP: mysql-connect, \emph{PHP.net}, 2012,\\
+%		http://no.php.net/manual/en/function.mysql-connect.php
+	
+\bibitem{bib:visualstudio} Visual Studio | MSDN, \emph{Microsoft}, 2012,\\
+		http://msdn.microsoft.com/en-us/vstudio/aa718325
+		
+\bibitem{bib:xna} Download: Microsoft XNA Game Studio - MSDN, \emph{Microsoft}, 2012,\\
+		http://www.microsoft.com/en-us/download/details.aspx?id=23714\#overview
+
+\end{thebibliography}
+
+
+
+\end{document}
+
