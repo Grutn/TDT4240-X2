@@ -146,7 +146,8 @@ namespace SmashBros.Views
 
         public void RemoveId(int id)
         {
-            imagesPos.RemoveAll(a => a.Id == id);
+            if(imagesPos.Exists(a=> a.Id == id))
+                imagesPos.RemoveAll(a => a.Id == id);
         }
 
         public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)

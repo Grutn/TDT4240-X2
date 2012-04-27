@@ -48,7 +48,19 @@ namespace SmashBros.System
             {
                 Character newC = (Character)JsonConvert.DeserializeObject<Character>(Read(file));
                 Character c = charlist[i];
-                Update(ref c, ref newC);
+                Update(c, newC);
+
+
+                i++;
+            }
+
+
+            i = 0;
+            foreach (var file in Directory.GetFiles(MapFolder))
+            {
+                Map newC = (Map)JsonConvert.DeserializeObject<Map>(Read(file));
+                Map c = maps[i];
+                Update(c, newC);
 
 
                 i++;
@@ -56,26 +68,22 @@ namespace SmashBros.System
 
         }
 
-        public static void Update(ref Character copyObject, ref Character o)
+        private static void Update(object copyObject, object o)
         {
             Type type = o.GetType();
 
             while (type != null)
             {
-                UpdateForType(type, ref o, ref copyObject);
-                type = type.BaseType;
-            }
-        }
 
-
-        private static void UpdateForType(Type type, ref Character source, ref Character destination)
-        {
-            FieldInfo[] myObjectFields = type.GetFields(
+                FieldInfo[] myObjectFields = type.GetFields(
                 BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
 
-            foreach (FieldInfo fi in myObjectFields)
-            {
-                fi.SetValue(destination, fi.GetValue(source));
+                foreach (FieldInfo fi in myObjectFields)
+                {
+                    fi.SetValue(copyObject, fi.GetValue(o));
+                }
+
+                type = type.BaseType;
             }
         }
 
@@ -372,10 +380,10 @@ namespace SmashBros.System
                 {
                     player.KeyboardEnabled = true;
                     player.KeyboardBack = Keys.Escape;
-                    player.KeyboardStart = Keys.Enter;
                 }
                 if (i == 0)
                 {
+                    player.KeyboardStart = Keys.Enter;
                     player.Color = Color.Blue;
                     player.KeyboardUp = Keys.W;
                     player.KeyboardDown = Keys.S;
@@ -388,6 +396,7 @@ namespace SmashBros.System
                 else if (i == 1)
                 {
                     player.KeyboardBack = Keys.Back;
+                    player.KeyboardStart = Keys.D9;
 
                     player.Color = Color.Green;
                     player.KeyboardUp = Keys.Up;

@@ -5,17 +5,19 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SmashBros.Model;
+using FarseerPhysics.Dynamics;
 
 namespace SmashBros.Models
 {
     public class MenuEntry
     {
-        public MenuEntry(string text)
+        public MenuEntry(string text, Action<int> action)
         {
             this.text = text;
             this.color = Color.Black;
             this.selectedColor = Color.White;
-            this.selectedSize = 1.3f;
+            this.selectedSize = 1.2f;
+            this.action = action;
         }
 
         public String text;
@@ -25,5 +27,11 @@ namespace SmashBros.Models
         public Color color;
         public float selectedSize;
         public float size;
+        public bool selected;
+        public Body boundBox;
+        public Vector2 textSize;
+        
+        public Action<int> action;
+        public int entryIndex;
     }
 }

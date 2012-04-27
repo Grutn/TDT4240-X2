@@ -78,18 +78,30 @@ namespace SmashBros.System
             }
         }
 
+        float elapsedTime = 0;
         public override void Update(GameTime gameTime)
         {
+            if (Constants.DebugMode)
+            {
+                elapsedTime += gameTime.ElapsedGameTime.Milliseconds;
+                if (elapsedTime >= 800)
+                {
+                    Serializing.Reload();
+                    elapsedTime = 0;
+                }
+
+                if (currentKeyboardState.IsKeyUp(Keys.D6) && oldKeyboardState.IsKeyDown(Keys.D6))
+                {
+                    Serializing.Reload();
+                }
+            }
             //Save keyboard state so all controllers can access them
             oldKeyboardState = currentKeyboardState;
             currentKeyboardState = Keyboard.GetState();
 
             ControllerViewManager.Update(gameTime);
 
-            if (currentKeyboardState.IsKeyUp(Keys.D6) && oldKeyboardState.IsKeyDown(Keys.D6))
-            {
-                Serializing.Reload();
-            }
+           
         }
 
         public override void Draw(GameTime gameTime)
