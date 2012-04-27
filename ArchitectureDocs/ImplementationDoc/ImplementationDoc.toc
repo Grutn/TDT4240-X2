@@ -1,6 +1,13 @@
-\contentsline {section}{\numberline {1}Implementation Details}{3}
-\contentsline {section}{\numberline {2}User's Manual}{3}
-\contentsline {subsection}{\numberline {2.1}Requirements}{3}
-\contentsline {subsection}{\numberline {2.2}Getting started}{3}
-\contentsline {subsection}{\numberline {2.3}Gameplay}{3}
-\contentsline {section}{\numberline {3}Test Report}{3}
+\contentsline {section}{\numberline {1}Introduction}{3}
+\contentsline {section}{\numberline {2}Implementation Details}{3}
+\contentsline {subsection}{\numberline {2.1}Model View Controller}{3}
+\contentsline {subsection}{\numberline {2.2}Service Oriented Architecture}{4}
+\contentsline {subsection}{\numberline {2.3}Observer pattern}{4}
+\contentsline {subsection}{\numberline {2.4}State Machine}{4}
+\contentsline {section}{\numberline {3}User's Manual}{4}
+\contentsline {subsection}{\numberline {3.1}Requirements}{4}
+\contentsline {subsection}{\numberline {3.2}Getting started}{5}
+\contentsline {subsection}{\numberline {3.3}Gameplay}{5}
+\contentsline {section}{\numberline {4}Test Report}{5}
+\contentsline {section}{\numberline {5}Relationship with the architecture}{7}
+\contentsline {section}{\numberline {6}Problems, issues and points learned}{8}
