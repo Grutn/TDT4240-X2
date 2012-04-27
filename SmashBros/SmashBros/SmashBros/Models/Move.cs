@@ -48,14 +48,14 @@ namespace SmashBros.Model
         public int AniEffectFrom, AniEffectTo;
 
         /// <summary>
-        /// The startingpoint of the movebox.
-        /// </summary>
-        public Vector2 SqFrom, SqTo;
-
-        /// <summary>
         /// Determines the velocity set to any charachters being hit by the movebox.
         /// </summary>
         public Vector2 Power;
+
+        /// <summary>
+        /// The startingpoint of the movebox.
+        /// </summary>
+        public Vector2 SqFrom, SqTo;
 
         /// <summary>
         /// Bredde/høyde til angrepsfirkant
@@ -69,14 +69,17 @@ namespace SmashBros.Model
 
         //public float RotateBodyTo;
 
-        public Move(int damage, int duration, int sqStart, int aniFrom, int aniTo, Vector2 sqFrom, Vector2 sqTo, Vector2 power, Vector2 sqSize)
+        public Move(int damage, int duration, int start, int end, int aniFrom, int aniTo, int aniEffectFrom, int aniEffectTo, Vector2 power, Vector2 sqFrom, Vector2 sqTo, Vector2 sqSize)
         {
             Damage = damage;
-            Power = power;
             Duration = duration;
-            Start = sqStart;
+            Start = start;
+            End = end;
             AniFrom = aniFrom;
             AniTo = aniTo;
+            AniEffectFrom = aniEffectFrom;
+            AniEffectTo = aniEffectTo;
+            Power = power;
             SqFrom = sqFrom;
             SqTo = sqTo;
             SqSize = sqSize;
@@ -100,9 +103,9 @@ namespace SmashBros.Model
         /// </summary>
         public int AniChargeLoopFrom, AniChargeLoopTo;
 
-        public ChargeMove(int damage, int duration, int sqStart, int aniFrom, int aniTo, Vector2 sqFrom, Vector2 sqTo, Vector2 power,Vector2 sqSize,
+        public ChargeMove(int damage, int duration, int start, int end, int aniFrom, int aniTo, int aniEffectFrom, int aniEffectTo, Vector2 power, Vector2 sqFrom, Vector2 sqTo, Vector2 sqSize,
             int minWait, int maxWait, int aniStartChargeFrom, int aniStartChargeTo, int aniChargeLoopFrom, int aniChargeLoopTo)
-            : base(damage, duration, sqStart, aniFrom, aniTo, sqFrom, sqTo, sqSize, power)
+            : base(damage, duration, start, end, aniFrom, aniTo, aniEffectFrom, aniEffectTo, power, sqFrom, sqTo, sqSize)
         {
             Type = MoveType.Charge;
             
@@ -128,12 +131,20 @@ namespace SmashBros.Model
         /// </summary>
         public bool StopAtHit;
 
-        public AdjustableMove(int damage, int duration, int sqStart, int aniFrom, int aniTo, Vector2 sqFrom, Vector2 sqTo, Vector2 power, Vector2 sqSize,
-            float adjustAcc)
-            : base(damage, duration, sqStart, aniFrom, aniTo, sqFrom, sqTo, sqSize, power)
+        /// <summary>
+        /// Animationframes for when character is in adjustmode.
+        /// </summary>
+        public int AniAdjustmodeFrom, AniAdjustmodeTo;
+
+        public AdjustableMove(int damage, int duration, int start, int end, int aniFrom, int aniTo, int aniEffectFrom, int aniEffectTo, Vector2 power, Vector2 sqFrom, Vector2 sqTo, Vector2 sqSize,
+            float adjustAcc, int aniAdjustmodeFrom, int aniAdjustmodeTo, bool stopAtHit)
+            : base(damage, duration, start, end, aniFrom, aniTo, aniEffectFrom, aniEffectTo, power, sqFrom, sqTo, sqSize)
         {
             Adjustable = adjustAcc != 0;
             AdjustAcc = adjustAcc;
+            AniAdjustmodeFrom = aniAdjustmodeFrom;
+            AniAdjustmodeTo = aniAdjustmodeTo;
+            StopAtHit = stopAtHit;
         }
     }
 
@@ -145,45 +156,67 @@ namespace SmashBros.Model
         public Vector2 BodySpeed;
 
         /// <summary>
-        /// Whether the bodyspeed should remain the same during the attack.
+        /// When the body starts and ends moving.
         /// </summary>
-        public bool ConstantSpeed;
+        public int BodyStart, BodyEnd;
 
-        public BodyMove(int damage, int duration, int sqStart, int aniFrom, int aniTo, Vector2 sqFrom, Vector2 sqTo, Vector2 power, Vector2 sqSize,
-            bool stopAtHit, Vector2 bodySpeed, bool constantSpeed, float adjustAcc = 0)
-            : base(damage, duration, sqStart, aniFrom, aniTo, sqFrom, sqTo, sqSize, power, adjustAcc)
+        public BodyMove(int damage, int duration, int start, int end, int aniFrom, int aniTo, int aniEffectFrom, int aniEffectTo, Vector2 power, Vector2 sqFrom, Vector2 sqTo, Vector2 sqSize,
+            Vector2 bodySpeed, int bodyStart = -1, int bodyEnd = -1, float adjustAcc = 0, int aniAdjustmodeFrom = 0, int aniAdjustmodeTo = 0, bool stopAtHit = false)
+            : base(damage, duration, start, end, aniFrom, aniTo, aniEffectFrom, aniEffectTo, power, sqFrom, sqTo, sqSize, adjustAcc, aniAdjustmodeFrom, aniAdjustmodeTo, stopAtHit)
         {
             Type = MoveType.Body;
             
-            StopAtHit = stopAtHit;
             BodySpeed = bodySpeed;
-            ConstantSpeed = constantSpeed;
+            BodyStart = bodyStart == -1? Start : bodyStart;
+            BodyEnd = bodyEnd == -1 ? End : bodyEnd;
         }
     }
 
     public class RangeMove : AdjustableMove
     {
         /// <summary>
+        /// The velocity of the bullet leaving the characters body.
+        /// </summary>
+        public Vector2 BulletVelocity;
+        
+        /// <summary>
         /// Animationframes for the bullet.
         /// </summary>
         public int AniBulletFrom, AniBulletTo;
 
         /// <summary>
-        /// Animationframes for when character is in adjustmode.
+        /// Whether the bullet is affected by gravity. Bad match with adjustable...
         /// </summary>
-        public int AniAdjustmodeFrom, AniAdjustmodeTo;
+        public bool Gravity;
 
-        public RangeMove(int damage, int duration, int sqStart, int aniFrom, int aniTo, Vector2 sqFrom, Vector2 sqTo, Vector2 power, Vector2 sqSize,
-            int aniBulletFrom, int aniBulletTo, int aniAdjustmodeFrom, int aniAdjustmodeTo, float adjustAcc = 0) 
-            : base(damage, duration, sqStart, aniFrom, aniTo, sqFrom, sqTo, sqSize, power, adjustAcc)
+        /// <summary>
+        /// Whether the bullet is heatseaking.
+        /// </summary>
+        public bool Heatseaking;
+
+        /// <summary>
+        /// if != null, and explotion, that takes the moves sq stats as parameters, will occur on hit or after "StopAfter" or both.
+        /// </summary>
+        public Move Explotion;
+
+        /// <summary>
+        /// if != -1 the bullet will either explode or disappear after this amount of millisec.
+        /// </summary>
+        public int StopAfter;
+
+        public RangeMove(int damage, int duration, int start, int aniFrom, int aniTo, int aniEffectFrom, int aniEffectTo, Vector2 power, Vector2 sqFrom, Vector2 sqSize,
+            Vector2 bulletVelocity, int aniBulletFrom, int aniBulletTo, bool gravity = false, bool heatSeaking = false, Move explotion = null, bool stopAtHit = true, int stopAfter = -1, float adjustAcc = 0, int aniAdjustmodeFrom = 0, int aniAdjustmodeTo = 0)
+            : base(damage, duration, start, 5000, aniFrom, aniTo, aniEffectFrom, aniEffectTo, power, sqFrom, new Vector2(0,0), sqSize, adjustAcc, aniAdjustmodeFrom, aniAdjustmodeTo, stopAtHit)
         {
             Type = MoveType.Range;
-            
+
+            BulletVelocity = bulletVelocity;
             AniBulletFrom = aniBulletFrom;
             AniBulletTo = aniBulletTo;
-            AniAdjustmodeFrom = aniAdjustmodeFrom;
-            AniAdjustmodeTo = aniAdjustmodeTo;
-            StopAtHit = true;
+            Gravity = gravity;
+            Heatseaking = heatSeaking;
+            Explotion = explotion;
+            StopAfter = stopAfter;
         }
     }
 }

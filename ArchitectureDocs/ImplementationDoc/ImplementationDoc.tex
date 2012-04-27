@@ -1,0 +1,77 @@
+\documentclass[a4paper,oneside,10pt]{article}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% TODO
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TODO1		How to select character.
+% TODO2		Attack buttons
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% DOCUMENT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\pagestyle{empty} 
+
+\title{TDT4240 Programvarearkitektur\\X2}
+\author{Julius Buset Asplin\\
+Emil Grunt\\
+Håvard Kindem\\
+Dimitry Kongevold\\
+Nicolay Thafvelin\\
+Milos Zlatkovic\\}
+\maketitle
+
+\texttt{ \\ }
+
+\begin{abstract}
+This document describes product delivered by team X2 in the courseTDT4240 Software Architecture. The document contains: design and implementation details, tests run on the final product and during the development, the User’s manual and the list of inconsistencies between implementation and the architecture.\\
+
+The main attribute that have been focus under development of the project is modifiability. Game, as in now, is just an engine with the possibilities to add new features, characters, maps and power ups. Those opportunities could be explored by an advanced user as well as a developer, or future support personnel, by adding an XML file to a specific folder.
+\end{abstract}
+\clearpage{}
+
+\tableofcontents 
+\cleardoublepage{}
+\pagestyle{plain} 
+
+\section{Implementation Details}
+
+\section{User's Manual}
+\input{manual}
+
+\section{Test Report}
+\input{testreport}
+	
+\section{Relationship with the architecture}
+\input{relwitharch}
+
+\section{Problems, issues and points learned}
+\input{issues}
+
+\clearpage{}
+\bibliography{}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% BIBLIOGRAPHY
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{thebibliography}{2}
+%	\bibitem{bib:w3} Kopka, H., Daly P.W., \emph{A Guide to LaTeX},
+%		Addison-Wesley, Reading, MA, 1999.
+%	\bibitem{bib:phpnet} PHP: mysql-connect, \emph{PHP.net}, 2012,\\
+%		http://no.php.net/manual/en/function.mysql-connect.php
+	
+\bibitem{bib:visualstudio} Visual Studio | MSDN, \emph{Microsoft}, 2012,\\
+		http://msdn.microsoft.com/en-us/vstudio/aa718325
+		
+\bibitem{bib:xna} Download: Microsoft XNA Game Studio - MSDN, \emph{Microsoft}, 2012,\\
+		http://www.microsoft.com/en-us/download/details.aspx?id=23714\#overview
+
+\end{thebibliography}
+
+
+
+\end{document}
+

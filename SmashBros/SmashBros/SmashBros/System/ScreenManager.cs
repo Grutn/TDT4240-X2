@@ -13,23 +13,24 @@ using FarseerPhysics.DebugViews;
 using FarseerPhysics;
 using System.Threading;
 using SmashBros.Model;
+using SmashBros.Controllers;
 
-namespace SmashBros.Controllers
+namespace SmashBros.System
 {
-    public class ScreenController : DrawableGameComponent
+    public class ScreenManager : DrawableGameComponent
     {
         MenuController menu;
         
         public Dictionary<string,SpriteFont> fonts;
         public KeyboardState currentKeyboardState;
         public KeyboardState oldKeyboardState;
-        public ControllerViewManager controllerViewManager;
+        public ControllerViewManager ControllerViewManager;
         public List<GamepadController> gamePads;
         public GameStateManager gameStateManager;
         public SoundController soundController;
 
         
-        public ScreenController(Game game)
+        public ScreenManager(Game game)
             : base(game)
         {
             this.gamePads = new List<GamepadController>();
@@ -44,7 +45,7 @@ namespace SmashBros.Controllers
         {
             ContentManager content = Game.Content;
 
-            controllerViewManager = new ControllerViewManager(Game.GraphicsDevice, content);
+            ControllerViewManager = new ControllerViewManager(Game.GraphicsDevice, content);
 
             fonts.Add("Impact", content.Load<SpriteFont>("Fonts/Impact"));
             fonts.Add("Impact.large", content.Load<SpriteFont>("Fonts/Impact.large"));
@@ -55,7 +56,7 @@ namespace SmashBros.Controllers
             {
                 GamepadController gamepad = new GamepadController(this, player);
                 gamePads.Add(gamepad);
-                controllerViewManager.AddController(gamepad);
+                ControllerViewManager.AddController(gamepad);
             }
 
             if (Constants.StartGameplay)
@@ -66,29 +67,46 @@ namespace SmashBros.Controllers
                 gamePads[0].SelectedCharacter = chars[0];
                 gamePads[1].SelectedCharacter = chars[2];
 
-                GameController game = new GameController(this, maps[0]);
-                controllerViewManager.AddController(game);
+                GamePlayController game = new GamePlayController(this, maps[0]);
+                ControllerViewManager.AddController(game);
             }
             else
             {
-                gameStateManager.CurrentState = GameState.SelectionMenu;
+                gameStateManager.CurrentState = GameState.CharacterMenu;
                 this.menu = new MenuController(this);
-                controllerViewManager.AddController(menu);
+                ControllerViewManager.AddController(menu);
             }
         }
 
+        float elapsedTime = 0;
         public override void Update(GameTime gameTime)
         {
+            if (Constants.DebugMode)
+            {
+                elapsedTime += gameTime.ElapsedGameTime.Milliseconds;
+                if (elapsedTime >= 1500)
+                {
+                    Serializing.Reload();
+                    elapsedTime = 0;
+                }
+
+                if (currentKeyboardState.IsKeyUp(Keys.D6) && oldKeyboardState.IsKeyDown(Keys.D6))
+                {
+                    Serializing.Reload();
+                }
+            }
             //Save keyboard state so all controllers can access them
             oldKeyboardState = currentKeyboardState;
             currentKeyboardState = Keyboard.GetState();
 
-            controllerViewManager.Update(gameTime);
+            ControllerViewManager.Update(gameTime);
+
+           
         }
 
         public override void Draw(GameTime gameTime)
         {
-            controllerViewManager.Draw(gameTime);
+            ControllerViewManager.Draw(gameTime);
         }
     }
 }

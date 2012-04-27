@@ -114,13 +114,16 @@
   <ItemGroup>
     <Compile Include="Controllers\CameraController.cs" />
     <Compile Include="Controllers\CharacterController.cs" />
-    <Compile Include="Controllers\GameController.cs" />
+    <Compile Include="Controllers\CursorController.cs" />
+    <Compile Include="Controllers\GamePlayController.cs" />
     <Compile Include="Controllers\GamepadController.cs" />
     <Compile Include="Controllers\IController.cs" />
     <Compile Include="Controllers\MapController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
-    <Compile Include="Controllers\PopupMenuController.cs" />
-    <Compile Include="Controllers\ScreenController.cs" />
+    <Compile Include="Controllers\OverlayMenuController.cs" />
+    <Compile Include="Models\CursorModel.cs" />
+    <Compile Include="Models\GameOptions.cs" />
+    <Compile Include="System\ScreenManager.cs" />
     <Compile Include="Controllers\SoundController.cs" />
     <Compile Include="Models\Box.cs" />
     <Compile Include="Models\Character.cs" />
@@ -131,22 +134,9 @@
     <Compile Include="Models\Player.cs" />
     <Compile Include="Models\PowerUp.cs" />
     <Compile Include="Models\Weapon.cs" />
-    <Compile Include="ScreenManager\ControllerState.cs" />
-    <Compile Include="ScreenManager\GameScreen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="ScreenManager\ScreenManager.cs" />
-    <Compile Include="Screens\BackgroundScreen.cs" />
-    <Compile Include="Screens\GameplayScreen.cs" />
-    <Compile Include="Screens\LoadingScreen.cs" />
-    <Compile Include="Screens\MainMenuScreen.cs" />
-    <Compile Include="Screens\MenuScreen.cs" />
-    <Compile Include="Screens\MenuEntry.cs" />
-    <Compile Include="Screens\MessageBoxScreen.cs" />
-    <Compile Include="Screens\OptionsMenuScreen.cs" />
-    <Compile Include="Screens\PauseMenuScreen.cs" />
-    <Compile Include="Screens\PlayerIndexEventArgs.cs" />
     <Compile Include="System\Camera2D.cs" />
     <Compile Include="System\Constants.cs" />
     <Compile Include="System\ControllerViewManager.cs" />
@@ -204,6 +194,10 @@
       <ProductName>Microsoft XNA Framework Redistributable 4.0</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />

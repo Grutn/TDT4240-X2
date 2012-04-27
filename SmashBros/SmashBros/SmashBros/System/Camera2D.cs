@@ -10,8 +10,8 @@ namespace SmashBros.System
 {
     public class Camera2D
     {
-        private const float _minZoom = 0.5f;
-        private const float _maxZoom = 1.5f;
+        private const float _minZoom = 0.1f;
+        private const float _maxZoom = 2f;
         private static GraphicsDevice _graphics;
 
         private Matrix _batchView;

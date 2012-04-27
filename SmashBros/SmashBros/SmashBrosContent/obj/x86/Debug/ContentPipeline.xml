@@ -209,6 +209,42 @@
       <Time>2012-04-26T00:58:00.7433902+02:00</Time>
     </Item>
     <Item>
+      <Source>Characters\SupermanFatPose.png</Source>
+      <Name>Characters\SupermanFatPose</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Characters\SupermanFatPose.xnb</Output>
+      <Time>2012-04-27T16:29:43.6918358+02:00</Time>
+    </Item>
+    <Item>
+      <Source>Characters\SupermanFatThumb.png</Source>
+      <Name>Characters\SupermanFatThumb</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Characters\SupermanFatThumb.xnb</Output>
+      <Time>2012-04-27T16:29:43.6928355+02:00</Time>
+    </Item>
+    <Item>
+      <Source>Characters\SupermanFatAnimation.png</Source>
+      <Name>Characters\SupermanFatAnimation</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Characters\SupermanFatAnimation.xnb</Output>
+      <Time>2012-04-27T16:29:43.6908366+02:00</Time>
+    </Item>
+    <Item>
+      <Source>Maps\CityMapThumb.png</Source>
+      <Name>Maps\CityMapThumb</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Maps\CityMapThumb.xnb</Output>
+      <Time>2012-04-27T16:29:43.7028278+02:00</Time>
+    </Item>
+    <Item>
       <Source>Fonts\gamefont.spritefont</Source>
       <Name>Fonts\gamefont</Name>
       <Importer>FontDescriptionImporter</Importer>

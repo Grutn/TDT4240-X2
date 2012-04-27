@@ -105,6 +105,7 @@ namespace SmashBros.System
             camera.Update(gameTime);
         }
 
+        
         public void Draw(GameTime gameTime)
         {
             while (!viewQueue.IsEmpty)
@@ -115,7 +116,10 @@ namespace SmashBros.System
                     if (cont.Item2)
                     {
                         if (!views.Contains(cont.Item1))
+                        {
                             views.Add(cont.Item1);
+                            views = views.OrderBy(a => a.Layer).ToList();
+                        }
 
                     }
                     else
@@ -124,27 +128,39 @@ namespace SmashBros.System
                             views.Remove(cont.Item1);
                     }
                 }
+
             }
 
 
            
             if (views.Count() != 0)
             {
-                var v = views.OrderBy(a => a.Layer);
-                foreach (var item in v)
-                {
-                    if (item.StaticPosition)
-                        batch.Begin();
-                    else
-                        batch.Begin(0, null, null, null, null, null, camera.View);
 
-                    item.Draw(batch, gameTime);
-                    batch.End();
+                bool staticPosLast = false;
+                int viewsCount = views.Count();
+                for(var i =0; i < viewsCount; i++)
+                {
+                    if (i != 0 && staticPosLast != views[i].StaticPosition)
+                    {
+                        batch.End();
+                    }
+
+                    if (i == 0 || staticPosLast != views[i].StaticPosition)
+                    {
+                        if (views[i].StaticPosition)
+                            batch.Begin();
+                        else
+                            batch.Begin(0, null, null, null, null, null, camera.View);
+                    }
+
+                    views[i].Draw(batch, gameTime);
+
+
+                    staticPosLast = views[i].StaticPosition;
                 }
-                //views.Where(a=> !a.StaticPosition).OrderBy(a=> a.Layer).ToList().ForEach(a => a.Draw(batch, gameTime));
+                batch.End();
             }
 
-            //batch.End();
 
             if (Constants.DebugMode)
             {

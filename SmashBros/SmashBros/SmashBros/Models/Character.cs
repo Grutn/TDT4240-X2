@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace SmashBros.Model
 {
@@ -27,6 +28,9 @@ namespace SmashBros.Model
         /// </summary>
         public string image;
 
+        /// <summary>
+        /// sounds to be played when (name)
+        /// </summary>
         public string sound_selected, sound_won, sound_jump, sound_kill, sound_punch; //, sound_hit, sound_chargingHit....
 
         /// <summary>
@@ -53,6 +57,11 @@ namespace SmashBros.Model
         /// A force that affects the character at all time. It can be negative or positiv, and it is only to vary the speed of different characters fall.
         /// </summary>
         public int gravity;
+
+        /// <summary>
+        /// The size of the characters boundbox.
+        /// </summary>
+        public Vector2 size;
 
         /// <summary>
         /// The corresponding moves when the player presses A whilest holding the stick in some direction, and etc.

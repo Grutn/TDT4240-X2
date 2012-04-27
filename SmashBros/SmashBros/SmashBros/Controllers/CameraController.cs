@@ -20,16 +20,16 @@ namespace SmashBros.Controllers
         List<CharacterController> characters{ get; set; }
         Box zoomBox;
             
-        public CameraController(ScreenController screen, Box zoomBox) : base(screen)
+        public CameraController(ScreenManager screen, Box zoomBox) : base(screen)
         {
             this.characters = new List<CharacterController>();
-            this.camera = screen.controllerViewManager.camera;
+            this.camera = screen.ControllerViewManager.camera;
             this.zoomBox = zoomBox;
         }
 
         public override void Load(ContentManager content)
         {
-
+            SubscribeToGameState = true;
         }
 
         public override void Unload()
@@ -41,7 +41,7 @@ namespace SmashBros.Controllers
             float minX = 9999, minY = 9999, maxX = 0, maxY = 0;
             foreach (var chara in characters)
             {
-                var t = chara.character;
+                var t = chara.sprite;
                 if (t != null)
                 {
                     if (minX > t.PositionX) minX = t.PositionX;
@@ -53,14 +53,7 @@ namespace SmashBros.Controllers
             }
             minX -= 200;
             maxX += 200;
-
             minY -= 200;
-           // maxY += 200;
-
-            //maxY = MathHelper.Clamp(maxY, 0, mapSize.Height);
-            //maxX = MathHelper.Clamp(maxX, 0, mapSize.Width);
-            //minX = MathHelper.Clamp(minX,mapSize.X, 10000);
-            //minY = MathHelper.Clamp(minY, mapSize.Y, 10000);
 
 
             float zoom =MathHelper.Clamp(MathHelper.Min(
@@ -75,7 +68,7 @@ namespace SmashBros.Controllers
                 camera.MinPosition = new Vector2(zoomBox.X + halfWindow.X, zoomBox.Y + halfWindow.Y);
             }
             camera.Position = new Vector2((minX + maxX) / 2, (minY + maxY) / 2);
-            camera.Zoom = zoom;
+            camera.Zoom =zoom;
         }
 
         public override void OnNext(GameStateManager value)

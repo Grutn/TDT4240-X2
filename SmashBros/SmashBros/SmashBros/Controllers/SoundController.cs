@@ -25,7 +25,7 @@ namespace SmashBros.Controllers
         // Menu sounds:
         private Dictionary<MenuSoundType, object> menuSounds;
 
-        public SoundController(ScreenController screen) : base(screen)
+        public SoundController(ScreenManager screen) : base(screen)
         {
             
         }
@@ -46,12 +46,12 @@ namespace SmashBros.Controllers
             ((MenuController)controller).MenuSound += PlayMenuSound;
         }
         
-        void LoadGameSounds(ContentManager content, GameController controller, string background)
+        public void LoadGameSounds(ContentManager content, GamePlayController controller, string background)
         {
             gameSounds = new Dictionary<GameSoundType, SoundEffect>();
             gameSounds.Add(GameSoundType.hit, content.Load<SoundEffect>("Sound/Wolwerine/pain"));
             gameSounds.Add(GameSoundType.death, content.Load<SoundEffect>("Sound/Game/hit"));
-            ((GameController)controller).GameSound += PlayGameSound;
+            ((GamePlayController)controller).GameSound += PlayGameSound;
 
             playerSounds = new Dictionary<int, Dictionary<PlayerSoundType, SoundEffect>>();
 
@@ -102,9 +102,9 @@ namespace SmashBros.Controllers
             {
                 case GameState.StartScreen:
                     break;
-                case GameState.SelectionMenu:
+                case GameState.CharacterMenu:
                     break;
-                case GameState.OptionsMenu:
+                case GameState.MapsMenu:
                     break;
                 case GameState.GamePlay:
                     break;
@@ -114,9 +114,9 @@ namespace SmashBros.Controllers
             {
                 case GameState.StartScreen:
                     break;
-                case GameState.SelectionMenu:
+                case GameState.CharacterMenu:
                     break;
-                case GameState.OptionsMenu:
+                case GameState.MapsMenu:
                     break;
                 case GameState.GamePlay:
                     
