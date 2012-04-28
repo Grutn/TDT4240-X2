@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
-using SmashBros.System;
+using SmashBros.MySystem;
 using SmashBros.Models;
 using SmashBros.Views;
 using System.Collections.Concurrent;
@@ -33,6 +33,10 @@ namespace SmashBros.Controllers
         /// Default scale when add a position
         /// </summary>
         public float ScaleDefault = 1f;
+        /// <summary>
+        /// Default origin point
+        /// </summary>
+        public Vector2 OriginDefault;
         /// <summary>
         /// View layer
         /// </summary>
@@ -64,7 +68,7 @@ namespace SmashBros.Controllers
             set { imageView.FrameRectangle = value;}
         }
 
-        public int FramesPerRow;
+        public int FramesPerRow { get { return imageView.FramesPrRow; } set { imageView.FramesPrRow = value; } }
 
         #endregion
 
@@ -111,7 +115,7 @@ namespace SmashBros.Controllers
         {
             this.imageModels = new List<ImageModel>();
             this.imageView.imageModels = imageModels;
-            var model = new ImageModel(pos);
+            var model = new ImageModel(pos) { CurrentScale = ScaleDefault, Origin = OriginDefault };
             this.imageModels.Add(model);
 
             return model;
@@ -137,6 +141,38 @@ namespace SmashBros.Controllers
                 return imageModels[index];
             return null;
         }
+
+        /// <summary>
+        /// Set current frame at given image model
+        /// </summary>
+        /// <param name="model"></param>
+        public void SetFrame(ImageModel model, int frame)
+        {
+            model.CurrentFrame = frame;
+        }
+        /// <summary>
+        /// Set frame at first instance in model list if exists
+        /// </summary>
+        public void SetFrame(int frame)
+        {
+            if (imageModels.Count() != 0)
+                imageModels.First().CurrentFrame = frame;
+        }
+
+        /// <summary>
+        /// Sets frames per second for first instance in models
+        /// </summary>
+        public void SetFps(int fps)
+        {
+            if (imageModels.Count() != 0)
+                imageModels.First().CurrentFrame = fps;
+        }
+
+        public void SetFps(ImageModel model, int fps)
+        {
+            model.FPS = fps;
+        }
+
         #region Add & Remove Models
 
         public ImageModel AddPosition(float x, float y, int posId = -1)
@@ -159,7 +195,7 @@ namespace SmashBros.Controllers
 
             if (i == null)
             {
-                i = new ImageModel(pos, ScaleDefault) { Id = posId };
+                i = new ImageModel(pos, ScaleDefault) { Id = posId , Origin = OriginDefault};
                 imageQueue.Enqueue(Tuple.Create(true, i));
             }
             return i;
@@ -201,17 +237,17 @@ namespace SmashBros.Controllers
 
         public void Animate(ImageModel model, Vector2 toPos, float timeInMs, bool loop, float toScale = 1f)
         {
-            model.startPos = new Vector2(model.CurrentPos.X, model.CurrentPos.Y);
-            model.endPos = toPos;
-            model.startScale = model.CurrentScale;
-            model.endScale = toScale;
+            model.StartPos = new Vector2(model.CurrentPos.X, model.CurrentPos.Y);
+            model.EndPos = toPos;
+            model.StartScale = model.CurrentScale;
+            model.EndScale = toScale;
             model.loop = loop;
             model.timeTotal = timeInMs;
             model.timeUsed = 0;
 
             //Check what kind of animation that is started
-            model.animatePos = model.endPos.X != model.startPos.X || model.endPos.Y != model.startPos.Y;
-            model.animateScale = model.endScale != model.startScale;
+            model.animatePos = model.EndPos.X != model.StartPos.X || model.EndPos.Y != model.StartPos.Y;
+            model.animateScale = model.EndScale != model.StartScale;
         }
 
         /// <summary>
@@ -283,17 +319,22 @@ namespace SmashBros.Controllers
 
             float percent = model.timeUsed / model.timeTotal;
 
-            if (percent >= 0.99)
+            if (percent >= 1)
             {
+                if (model.Callback != null)
+                {
+                    model.Callback.Invoke(model);
+                }
                 if (model.loop)
                 {
-                    model.CurrentPos = model.startPos;
-                    model.CurrentScale = model.endScale;
+                    model.CurrentPos = model.StartPos;
+                    model.CurrentScale = model.StartScale;
+                    model.timeUsed = 0;
                 }
                 else
                 {
-                    model.CurrentPos = model.endPos;
-                    model.CurrentScale = model.endScale;
+                    model.CurrentPos = model.EndPos;
+                    model.CurrentScale = model.EndScale;
                     model.AnimationOn = false;
                     return true;
                 }
@@ -302,9 +343,9 @@ namespace SmashBros.Controllers
             else
             {
                 if (model.animateScale)
-                    model.CurrentScale = model.startScale + (model.endScale + -model.startScale) * percent;
+                    model.CurrentScale = model.StartScale + (model.EndScale + -model.StartScale) * percent;
                 if (model.animatePos)
-                    model.CurrentPos = model.startPos + (model.endPos - model.startPos) * percent;
+                    model.CurrentPos = model.StartPos + (model.EndPos - model.StartPos) * percent;
             }
 
             return false;
@@ -356,6 +397,9 @@ namespace SmashBros.Controllers
 
         public override void Deactivate()
         {
+            imageView.Dispose();
+            RemoveView(imageView);
+            System.GC.SuppressFinalize(this);
         }
 
         public event AnimationDone OnAnimationDone;

@@ -48,5 +48,6 @@ namespace SmashBros.Model
         public float ElapsedTime;
         public PowerUp PowerUp;
         public ImageModel Image;
+        public CharacterModel Player;
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
-using SmashBros.System;
+using SmashBros.MySystem;
 using SmashBros.Views;
 using FarseerPhysics.Dynamics;
 using SmashBros.Model;

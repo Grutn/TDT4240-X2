@@ -8,7 +8,7 @@ using SmashBros.Model;
 using SmashBros.Views;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
-using SmashBros.System;
+using SmashBros.MySystem;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
 using SmashBros.Models;
@@ -21,11 +21,13 @@ namespace SmashBros.Controllers
     /// </summary>
     public class GamePlayController : Controller
     {
+        int countDownTime = 6;
         MapController map;
         CameraController camera;
         Dictionary<int,PlayerStats> players;
 
         ImageController effectImg;
+        ImageController countDown;
         PowerUpController powerUps;
 
         int resetPos = 0;
@@ -45,11 +47,22 @@ namespace SmashBros.Controllers
 
             //The effects image for hits
             this.effectImg = new ImageController(Screen, "GameStuff/GameEffects", 110);
+            this.effectImg.OriginDefault = new Vector2(130 / 2, 130 / 2);
             this.effectImg.ScaleDefault = 0.1f;
             this.effectImg.OnAnimationDone += OnHitAnimationDone;
             this.effectImg.SetFrameRectangle(200, 200);
             this.effectImg.FramesPerRow = 2;
             AddController(effectImg);
+
+            countDown = new ImageController(Screen, "GameStuff/CountDown", 900, true);
+            countDown.OriginDefault = new Vector2(150, 150);
+            countDown.ScaleDefault = 0;
+            countDown.SetFrameRectangle(300, 300);
+            countDown.FramesPerRow = 2;
+            var imgModel = countDown.SetPosition(Constants.WindowWidth / 2, Constants.WindowHeight / 2);
+            imgModel.Callback = countDownNext;
+            countDown.AnimateScale(0.7f, (countDownTime/4) * 1000, true);
+            AddController(countDown);
 
             this.powerUps = new PowerUpController(Screen, map.Model.DropZone);
             AddController(powerUps);
@@ -99,6 +112,23 @@ namespace SmashBros.Controllers
             AddController(this.map);
         }
 
+        private void countDownNext(ImageModel imgModel)
+        {
+            if (imgModel.CurrentFrame == 3)
+            {
+                imgModel.AnimationOn = false;
+                RemoveController(countDown);
+            }
+            else
+            {
+                if (imgModel.CurrentFrame == 2)
+                {
+                    imgModel.EndScale = 1.1f;
+                }
+                imgModel.CurrentFrame++;
+            }
+        }
+
         public override void Unload()
         {
         }
@@ -109,6 +139,14 @@ namespace SmashBros.Controllers
 
         public override void Deactivate()
         {
+            RemoveController(map);
+            RemoveController(effectImg);
+            RemoveController(powerUps);
+            
+            foreach (var c in players)
+            {
+                RemoveController(c.Value.Controller);
+            }
         }
 
         public override void OnNext(GameStateManager value)

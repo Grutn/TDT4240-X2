@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 
-namespace SmashBros.System
+namespace SmashBros.MySystem
 {
     // <summary>
     /// Convert units between display and simulation units.

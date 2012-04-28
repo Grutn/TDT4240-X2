@@ -8,14 +8,14 @@ using Microsoft.Xna.Framework.Graphics;
 using SmashBros.Views;
 using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework.Input;
-using SmashBros.System;
+using SmashBros.MySystem;
 using FarseerPhysics.DebugViews;
 using FarseerPhysics;
 using System.Threading;
 using SmashBros.Model;
 using SmashBros.Controllers;
 
-namespace SmashBros.System
+namespace SmashBros.MySystem
 {
     public class ScreenManager : DrawableGameComponent
     {

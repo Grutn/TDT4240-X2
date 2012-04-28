@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework;
 using System.Reflection;
 using SmashBros.Models;
 
-namespace SmashBros.System
+namespace SmashBros.MySystem
 {
     /// <summary>
     /// Serializing loads different models from json textfiles. 

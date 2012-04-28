@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
 using SmashBros.Views;
 using FarseerPhysics.Factories;
-using SmashBros.System;
+using SmashBros.MySystem;
 
 namespace SmashBros.Controllers
 {
@@ -113,7 +113,7 @@ namespace SmashBros.Controllers
         {
         }
 
-        public override void OnNext(System.GameStateManager value)
+        public override void OnNext(MySystem.GameStateManager value)
         {
         }
     }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
-using SmashBros.System;
+using SmashBros.MySystem;
 using SmashBros.Model;
 using SmashBros.Views;
 using SmashBros.Models;
@@ -15,7 +15,7 @@ namespace SmashBros.Controllers
 {
     class PowerUpController : Controller
     {
-        int waitMax = 10, minNew = 1, maxNew = 3;
+        int waitMax = 7, minNew = 15, maxNew = 30;
         List<PowerUp> powerUps;
         //List with powerups that is picked up, key is playerindex
         Dictionary<int, PowerUpStatus> activePowerUps;
@@ -90,7 +90,9 @@ namespace SmashBros.Controllers
                 p.Value.ElapsedTime += gameTime.ElapsedGameTime.Milliseconds;
                 if (p.Value.ElapsedTime / 1000 > p.Value.PowerUp.duration)
                 {
-                    DebugWrite("Player " + p.Key + " lost powerup", true);
+                    p.Value.Player.powerUp = null;
+                    activePowerUps.Remove(p.Key);
+                    count--;
                 }
             }
         }
@@ -120,19 +122,23 @@ namespace SmashBros.Controllers
         {
             if (character.CollisionCategories == Category.Cat11)
             {
-                int playerIndex = 0;
-                //int playerIndex = (int)character.Body.UserData;
-                //GamePadControllers[playerIndex].SelectedCharacter
                 PowerUpStatus powerUpStatus = (PowerUpStatus)powerUpGeom.Body.UserData;
                 waitingPowerUps.Remove(powerUpStatus);
 
+                CharacterModel player = (CharacterModel)character.Body.UserData;
+                player.powerUp = powerUpStatus.PowerUp;
+
+                //Setup the powerupstatus for the player
                 powerUpStatus.ElapsedTime = 0;
+                powerUpStatus.Player = player;
+
+                //Removes the powerup from screen
                 powerUpStatus.Image.DisposBoundBox();
                 powerUpImg.RemovePosition(powerUpStatus.Image);
 
-                if(activePowerUps.ContainsKey(playerIndex))
-                    activePowerUps[playerIndex] = powerUpStatus;
-                else activePowerUps.Add(playerIndex, powerUpStatus);
+                if (activePowerUps.ContainsKey(player.playerIndex))
+                    activePowerUps[player.playerIndex] = powerUpStatus;
+                else activePowerUps.Add(player.playerIndex, powerUpStatus);
 
                 return false;
             }

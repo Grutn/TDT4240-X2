@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SmashBros.System
+namespace SmashBros.MySystem
 {
     public static class Constants
     {
         public const bool DebugMode = true;
-        public const bool StartGameplay = !true;
+        public const bool StartGameplay = true;
         public const bool Music = !true;
 
 

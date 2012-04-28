@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using SmashBros.Model;
 using Microsoft.Xna.Framework;
-using SmashBros.System;
+using SmashBros.MySystem;
 using Microsoft.Xna.Framework.Content;
 using SmashBros.Views;
 using System.Threading;
@@ -99,7 +99,7 @@ namespace SmashBros.Controllers
             model.view = view;
             view.Scale = 0.6f;
             view.BoundRect(World, stats.size.X, stats.size.Y);
-            view.BoundBox.UserData = model.playerIndex;
+            view.BoundBox.UserData = model;
             view.Layer = 100;
             view.FramesPerRow = 9;
             view.BoundBox.Friction = 0;

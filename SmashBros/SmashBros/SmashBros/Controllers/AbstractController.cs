@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using FarseerPhysics.Dynamics;
 using System.Threading;
-using SmashBros.System;
+using SmashBros.MySystem;
 using System.Diagnostics;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -112,10 +112,7 @@ namespace SmashBros.Controllers
         /// <param name="controller">controller to deactivate</param>
         protected void RemoveController(Controller controller)
         {
-            if (controller.IsActive)
-            {
-                Screen.ControllerViewManager.AddController(controller);
-            }
+            Screen.ControllerViewManager.RemoveController(controller);
         } 
         #endregion
         

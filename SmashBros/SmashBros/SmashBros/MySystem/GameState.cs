@@ -5,7 +5,7 @@ using System.Text;
 using SmashBros.Controllers;
 using System.Diagnostics;
 
-namespace SmashBros.System
+namespace SmashBros.MySystem
 {
     public enum GameState
     {

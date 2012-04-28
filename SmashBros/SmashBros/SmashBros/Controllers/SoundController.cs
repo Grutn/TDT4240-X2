@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Content;
-using SmashBros.System;
+using SmashBros.MySystem;
 using Microsoft.Xna.Framework.Audio;
 using SmashBros.Model;
 
@@ -92,7 +92,7 @@ namespace SmashBros.Controllers
             
         }
 
-        public override void OnNext(System.GameStateManager value) 
+        public override void OnNext(MySystem.GameStateManager value) 
         {
             string background = "";
             switch (value.PreviousState)
