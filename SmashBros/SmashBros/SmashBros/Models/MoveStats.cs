@@ -200,7 +200,7 @@ namespace SmashBros.Model
         public MoveStats Explotion;
 
         /// <summary>
-        /// if != -1 the bullet will either explode or disappear after this amount of millisec.
+        /// if != -1 the bullet will either explode or disappear after this amount of millisec. Or when character does next move.
         /// </summary>
         public int StopAfter;
 

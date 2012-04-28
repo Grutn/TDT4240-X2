@@ -8,6 +8,7 @@ using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
 using SmashBros.MySystem;
 using SmashBros.Controllers;
+using System.Diagnostics;
 
 namespace SmashBros.Models
 {
@@ -37,6 +38,7 @@ namespace SmashBros.Models
             {
                 if(newState != CharacterState.shielding && move == null) throw new NotImplementedException();
                 attackMode = true;
+                Debug.WriteLine("atmode true");
             }
             else attackMode = false;
             
