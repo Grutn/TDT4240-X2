@@ -24,6 +24,7 @@ namespace SmashBros.Models
                     startMoveWhenReady = false;
                 }
                 else attackTimeLeft = value.Duration;
+                moveStarted = false;
                 _stats = value;
             }
         }

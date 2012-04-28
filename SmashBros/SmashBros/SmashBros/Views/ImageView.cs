@@ -43,7 +43,6 @@ namespace SmashBros.Views
             this.Layer = layer;
         }
         
-
         
         public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
