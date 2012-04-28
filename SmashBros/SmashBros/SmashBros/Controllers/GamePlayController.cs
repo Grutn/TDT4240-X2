@@ -113,7 +113,7 @@ namespace SmashBros.Controllers
 
         private void OnPlayerHit(Vector2 pos, int damageDone, int newDamagepoints, int puncher, int reciever, GameSoundType soundtype)
         {
-            GameSound.Invoke(soundtype);
+            Screen.soundController.PlayGameSound(soundtype);
             
             this.players[puncher].DidHit(damageDone, reciever);
             this.players[reciever].GotHit(newDamagepoints, puncher);
@@ -133,18 +133,18 @@ namespace SmashBros.Controllers
 
         private void OnPlayerDeath(CharacterController characterController, bool behindScreen)
         {
-            GameSound.Invoke(GameSoundType.death);//behindScreen? GameSoundType.deathFar : GameSoundType.death);
-            Vector2 pos = characterController.position;
-            int playerIndex = characterController.playerIndex;
+            Screen.soundController.PlayGameSound(GameSoundType.death);//behindScreen? GameSoundType.deathFar : GameSoundType.death);
+            Vector2 pos = characterController.model.position;
+            int playerIndex = characterController.model.playerIndex;
             // lifes--
             // if lifes > 0
             characterController.Reset(map.CurrentMap.startingPosition[resetPos], behindScreen);
             if (resetPos == 3) resetPos = 0;
             else resetPos++;
             // else unload characterController
-            int gotKilled = characterController.playerIndex;
+            int gotKilled = characterController.model.playerIndex;
             int killer = players[gotKilled].LastHitBy;
-            players[killer].Killed(characterController.playerIndex);
+            players[killer].Killed(characterController.model.playerIndex);
         }
         
         private void OnStartPress(int playerIndex)
@@ -159,8 +159,6 @@ namespace SmashBros.Controllers
                     break;
             }
         }
-
-        public event SmashBros.Controllers.SoundController.GameSound GameSound;
     }
 
     internal class PlayerStats

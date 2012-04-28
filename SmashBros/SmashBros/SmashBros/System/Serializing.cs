@@ -46,14 +46,14 @@ namespace SmashBros.System
         /// Loads all the character models
         /// </summary>
         /// <returns>List with all the character models</returns>
-        static List<Character> charlist;
-        public static List<Character> LoadCharacters()
+        static List<CharacterStats> charlist;
+        public static List<CharacterStats> LoadCharacters()
         {
             
-            charlist = new List<Character>();
+            charlist = new List<CharacterStats>();
             foreach (var file in Directory.GetFiles(CharacterFolder))
             {
-                charlist.Add(JsonConvert.DeserializeObject<Character>(Read(file)));
+                charlist.Add(JsonConvert.DeserializeObject<CharacterStats>(Read(file)));
             }
 
 
@@ -125,7 +125,7 @@ namespace SmashBros.System
             }
             for (int i = 0; i < 10; i++)
             {
-                Character c = new Character() { 
+                CharacterStats c = new CharacterStats() { 
                     maxSpeed = 5,
                     acceleration = 10,
                     weight = 100,
@@ -159,17 +159,17 @@ namespace SmashBros.System
                 c.thumbnail = "Characters/WolverineThumb";
                 c.image = "Characters/WolverineImage";
                 
-                c.a = new Move(10, 250, 0, 250, 28, 35, 0, 0, new Vector2(10, 0), new Vector2(20, 10), new Vector2(50, 0), new Vector2(10, 10));
+                c.a = new MoveStats(10, 250, 0, 250, 28, 35, 0, 0, new Vector2(10, 0), new Vector2(20, 10), new Vector2(50, 0), new Vector2(10, 10));
                 c.aUp = new ChargeMove(30, 250, 0, 250, 0, 0, 0, 0, new Vector2(0, -20), new Vector2(0, -10), new Vector2(0, -50), new Vector2(10, 10),
                     400, 2000, 0, 0, 0, 0);
                 c.aLR = new ChargeMove(30, 250, 0, 250, 0, 0, 0, 0, new Vector2(16, -3), new Vector2(10, 0), new Vector2(50, 0), new Vector2(10, 10),
                     400, 2000, 0, 0, 0, 0);
-                c.aDown = new Move(10, 250, 0, 250, 28, 35, 0, 0, new Vector2(5, 10), new Vector2(10, 10), new Vector2(30, 50), new Vector2(10, 10));
+                c.aDown = new MoveStats(10, 250, 0, 250, 28, 35, 0, 0, new Vector2(5, 10), new Vector2(10, 10), new Vector2(30, 50), new Vector2(10, 10));
 
                 c.x = new RangeMove(3, 250, 200, 0, 0, 0, 0, new Vector2(1, 0), new Vector2(40, 0), new Vector2(10, 10), new Vector2(20, 0), 0, 0);
-                c.xLR = new Move(10, 100, 0, 100, 0, 0, 0, 0, new Vector2(10,10), new Vector2(0,0), new Vector2(100, 100), new Vector2(50, 50));
+                c.xLR = new MoveStats(10, 100, 0, 100, 0, 0, 0, 0, new Vector2(10,10), new Vector2(0,0), new Vector2(100, 100), new Vector2(50, 50));
                 c.xUp = new BodyMove(10, 1500, 300, 1400, 0, 0, 0, 0, new Vector2(5, 5), new Vector2(0,0), new Vector2(0,0), new Vector2(30, 30), new Vector2(10,20), 100, 1000);
-                c.aDown = new Move(10, 100, 0, 100, 0, 0, 0, 0, new Vector2(10, 10), new Vector2(0, 0), new Vector2(100, 100), new Vector2(50, 50));
+                c.aDown = new MoveStats(10, 100, 0, 100, 0, 0, 0, 0, new Vector2(10, 10), new Vector2(0, 0), new Vector2(100, 100), new Vector2(50, 50));
                 
                 if (i == 1)
                 {
@@ -200,8 +200,8 @@ namespace SmashBros.System
                     c.ani_takeHitStart = 12;
                     c.ani_takeHitEnd = 14;
 
-                    c.a = new Move(100, 250, 0, 250, 23, 28, 0, 0, new Vector2(1, 0), new Vector2(0, 0), new Vector2(1, 0), new Vector2(10, 10));
-                    c.aUp = new Move(10, 250, 0, 250, 29, 34, 0, 0, new Vector2(10, 0), new Vector2(0, 0), new Vector2(0, 100), new Vector2(10, 10));
+                    c.a = new MoveStats(100, 250, 0, 250, 23, 28, 0, 0, new Vector2(1, 0), new Vector2(0, 0), new Vector2(1, 0), new Vector2(10, 10));
+                    c.aUp = new MoveStats(10, 250, 0, 250, 29, 34, 0, 0, new Vector2(10, 0), new Vector2(0, 0), new Vector2(0, 100), new Vector2(10, 10));
                 }
                 else if (i == 3)
                 {
@@ -222,9 +222,9 @@ namespace SmashBros.System
                     c.ani_takeHitStart = 0;
                     c.ani_takeHitEnd = 0;
 
-                    c.a = new Move(100, 250, 0, 0, 0, 0, 0, 0, new Vector2(1, 0.5f), new Vector2(0,0), new Vector2(0,0.8f), new Vector2(10,10));
+                    c.a = new MoveStats(100, 250, 0, 0, 0, 0, 0, 0, new Vector2(1, 0.5f), new Vector2(0,0), new Vector2(0,0.8f), new Vector2(10,10));
 
-                    c.aUp = new Move(10, 250, 0, 0, 0, 0, 0, 0, new Vector2(10, 10), new Vector2(0, 0), new Vector2(10, 10), new Vector2(10, 10));
+                    c.aUp = new MoveStats(10, 250, 0, 0, 0, 0, 0, 0, new Vector2(10, 10), new Vector2(0, 0), new Vector2(10, 10), new Vector2(10, 10));
                 }
                 Write(c,CharacterFolder,"Character"+i);
             }
@@ -371,8 +371,8 @@ namespace SmashBros.System
             int i = 0;
             foreach (var file in Directory.GetFiles(CharacterFolder))
             {
-                Character newC = (Character)JsonConvert.DeserializeObject<Character>(Read(file));
-                Character c = charlist[i];
+                CharacterStats newC = (CharacterStats)JsonConvert.DeserializeObject<CharacterStats>(Read(file));
+                CharacterStats c = charlist[i];
                 Update(c, newC);
 
 

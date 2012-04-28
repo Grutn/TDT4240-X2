@@ -34,7 +34,7 @@ namespace SmashBros.Controllers
         Map selectedMap;
         GameOptions gameOptions;
         List<Map> mapModels;
-        public List<Character> characterModels;
+        public List<CharacterStats> characterModels;
 
         ImageTexture startScreen;
         ImageTexture selectionScreen;
@@ -127,7 +127,7 @@ namespace SmashBros.Controllers
             Screen.soundController.LoadSelectionMenuSounds(content, this);
 
             Screen.soundController.LoadSelectionMenuSounds(content, this);
-            MenuSound.Invoke(MenuSoundType.choose);
+            Screen.soundController.PlayMenuSound(MenuSoundType.choose);
 
             GamePadControllers.ForEach(a => a.OnStartPress += OnStartPress);
             SubscribeToGameState = true;
@@ -145,7 +145,7 @@ namespace SmashBros.Controllers
             int row = 0, col = 0;
 
             //Create textures for thumb and image for every character model
-            foreach (Character character in characterModels)
+            foreach (CharacterStats character in characterModels)
             {
                 //Create the character selection thumbnail, placing it at row and col
                 var sprite = new Sprite(content, character.thumbnail, Constants.ThumbWith, 250, col * Constants.ThumbWith + 200, row * Constants.ThumbHeight + 210);
@@ -350,7 +350,7 @@ namespace SmashBros.Controllers
                         case GameState.CharacterMenu:
                             if (selectKey)
                             {
-                                GamePadControllers[playerIndex].SelectedCharacter = (Character)targetData;
+                                GamePadControllers[playerIndex].SelectedCharacter = (CharacterStats)targetData;
                                 cursors.DisableCursor(playerIndex);
                             }
                             else
@@ -385,9 +385,9 @@ namespace SmashBros.Controllers
         private void OnCursorCollision(int playerIndex, object targetData, CursorModel cursor)
         {
             if (targetData == null) return;
-            if (targetData.GetType() == typeof(Character))
+            if (targetData.GetType() == typeof(CharacterStats))
             {
-                Character c = (Character)targetData;
+                CharacterStats c = (CharacterStats)targetData;
                 int index = characterModels.IndexOf(c);
 
                 if (characterHover.ContainsKey(playerIndex))
@@ -476,8 +476,6 @@ namespace SmashBros.Controllers
 
             return btn;
         }
-
-        public event SmashBros.Controllers.SoundController.MenuSound MenuSound;
 
         private bool MapSelectionVisible
         {

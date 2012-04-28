@@ -41,7 +41,7 @@ namespace SmashBros.Controllers
             float minX = 9999, minY = 9999, maxX = 0, maxY = 0;
             foreach (var chara in characters)
             {
-                var t = chara.sprite;
+                var t = chara.view;
                 if (t != null)
                 {
                     if (minX > t.PositionX) minX = t.PositionX;
