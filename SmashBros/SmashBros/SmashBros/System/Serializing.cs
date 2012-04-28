@@ -210,17 +210,17 @@ namespace SmashBros.System
                     c.animations = "Characters/SupermanFatAnimation";
                     c.ani_noneStart = 0;
                     c.ani_noneEnd = 0;
-                    c.ani_runStart = 0;
-                    c.ani_runEnd = 0;
-                    c.ani_brake = 0;
-                    c.ani_jumpStart = 0;
-                    c.ani_jumpEnd = 0;
-                    c.ani_fallStart = 0;
-                    c.ani_fallEnd = 0;
-                    c.ani_landStart = 0;
-                    c.ani_landEnd = 0;
-                    c.ani_takeHitStart = 0;
-                    c.ani_takeHitEnd = 0;
+                    c.ani_runStart = 1;
+                    c.ani_runEnd = 10;
+                    c.ani_brake = 38;
+                    c.ani_jumpStart = 11;
+                    c.ani_jumpEnd = 16;
+                    c.ani_fallStart = 16;
+                    c.ani_fallEnd = 16;
+                    c.ani_landStart = 17;
+                    c.ani_landEnd = 19;
+                    c.ani_takeHitStart = 55;
+                    c.ani_takeHitEnd = 57;
 
                     c.a = new MoveStats(100, 250, 0, 0, 0, 0, 0, 0, new Vector2(1, 0.5f), new Vector2(0,0), new Vector2(0,0.8f), new Vector2(10,10));
 
@@ -251,18 +251,17 @@ namespace SmashBros.System
                 map.size = new Box(3500, 1600, -800, 0);
                 map.zoomBox = new Box(3000, 1300, -800, 100);
 
+
+                map.AddBox(680, 1270, 620, 450);
+                map.AddBox(1245, 990, 540, 60);
+                map.AddBox(1235, 1290, 520, 540);
+                map.AddBox(245,1200,360,570);
+
+                map.AddFloatBox(765, 620, 485);
+                map.AddFloatBox(705,815,670);
+
+
                 int mx = -420;
-
-                map.AddBox(610+mx, 960, 300, 100, -9.3f);
-                map.AddBox(790 + mx, 955, 120, 100, 17f);
-                map.AddBox(1100 + mx, 1270, 560, 450);
-                map.AddBox(1670 + mx, 1230, 580, 540);
-                map.AddBox(650 + mx, 1240, 410, 570);
-
-                map.AddFloatBox(1170 + mx, 620, 550);
-                map.AddFloatBox(1125 + mx, 815, 730);
-
-
                 map.AddStartPos(650 + mx, 800);
                 map.AddStartPos(1700 + mx, 850);
                 map.AddStartPos(850 + mx, 700);
