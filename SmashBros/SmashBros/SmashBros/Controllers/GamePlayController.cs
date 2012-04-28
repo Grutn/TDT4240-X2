@@ -11,6 +11,8 @@ using FarseerPhysics.Factories;
 using SmashBros.System;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
+using SmashBros.Models;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SmashBros.Controllers
 {
@@ -23,8 +25,8 @@ namespace SmashBros.Controllers
         CameraController camera;
         Dictionary<int,PlayerStats> players;
 
-        ImageTexture effectImg;
-        private int resetPos = 0; 
+        ImageController effectImg;
+        PowerUpController powerUps;
 
         public GamePlayController(ScreenManager screen, Map selectedMap) : base(screen)
         {
@@ -40,13 +42,15 @@ namespace SmashBros.Controllers
             this.camera = new CameraController(Screen, map.Model.zoomBox);
 
             //The effects image for hits
-            this.effectImg = new ImageTexture(content, "GameStuff/GameEffects");
-            this.effectImg.Layer = 110;
-            this.effectImg.Scale = 0.1f;
+            this.effectImg = new ImageController(Screen, "GameStuff/GameEffects", 110);
+            this.effectImg.ScaleDefault = 0.1f;
             this.effectImg.OnAnimationDone += OnHitAnimationDone;
-            this.effectImg.SourceRect = new Rectangle(0, 0, 200, 200);
-            this.effectImg.FramesPrRow = 2;
-            this.AddView(effectImg);
+            this.effectImg.SetFrameRectangle(200, 200);
+            this.effectImg.FramesPerRow = 2;
+            AddController(effectImg);
+
+            this.powerUps = new PowerUpController(Screen, map.Model.DropZone);
+            AddController(powerUps);
 
             //Loops through the gamepads to check which controllers that has selected characters
             //And crates CharacterCOntrooles for them
@@ -76,9 +80,7 @@ namespace SmashBros.Controllers
                     player.Layer = 150;
                     AddView(player);
 
-                    ImageTexture percentBg = new ImageTexture(content, "GameStuff/PlayerPercentBg", percentPos);
-                    percentBg.StaticPosition = true;
-                    percentBg.Layer = 149;
+                    ImageView percentBg = new ImageView(content.Load<Texture2D>("GameStuff/PlayerPercentBg"), percentPos,149, true);
                     AddView(percentBg);
 
                     this.camera.AddCharacterTarget(character);
@@ -121,12 +123,12 @@ namespace SmashBros.Controllers
             Random r = new Random();
            
 
-            ImageInfo inf = effectImg.AddPosition(pos);
+            ImageModel inf = effectImg.AddPosition(pos);
             inf.CurrentFrame = r.Next(0, 4);
-            inf.StartAnimation(pos- new Vector2(30, 30), 180, false, 0.7f);
+            effectImg.AnimateScale(inf, 0.7f, 200);
         }
 
-        private void OnHitAnimationDone(ImageTexture target, ImageInfo imagePosition)
+        private void OnHitAnimationDone(ImageController target, ImageModel imagePosition)
         {
             target.RemovePosition(imagePosition);
         }
@@ -163,7 +165,7 @@ namespace SmashBros.Controllers
 
     internal class PlayerStats
     {
-        public PlayerStats(CharacterController controller, TextBox percentText, TextBox playerText, ImageTexture percentBg)
+        public PlayerStats(CharacterController controller, TextBox percentText, TextBox playerText, ImageView percentBg)
         {
 
             this.PlayerDamageDone = new Dictionary<int, int>();
@@ -181,7 +183,7 @@ namespace SmashBros.Controllers
 
         private TextBox percentBox;
         private TextBox playerText;
-        private ImageTexture percentBg;
+        private ImageView percentBg;
 
         public CharacterController Controller { get; private set; }
         public Dictionary<int,int> PlayerDamageDone { get; private set; }

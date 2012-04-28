@@ -24,25 +24,30 @@ namespace SmashBros.Controllers
 
     public class MenuController : Controller
     {
+
+        //Controllers that menucontroller holds
         OverlayMenuController popupMenu;
         CursorController cursors;
         GamePlayController gameController;
+        
+        //Models tha controller holds
         Map selectedMap;
+        GameOptions gameOptions;
+        List<Map> mapModels;
+        public List<CharacterStats> characterModels;
 
-        ImageTexture startScreen;
-        ImageTexture selectionScreen;
+        ImageController startScreen;
+        ImageController selectionScreen;
         TextBox tipsText;
         TextBox continueText;
         List<TextBox> playerSelect;
 
-        List<Map> mapModels;
-        public List<Character> characterModels;
         //Index of character that players hover
         public Dictionary<int, int> characterHover;
         
         //Character images
         List<Sprite> characterThumbs;
-        List<ImageTexture> characterImages;
+        List<ImageController> characterImages;
 
         //Mapimages
         List<Sprite> mapThumbs;
@@ -60,6 +65,7 @@ namespace SmashBros.Controllers
 
         public override void Load(ContentManager content) 
         {
+            gameOptions = Serializing.LoadGameOptions();
             //Creates the controller for the cursor
             cursors = new CursorController(Screen);
             cursors.OnCursorClick += OnCursorClick;
@@ -68,17 +74,16 @@ namespace SmashBros.Controllers
             AddController(cursors);
 
             //Adds the popupmenu to the controllers stack
-            popupMenu = new OverlayMenuController(Screen, cursors);
+            popupMenu = new OverlayMenuController(Screen, cursors, gameOptions);
             AddController(popupMenu);
 
             
 
             //Loads the background for selectionmenuy and startscreen
-            startScreen = new ImageTexture(content, "Menu/StartScreen", 0, 0);
-            startScreen.StaticPosition = true;
+            startScreen = new ImageController(Screen, "Menu/StartScreen", 1, true);
             startScreen.OnAnimationDone += BgImageAnimationDone;
-            selectionScreen = new ImageTexture(content, "Menu/SelectionScreen", 0, 0);
-            selectionScreen.StaticPosition = true;
+            
+            selectionScreen = new ImageController(Screen, "Menu/SelectionScreen", 1, true);
             selectionScreen.OnAnimationDone += BgImageAnimationDone;
 
             //Initialize tips text
@@ -114,19 +119,14 @@ namespace SmashBros.Controllers
             //Loads characters
             LoadCharacters(content);
             
-            //Adds collision box at help and option button
-            helpBox = CreateBtn(90, 40, 180, 80, "help");
-            
-            //Adds collision box at help and option button
-            optionsBox = CreateBtn(Constants.WindowWidth - 100, 40, 180, 80, "options");
+            //Creates the help and options button
+            helpBox = CreateBtn(Constants.WindowWidth - 100, 40, 180, 80, "help");
+            optionsBox = CreateBtn(90, 40, 180, 80, "options");
 
-<<<<<<< HEAD
-            screen.soundController.LoadSelectionMenuSounds(content, this);
-=======
-            Screen.soundController.Load(content, this);
->>>>>>> b5debc494418de383b99b50a6d77efdf596fe523
+            Screen.soundController.LoadSelectionMenuSounds(content, this);
 
-            MenuSound.Invoke(MenuSoundType.choose);
+            Screen.soundController.LoadSelectionMenuSounds(content, this);
+            Screen.soundController.PlayMenuSound(MenuSoundType.choose);
 
             GamePadControllers.ForEach(a => a.OnStartPress += OnStartPress);
             SubscribeToGameState = true;
@@ -138,13 +138,13 @@ namespace SmashBros.Controllers
             characterModels = Serializing.LoadCharacters();
             
             characterThumbs = new List<Sprite>();
-            characterImages = new List<ImageTexture>();
+            characterImages = new List<ImageController>();
 
             int i = 0;
             int row = 0, col = 0;
 
             //Create textures for thumb and image for every character model
-            foreach (Character character in characterModels)
+            foreach (CharacterStats character in characterModels)
             {
                 //Create the character selection thumbnail, placing it at row and col
                 var sprite = new Sprite(content, character.thumbnail, Constants.ThumbWith, 250, col * Constants.ThumbWith + 200, row * Constants.ThumbHeight + 210);
@@ -156,7 +156,7 @@ namespace SmashBros.Controllers
                 sprite.BoundBox.Enabled = false;
                 sprite.Category = Category.Cat5;
 
-                sprite.Layer = 2;
+                sprite.Layer = 3;
                 //Add the model as user data
                 sprite.UserData = character;
                 //Add the thumb to the thumb list
@@ -172,9 +172,8 @@ namespace SmashBros.Controllers
                 i++;
 
                 //Creates the images for every texture
-                var img = new ImageTexture(content, character.image);
-                img.Layer = 5;
-                img.UserData = new List<int>();
+                var img = new ImageController(Screen, character.image, 4, true);
+                AddController(img);
                 characterImages.Add(img);
             }
         }
@@ -211,8 +210,8 @@ namespace SmashBros.Controllers
         
         public override void Unload()
         {
-            startScreen.Dispose();
-            selectionScreen.Dispose();
+            startScreen.Deactivate();
+            selectionScreen.Deactivate();
 
             foreach (var character in characterThumbs)
             {
@@ -257,13 +256,13 @@ namespace SmashBros.Controllers
 
         public override void Deactivate()
         {
-            RemoveView(startScreen);
-            RemoveView(selectionScreen);
+            RemoveController(startScreen);
+            RemoveController(selectionScreen);
         }
 
         public override void OnNext(GameStateManager value)
         {
-            ImageTexture animateIn = null, animateOut = null;
+            ImageController animateIn = null, animateOut = null;
             switch (value.PreviousState)
             {
                 case GameState.StartScreen:
@@ -282,13 +281,13 @@ namespace SmashBros.Controllers
             switch (value.CurrentState)
             {
                 case GameState.StartScreen:
-                    AddView(startScreen);
+                    AddController(startScreen);
                     animateIn = startScreen;
 
                     AddView(tipsText);
                     break;
                 case GameState.CharacterMenu :
-                    AddView(selectionScreen);
+                    AddController(selectionScreen);
                     if(value.PreviousState != GameState.MapsMenu)
                         animateIn = selectionScreen;
 
@@ -303,8 +302,9 @@ namespace SmashBros.Controllers
                     {
                         gameController = new GamePlayController(Screen, selectedMap);
                         AddController(gameController);
-                        RemoveView(selectionScreen);
                     }
+                    selectionScreen.IsVisible = false;
+                    startScreen.IsVisible = true;
                     break;
                 case GameState.GamePause:
                     break;
@@ -313,14 +313,14 @@ namespace SmashBros.Controllers
             if (animateIn != null)
             {
                 animateIn.Layer = 2;
-                animateIn.Position(-1280, 0);
-                animateIn.Animate(0, 0, 600, false, 1f);
+                animateIn.SetPosition(-1280, 0);
+                animateIn.AnimatePos(0, 0, 600, false);
             }
             if (animateOut != null)
             {
                 animateOut.Layer = 1;
-                animateOut.Position(0, 0);
-                animateOut.Animate(1280, 0, 600, false, 1f);
+                animateOut.SetPosition(0, 0);
+                animateOut.AnimatePos(1280, 0, 600, false);
             }
         }
 
@@ -344,12 +344,10 @@ namespace SmashBros.Controllers
                 {
                     switch (CurrentState)
                     {
-                        case GameState.StartScreen:
-                            break;
                         case GameState.CharacterMenu:
                             if (selectKey)
                             {
-                                GamePadControllers[playerIndex].SelectedCharacter = (Character)targetData;
+                                GamePadControllers[playerIndex].SelectedCharacter = (CharacterStats)targetData;
                                 cursors.DisableCursor(playerIndex);
                             }
                             else
@@ -372,10 +370,6 @@ namespace SmashBros.Controllers
                             }
 
                             break;
-                        case GameState.GamePlay:
-                            break;
-                        default:
-                            break;
                     }
                 }
             }
@@ -383,33 +377,73 @@ namespace SmashBros.Controllers
 
         private void OnCursorCollision(int playerIndex, object targetData, CursorModel cursor)
         {
+<<<<<<< HEAD
             if (targetData == null) return;
-            if (targetData.GetType() == typeof(Character))
+            if (targetData.GetType() == typeof(CharacterStats))
             {
-                Character c = (Character)targetData;
+                CharacterStats c = (CharacterStats)targetData;
                 int index = characterModels.IndexOf(c);
-
-                if (characterHover.ContainsKey(playerIndex))
-                    characterHover[playerIndex] = index;
-                else characterHover.Add(playerIndex, index);
-
-                characterThumbs[index].Scale = 1.05f;
-                characterThumbs[index].Rotation = 0.05f;
-                ImageTexture img = characterImages[index];
-                if (!img.IsActive)
+=======
+            if (cursor.TargetCategory == Category.Cat5)
+            {
+                if (targetData == null) return;
+                //If data is character then show the character pose at the playersIndex pos
+                if (targetData.GetType() == typeof(Character))
                 {
-                    AddView(img);
-                }
+                    Character c = (Character)targetData;
+                    //Finds the index of the character
+                    int index = characterModels.IndexOf(c);
+                    
+                    //Get character pose by using index
+                    ImageController img = characterImages[index];
+                    
+                    //Checks if player already has an entry for hovered character
+                    //Removes the hovered character
+                    if (characterHover.ContainsKey(playerIndex))
+                    {
+                        characterHover[playerIndex] = index;
+                        img.RemoveId(playerIndex);
+                    }
+                    else characterHover.Add(playerIndex, index);
+>>>>>>> 481371d2ae342a3224c6da18094824e1aaa55a90
 
-                img.AddPosition(playerIndex * 260, 450, playerIndex);
-            }else if(targetData.GetType() == typeof(Map)){
-                var map = mapThumbs[mapModels.IndexOf((Map)targetData)];
+                    characterThumbs[index].Scale = 1.05f;
+                    characterThumbs[index].Rotation = 0.05f;
+                   
+                    img.IsVisible = true;
+
+                    ImageModel model = img.AddPosition(playerIndex * 260, 720 , playerIndex);
+                    img.AnimatePos(model, playerIndex * 260, 450, 300);
+                }
+                else if (targetData.GetType() == typeof(Map))
+                {
+                    var map = mapThumbs[mapModels.IndexOf((Map)targetData)];
+                    map.Rotation = 0.01f;
+                    map.Scale = 1.1f;
+                }
             }
         }
 
         private void OnCursorSeparation(int playerIndex, object targetData, CursorModel cursor)
         {
-            characterImages[characterHover[playerIndex]].RemoveId(playerIndex);
+            if (cursor.TargetCategory == Category.Cat5)
+            {
+                if(characterHover.ContainsKey(playerIndex)){
+                    var i = characterHover[playerIndex];
+                    if (i != -1)
+                    {
+                        characterImages[i].RemoveId(playerIndex);
+
+                        if (!characterHover.Any(a => a.Value == i && a.Key != playerIndex))
+                        {
+                            characterThumbs[i].Rotation = 0;
+                            characterThumbs[i].Scale = 1f;
+                        }
+
+                        characterHover[playerIndex] = -1;
+                    }
+                }
+            }
         }
 
         private void OnStartPress(int playerIndex)
@@ -425,10 +459,10 @@ namespace SmashBros.Controllers
             CurrentState = (GameState)MathHelper.Clamp((int)CurrentState -1, 0, 5);
         }
 
-        private void BgImageAnimationDone(ImageTexture target, ImageInfo imagePosition)
+        private void BgImageAnimationDone(ImageController target, ImageModel imagePosition)
         {
-            if(imagePosition.CurrentPos.Y <= -10)
-                RemoveView(target);
+            if (imagePosition.CurrentPos.Y <= -10)
+                target.IsVisible = false;
 
             switch (CurrentState)
             {
@@ -456,8 +490,6 @@ namespace SmashBros.Controllers
 
             return btn;
         }
-
-        public event SmashBros.Controllers.SoundController.MenuSound MenuSound;
 
         private bool MapSelectionVisible
         {
@@ -504,7 +536,7 @@ namespace SmashBros.Controllers
                         RemoveView(character);
                         character.BoundBox.Enabled = false;
                     }
-                    RemoveViews(characterImages.ToArray());
+                    characterImages.ForEach(a => a.IsVisible = false);
                     RemoveViews(playerSelect.ToArray());
                     RemoveView(continueText);
                 }

@@ -122,10 +122,17 @@
     <Compile Include="Controllers\MapController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\OverlayMenuController.cs" />
+<<<<<<< HEAD
     <Compile Include="Models\CharacterModel.cs" />
     <Compile Include="Models\CursorModel.cs" />
     <Compile Include="Models\GameOptions.cs" />
     <Compile Include="Models\MoveModel.cs" />
+=======
+    <Compile Include="Controllers\PowerUpController.cs" />
+    <Compile Include="Models\CursorModel.cs" />
+    <Compile Include="Models\GameOptions.cs" />
+    <Compile Include="Models\ImageModel.cs" />
+>>>>>>> 481371d2ae342a3224c6da18094824e1aaa55a90
     <Compile Include="System\ScreenManager.cs" />
     <Compile Include="Controllers\SoundController.cs" />
     <Compile Include="Models\Box.cs" />

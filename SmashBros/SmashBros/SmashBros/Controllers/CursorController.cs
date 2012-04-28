@@ -94,7 +94,6 @@ namespace SmashBros.Controllers
         {
             set
             {
-                DebugWrite("cursor", value);
 
                 if (value)
                 {
@@ -181,7 +180,6 @@ namespace SmashBros.Controllers
 
         private void OnCursorNavigate(float directionX, float directionY, int playerIndex, bool newDirection)
         {
-            Debug.WriteLine("Cursor move " + playerIndex);
             var cursor = playerCursors[playerIndex];
             cursor.SetPosition(cursor.Cursor.PositionX + directionX * Constants.MaxCursorSpeed,
                 cursor.Cursor.PositionY + directionY * Constants.MaxCursorSpeed);

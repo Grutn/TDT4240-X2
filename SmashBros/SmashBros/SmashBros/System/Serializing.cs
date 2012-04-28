@@ -25,6 +25,9 @@ namespace SmashBros.System
         private const string MapFolder = "Maps";
         private const string CharacterFolder = "Characters";
         private const string ControllersFolder = "PlayerControllers";
+        private const string PowerUpFolder = "PowerUps";
+
+        #region Load & Save Models
 
         /// <summary>
         /// Loads all the map models
@@ -33,12 +36,7 @@ namespace SmashBros.System
         static List<Map> maps;
         public static List<Map> LoadMaps()
         {
-            maps = new List<Map>();
-            foreach (var file in Directory.GetFiles(MapFolder))
-            {
-                maps.Add(JsonConvert.DeserializeObject<Map>(Read(file)));
-            }
-
+            maps = LoadFolder<Map>(MapFolder);
             return maps;
         }
 
@@ -49,14 +47,7 @@ namespace SmashBros.System
         static List<CharacterStats> charlist;
         public static List<CharacterStats> LoadCharacters()
         {
-            
-            charlist = new List<CharacterStats>();
-            foreach (var file in Directory.GetFiles(CharacterFolder))
-            {
-                charlist.Add(JsonConvert.DeserializeObject<CharacterStats>(Read(file)));
-            }
-
-
+            charlist =  LoadFolder<Character>(CharacterFolder);
             return charlist;
         }
 
@@ -66,32 +57,46 @@ namespace SmashBros.System
         /// <returns>List with players</returns>
         public static List<Player> LoadPlayerControllers()
         {
-            List<Player> models = new List<Player>();
-            foreach (var file in Directory.GetFiles(ControllersFolder))
-            {
-                models.Add(JsonConvert.DeserializeObject<Player>(Read(file)));
-            }
-
-            return models;
+            return LoadFolder<Player>(ControllersFolder);
         }
 
+        /// <summary>
+        /// Loads the game options that where used last game
+        /// </summary>
+        /// <returns></returns>
         public static GameOptions LoadGameOptions()
         {
             return JsonConvert.DeserializeObject<GameOptions>(Read("gameOptions.txt"));
         }
 
+        public static List<PowerUp> LoadPowerUps()
+        {
+            return LoadFolder<PowerUp>(PowerUpFolder);
+        }
+
+        private static List<T> LoadFolder<T>(string folder)
+        {
+            List<T> models = new List<T>();
+            foreach (var file in Directory.GetFiles(folder))
+            {
+                models.Add(JsonConvert.DeserializeObject<T>(Read(file)));
+            }
+
+            return models;
+        }
+
+        /// <summary>
+        /// Saves game options
+        /// </summary>
+        /// <param name="options"></param>
         public static void SaveGameOptions(GameOptions options)
         {
             SaveFile("gameOptions.txt", options);
         }
 
-        public static void SaveFile(string filename, object obj)
-        {
-            using (StreamWriter outfile = new StreamWriter(filename))
-            {
-                outfile.Write(JsonConvert.SerializeObject(obj, Formatting.Indented));
-            }
-        }
+        #endregion
+        
+        #region Model Generating Code
 
         /// <summary>
         /// Method for generating the models
@@ -109,13 +114,13 @@ namespace SmashBros.System
             CreateCharacterModel();
             CreateMapModels();
             CreateControllerModels();
+            CreatePowerUpModels();
         }
 
         /// <summary>
         /// Genereates some charactermodels
         /// </summary>
         /// 
-
 
         private static void CreateCharacterModel()
         {
@@ -125,7 +130,8 @@ namespace SmashBros.System
             }
             for (int i = 0; i < 10; i++)
             {
-                CharacterStats c = new CharacterStats() { 
+                CharacterStats c = new CharacterStats()
+                {
                     maxSpeed = 5,
                     acceleration = 10,
                     weight = 100,
@@ -170,7 +176,7 @@ namespace SmashBros.System
                 c.xLR = new MoveStats(10, 100, 0, 100, 0, 0, 0, 0, new Vector2(10,10), new Vector2(0,0), new Vector2(100, 100), new Vector2(50, 50));
                 c.xUp = new BodyMove(10, 1500, 300, 1400, 0, 0, 0, 0, new Vector2(5, 5), new Vector2(0,0), new Vector2(0,0), new Vector2(30, 30), new Vector2(10,20), 100, 1000);
                 c.aDown = new MoveStats(10, 100, 0, 100, 0, 0, 0, 0, new Vector2(10, 10), new Vector2(0, 0), new Vector2(100, 100), new Vector2(50, 50));
-                
+
                 if (i == 1)
                 {
                     c.thumbnail = "Characters/SpidermanThumb";
@@ -226,7 +232,7 @@ namespace SmashBros.System
 
                     c.aUp = new MoveStats(10, 250, 0, 0, 0, 0, 0, 0, new Vector2(10, 10), new Vector2(0, 0), new Vector2(10, 10), new Vector2(10, 10));
                 }
-                Write(c,CharacterFolder,"Character"+i);
+                Write(c, CharacterFolder, "Character" + i);
             }
         }
 
@@ -250,15 +256,16 @@ namespace SmashBros.System
                 map.backgroundMusic = "Sound/main";
                 map.size = new Box(3500, 1600, -800, 0);
                 map.zoomBox = new Box(3000, 1300, -800, 100);
+                map.DropZone = new Box(1000, 800, 500, 100);
 
 
                 map.AddBox(680, 1270, 620, 450);
                 map.AddBox(1245, 990, 540, 60);
                 map.AddBox(1235, 1290, 520, 540);
-                map.AddBox(245,1200,360,570);
+                map.AddBox(245, 1200, 360, 570);
 
                 map.AddFloatBox(765, 620, 485);
-                map.AddFloatBox(705,815,670);
+                map.AddFloatBox(705, 815, 670);
 
 
                 int mx = -420;
@@ -336,6 +343,47 @@ namespace SmashBros.System
             }
         }
 
+        public static void CreatePowerUpModels()
+        {
+            if (!Directory.Exists(PowerUpFolder))
+            {
+                Directory.CreateDirectory(PowerUpFolder);
+            }
+
+            Random r = new Random();
+            for (int i = 0; i < 16; i++)
+            {
+                PowerUp p = new PowerUp()
+                {
+                    acceleration = r.Next(0, 100),
+                    duration = r.Next(0, 100),
+                    jumpHeight = r.Next(0, 100),
+                    maxSpeed = r.Next(0, 100),
+                    weight = r.Next(0, 100),
+                    imageFrame = i
+                };
+
+                Write(p, PowerUpFolder, "PowerUp" + i);
+            }
+        }
+
+        #endregion
+
+        #region WriteFiles & Debug runtime Update
+
+        /// <summary>
+        /// Method used for saving file to fileName
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <param name="obj"></param>
+        private static void SaveFile(string filename, object obj)
+        {
+            using (StreamWriter outfile = new StreamWriter(filename))
+            {
+                outfile.Write(JsonConvert.SerializeObject(obj, Formatting.Indented));
+            }
+        }
+
         /// <summary>
         /// Serializes the models to json and wirtes the to files
         /// </summary>
@@ -344,8 +392,8 @@ namespace SmashBros.System
         /// <param name="fileNoExt">File without extension</param>
         private static void Write(object obj, string folder, string fileNoExt)
         {
-            
-            using (StreamWriter outfile = new StreamWriter(Path.Combine(folder,fileNoExt+".txt")))
+
+            using (StreamWriter outfile = new StreamWriter(Path.Combine(folder, fileNoExt + ".txt")))
             {
                 outfile.Write(JsonConvert.SerializeObject(obj, Formatting.Indented));
             }
@@ -409,7 +457,8 @@ namespace SmashBros.System
 
                 type = type.BaseType;
             }
-        }
+        } 
+        #endregion
 
     }
 }

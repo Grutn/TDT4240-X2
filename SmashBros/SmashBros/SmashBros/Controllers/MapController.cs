@@ -16,8 +16,8 @@ namespace SmashBros.Controllers
     public class MapController : Controller
     {
         public Map Model;
-        private ImageTexture bg;
-        private ImageTexture map;
+        private ImageController bg;
+        private ImageController map;
         private List<Body> boxes;
 
         public MapController(ScreenManager screen, Map currentMap) : base(screen)
@@ -70,14 +70,11 @@ namespace SmashBros.Controllers
         public override void Load(ContentManager content)
         {
 
-            bg = new ImageTexture(content, Model.bgImage, 0, 0);
-            bg.Layer = 1;
-            bg.StaticPosition = true;
-            AddView(bg);
+            bg = new ImageController(Screen, Model.bgImage, Vector2.Zero, 1, true);
+            AddController(bg);
 
-            map = new ImageTexture(content, Model.mapImage, 0, 0);
-            map.Layer = 3;
-            AddView(map);
+            map = new ImageController(Screen, Model.mapImage, Vector2.Zero, 3, false);
+            AddController(map);
             SetUpMap();
 
             SubscribeToGameState = true;

@@ -21,18 +21,15 @@ Content\GameStuff\GameEffects.xnb
 Content\Characters\RoketRacoonAnimation.xnb
 Content\Characters\RoketRacoonPose.xnb
 Content\Characters\RoketRacoonThumb.xnb
+Content\Characters\SupermanFatPose.xnb
+Content\Characters\SupermanFatThumb.xnb
+Content\Characters\SupermanFatAnimation.xnb
+Content\Maps\CityMapThumb.xnb
 Content\Fonts\gamefont.xnb
 Content\menufont.xnb
 Content\Fonts\Impact.xnb
 Content\Fonts\Impact.large.xnb
 Content\Sound\main.xnb
-<<<<<<< HEAD
-Content\GameStuff\GameEffects.xnb
-Content\Characters\RoketRacoonAnimation.xnb
-Content\Characters\RoketRacoonPose.xnb
-Content\Characters\RoketRacoonThumb.xnb
-Content\Sound\Game\hit.xnb
-=======
 Content\Sound\Game\hit.xnb
 Content\Sound\Wolwerine\pain.xnb
 Content\Sound\Wolwerine\jump.xnb
@@ -54,5 +51,9 @@ Content\Sound\Spiderman\pain.xnb
 Content\Sound\Spiderman\punch.xnb
 Content\Sound\Spiderman\selected.xnb
 Content\Sound\Spiderman\web.xnb
->>>>>>> ccb82e0b35c7bb729b5987b97a31fabcf0800a40
+<<<<<<< HEAD
+=======
+Content\Maps\CityMapThumb.xnb
+Content\GameStuff\PowerUps.xnb
+>>>>>>> 481371d2ae342a3224c6da18094824e1aaa55a90
 Content\font.xnb

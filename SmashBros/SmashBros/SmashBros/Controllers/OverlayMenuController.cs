@@ -20,7 +20,7 @@ namespace SmashBros.Controllers
 
     class OverlayMenuController : Controller
     {
-        ImageTexture bg;
+        ImageController bg;
         MenuView menuView;
         MenuEntry[] gamePauseMenu, optionsMenu, helpMenu;
         CursorController cursors;
@@ -55,10 +55,11 @@ namespace SmashBros.Controllers
             menuView.StaticPosition = true;
 
             //Loads the menu background
-            bg = new ImageTexture(content, "Menu/PopupMenu", 175, -700);
-            bg.Layer = 1000;
-            bg.StaticPosition = true;
+            bg = new ImageController(Screen, "Menu/PopupMenu", 1000, true);
+            bg.SetPosition(175, -700);
+            //content, "Menu/PopupMenu", 175, -700);
             bg.OnAnimationDone += OnAnimationDone;
+            AddController(bg);
             
             //Create the menu models
             createGamePauseMenu(FontDefualt);
@@ -243,7 +244,7 @@ namespace SmashBros.Controllers
                 this.State = PopupState.Removed;
         }
 
-        private void OnAnimationDone(ImageTexture img, ImageInfo pos)
+        private void OnAnimationDone(ImageController img, ImageModel pos)
         {
             switch (State)
             {
@@ -310,8 +311,6 @@ namespace SmashBros.Controllers
 
                 }
 
-                if(!bg.IsActive)
-                    AddView(bg);
 
                 if (y == -100)
                 {
@@ -331,7 +330,9 @@ namespace SmashBros.Controllers
 
                     RemoveView(menuView);
                 }
-                bg.Animate(175, y, 500, false, 1);
+
+                bg.IsVisible = true;
+                bg.AnimatePos(175, y, 500, false);
                 cursors.SetCursorCollisionCategory(cursorCategory);
             }
         }
