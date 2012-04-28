@@ -66,9 +66,9 @@ namespace SmashBros.Controllers
         {
             playerSounds.Add(controller.model.playerIndex, new Dictionary<PlayerSoundType, SoundEffect>());
 
-            try { playerSounds[controller.model.playerIndex].Add(PlayerSoundType.Jump, content.Load<SoundEffect>(controller.model.stats.sound_jump)); }
+            try { playerSounds[controller.model.playerIndex].Add(PlayerSoundType.Jump, content.Load<SoundEffect>(controller.stats.sound_jump)); }
             catch { }
-            try { playerSounds[controller.model.playerIndex].Add(PlayerSoundType.Kill, content.Load<SoundEffect>(controller.model.stats.sound_kill)); }
+            try { playerSounds[controller.model.playerIndex].Add(PlayerSoundType.Kill, content.Load<SoundEffect>(controller.stats.sound_kill)); }
             catch { }
         }
 

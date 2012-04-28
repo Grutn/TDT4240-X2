@@ -27,11 +27,6 @@ namespace SmashBros.Models
         public CharacterView view;
 
         /// <summary>
-        /// The stats of the chosen character. STATIC attributes!!
-        /// </summary>
-        public CharacterStats stats;
-
-        /// <summary>
         /// Attacking CharacterState. See above!
         /// </summary>
         public CharacterState state { get; private set; }

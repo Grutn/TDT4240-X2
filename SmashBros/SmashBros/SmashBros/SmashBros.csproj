@@ -122,9 +122,11 @@
     <Compile Include="Controllers\MapController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\OverlayMenuController.cs" />
+    <Compile Include="Controllers\PowerUpController.cs" />
     <Compile Include="Models\CharacterModel.cs" />
     <Compile Include="Models\CursorModel.cs" />
     <Compile Include="Models\GameOptions.cs" />
+    <Compile Include="Models\ImageModel.cs" />
     <Compile Include="Models\MoveModel.cs" />
     <Compile Include="System\ScreenManager.cs" />
     <Compile Include="Controllers\SoundController.cs" />

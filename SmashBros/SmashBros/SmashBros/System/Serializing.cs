@@ -47,7 +47,7 @@ namespace SmashBros.System
         static List<CharacterStats> charlist;
         public static List<CharacterStats> LoadCharacters()
         {
-            charlist =  LoadFolder<Character>(CharacterFolder);
+            charlist =  LoadFolder<CharacterStats>(CharacterFolder);
             return charlist;
         }
 

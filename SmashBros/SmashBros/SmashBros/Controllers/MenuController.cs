@@ -381,7 +381,7 @@ namespace SmashBros.Controllers
             {
                 if (targetData == null) return;
                 //If data is character then show the character pose at the playersIndex pos
-                if (targetData.GetType() == typeof(Character))
+                if (targetData.GetType() == typeof(CharacterStats))
                 {
                 CharacterStats c = (CharacterStats)targetData;
                     //Finds the index of the character

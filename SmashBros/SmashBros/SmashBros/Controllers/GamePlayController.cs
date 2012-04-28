@@ -28,6 +28,8 @@ namespace SmashBros.Controllers
         ImageController effectImg;
         PowerUpController powerUps;
 
+        int resetPos = 0;
+
         public GamePlayController(ScreenManager screen, Map selectedMap) : base(screen)
         {
             this.players = new Dictionary<int,PlayerStats>();

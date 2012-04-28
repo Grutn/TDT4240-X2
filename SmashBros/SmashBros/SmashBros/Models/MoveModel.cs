@@ -12,12 +12,26 @@ namespace SmashBros.Models
         /// <summary>
         /// The move that has either begun, or that is in charging face.
         /// </summary>
-        public MoveStats move;
+        private MoveStats _stats;
+        public MoveStats stats
+        {
+            get { return _stats; }
+            set
+            {
+                if (value.Type == MoveType.Charge)
+                {
+                    chargeTime = 0;
+                    startMoveWhenReady = false;
+                }
+                else attackTimeLeft = value.Duration;
+                _stats = value;
+            }
+        }
 
         /// <summary>
         /// The box that punches people on collision.
         /// </summary>
-        public Body moveBox;
+        public Body box;
 
         /// <summary>
         /// Time left to when attack is over.
