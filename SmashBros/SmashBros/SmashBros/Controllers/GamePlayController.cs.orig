@@ -25,10 +25,13 @@ namespace SmashBros.Controllers
         CameraController camera;
         Dictionary<int,PlayerStats> players;
 
+<<<<<<< HEAD
+        ImageTexture effectImg;
+        private int resetPos = 0; 
+=======
         ImageController effectImg;
         PowerUpController powerUps;
-
-        int resetPos = 0;
+>>>>>>> 481371d2ae342a3224c6da18094824e1aaa55a90
 
         public GamePlayController(ScreenManager screen, Map selectedMap) : base(screen)
         {

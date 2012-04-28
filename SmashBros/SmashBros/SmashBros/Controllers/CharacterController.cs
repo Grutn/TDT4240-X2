@@ -13,173 +13,53 @@ using FarseerPhysics.Factories;
 using FarseerPhysics.Dynamics.Contacts;
 using System.Diagnostics;
 using FarseerPhysics.Collision;
+using SmashBros.Models;
 
 namespace SmashBros.Controllers
 {
-    public enum State { none, running, braking, jumping, falling, takingHit, attacking, shielding, chargingHit, chargingSuper }
+    internal class MoveInfo
+    {
+        public Vector2 Xdirection;
+        public float chargeTime;
+        public List<int> PlayerIndexes;
+        public MoveStats move;
 
-    internal class MoveInfo { public Vector2 direction; public float chargeTime; public List<int> playerIndexes; public Move move; }
+        public MoveInfo(CharacterController controller)
+        {
+            Xdirection = controller.model.faceRight ? new Vector2(1, 1) : new Vector2(-1, 1);
+            chargeTime = controller.move.chargeTime;
+            PlayerIndexes = new List<int>();
+            PlayerIndexes.Add(controller.model.playerIndex);
+            move = controller.move.stats;
+        }
+    }
 
     public class CharacterController : Controller
     {
-        public int playerIndex;
+        /// <summary>
+        /// The stats of the chosen character. STATIC attributes!!
+        /// </summary>
+        public CharacterStats stats;
         
         /// <summary>
-        /// Currently chosen character of this player.
+        /// The charactermodel... Helloo
         /// </summary>
-        public Sprite character;
+        public CharacterModel model;
 
         /// <summary>
-        /// The chosen character's stats and moves.
+        /// The characterview... Helloo
         /// </summary>
-        public Character model;
+        public CharacterView view;
 
         /// <summary>
-        /// Attacking state. See above!
+        /// The move.move the character is executing.
         /// </summary>
-        private State _state;
-        public State state
-        {
-            get { return _state; }
-            set
-            {
-                if (_state != value)
-                {
-                    if (value != State.running) character.fps = Constants.FPS;
-                    switch (value)
-                    {
-                        case State.none:
-                            attackMode = false;
-                            inAir = false;
-                            if (_state == State.running || _state == State.attacking) character.AddAnimation(0, 2, true);
-                            else if (_state == State.falling || _state == State.jumping)
-                            {
-                                character.StartAnimation(model.ani_landStart, model.ani_landEnd, false);
-                                character.AddAnimation(model.ani_noneStart, model.ani_noneEnd, true);
-                            }
-                            else character.StartAnimation(model.ani_noneStart, model.ani_noneEnd, true);
-                            break;
-                        case State.running:
-                            attackMode = false;
-                            if (_state == State.falling || _state == State.jumping)
-                            {
-                                character.StartAnimation(model.ani_landStart, model.ani_landEnd, false);
-                                character.AddAnimation(model.ani_runStart, model.ani_runEnd, true);
-                            }
-                            else character.StartAnimation(model.ani_runStart, model.ani_runEnd, true);
-                            break;
-                        case State.braking:
-                            attackMode = false;
-                            if (_state == State.falling || _state == State.jumping)
-                            {
-                                character.StartAnimation(model.ani_landStart, model.ani_landEnd, false);
-                                character.AddAnimation(model.ani_brake, model.ani_brake, true);
-                            }
-                            else character.StartAnimation(model.ani_brake, model.ani_brake, true);
-                            break;
-                        case State.jumping:
-                            attackMode = false;
-                            inAir = true;
-                            PlayerSound.Invoke(playerIndex, PlayerSoundType.jump);
-                            character.StartAnimation(model.ani_jumpStart, model.ani_jumpEnd, false);
-                            character.AddAnimation(model.ani_fallStart, model.ani_fallEnd, true);
-                            break;
-                        case State.falling:
-                            attackMode = false;
-                            inAir = true;
-                            character.StartAnimation(model.ani_fallStart, model.ani_fallEnd, true);
-                            break;
-                        case State.takingHit:
-                            attackMode = true;
-                            character.StartAnimation(model.ani_takeHitStart, model.ani_takeHitEnd, true);
-                            break;
-                        case State.attacking:
-                            attackMode = true;
-                            character.StartAnimation(move.aniFrom, move.aniTo, true);
-                            break;
-                        case State.shielding:
-                            attackMode = true;
-                            break;
-                        case State.chargingHit:
-                            attackMode = true;
-                            break;
-                        case State.chargingSuper:
-                            attackMode = true;
-                            break;
-                    }
-                    _state = value;
-                }
-            }
-        }
- 
-        /// <summary>
-        /// The character is facing right direction?
-        /// </summary>
-        public bool _faceRight;
-        public bool faceRight
-        {
-            get { return _faceRight; }
-            set 
-            {
-                _faceRight = value;
-                if (value) character.SpriteEffect = Microsoft.Xna.Framework.Graphics.SpriteEffects.None;
-                else character.SpriteEffect = Microsoft.Xna.Framework.Graphics.SpriteEffects.FlipHorizontally;
-            }
-        }
+        public MoveModel move;
 
         /// <summary>
-        /// The character is in air or on ground?
+        /// DENNE BURDE FJERNES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         /// </summary>
-        public bool inAir;
-
-        /// <summary>
-        /// Whether the character is standing on a box which can be gone through.
-        /// </summary>
-        public bool onSoftBox;
-
-        /// <summary>
-        /// Whether the character is in an attackstate.
-        /// </summary>
-        public bool attackMode;
-        
-        /// <summary>
-        /// Whether or not the player is in an invounerable state.
-        /// </summary>
-        private bool _invounerable;
-        public bool invounerable
-        {
-            get { return _invounerable; }
-            set
-            {
-                _invounerable = value;
-                character.Blinking = value;
-            }
-        }
-
-        /// <summary>
-        /// Time left of invounerability.
-        /// </summary>
-        public float invounerableTimeLeft = 0;
-
-        /// <summary>
-        /// Time left to when the character reappears on the map.
-        /// </summary>
-        public float resetTimeLeft = -1;
-
-        /// <summary>
-        /// Number of jumps left. One of them is supermove, and once super is used, jumpsleft = 0.
-        /// </summary>
-        public int jumpsLeft = 3;
-
-        /// <summary>
-        /// An int that describes how much damage the player has taken in the current game/characterlife.
-        /// </summary>
-        public int damagePoints = 0;
-
-        /// <summary>
-        /// The current position of character sprite.
-        /// </summary>
-        public Vector2 position;
+        private GamepadController pad;
 
         /// <summary>
         /// The current X and Y navigation
@@ -191,101 +71,55 @@ namespace SmashBros.Controllers
         /// </summary>
         public bool newDirection;
 
-        /// <summary>
-        /// A powerUp the player currently is in posetion of.
-        /// </summary>
-        public PowerUp powerUp;
 
-        /// <summary>
-        /// Time left before current powerup expires.
-        /// </summary>
-        public int powerUpTimeLeft;
-
-        /// <summary>
-        /// Currently posessed weapon.
-        /// </summary>
-        public Weapon weapon;
-
-        public GamepadController pad;
-
-        /// <summary>
-        /// The move that has either begun, or that is in charging face.
-        /// </summary>
-        public Move move;
-
-        /// <summary>
-        /// The box that punches people on collision.
-        /// </summary>
-        public Body moveBox;
-
-        /// <summary>
-        /// Which direction move should go.
-        /// </summary>
-        public Vector2 moveDirection;
-
-        /// <summary>
-        /// How long the character has charged the attack.
-        /// </summary>
-        public float chargeTime;
-
-        /// <summary>
-        /// Time left to when attack is over.
-        /// </summary>
-        public float attackTimeLeft;
-
-        /// <summary>
-        /// Is set to true if the character releases attackbutton before minimun chargetime has passed.
-        /// </summary>
-        public bool startMoveWhenReady;
-
-        /// <summary>
-        /// Startposition for when the character comes to life.
-        /// </summary>
-        private Vector2 startPos;
 
         public CharacterController(ScreenManager screen, GamepadController pad, Vector2 startPos) 
             : base(screen)
         {
-            this.startPos = startPos;
+            model = new CharacterModel(pad, startPos);
+            move = new MoveModel();
+            stats = pad.SelectedCharacter;
             this.pad = pad;
-            this.model = pad.SelectedCharacter;
-            this.damagePoints = 0;
-            this.playerIndex = pad.PlayerIndex;
         }
 
-        public void Reset(Vector2 startPos)
+        public void Reset(Vector2 startPos, bool behindMap)
         {
-            RemoveView(character);
-            character.BoundBox.IsStatic = true;
-            character.Position = startPos;
-            resetTimeLeft = 4000;
-            invounerableTimeLeft = 5000;
-            invounerable = true;
-            if(moveBox != null) moveBox.Dispose();
+            RemoveView(view);
+            view.BoundBox.IsStatic = true;
+            view.Position = startPos;
+            model.resetTimeLeft = 4000;
+            model.invounerableTimeLeft = 3000;
+            model.invounerable = true;
+            if(move.box != null) move.box.Dispose();
         }
 
         public override void Load(ContentManager content)
         {
-            character = new Sprite(content, model.animations, 200, 200, 200, 200);
-            character.Scale = 0.6f;
-            character.BoundRect(World, 60, 120);
-            character.Layer = 100;
-            character.FramesPerRow = 9;
-            character.BoundBox.Friction = 0;
-            character.BoundBox.IgnoreGravity = true;
-            AddView(character);
-            faceRight = true;
-            inAir = true;
+            view = new CharacterView(content, stats.animations, 200, 200, 200, 200, stats);
+            model.view = view;
+            view.Scale = 0.6f;
+            view.BoundRect(World, stats.size.X, stats.size.Y);
+            view.BoundBox.UserData = model.playerIndex;
+            view.Layer = 100;
+            view.FramesPerRow = 9;
+            view.BoundBox.Friction = 0;
+            view.BoundBox.IgnoreGravity = true;
+            AddView(view);
+            model.faceRight = true;
+            model.inAir = true;
 
-            character.BoundBox.CollisionCategories = Category.Cat11;
-            character.BoundBox.CollidesWith = Category.All & ~Category.Cat11;
-            character.BoundBox.OnCollision += Collision;
-            character.BoundBox.OnSeparation += Seperation;
+            view.BoundBox.CollisionCategories = Category.Cat11;
+            view.BoundBox.CollidesWith = Category.All & ~Category.Cat11;
+            view.BoundBox.OnCollision += Collision;
+            view.BoundBox.OnSeparation += Seperation;
             
-            character.Position = startPos;
+            view.Position = model.position;
 
-            pad.OnNavigation += OnNavigation;
-            pad.OnHitkeyDown += OnHitKeyDown;
+            pad.OnNavigation += Navigation;
+            pad.OnHitkeyDown += HitKeyDown;
+            pad.OnHitKeyUp += HitKeyUp;
+            pad.OnSuperkeyDown += SuperKeyDown;
+            pad.OnSuperKeyUp += SuperKeyUp;
 
             Screen.soundController.LoadCharacter(content, this);
         }
@@ -296,101 +130,128 @@ namespace SmashBros.Controllers
 
         public override void Update(GameTime gameTime)
         {
-            if (resetTimeLeft > 0)
+            if (model.resetTimeLeft > 0)
             {
-                resetTimeLeft -= gameTime.ElapsedGameTime.Milliseconds;
-                if (resetTimeLeft <= 0)
+                model.resetTimeLeft -= gameTime.ElapsedGameTime.Milliseconds;
+                if (model.resetTimeLeft <= 0)
                 {
-                    resetTimeLeft = -1;
-                    character.Rotation = 0;
-                    character.Scale = 0.6f;
+                    model.resetTimeLeft = -1;
+                    view.Rotation = 0;
+                    view.Scale = 0.6f;
                 }
-                else if (resetTimeLeft <= 2000 && resetTimeLeft >= 1000)
+                else if (model.resetTimeLeft <= 2000 && model.resetTimeLeft >= 1000)
                 {
-                    state = State.falling;
-                    AddView(character);
-                    character.BoundBox.IsStatic = false;
-                    character.Scale = (2 - resetTimeLeft / 1000) * 0.6f;
-                    character.Rotation += (float)Math.PI * 2 * gameTime.ElapsedGameTime.Milliseconds / 1000;
+                    model.setState(CharacterState.falling);
+                    AddView(view);
+                    view.BoundBox.IsStatic = false;
+                    view.Scale = (2 - model.resetTimeLeft / 1000) * 0.6f;
+                    view.Rotation += (float)Math.PI * 2 * gameTime.ElapsedGameTime.Milliseconds / 1000;
                 }
             }
             else
             {
-                if (invounerable)
+                if (model.invounerable)
                 {
-                    invounerableTimeLeft -= gameTime.ElapsedGameTime.Milliseconds;
-                    if (invounerableTimeLeft <= 0)
+                    model.invounerableTimeLeft -= gameTime.ElapsedGameTime.Milliseconds;
+                    if (model.invounerableTimeLeft <= 0)
                     {
-                        invounerable = false;
-                        character.Opacity = 1;
+                        model.invounerable = false;
+                        view.Opacity = 1;
                     }
                 }
-                
-                if (!attackMode && (Math.Abs(character.VelocityX) < Math.Abs(model.maxSpeed * navigation.X) || character.VelocityX * navigation.X < 0)) character.VelocityX += navigation.X * model.acceleration * gameTime.ElapsedGameTime.Milliseconds / 1000f;
-                if (inAir) character.VelocityY += model.gravity * gameTime.ElapsedGameTime.Milliseconds / 1000f;
-                else if (character.VelocityX * navigation.X < 0 || navigation.X == 0) character.VelocityX -= (character.VelocityX / model.maxSpeed) * 3 * model.acceleration * gameTime.ElapsedGameTime.Milliseconds / 1000;
 
-                position = character.Position;
+                // Calculating players new velocity
+
+                Vector2 velocityPlus = new Vector2(0, 0);
+                if (!model.attackMode && (Math.Abs(view.VelocityX) < Math.Abs(stats.maxSpeed * navigation.X) || view.VelocityX * navigation.X < 0))
+                    velocityPlus.X += navigation.X * stats.acceleration * gameTime.ElapsedGameTime.Milliseconds / 1000f;
+
+                if (!model.attackMode || model.state == CharacterState.takingHit || move.stats.Type != MoveType.Body 
+                    || Math.Abs(((BodyMove)move.stats).BodyEnd - move.stats.Duration) > move.attackTimeLeft || Math.Abs(((BodyMove)move.stats).BodyStart - move.stats.Duration) < move.attackTimeLeft)
+                {
+                    if (model.inAir)
+                        velocityPlus.Y += stats.gravity * gameTime.ElapsedGameTime.Milliseconds / 1000f;
+                    else if (view.VelocityX * navigation.X < 0 || navigation.X == 0)
+                        velocityPlus.X += -(view.VelocityX / stats.maxSpeed) * 3 * stats.acceleration * gameTime.ElapsedGameTime.Milliseconds / 1000; 
+                }
+
+                view.Velocity += velocityPlus;
+                if (model.state == CharacterState.attacking && move.stats.Type != MoveType.Range) move.box.LinearVelocity += velocityPlus;
+
+                model.position = view.Position;
                 NaturalState();
 
-                switch (state)
+                switch (model.state)
                 {
-                    case State.none:
+                    case CharacterState.none:
                         break;
-                    case State.running:
-                        character.fps = (int)MathHelper.Clamp(Math.Abs(character.VelocityX) * 4, 5, 100);
+                    case CharacterState.running:
+                        view.fps = (int)MathHelper.Clamp(Math.Abs(view.VelocityX) * 4, 5, 100);
                         break;
-                    case State.braking:
+                    case CharacterState.braking:
                         break;
-                    case State.jumping:
+                    case CharacterState.jumping:
                         break;
-                    case State.falling:
+                    case CharacterState.falling:
                         break;
-                    case State.chargingHit:
-                        chargeTime += gameTime.ElapsedGameTime.Milliseconds;
-                        if (startMoveWhenReady && chargeTime > move.minWait) BeginMove();
+                    case CharacterState.chargingHit:
+                        move.chargeTime += gameTime.ElapsedGameTime.Milliseconds;
+                        if (move.startMoveWhenReady && move.chargeTime > ((ChargeMove)move.stats).MinWait) model.setState(CharacterState.attacking, move.stats);
                         break;
-                    case State.chargingSuper:
-                        chargeTime += gameTime.ElapsedGameTime.Milliseconds;
-                        if (startMoveWhenReady && chargeTime > move.minWait || chargeTime > move.maxWait) BeginMove();
+                    case CharacterState.chargingSuper:
+                        move.chargeTime += gameTime.ElapsedGameTime.Milliseconds;
+                        if (move.startMoveWhenReady && move.chargeTime > ((ChargeMove)move.stats).MinWait || move.chargeTime > ((ChargeMove)move.stats).MaxWait) model.setState(CharacterState.attacking);
                         break;
-                    case State.attacking:
-                        attackTimeLeft -= gameTime.ElapsedGameTime.Milliseconds;
-                        if (attackTimeLeft <= 0)
+                    case CharacterState.attacking:
+                        move.attackTimeLeft -= gameTime.ElapsedGameTime.Milliseconds;
+                        if (move.attackTimeLeft <= 0)
                         {
-                            moveBox.Dispose();
-                            attackMode = false;
+                            model.attackMode = false;
                             NaturalState();
                         }
-                        else if (move.adjustable)
+                        else if (Math.Abs(move.stats.Start - move.stats.Duration) >= move.attackTimeLeft)
                         {
-                            float angle = moveBox.LinearVelocity.X == 0 ? 0 : (float)Math.Atan(moveBox.LinearVelocity.Y / moveBox.LinearVelocity.X);
-                            angle += faceRight ?
-                                navigation.Y * move.adjustAcc * gameTime.ElapsedGameTime.Milliseconds / 1000 :
-                                -navigation.Y * move.adjustAcc * gameTime.ElapsedGameTime.Milliseconds / 1000;
-                            moveBox.LinearVelocity = new Vector2(angle) * moveBox.LinearVelocity.Length();
+                            if (!move.moveStarted) StartMove();
+                            if (move.stats.Adjustable)
+                            {
+                                float angle = move.box.LinearVelocity.X == 0 ? 0 : (float)Math.Atan(move.box.LinearVelocity.Y / move.box.LinearVelocity.X);
+                                angle += model.faceRight ?
+                                    navigation.Y * ((AdjustableMove)move.stats).AdjustAcc * gameTime.ElapsedGameTime.Milliseconds / 1000 :
+                                    -navigation.Y * ((AdjustableMove)move.stats).AdjustAcc * gameTime.ElapsedGameTime.Milliseconds / 1000;
+                                move.box.LinearVelocity = new Vector2(angle) * move.box.LinearVelocity.Length();
+                            }
+                        }
+                        else if (Math.Abs(move.stats.End - move.stats.Duration) >= move.attackTimeLeft)
+                        {
+                            move.box.Dispose();
                         }
                         break;
-                    case State.shielding:
+                    case CharacterState.shielding:
+                        break;
+                    case CharacterState.takingHit:
+                        if (view.VelocityY >= 0)
+                        {
+                            model.attackMode = false;
+                            NaturalState();
+                        }
                         break;
                 }
 
-                string p = "Player " + pad.PlayerIndex + " ";
-                DebugWrite(p + "Jumps: ", jumpsLeft);
-                DebugWrite(p + "State: ", state);
+                string p = "Player " + model.playerIndex + " ";
+                DebugWrite(p + "Jumps: ", model.jumpsLeft);
+                DebugWrite(p + "State: ", model.state);
                 DebugWrite(p + "inAir: ", newDirection);
             }
-
         }
 
         private void NaturalState()
         {
-            if (!attackMode)
+            if (!model.attackMode)
             {
-                if (inAir) state = character.VelocityY < 0? State.jumping : State.falling;
-                else if (Math.Round(character.VelocityX) == 0) state = State.none;
-                else if (navigation.X == 0 || navigation.X * character.VelocityX < 0) state = State.braking;
-                else state = State.running;
+                if (model.inAir) model.setState(view.VelocityY < 0? CharacterState.jumping : CharacterState.falling);
+                else if (Math.Round(view.VelocityX) == 0) model.setState(CharacterState.none);
+                else if (navigation.X == 0 || navigation.X * view.VelocityX < 0) model.setState(CharacterState.braking);
+                else model.setState(CharacterState.running);
             }
         }
 
@@ -402,120 +263,163 @@ namespace SmashBros.Controllers
         {
         }
 
-        private void OnNavigation(float directionX, float directionY, int playerIndex, bool newDirection)
+        private void Navigation(float directionX, float directionY, int playerIndex, bool newDirection)
         {
-            if (!attackMode && resetTimeLeft < 0)
+            if (!model.attackMode && model.resetTimeLeft < 0)
             {
-                if (directionX !=0 && directionX * character.VelocityX >= 0) faceRight = directionX > 0;
-                if (directionY < 0 && newDirection && jumpsLeft > 1)
+                if (directionX !=0 && directionX * view.VelocityX >= 0) model.faceRight = directionX > 0;
+                if (directionY < 0 && newDirection && model.jumpsLeft > 1)
                 {
-                    state = State.jumping;
-                    character.VelocityY = -10;
-                    jumpsLeft--;
+                    model.setState(CharacterState.jumping);
+                    view.VelocityY = -10;
+                    model.jumpsLeft--;
                 }
                 if (directionY > 0.9)
                 {
-                    character.BoundBox.CollidesWith = Category.All & ~Category.Cat10 & ~Category.Cat11;
-                    if(onSoftBox) state = State.falling;
+                    view.BoundBox.CollidesWith = Category.All & ~Category.Cat10 & ~Category.Cat11;
+                    if(model.onSoftBox) model.setState(CharacterState.falling);
                 }
-                else character.BoundBox.CollidesWith = Category.All & ~Category.Cat11; 
+                else view.BoundBox.CollidesWith = Category.All & ~Category.Cat11; 
             }
 
             this.newDirection = newDirection;
             this.navigation = new Vector2(directionX, directionY);
         }
 
-        private void OnHitKeyDown(float directionX, float directionY, float downTimer, int playerIndex)
+        private void HitKeyDown(float directionX, float directionY, float downTimer, int playerIndex)
         {
-            if (!attackMode)
+            if (!model.attackMode)
             {
-                if (Math.Abs(navigation.X) >= Math.Abs(navigation.Y) || !inAir && navigation.Y > 0) moveDirection = faceRight ? new Vector2(1, 0) : new Vector2(-1, 0);
-                else moveDirection = !inAir || navigation.Y < 0? new Vector2(0,-1) : new Vector2(0,1);
-                if (newDirection)
+                if (newDirection && (Math.Abs(navigation.X) > 0.9 || Math.Abs(navigation.Y) > 0.9))
                 {
-                    startMoveWhenReady = false;
-                    if (moveDirection.X != 0)
-                        move = model.aLR;
-                    else move = moveDirection.Y > 0 ? model.aDown : model.aUp;
-                    state = State.chargingHit;
+                    if (Math.Abs(navigation.X) >= Math.Abs(navigation.Y) || !model.inAir && navigation.Y > 0) move.stats = stats.aLR;
+                    else move.stats = model.inAir && navigation.Y > 0 ? stats.aDown : stats.aUp;
                 }
                 else
                 {
-                    move = model.a;
-                    BeginMove();
-                } 
-            }
-        }
+                    move.stats = stats.a;
+                }
 
-        private void OnHitKeyUp(float downTimer, int playerIndex)
-        {
-            if (state == State.chargingHit)
-            {
-                if (chargeTime > move.minWait) BeginMove();
-                else startMoveWhenReady = true;
-            }
-        }
-
-        private void BeginMove()
-        {
-            moveBox = BodyFactory.CreateRectangle(World, ConvertUnits.ToSimUnits(move.sqWidth), ConvertUnits.ToSimUnits(move.sqHeight), 0, character.BoundBox.Position, move);
-            moveBox.IgnoreGravity = true;
-            moveBox.IsStatic = false;
-            moveBox.CollidesWith = Category.Cat11;
-            moveBox.CollisionCategories = Category.Cat20;
-            moveBox.Friction = 0;
-
-            if (move.adjustable)
-            {
-                if (Math.Abs(navigation.X) >= Math.Abs(navigation.Y) || !inAir && navigation.Y > 0) moveDirection = faceRight ? new Vector2(1, 0) : new Vector2(-1, 0);
-                else moveDirection = !inAir || navigation.Y < 0 ? new Vector2(0, -1) : new Vector2(0, 1); 
-            }
-            attackTimeLeft = move.duration;
-
-            moveBox.LinearVelocity = moveDirection*move.sqRange/move.duration*1000;
-            moveBox.UserData = new MoveInfo() { direction = moveDirection, chargeTime = chargeTime, playerIndexes = new List<int>() { playerIndex }, move = move };
-
-            state = State.attacking;
-        }
-
-        private bool Collision(Fixture geom1, Fixture geom2, Contact list)
-        {
-            if ((geom2.CollisionCategories == Category.Cat9 || geom2.CollisionCategories == Category.Cat10) && (geom1.Body.Position.Y + character.size.Y / 2 <= geom2.Body.Position.Y + (float)geom2.Body.UserData / 2 && character.VelocityY >= 0))//(geom2.CollisionCategories == Category.All|| geom2.CollisionCategories == Category.Cat10) && 
-            {
-                inAir = false;
-                if (geom2.CollisionCategories == Category.Cat10) onSoftBox = true;
-                NaturalState();
-                jumpsLeft = 3;
-                character.VelocityY = 0;
-                return true;
-            }
-            else if (geom2.CollisionCategories == Category.Cat20)
-            {
-                MoveInfo moveInfo = (MoveInfo)geom2.Body.UserData;
-                if (!moveInfo.playerIndexes.Contains(playerIndex) && !invounerable)
+                if (move.stats != null)
                 {
-                    moveInfo.playerIndexes.Add(playerIndex);
-                    Move hit = moveInfo.move;
-                    Vector2 direction = moveInfo.direction;
-                    if(direction.Y == 0) direction.Y -= 0.4f;
-                    float chargeTime = moveInfo.chargeTime;
-                    float ratio = 0;
-                    if (chargeTime > hit.maxWait) ratio = 1;
-                    else ratio = (chargeTime - hit.minWait) / (hit.maxWait - hit.minWait);
-                    int power = (int)ratio * (hit.maxPower - hit.minPower) + hit.minPower;
-                    int damage = (int)ratio * (hit.maxDamage - hit.minDamage) + hit.minDamage;
-                    character.BoundBox.ApplyLinearImpulse(direction * power * (1 + damagePoints / 100));
-                    damagePoints += damage;
-                    
-                    Manifold man;
-                    list.GetManifold(out man);
-                    if(OnHit != null) OnHit.Invoke(ConvertUnits.ToDisplayUnits(geom2.Body.Position), damage, power, damagePoints, moveInfo.playerIndexes.First(), playerIndex);
+                    if (move.stats.Type == MoveType.Charge)
+                    {
+                        model.setState(CharacterState.chargingHit);
+                    }
+                    else
+                    {
+                        model.setState(CharacterState.attacking, move.stats);
+                        if (move.stats.Start == 0) StartMove();
+                    } 
                 }
             }
-            else if (geom2.CollisionCategories == Category.Cat8)
+        }
+
+        private void SuperKeyDown(float directionX, float directionY, float downTimer, int playerIndex)
+        {
+            if (!model.attackMode)
             {
-                if (OnCharacterDeath != null) OnCharacterDeath.Invoke(this);
+                if (navigation.X == 0 && navigation.Y == 0)
+                {
+                    move.stats = Math.Abs(view.VelocityX) < 3 ? move.stats = stats.x : stats.xLR;
+                }
+                else if (Math.Abs(navigation.X) > Math.Abs(navigation.Y)) move.stats = stats.xLR;
+                else if (navigation.Y > 0) move.stats = stats.xDown;
+                else if (model.jumpsLeft > 0)
+                {
+                    move.stats = stats.xUp;
+                    model.jumpsLeft = 0;
+                }
+                else return;
+
+                if (move.stats != null)
+                {
+                    if (move.stats.Type == MoveType.Charge)
+                    {
+                        move.startMoveWhenReady = false;
+                        model.setState(CharacterState.chargingHit);
+                    }
+                    else
+                    {
+                        model.setState(CharacterState.attacking);
+                        if (move.stats.Start == 0) StartMove();
+                    } 
+                }
             }
+        }
+
+        private void HitKeyUp(float downTimer, int playerIndex)
+        {
+            if (model.state == CharacterState.chargingHit)
+            {
+                if (move.chargeTime > ((ChargeMove)move.stats).MinWait) StartMove();
+                else move.startMoveWhenReady = true;
+            }
+        }
+
+        private void SuperKeyUp(float downTimer, int playerIndex)
+        {
+            if (model.state == CharacterState.chargingSuper)
+            {
+                if (move.chargeTime > ((ChargeMove)move.stats).MinWait) StartMove();
+                else move.startMoveWhenReady = true;
+            }
+        }
+
+        private void StartMove()
+        {
+            move.box = BodyFactory.CreateRectangle(World, ConvertUnits.ToSimUnits(move.stats.SqSize.X), ConvertUnits.ToSimUnits(move.stats.SqSize.Y), 0,
+                view.BoundBox.Position + move.stats.SqFrom, new MoveInfo(this));
+            move.box.IgnoreGravity = true;
+            move.box.IsStatic = false;
+            move.box.CollidesWith = Category.Cat11;
+            move.box.CollisionCategories = Category.Cat20;
+            
+            Vector2 speed = (move.stats.SqTo - move.stats.SqFrom) / (move.stats.End - move.stats.Start);
+            move.box.LinearVelocity = model.faceRight ? (speed + view.Velocity) * new Vector2(1, 1) : (speed + view.Velocity) * new Vector2(-1, 1);
+            move.box.UserData = new MoveInfo(this);
+        }
+
+        private bool Collision(Fixture chara, Fixture obj, Contact list)
+        {
+            if ((obj.CollisionCategories == Category.Cat9 || obj.CollisionCategories == Category.Cat10)
+                && (chara.Body.Position.Y + view.size.Y / 2 <= obj.Body.Position.Y - (float)obj.Body.UserData / 2 && view.VelocityY >= 0))
+            {
+                model.inAir = false;
+                if (obj.CollisionCategories == Category.Cat10) model.onSoftBox = true;
+                NaturalState();
+                model.jumpsLeft = 3;
+                view.VelocityY = 0;
+                return true;
+            }
+            else if (obj.CollisionCategories == Category.Cat9) return true;
+            else if (obj.CollisionCategories == Category.Cat20)
+            {
+                MoveInfo moveInfo = (MoveInfo)obj.Body.UserData;
+                if (!moveInfo.PlayerIndexes.Contains(model.playerIndex) && !model.invounerable)
+                {
+                    moveInfo.PlayerIndexes.Add(model.playerIndex);
+
+                    MoveStats move = moveInfo.move;
+                    float ratio = 0;
+                    if (move.Type == MoveType.Charge && moveInfo.chargeTime < ((ChargeMove)move).MaxWait)
+                        ratio = moveInfo.chargeTime / ((ChargeMove)move).MaxWait;
+                    else ratio = 1;
+                    Vector2 power = ratio * move.Power;
+                    int damage = (int)ratio * move.Damage;
+
+                    view.Velocity = moveInfo.Xdirection * power * (1 + model.damagePoints / 100);
+                    if (Math.Abs(view.VelocityY) == 0) view.VelocityY = -1;
+                    model.damagePoints += damage;
+                    model.setState(CharacterState.takingHit);
+
+                    if (OnHit != null) OnHit.Invoke(ConvertUnits.ToDisplayUnits(obj.Body.Position), damage, model.damagePoints, moveInfo.PlayerIndexes.First(), model.playerIndex, move.hitSound);
+
+                    //if (move.Adjustable && ((AdjustableMove)move).StopAtHit) move.attackTimeLeft = 0; Denne skal på moveboxens oncollision...
+                }
+            }
+            else if (obj.CollisionCategories == Category.Cat7 || obj.CollisionCategories == Category.Cat8) OnCharacterDeath.Invoke(this, obj.CollisionCategories == Category.Cat7);
+            
             return false;
         }
 
@@ -523,19 +427,18 @@ namespace SmashBros.Controllers
         {
             if (geom2.CollisionCategories == Category.Cat10 || geom2.CollisionCategories ==  Category.Cat9)
             {
-                inAir = true;
-                if (!attackMode && jumpsLeft != 2) state = State.falling;
-                onSoftBox = false;
-                jumpsLeft = 2;
-                character.BoundBox.Awake = true;
-                character.VelocityY -= 0.5f;
+                model.inAir = true;
+                if (!model.attackMode && model.jumpsLeft != 2) model.setState(CharacterState.falling);
+                model.onSoftBox = false;
+                model.jumpsLeft = 2;
+                view.BoundBox.Awake = true;
+                view.VelocityY -= 0.5f;
             }
         }
 
-        public delegate void HitOccured(Vector2 pos, int damageDone, int power, int newDamagepoints, int puncher_playerIndex, int reciever_playerIndex);
-        public delegate void CharacterDied(CharacterController characterController);
+        public delegate void HitOccured(Vector2 pos, int damageDone, int newDamagepoints, int puncher_playerIndex, int reciever_playerIndex, GameSoundType soundtype);
+        public delegate void CharacterDied(CharacterController characterController, bool behindScreen = false);
 
-        public event SmashBros.Controllers.SoundController.PlayerSound PlayerSound;
         public event HitOccured OnHit;
         public event CharacterDied OnCharacterDeath;
     }

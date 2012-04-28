@@ -34,22 +34,57 @@ namespace SmashBros.Controllers
 
         public void LoadSelectionMenuSounds(ContentManager content, MenuController controller)
         {
+<<<<<<< HEAD
             menuSounds = new Dictionary<MenuSoundType, object>();
             menuSounds.Add(MenuSoundType.choose, content.Load<SoundEffect>("Sound/Menu/chooseCharacter"));
             //menuSounds.Add(MenuSoundType.optionsInOut, content.Load<SoundEffect>("Sound/"));
             //menuSounds.Add(MenuSoundType.toMapSelection, content.Load<SoundEffect>("Sound/"));
 
-            menuSounds.Add(MenuSoundType.characterSelected, new Dictionary<CharacterStats, SoundEffect>());
-            foreach (CharacterStats character in controller.characterModels)
-                try { ((Dictionary<CharacterStats, SoundEffect>)menuSounds[MenuSoundType.characterSelected]).Add(character, content.Load<SoundEffect>(character.sound_selected)); }
+            menuSounds.Add(MenuSoundType.characterSelected, new Dictionary<Character, SoundEffect>());
+            foreach (Character character in controller.characterModels)
+                try { ((Dictionary<Character, SoundEffect>)menuSounds[MenuSoundType.characterSelected]).Add(character, content.Load<SoundEffect>(character.sound_selected)); }
                 catch { }
+            ((MenuController)controller).MenuSound += PlayMenuSound;
         }
         
-        public void LoadGameSounds(ContentManager content, GamePlayController controller, string background)
+        void LoadGameSounds(ContentManager content, GameController controller, string background)
         {
             gameSounds = new Dictionary<GameSoundType, SoundEffect>();
-            //gameSounds.Add(GameSoundType.hit, content.Load<SoundEffect>("Sound/Game/hit"));
-            //gameSounds.Add(GameSoundType.death, content.Load<SoundEffect>("Sound/Game/hit"));
+            gameSounds.Add(GameSoundType.hit, content.Load<SoundEffect>("Sound/Wolwerine/pain"));
+            gameSounds.Add(GameSoundType.death, content.Load<SoundEffect>("Sound/Game/hit"));
+            ((GameController)controller).GameSound += PlayGameSound;
+=======
+            Unload();
+
+            switch (CurrentState)
+            {
+                case GameState.StartScreen:
+                    background = "";
+                    break;
+                case GameState.CharacterMenu:
+                    background = "";
+                    menuSounds = new Dictionary<MenuSoundType, object>();
+                    menuSounds.Add(MenuSoundType.choose, content.Load<SoundEffect>("Sound/Menu/chooseCharacter"));
+                    //menuSounds.Add(MenuSoundType.optionsInOut, content.Load<SoundEffect>("Sound/"));
+                    //menuSounds.Add(MenuSoundType.toMapSelection, content.Load<SoundEffect>("Sound/"));
+                    
+                    menuSounds.Add(MenuSoundType.characterSelected, new Dictionary<Character, SoundEffect>());
+                    foreach (Character character in ((MenuController)controller).characterModels)
+                        try { ((Dictionary<Character, SoundEffect>)menuSounds[MenuSoundType.characterSelected]).Add(character, content.Load<SoundEffect>(character.sound_selected)); }
+                        catch { }
+                    ((MenuController)controller).MenuSound += PlayMenuSound;
+                    break;
+                case GameState.MapsMenu:
+                    background = "";
+                    break;
+                case GameState.GamePlay:
+                    gameSounds = new Dictionary<GameSoundType, SoundEffect>();
+                    gameSounds.Add(GameSoundType.hit, content.Load<SoundEffect>("Sound/Wolwerine/pain"));
+                    gameSounds.Add(GameSoundType.death, content.Load<SoundEffect>("Sound/Game/hit"));
+                    ((GamePlayController)controller).GameSound += PlayGameSound;
+
+                    playerSounds = new Dictionary<int, Dictionary<PlayerSoundType, SoundEffect>>();
+>>>>>>> b5debc494418de383b99b50a6d77efdf596fe523
 
             playerSounds = new Dictionary<int, Dictionary<PlayerSoundType, SoundEffect>>();
 
@@ -60,16 +95,19 @@ namespace SmashBros.Controllers
                 backgroundMusic.IsLooped = true;
                 backgroundMusic.Play();
             }
+
+            SubscribeToGameState = true;
         }
 
         public void LoadCharacter(ContentManager content, CharacterController controller)
         {
-            playerSounds.Add(controller.model.playerIndex, new Dictionary<PlayerSoundType, SoundEffect>());
+            playerSounds.Add(controller.playerIndex, new Dictionary<PlayerSoundType, SoundEffect>());
 
-            try { playerSounds[controller.model.playerIndex].Add(PlayerSoundType.Jump, content.Load<SoundEffect>(controller.stats.sound_jump)); }
+            try { playerSounds[controller.playerIndex].Add(PlayerSoundType.Jump, content.Load<SoundEffect>(controller.model.sound_jump)); }
             catch { }
-            try { playerSounds[controller.model.playerIndex].Add(PlayerSoundType.Kill, content.Load<SoundEffect>(controller.stats.sound_kill)); }
+            try { playerSounds[controller.playerIndex].Add(PlayerSoundType.Kill, content.Load<SoundEffect>(controller.model.sound_kill)); }
             catch { }
+            controller.PlayerSound += PlayPlayerSound;
         }
 
         public override void Unload()
@@ -99,9 +137,9 @@ namespace SmashBros.Controllers
             {
                 case GameState.StartScreen:
                     break;
-                case GameState.CharacterMenu:
+                case GameState.SelectionMenu:
                     break;
-                case GameState.MapsMenu:
+                case GameState.OptionsMenu:
                     break;
                 case GameState.GamePlay:
                     break;
@@ -111,23 +149,22 @@ namespace SmashBros.Controllers
             {
                 case GameState.StartScreen:
                     break;
-                case GameState.CharacterMenu:
+                case GameState.SelectionMenu:
                     break;
-                case GameState.MapsMenu:
+                case GameState.OptionsMenu:
                     break;
                 case GameState.GamePlay:
                     
                     break;
             }
-            /*
+
             if (Constants.Music && background != "")
             {
-                _backgroundMusic = content.Load<SoundEffect>(background);
+                //_backgroundMusic = content.Load<SoundEffect>(background);
                 backgroundMusic = _backgroundMusic.CreateInstance();
                 backgroundMusic.IsLooped = true;
                 backgroundMusic.Play();
             }
-             * */
         }
 
         public override void Deactivate()
@@ -135,24 +172,25 @@ namespace SmashBros.Controllers
             throw new NotImplementedException();
         }
 
+        public delegate void GameSound(GameSoundType soundtype);
         public void PlayGameSound(GameSoundType soundtype)
         {
             SoundEffect effect;
             if(gameSounds.TryGetValue(soundtype, out effect)) effect.Play();
         }
-
+        public delegate void PlayerSound(int playerIndex, PlayerSoundType soundtype);
         public void PlayPlayerSound(int playerIndex, PlayerSoundType soundtype)
         {
             SoundEffect effect;
             if(playerSounds[playerIndex].TryGetValue(soundtype, out effect)) effect.Play();
         }
-
-        public void PlayMenuSound(MenuSoundType soundtype, CharacterStats character = null)
+        public delegate void MenuSound(MenuSoundType soundtype, Character character = null);
+        public void PlayMenuSound(MenuSoundType soundtype, Character character)
         {
             if (soundtype == MenuSoundType.characterSelected)
             {
                 SoundEffect effect;
-                if (((Dictionary<CharacterStats, SoundEffect>)menuSounds[soundtype]).TryGetValue(character, out effect)) effect.Play();
+                if (((Dictionary<Character, SoundEffect>)menuSounds[soundtype]).TryGetValue(character, out effect)) effect.Play();
             }
             else
             {

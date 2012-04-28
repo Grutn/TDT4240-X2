@@ -377,13 +377,20 @@ namespace SmashBros.Controllers
 
         private void OnCursorCollision(int playerIndex, object targetData, CursorModel cursor)
         {
+<<<<<<< HEAD
+            if (targetData == null) return;
+            if (targetData.GetType() == typeof(CharacterStats))
+            {
+                CharacterStats c = (CharacterStats)targetData;
+                int index = characterModels.IndexOf(c);
+=======
             if (cursor.TargetCategory == Category.Cat5)
             {
                 if (targetData == null) return;
                 //If data is character then show the character pose at the playersIndex pos
-                if (targetData.GetType() == typeof(CharacterStats))
+                if (targetData.GetType() == typeof(Character))
                 {
-                CharacterStats c = (CharacterStats)targetData;
+                    Character c = (Character)targetData;
                     //Finds the index of the character
                     int index = characterModels.IndexOf(c);
                     
@@ -398,6 +405,7 @@ namespace SmashBros.Controllers
                         img.RemoveId(playerIndex);
                     }
                     else characterHover.Add(playerIndex, index);
+>>>>>>> 481371d2ae342a3224c6da18094824e1aaa55a90
 
                     characterThumbs[index].Scale = 1.05f;
                     characterThumbs[index].Rotation = 0.05f;

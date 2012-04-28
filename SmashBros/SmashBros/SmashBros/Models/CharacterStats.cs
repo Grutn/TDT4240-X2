@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace SmashBros.Model
 {
-    public class Character
+    public class CharacterStats
     {
         /// <summary>
         /// Charactername.
@@ -27,6 +28,9 @@ namespace SmashBros.Model
         /// </summary>
         public string image;
 
+        /// <summary>
+        /// sounds to be played when (name)
+        /// </summary>
         public string sound_selected, sound_won, sound_jump, sound_kill, sound_punch; //, sound_hit, sound_chargingHit....
 
         /// <summary>
@@ -55,12 +59,20 @@ namespace SmashBros.Model
         public int gravity;
 
         /// <summary>
+        /// The size of the characters boundbox.
+        /// </summary>
+        public Vector2 size;
+
+        /// <summary>
         /// The corresponding moves when the player presses A whilest holding the stick in some direction, and etc.
         /// </summary>
-        public Move a, aUp, aDown, aLR,
+        public MoveStats a, aUp, aDown, aLR,
             x, xUp, xDown, xLR;
 
         public int ani_noneStart, ani_noneEnd, ani_runStart, ani_runEnd, ani_jumpStart, ani_jumpEnd, ani_fallStart,
             ani_fallEnd, ani_landStart, ani_landEnd, ani_brake, ani_takeHitStart, ani_takeHitEnd;
+
+
+        //
     }
 }

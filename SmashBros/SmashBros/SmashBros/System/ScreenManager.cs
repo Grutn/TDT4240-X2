@@ -89,7 +89,7 @@ namespace SmashBros.System
             if (Constants.DebugMode)
             {
                 elapsedTime += gameTime.ElapsedGameTime.Milliseconds;
-                if (elapsedTime >= 800)
+                if (elapsedTime >= 1500)
                 {
                     Serializing.Reload();
                     elapsedTime = 0;

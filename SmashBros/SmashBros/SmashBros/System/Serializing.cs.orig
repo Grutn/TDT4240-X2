@@ -47,7 +47,18 @@ namespace SmashBros.System
         static List<CharacterStats> charlist;
         public static List<CharacterStats> LoadCharacters()
         {
-            charlist =  LoadFolder<CharacterStats>(CharacterFolder);
+<<<<<<< HEAD
+            
+            charlist = new List<CharacterStats>();
+            foreach (var file in Directory.GetFiles(CharacterFolder))
+            {
+                charlist.Add(JsonConvert.DeserializeObject<CharacterStats>(Read(file)));
+            }
+
+
+=======
+            charlist =  LoadFolder<Character>(CharacterFolder);
+>>>>>>> 481371d2ae342a3224c6da18094824e1aaa55a90
             return charlist;
         }
 
@@ -130,8 +141,12 @@ namespace SmashBros.System
             }
             for (int i = 0; i < 10; i++)
             {
-                CharacterStats c = new CharacterStats()
+<<<<<<< HEAD
+                CharacterStats c = new CharacterStats() { 
+=======
+                Character c = new Character()
                 {
+>>>>>>> 481371d2ae342a3224c6da18094824e1aaa55a90
                     maxSpeed = 5,
                     acceleration = 10,
                     weight = 100,
@@ -164,6 +179,7 @@ namespace SmashBros.System
                 c.animations = "Characters/SpidermanAnimation";
                 c.thumbnail = "Characters/WolverineThumb";
                 c.image = "Characters/WolverineImage";
+<<<<<<< HEAD
                 
                 c.a = new MoveStats(10, 250, 0, 250, 28, 35, 0, 0, new Vector2(10, 0), new Vector2(20, 10), new Vector2(50, 0), new Vector2(10, 10));
                 c.aUp = new ChargeMove(30, 250, 0, 250, 0, 0, 0, 0, new Vector2(0, -20), new Vector2(0, -10), new Vector2(0, -50), new Vector2(10, 10),
@@ -176,7 +192,32 @@ namespace SmashBros.System
                 c.xLR = new MoveStats(10, 100, 0, 100, 0, 0, 0, 0, new Vector2(10,10), new Vector2(0,0), new Vector2(100, 100), new Vector2(50, 50));
                 c.xUp = new BodyMove(10, 1500, 300, 1400, 0, 0, 0, 0, new Vector2(5, 5), new Vector2(0,0), new Vector2(0,0), new Vector2(30, 30), new Vector2(10,20), 100, 1000);
                 c.aDown = new MoveStats(10, 100, 0, 100, 0, 0, 0, 0, new Vector2(10, 10), new Vector2(0, 0), new Vector2(100, 100), new Vector2(50, 50));
+                
+=======
+                c.a = new Move()
+                {
+                    range = false,
+                    adjustable = false,
+                    minWait = 0,
+                    maxWait = 0,
+                    minPower = 10,
+                    maxPower = 10,
+                    minDamage = 10,
+                    maxDamage = 10,
+                    sqRange = 0.8f,
+                    bodyRange = 1,
+                    sqWidth = 10,
+                    sqHeight = 10,
+                    duration = 250,
+                    aniFrom = 28,
+                    aniTo = 35
+                };
 
+                c.aLR = new Move();
+
+                c.x = new Move();
+
+>>>>>>> 481371d2ae342a3224c6da18094824e1aaa55a90
                 if (i == 1)
                 {
                     c.thumbnail = "Characters/SpidermanThumb";
@@ -228,9 +269,68 @@ namespace SmashBros.System
                     c.ani_takeHitStart = 55;
                     c.ani_takeHitEnd = 57;
 
+<<<<<<< HEAD
                     c.a = new MoveStats(100, 250, 0, 0, 0, 0, 0, 0, new Vector2(1, 0.5f), new Vector2(0,0), new Vector2(0,0.8f), new Vector2(10,10));
 
                     c.aUp = new MoveStats(10, 250, 0, 0, 0, 0, 0, 0, new Vector2(10, 10), new Vector2(0, 0), new Vector2(10, 10), new Vector2(10, 10));
+=======
+                    c.a = new Move()
+                    {
+                        range = false,
+                        adjustable = false,
+                        minWait = 0,
+                        maxWait = 0,
+                        minPower = 1,
+                        maxPower = 1,
+                        minDamage = 70,
+                        maxDamage = 100,
+                        sqRange = 0.8f,
+                        bodyRange = 1,
+                        sqWidth = 10,
+                        sqHeight = 10,
+                        duration = 250,
+                        aniFrom = 20,
+                        aniTo = 30
+                    };
+
+                    c.aUp = new Move()
+                    {
+                        range = false,
+                        adjustable = false,
+                        minWait = 0,
+                        maxWait = 0,
+                        minPower = 10,
+                        maxPower = 10,
+                        minDamage = 10,
+                        maxDamage = 10,
+                        sqRange = 0.8f,
+                        bodyRange = 1,
+                        sqWidth = 10,
+                        sqHeight = 10,
+                        duration = 250,
+                        aniFrom = 31,
+                        aniTo = 37
+                    };
+
+                    c.x = new Move()
+                    {
+                        range = false,
+                        adjustable = false,
+                        minWait = 0,
+                        maxWait = 0,
+                        minPower = 10,
+                        maxPower = 10,
+                        minDamage = 10,
+                        maxDamage = 10,
+                        sqRange = 0.8f,
+                        bodyRange = 1,
+                        sqWidth = 10,
+                        sqHeight = 10,
+                        duration = 250,
+                        aniFrom = 45,
+                        aniTo = 54
+                    };
+>>>>>>> 481371d2ae342a3224c6da18094824e1aaa55a90
                 }
                 Write(c, CharacterFolder, "Character" + i);
             }
@@ -356,7 +456,7 @@ namespace SmashBros.System
                 PowerUp p = new PowerUp()
                 {
                     acceleration = r.Next(0, 100),
-                    duration = r.Next(2, 4),
+                    duration = r.Next(0, 100),
                     jumpHeight = r.Next(0, 100),
                     maxSpeed = r.Next(0, 100),
                     weight = r.Next(0, 100),

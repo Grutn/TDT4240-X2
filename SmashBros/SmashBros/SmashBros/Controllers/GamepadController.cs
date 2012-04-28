@@ -35,11 +35,11 @@ namespace SmashBros.Controllers
         /// <summary>
         /// The slected character can only be set by the gamepad itself, it uses the HoverCharacter and checks if Selection key is pressed
         /// </summary>
-        public Character SelectedCharacter { get; set; }
+        public CharacterStats SelectedCharacter { get; set; }
         /// <summary>
         /// Assigned when the players cursor hovers a player
         /// </summary>
-        public Character HoverCharacter { get; set; }
+        public CharacterStats HoverCharacter { get; set; }
 
         public GamepadController(ScreenManager screen, Player playerModel) : base(screen)
         {
