@@ -15,8 +15,13 @@ namespace SmashBros.Controllers
 {
     class PowerUpController : Controller
     {
+        int waitMax = 10, minNew = 1, maxNew = 3;
         List<PowerUp> powerUps;
-        Dictionary<int, PowerUp> activePowerUps;
+        //List with powerups that is picked up, key is playerindex
+        Dictionary<int, PowerUpStatus> activePowerUps;
+        //List with powerups that are lying on map
+        List<PowerUpStatus> waitingPowerUps;
+
         ImageController powerUpImg;
         float elapsedTime = 0, timeToNext;
         Box dropZone;
@@ -28,7 +33,8 @@ namespace SmashBros.Controllers
         {
             this.random = new Random();
             this.dropZone = dropZone;
-            this.activePowerUps = new Dictionary<int, PowerUp>();
+            this.activePowerUps = new Dictionary<int, PowerUpStatus>();
+            this.waitingPowerUps = new List<PowerUpStatus>();
         }
 
         public override void Load(ContentManager content)
@@ -49,17 +55,46 @@ namespace SmashBros.Controllers
         public override void Update(GameTime gameTime)
         {
             elapsedTime += gameTime.ElapsedGameTime.Milliseconds;
-            if (elapsedTime / 1000 > 3)
+            if (elapsedTime / 1000 > random.Next(minNew, maxNew))
             {
                 ImageModel model = powerUpImg.AddPosition(randomDropPosition());
                 model.SetBoundBox(World, 60, 60, Vector2.Zero, Category.Cat6, Category.All);
                 model.BoundBox.OnCollision += OnCollision;
-                model.BoundBox.UserData = randomPowerUp();
                 powerUpImg.AnimateScale(model, 1f, 400, false);
                 elapsedTime = 0;
                 generateTimeToNext();
+
+                PowerUpStatus status = new PowerUpStatus(randomPowerUp(), model);
+                model.BoundBox.UserData = status;
+                waitingPowerUps.Add(status);
+            }
+
+            int count = waitingPowerUps.Count();
+            for (int i = 0; i < count; i++)
+			{
+                PowerUpStatus p = waitingPowerUps[i];
+			    p.ElapsedTime += gameTime.ElapsedGameTime.Milliseconds;
+                if (p.ElapsedTime / 1000 > waitMax)
+                {
+                    waitingPowerUps.RemoveAt(i);
+                    p.Image.DisposBoundBox();
+                    powerUpImg.RemovePosition(p.Image);
+                    count--;
+                }
+			}
+
+            count = activePowerUps.Count();
+            for (int i = 0; i < count; i++)
+            {
+                var p = activePowerUps.ElementAt(i);
+                p.Value.ElapsedTime += gameTime.ElapsedGameTime.Milliseconds;
+                if (p.Value.ElapsedTime / 1000 > p.Value.PowerUp.duration)
+                {
+                    DebugWrite("Player " + p.Key + " lost powerup", true);
+                }
             }
         }
+
 
         private Vector2 randomDropPosition()
         {
@@ -88,7 +123,16 @@ namespace SmashBros.Controllers
                 int playerIndex = 0;
                 //int playerIndex = (int)character.Body.UserData;
                 //GamePadControllers[playerIndex].SelectedCharacter
-                PowerUp powerUp = (PowerUp)powerUpGeom.Body.UserData;
+                PowerUpStatus powerUpStatus = (PowerUpStatus)powerUpGeom.Body.UserData;
+                waitingPowerUps.Remove(powerUpStatus);
+
+                powerUpStatus.ElapsedTime = 0;
+                powerUpStatus.Image.DisposBoundBox();
+                powerUpImg.RemovePosition(powerUpStatus.Image);
+
+                if(activePowerUps.ContainsKey(playerIndex))
+                    activePowerUps[playerIndex] = powerUpStatus;
+                else activePowerUps.Add(playerIndex, powerUpStatus);
 
                 return false;
             }

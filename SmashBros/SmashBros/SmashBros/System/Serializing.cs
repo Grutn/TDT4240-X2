@@ -446,7 +446,7 @@ namespace SmashBros.System
                 PowerUp p = new PowerUp()
                 {
                     acceleration = r.Next(0, 100),
-                    duration = r.Next(0, 100),
+                    duration = r.Next(2, 4),
                     jumpHeight = r.Next(0, 100),
                     maxSpeed = r.Next(0, 100),
                     weight = r.Next(0, 100),
