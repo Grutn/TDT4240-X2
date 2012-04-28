@@ -72,7 +72,7 @@ namespace SmashBros.MySystem
                 gamePads[0].SelectedCharacter = chars[0];
                 gamePads[1].SelectedCharacter = chars[2];
 
-                GamePlayController game = new GamePlayController(this, maps[0]);
+                GamePlayController game = new GamePlayController(this, maps[0], Serializing.LoadGameOptions());
                 ControllerViewManager.AddController(game);
             }
             else

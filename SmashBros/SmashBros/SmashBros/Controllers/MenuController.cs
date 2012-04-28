@@ -300,7 +300,7 @@ namespace SmashBros.Controllers
                 case GameState.GamePlay:
                     if (gameController == null)
                     {
-                        gameController = new GamePlayController(Screen, selectedMap);
+                        gameController = new GamePlayController(Screen, selectedMap, gameOptions);
                         AddController(gameController);
                     }
                     selectionScreen.IsVisible = false;

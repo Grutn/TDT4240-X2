@@ -496,6 +496,15 @@
       <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\GameStuff\CountDown.xnb</Output>
       <Time>2012-04-28T18:26:41.294702+02:00</Time>
     </Item>
+    <Item>
+      <Source>GameStuff\Life.png</Source>
+      <Name>GameStuff\Life</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\GameStuff\Life.xnb</Output>
+      <Time>2012-04-28T20:20:55.7047044+02:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>

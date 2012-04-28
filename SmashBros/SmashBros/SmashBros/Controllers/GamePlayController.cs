@@ -21,20 +21,21 @@ namespace SmashBros.Controllers
     /// </summary>
     public class GamePlayController : Controller
     {
-        int countDownTime = 6;
+        int countDownTime = 5;
+        GameOptions gameOptions;
         MapController map;
         CameraController camera;
-        Dictionary<int,PlayerStats> players;
-
+        Dictionary<int,PlayerStatsController> players;
         ImageController effectImg;
         ImageController countDown;
         PowerUpController powerUps;
 
         int resetPos = 0;
 
-        public GamePlayController(ScreenManager screen, Map selectedMap) : base(screen)
+        public GamePlayController(ScreenManager screen, Map selectedMap, GameOptions gameOptions) : base(screen)
         {
-            this.players = new Dictionary<int,PlayerStats>();
+            this.gameOptions = gameOptions;
+            this.players = new Dictionary<int, PlayerStatsController>();
             this.map = new MapController(screen, selectedMap);
         }
 
@@ -81,25 +82,12 @@ namespace SmashBros.Controllers
                     character.OnCharacterDeath += OnPlayerDeath;
                     //Adds the controller 
                     AddController(character);
-
-                    Vector2 percentPos = new Vector2( 300 * pad.PlayerIndex +70, Constants.WindowHeight -120); 
-
-                    TextBox percent = new TextBox("0%", GetFont("Impact.large"), percentPos + new Vector2(80,50), Color.Black, 1f);
-                    percent.StaticPosition = true;
-                    percent.Layer = 150;
-                    percent.Origin = new Vector2(20, 0);
-                    AddView(percent);
-
-                    TextBox player = new TextBox("Player " + (pad.PlayerIndex + 1), FontDefualt, percentPos + new Vector2(70, 100), pad.PlayerModel.Color, 0.6f);
-                    player.StaticPosition = true;
-                    player.Layer = 150;
-                    AddView(player);
-
-                    ImageView percentBg = new ImageView(content.Load<Texture2D>("GameStuff/PlayerPercentBg"), percentPos,149, true);
-                    AddView(percentBg);
-
                     this.camera.AddCharacterTarget(character);
-                    this.players.Add(pad.PlayerIndex, new PlayerStats(character, percent, player, percentBg));
+
+
+                    players.Add(pad.PlayerIndex, new PlayerStatsController(Screen, character.model, gameOptions));
+                    AddController(players.Last().Value);
+                   // this.players.Add(pad.PlayerIndex, new PlayerStats(character, percent, player, percentBg));
 
                     pad.OnStartPress += OnStartPress;
                     i++;
@@ -145,7 +133,7 @@ namespace SmashBros.Controllers
             
             foreach (var c in players)
             {
-                RemoveController(c.Value.Controller);
+                RemoveController(c.Value);
             }
         }
 
@@ -185,7 +173,7 @@ namespace SmashBros.Controllers
             else resetPos++;
             // else unload characterController
             int gotKilled = characterController.model.playerIndex;
-            int killer = players[gotKilled].LastHitBy;
+            int killer = players[gotKilled].GameStats.LastHitBy;
             players[killer].Killed(characterController.model.playerIndex);
         }
         
@@ -203,58 +191,4 @@ namespace SmashBros.Controllers
         }
     }
 
-    internal class PlayerStats
-    {
-        public PlayerStats(CharacterController controller, TextBox percentText, TextBox playerText, ImageView percentBg)
-        {
-
-            this.PlayerDamageDone = new Dictionary<int, int>();
-            this.PlayerKills = new Dictionary<int, int>();
-            this.Controller = controller;
-            this.percentBox = percentText;
-            this.percentBg = percentBg;
-            this.playerText = playerText;
-        }
-
-        public void Dispose()
-        {
-
-        }
-
-        private TextBox percentBox;
-        private TextBox playerText;
-        private ImageView percentBg;
-
-        public CharacterController Controller { get; private set; }
-        public Dictionary<int,int> PlayerDamageDone { get; private set; }
-        public Dictionary<int,int> PlayerKills { get; private set; }
-        public int DamageDone { get { return PlayerDamageDone.Sum(a => a.Value); } }
-        public int DamagePoints { get; set; }
-        public int HitsDone { get; private set; }
-        public int LastHitBy { get; private set; }
-
-
-
-        public void DidHit(int damageDone, int playerIndexReciever){
-            HitsDone++;
-            if (PlayerDamageDone.ContainsKey(playerIndexReciever))
-                PlayerDamageDone[playerIndexReciever] += damageDone;
-            else
-                PlayerDamageDone.Add(playerIndexReciever, damageDone);
-        }
-
-        public void Killed(int playerIndex)
-        {
-            if (PlayerKills.ContainsKey(playerIndex))
-                PlayerKills[playerIndex]++;
-            else
-                PlayerKills.Add(playerIndex,1);    
-        }
-
-        public void GotHit(int damagePoints, int playerIndex){
-            this.DamagePoints = damagePoints;
-            this.percentBox.Text = damagePoints + "%";
-            this.LastHitBy = playerIndex;
-        }
-    }
 }
