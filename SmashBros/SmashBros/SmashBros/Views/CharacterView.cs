@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using SmashBros.Models;
 using Microsoft.Xna.Framework.Content;
 using SmashBros.Model;
-using SmashBros.System;
+using SmashBros.MySystem;
 
 namespace SmashBros.Views
 {

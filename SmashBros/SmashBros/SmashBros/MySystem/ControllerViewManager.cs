@@ -13,7 +13,7 @@ using FarseerPhysics;
 using System.Collections.Concurrent;
 using Microsoft.Xna.Framework.Content;
 
-namespace SmashBros.System
+namespace SmashBros.MySystem
 {
     public class ControllerViewManager
     {

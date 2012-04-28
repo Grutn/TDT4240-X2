@@ -1,5 +1,6 @@
 Content\background.xnb
 Content\blank.xnb
+Content\GameStuff\PowerUps.xnb
 Content\gradient.xnb
 Content\spiderman.xnb
 Content\Menu\StartScreen.xnb
@@ -51,5 +52,6 @@ Content\Sound\Spiderman\pain.xnb
 Content\Sound\Spiderman\punch.xnb
 Content\Sound\Spiderman\selected.xnb
 Content\Sound\Spiderman\web.xnb
-Content\GameStuff\PowerUps.xnb
+Content\GameStuff\CountDown.xnb
+Content\GameStuff\Life.xnb
 Content\font.xnb

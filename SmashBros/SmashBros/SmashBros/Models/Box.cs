@@ -5,7 +5,7 @@ using System.Text;
 using FarseerPhysics.Factories;
 using FarseerPhysics.Dynamics;
 using System.Runtime.Serialization;
-using SmashBros.System;
+using SmashBros.MySystem;
 
 namespace SmashBros.Model
 {

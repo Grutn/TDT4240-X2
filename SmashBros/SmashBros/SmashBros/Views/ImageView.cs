@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 using System.Diagnostics;
 using System.Collections.Concurrent;
 using SmashBros.Models;
-using SmashBros.System;
+using SmashBros.MySystem;
 
 namespace SmashBros.Views
 {
@@ -64,7 +64,7 @@ namespace SmashBros.Views
                 //bound box that is not static or sensor
                 //If not then used defined curent position
                 Vector2 pos = i.CurrentPos;
-                float rotation = i.Rotation;
+                float rotation = i.CurrentRotation;
                 if (i.BoundBox != null && (!i.BoundBox.IsStatic || !i.BoundBox.FixtureList.First().IsSensor))
                 {
                     pos = ConvertUnits.ToDisplayUnits(i.BoundBox.Position);

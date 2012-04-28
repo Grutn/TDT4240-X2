@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
-using SmashBros.System;
+using SmashBros.MySystem;
 
 namespace SmashBros.Models
 {
@@ -17,18 +17,85 @@ namespace SmashBros.Models
             this.CurrentScale = scale;
         }
 
-        public Vector2 CurrentPos;
-        public float CurrentScale;
-        public int CurrentFrame;
-        public Vector2 Origin;
-        public float Rotation;
+        #region Model Properties
 
+        /// <summary>
+        /// Positions for model
+        /// </summary>
+        public Vector2 CurrentPos, StartPos, EndPos;
+        /// <summary>
+        /// Scales used for model
+        /// </summary>
+        public float CurrentScale, StartScale, EndScale;
+        /// <summary>
+        /// Origin of target
+        /// </summary>
+        public Vector2 Origin;
+        /// <summary>
+        /// Rotation
+        /// </summary>
+        public float CurrentRotation, StartRotation, EndRotation;
+
+        /// <summary>
+        /// An id for ImageModel
+        /// </summary>
+        public int Id { get; set; }
+
+        public bool AnimationOn { get { return animatePos || animateScale; } set { animateScale = false; animatePos = false; } }
+
+     
+        /// <summary>
+        /// loop animation
+        /// </summary>
+        public bool loop { get; set; }
+
+        /// <summary>
+        /// time total for animation
+        /// </summary>
+        public float timeTotal { get; set; }
+
+        /// <summary>
+        /// Time used in animation
+        /// </summary>
+        public int timeUsed { get; set; }
+
+        /// <summary>
+        /// Boolean that is true if pos animation is on
+        /// </summary>
+        public bool animatePos { get; set; }
+
+        /// <summary>
+        /// Boolean that is true if scale animation is on
+        /// </summary>
+        public bool animateScale { get; set; }
+
+        /// <summary>
+        /// BOund box for this image
+        /// </summary>
+        public Body BoundBox { get; set; }
+
+        /// <summary>
+        /// Frames pr second for this istances if it runs frame animation
+        /// </summary>
+        public int FPS;
+
+        /// <summary>
+        /// params for frame animation
+        /// </summary>
+        public int CurrentFrame, StartFrame, EndFrame;
+
+        /// <summary>
+        /// Callback that is run every time the animation reaches a end point
+        /// event if loop
+        /// </summary>
+        public Action<ImageModel> Callback;
+        #endregion
 
 
         internal void SetBoundBox(World World, int width, int height, Vector2 offset,
             Category category = Category.None, Category collidesWith = Category.None, bool isStatic = false)
         {
-            BoundBox = BodyFactory.CreateRectangle(World, ConvertUnits.ToSimUnits(width), 
+            BoundBox = BodyFactory.CreateRectangle(World, ConvertUnits.ToSimUnits(width),
                 ConvertUnits.ToSimUnits(height), 1f);
 
             BoundBox.Position = ConvertUnits.ToSimUnits(CurrentPos) +
@@ -41,7 +108,8 @@ namespace SmashBros.Models
             Origin = new Vector2(width / 2, height / 2);
         }
 
-        internal void BoundBoxDimension(World world, int width, int height, Vector2 offset){
+        internal void BoundBoxDimension(World world, int width, int height, Vector2 offset)
+        {
             DisposBoundBox();
             SetBoundBox(world, width, height, offset);
         }
@@ -51,29 +119,5 @@ namespace SmashBros.Models
             if (BoundBox != null)
                 BoundBox.Dispose();
         }
-
-        public int Id { get; set; }
-
-        public bool AnimationOn { get { return animatePos || animateScale; } set { animateScale = false; animatePos = false; } }
-
-        public Vector2 startPos { get; set; }
-
-        public Vector2 endPos { get; set; }
-
-        public float startScale { get; set; }
-
-        public float endScale { get; set; }
-
-        public bool loop { get; set; }
-
-        public float timeTotal { get; set; }
-
-        public int timeUsed { get; set; }
-
-        public bool animatePos { get; set; }
-
-        public bool animateScale { get; set; }
-
-        public Body BoundBox { get; set; }
     }
 }

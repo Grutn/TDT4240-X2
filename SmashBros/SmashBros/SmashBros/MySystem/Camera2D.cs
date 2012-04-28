@@ -6,8 +6,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using FarseerPhysics.Dynamics;
 
-namespace SmashBros.System
+namespace SmashBros.MySystem
 {
+   
     public class Camera2D
     {
         private const float _minZoom = 0.1f;

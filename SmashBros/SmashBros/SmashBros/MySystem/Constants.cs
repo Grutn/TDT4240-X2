@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SmashBros.System
+namespace SmashBros.MySystem
 {
     public static class Constants
     {

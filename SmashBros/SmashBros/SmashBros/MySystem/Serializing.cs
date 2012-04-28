@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework;
 using System.Reflection;
 using SmashBros.Models;
 
-namespace SmashBros.System
+namespace SmashBros.MySystem
 {
     /// <summary>
     /// Serializing loads different models from json textfiles. 
@@ -356,7 +356,7 @@ namespace SmashBros.System
                 PowerUp p = new PowerUp()
                 {
                     acceleration = r.Next(0, 100),
-                    duration = r.Next(0, 100),
+                    duration = r.Next(2, 4),
                     jumpHeight = r.Next(0, 100),
                     maxSpeed = r.Next(0, 100),
                     weight = r.Next(0, 100),

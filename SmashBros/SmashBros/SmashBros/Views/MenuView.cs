@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using SmashBros.Models;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
-using SmashBros.System;
+using SmashBros.MySystem;
 
 namespace SmashBros.Views
 {

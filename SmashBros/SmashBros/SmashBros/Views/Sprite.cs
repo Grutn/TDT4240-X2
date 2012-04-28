@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using FarseerPhysics.Factories;
-using SmashBros.System;
+using SmashBros.MySystem;
 using FarseerPhysics.Dynamics;
 using System.Diagnostics;
 
