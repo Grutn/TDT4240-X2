@@ -71,9 +71,18 @@ namespace SmashBros.Controllers
         /// </summary>
         public bool newDirection;
 
+        private bool _freezed;
+        public bool Freezed
+        {
+            get { return _freezed; }
+            set
+            {
+                view.Freezed = value;
+                //move.view.Freezed = value;
+            }
+        }
 
-
-        public CharacterController(ScreenManager screen, GamepadController pad, Vector2 startPos) 
+        public CharacterController(ScreenManager screen, GamepadController pad, Vector2 startPos, ImageController moveController) 
             : base(screen)
         {
             model = new CharacterModel(pad, startPos);
@@ -90,7 +99,7 @@ namespace SmashBros.Controllers
             model.resetTimeLeft = 4000;
             model.invounerableTimeLeft = 3000;
             model.invounerable = true;
-            if(move.box != null) move.box.Dispose();
+            if(move.view != null) move.view.Dispose();
         }
 
         public override void Load(ContentManager content)
@@ -130,125 +139,128 @@ namespace SmashBros.Controllers
 
         public override void Update(GameTime gameTime)
         {
-            if (model.resetTimeLeft > 0)
+            if (!view.Freezed)
             {
-                model.resetTimeLeft -= gameTime.ElapsedGameTime.Milliseconds;
-                if (model.resetTimeLeft <= 0)
+                if (model.resetTimeLeft > 0)
                 {
-                    model.resetTimeLeft = -1;
-                    view.Rotation = 0;
-                    view.Scale = 0.6f;
-                }
-                else if (model.resetTimeLeft <= 2000 && model.resetTimeLeft >= 1000)
-                {
-                    model.setState(CharacterState.falling);
-                    AddView(view);
-                    view.BoundBox.IsStatic = false;
-                    view.Scale = (2 - model.resetTimeLeft / 1000) * 0.6f;
-                    view.Rotation += (float)Math.PI * 2 * gameTime.ElapsedGameTime.Milliseconds / 1000;
-                }
-            }
-            else
-            {
-                if (model.invounerable)
-                {
-                    model.invounerableTimeLeft -= gameTime.ElapsedGameTime.Milliseconds;
-                    if (model.invounerableTimeLeft <= 0)
+                    model.resetTimeLeft -= gameTime.ElapsedGameTime.Milliseconds;
+                    if (model.resetTimeLeft <= 0)
                     {
-                        model.invounerable = false;
-                        view.Opacity = 1;
+                        model.resetTimeLeft = -1;
+                        view.Rotation = 0;
+                        view.Scale = 0.6f;
+                    }
+                    else if (model.resetTimeLeft <= 2000 && model.resetTimeLeft >= 1000)
+                    {
+                        model.setState(CharacterState.falling);
+                        AddView(view);
+                        view.BoundBox.IsStatic = false;
+                        view.Scale = (2 - model.resetTimeLeft / 1000) * 0.6f;
+                        view.Rotation += (float)Math.PI * 2 * gameTime.ElapsedGameTime.Milliseconds / 1000;
                     }
                 }
-
-                // Calculating players new velocity
-
-                Vector2 velocityPlus = new Vector2(0, 0);
-                if (!model.attackMode && (Math.Abs(view.VelocityX) < Math.Abs(stats.maxSpeed * navigation.X) || view.VelocityX * navigation.X < 0))
-                    velocityPlus.X += navigation.X * stats.acceleration * gameTime.ElapsedGameTime.Milliseconds / 1000f;
-
-                if (!model.attackMode || model.state == CharacterState.takingHit || move.stats.Type != MoveType.Body 
-                    || Math.Abs(((BodyMove)move.stats).BodyEnd - move.stats.Duration) > move.attackTimeLeft || Math.Abs(((BodyMove)move.stats).BodyStart - move.stats.Duration) < move.attackTimeLeft)
+                else
                 {
-                    if (model.inAir)
-                        velocityPlus.Y += stats.gravity * gameTime.ElapsedGameTime.Milliseconds / 1000f;
-                    else if (view.VelocityX * navigation.X < 0 || navigation.X == 0)
-                        velocityPlus.X += -(view.VelocityX / stats.maxSpeed) * 3 * stats.acceleration * gameTime.ElapsedGameTime.Milliseconds / 1000; 
-                }
-
-                view.Velocity += velocityPlus;
-                if (model.state == CharacterState.attacking && move.stats.Type != MoveType.Range)
-                {
-                    Vector2 moveVelocity = (move.stats.SqTo - move.stats.SqFrom) / (move.stats.End - move.stats.Start);
-                    if (!model.faceRight) moveVelocity *= new Vector2(-1, 1);
-                    move.box.LinearVelocity = moveVelocity + view.Velocity;
-                }
-
-                model.position = view.Position;
-                NaturalState();
-
-                switch (model.state)
-                {
-                    case CharacterState.none:
-                        break;
-                    case CharacterState.running:
-                        view.fps = (int)MathHelper.Clamp(Math.Abs(view.VelocityX) * 4, 5, 100);
-                        break;
-                    case CharacterState.braking:
-                        break;
-                    case CharacterState.jumping:
-                        break;
-                    case CharacterState.falling:
-                        break;
-                    case CharacterState.chargingHit:
-                        move.chargeTime += gameTime.ElapsedGameTime.Milliseconds;
-                        if (move.startMoveWhenReady && move.chargeTime > ((ChargeMove)move.stats).MinWait) model.setState(CharacterState.attacking, move.stats);
-                        break;
-                    case CharacterState.chargingSuper:
-                        move.chargeTime += gameTime.ElapsedGameTime.Milliseconds;
-                        if (move.startMoveWhenReady && move.chargeTime > ((ChargeMove)move.stats).MinWait || move.chargeTime > ((ChargeMove)move.stats).MaxWait) model.setState(CharacterState.attacking);
-                        break;
-                    case CharacterState.attacking:
-                        move.attackTimeLeft -= gameTime.ElapsedGameTime.Milliseconds;
-                        if (move.attackTimeLeft <= 0)
+                    if (model.invounerable)
+                    {
+                        model.invounerableTimeLeft -= gameTime.ElapsedGameTime.Milliseconds;
+                        if (model.invounerableTimeLeft <= 0)
                         {
-                            model.attackMode = false;
-                            if(move.stats.Type != MoveType.Range)
-                                move.box.Dispose();
-                            NaturalState();
+                            model.invounerable = false;
+                            view.Opacity = 1;
                         }
-                        else if (move.attackTimeLeft <= Math.Abs(move.stats.Start - move.stats.Duration))
-                        {
-                            StartMove();
-                            if (move.stats.Adjustable)
+                    }
+
+                    // Calculating players new velocity
+
+                    Vector2 velocityPlus = new Vector2(0, 0);
+                    if (!model.attackMode && (Math.Abs(view.VelocityX) < Math.Abs(stats.maxSpeed * navigation.X) || view.VelocityX * navigation.X < 0))
+                        velocityPlus.X += navigation.X * stats.acceleration * gameTime.ElapsedGameTime.Milliseconds / 1000f;
+
+                    if (!model.attackMode || model.state == CharacterState.takingHit || move.stats.Type != MoveType.Body
+                        || Math.Abs(((BodyMove)move.stats).BodyEnd - move.stats.Duration) > move.attackTimeLeft || Math.Abs(((BodyMove)move.stats).BodyStart - move.stats.Duration) < move.attackTimeLeft)
+                    {
+                        if (model.inAir)
+                            velocityPlus.Y += stats.gravity * gameTime.ElapsedGameTime.Milliseconds / 1000f;
+                        else if (view.VelocityX * navigation.X < 0 || navigation.X == 0)
+                            velocityPlus.X += -(view.VelocityX / stats.maxSpeed) * 3 * stats.acceleration * gameTime.ElapsedGameTime.Milliseconds / 1000;
+                    }
+
+                    view.Velocity += velocityPlus;
+                    if (model.state == CharacterState.attacking && move.stats.Type != MoveType.Range)
+                    {
+                        Vector2 moveVelocity = (move.stats.SqTo - move.stats.SqFrom) / (move.stats.End - move.stats.Start);
+                        if (!model.faceRight) moveVelocity *= new Vector2(-1, 1);
+                        move.view.LinearVelocity = moveVelocity + view.Velocity;
+                    }
+
+                    model.position = view.Position;
+                    NaturalState();
+
+                    switch (model.state)
+                    {
+                        case CharacterState.none:
+                            break;
+                        case CharacterState.running:
+                            view.fps = (int)MathHelper.Clamp(Math.Abs(view.VelocityX) * 4, 5, 100);
+                            break;
+                        case CharacterState.braking:
+                            break;
+                        case CharacterState.jumping:
+                            break;
+                        case CharacterState.falling:
+                            break;
+                        case CharacterState.chargingHit:
+                            move.chargeTime += gameTime.ElapsedGameTime.Milliseconds;
+                            if (move.startMoveWhenReady && move.chargeTime > ((ChargeMove)move.stats).MinWait) model.setState(CharacterState.attacking, move.stats);
+                            break;
+                        case CharacterState.chargingSuper:
+                            move.chargeTime += gameTime.ElapsedGameTime.Milliseconds;
+                            if (move.startMoveWhenReady && move.chargeTime > ((ChargeMove)move.stats).MinWait || move.chargeTime > ((ChargeMove)move.stats).MaxWait) model.setState(CharacterState.attacking);
+                            break;
+                        case CharacterState.attacking:
+                            move.attackTimeLeft -= gameTime.ElapsedGameTime.Milliseconds;
+                            if (move.attackTimeLeft <= 0)
                             {
-                                float angle = move.box.LinearVelocity.X == 0 ? 0 : (float)Math.Atan(move.box.LinearVelocity.Y / move.box.LinearVelocity.X);
-                                angle += model.faceRight ?
-                                    navigation.Y * ((AdjustableMove)move.stats).AdjustAcc * gameTime.ElapsedGameTime.Milliseconds / 1000 :
-                                    -navigation.Y * ((AdjustableMove)move.stats).AdjustAcc * gameTime.ElapsedGameTime.Milliseconds / 1000;
-                                move.box.LinearVelocity = new Vector2(angle) * move.box.LinearVelocity.Length();
+                                model.attackMode = false;
+                                if (move.stats.Type != MoveType.Range)
+                                    move.view.Dispose();
+                                NaturalState();
                             }
-                        }
-                        else if (move.attackTimeLeft <= Math.Abs(move.stats.End - move.stats.Duration))
-                        {
-                            move.box.Dispose();
-                        }
-                        break;
-                    case CharacterState.shielding:
-                        break;
-                    case CharacterState.takingHit:
-                        if (view.VelocityY >= 0)
-                        {
-                            if (move.stats.Type != MoveType.Range) move.box.Dispose();
-                            model.attackMode = false;
-                            NaturalState();
-                        }
-                        break;
-                }
+                            else if (move.attackTimeLeft <= Math.Abs(move.stats.Start - move.stats.Duration))
+                            {
+                                StartMove();
+                                if (move.stats.Adjustable)
+                                {
+                                    float angle = move.view.Velocity.X == 0 ? 0 : (float)Math.Atan(move.view.Velocity.Y / move.view.Velocity.X);
+                                    angle += model.faceRight ?
+                                        navigation.Y * ((AdjustableMove)move.stats).AdjustAcc * gameTime.ElapsedGameTime.Milliseconds / 1000 :
+                                        -navigation.Y * ((AdjustableMove)move.stats).AdjustAcc * gameTime.ElapsedGameTime.Milliseconds / 1000;
+                                    move.view.Velocity = new Vector2(angle) * move.view.Velocity.Length();
+                                }
+                            }
+                            else if (move.attackTimeLeft <= Math.Abs(move.stats.End - move.stats.Duration))
+                            {
+                                move.view.Dispose();
+                            }
+                            break;
+                        case CharacterState.shielding:
+                            break;
+                        case CharacterState.takingHit:
+                            if (view.VelocityY >= 0)
+                            {
+                                if (move.stats.Type != MoveType.Range) move.view.Dispose();
+                                model.attackMode = false;
+                                NaturalState();
+                            }
+                            break;
+                    }
 
-                string p = "Player " + model.playerIndex + " ";
-                DebugWrite(p + "Jumps: ", model.jumpsLeft);
-                DebugWrite(p + "State: ", model.state);
-                DebugWrite(p + "inAir: ", newDirection);
+                    string p = "Player " + model.playerIndex + " ";
+                    DebugWrite(p + "Jumps: ", model.jumpsLeft);
+                    DebugWrite(p + "State: ", model.state);
+                    DebugWrite(p + "inAir: ", newDirection);
+                } 
             }
         }
 
@@ -296,7 +308,7 @@ namespace SmashBros.Controllers
 
         private void HitKeyDown(float directionX, float directionY, float downTimer, int playerIndex)
         {
-            if (!model.attackMode)
+            if (!model.attackMode && !view.Freezed)
             {
                 if (newDirection && (Math.Abs(navigation.X) > 0.9 || Math.Abs(navigation.Y) > 0.9))
                 {
@@ -326,7 +338,7 @@ namespace SmashBros.Controllers
 
         private void SuperKeyDown(float directionX, float directionY, float downTimer, int playerIndex)
         {
-            if (!model.attackMode)
+            if (!model.attackMode && !view.Freezed)
             {
                 if (navigation.X == 0 && navigation.Y == 0)
                 {
@@ -360,7 +372,7 @@ namespace SmashBros.Controllers
 
         private void HitKeyUp(float downTimer, int playerIndex)
         {
-            if (model.state == CharacterState.chargingHit)
+            if (model.state == CharacterState.chargingHit && !view.Freezed)
             {
                 if (move.chargeTime > ((ChargeMove)move.stats).MinWait) StartMove();
                 else move.startMoveWhenReady = true;
@@ -369,7 +381,7 @@ namespace SmashBros.Controllers
 
         private void SuperKeyUp(float downTimer, int playerIndex)
         {
-            if (model.state == CharacterState.chargingSuper)
+            if (model.state == CharacterState.chargingSuper && !view.Freezed)
             {
                 if (move.chargeTime > ((ChargeMove)move.stats).MinWait) StartMove();
                 else move.startMoveWhenReady = true;
@@ -380,18 +392,18 @@ namespace SmashBros.Controllers
         {
             if (!move.moveStarted)
             {
-                move.box = BodyFactory.CreateRectangle(World, ConvertUnits.ToSimUnits(move.stats.SqSize.X), ConvertUnits.ToSimUnits(move.stats.SqSize.Y), 0,
+                move.view = BodyFactory.CreateRectangle(World, ConvertUnits.ToSimUnits(move.stats.SqSize.X), ConvertUnits.ToSimUnits(move.stats.SqSize.Y), 0,
                         view.BoundBox.Position + move.stats.SqFrom, new MoveInfo(this));
-                move.box.IgnoreGravity = true;
-                move.box.IsStatic = false;
-                move.box.CollidesWith = Category.Cat11;
-                move.box.CollisionCategories = Category.Cat20;
+                move.view.IgnoreGravity = true;
+                move.view.IsStatic = false;
+                move.view.CollidesWith = Category.Cat11;
+                move.view.CollisionCategories = Category.Cat20;
 
                 Vector2 velocity = move.stats.Type != MoveType.Range?
                     (move.stats.SqTo - move.stats.SqFrom) / (move.stats.End - move.stats.Start) : ((RangeMove)move.stats).BulletVelocity;
                 if (!model.faceRight) velocity *= new Vector2(-1, 1);
-                move.box.LinearVelocity = velocity + view.Velocity;
-                move.box.UserData = new MoveInfo(this);
+                move.view.LinearVelocity = velocity + view.Velocity;
+                move.view.UserData = new MoveInfo(this);
 
                 move.moveStarted = true;
             }
@@ -432,7 +444,7 @@ namespace SmashBros.Controllers
 
                     if (OnHit != null) OnHit.Invoke(ConvertUnits.ToDisplayUnits(obj.Body.Position), damage, model.damagePoints, moveInfo.PlayerIndexes.First(), model.playerIndex, move.hitSound);
 
-                    //if (move.Adjustable && ((AdjustableMove)move).StopAtHit) move.attackTimeLeft = 0; Denne skal på moveboxens oncollision...
+                    //if (move.Adjustable && ((AdjustableMove)move).StopAtHit) move.attackTimeLeft = 0;
                 }
             }
             else if (obj.CollisionCategories == Category.Cat7 || obj.CollisionCategories == Category.Cat8) OnCharacterDeath.Invoke(this, obj.CollisionCategories == Category.Cat7);

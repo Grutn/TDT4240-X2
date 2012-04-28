@@ -32,7 +32,7 @@ namespace SmashBros.Models
         /// <summary>
         /// The box that punches people on collision.
         /// </summary>
-        public Body box;
+        public Body view;
 
         /// <summary>
         /// Time left to when attack is over.

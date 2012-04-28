@@ -83,6 +83,25 @@ namespace SmashBros.Views
         public bool Blinking = false;
         private bool blinkUp = false;
 
+        private Vector2 FreezedVelocity;
+        private bool _freezed;
+        public bool Freezed
+        {
+            get { return _freezed; }
+            set
+            {
+                if (value)
+                {
+                    FreezedVelocity = Velocity;
+                    Velocity = new Vector2(0, 0);
+                }
+                else
+                {
+                    Velocity = FreezedVelocity;
+                }
+                _freezed = value;
+            }
+        }
 
         public int FramesPerRow = 1;
         public Body BoundBox;
@@ -185,7 +204,7 @@ namespace SmashBros.Views
             get { return BoundBox != null ? BoundBox.LinearVelocity : Vector2.Zero; }
             set
             {
-                if (BoundBox != null)
+                if (!Freezed && BoundBox != null)
                 {
                     BoundBox.LinearVelocity = value;
                 }
@@ -271,7 +290,7 @@ namespace SmashBros.Views
             {
                 SpriteAnimation ani = animations.First();
                 //Updates the elapsed time
-                elapsedTime += gameTime.ElapsedGameTime.Milliseconds;
+                if(!Freezed) elapsedTime += gameTime.ElapsedGameTime.Milliseconds;
                 if (ani.DoAnimation(ref elapsedTime, fps, FramesPerRow, ref frame))
                 {
                     if (!ani.Loop || (animations.Last() != ani))
