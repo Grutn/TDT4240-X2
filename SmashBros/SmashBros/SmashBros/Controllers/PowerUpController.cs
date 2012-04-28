@@ -42,6 +42,7 @@ namespace SmashBros.Controllers
             powerUps = Serializing.LoadPowerUps();
             powerUpImg = new ImageController(Screen, "GameStuff/PowerUps", 120, false);
             powerUpImg.FrameRectangle = new Rectangle(0, 0, 60, 60);
+            powerUpImg.FramesPerRow = 5;
             powerUpImg.ScaleDefault = 0;
             AddController(powerUpImg);
 
@@ -66,6 +67,7 @@ namespace SmashBros.Controllers
 
                 PowerUpStatus status = new PowerUpStatus(randomPowerUp(), model);
                 model.BoundBox.UserData = status;
+                model.CurrentFrame = status.PowerUp.imageFrame;
                 waitingPowerUps.Add(status);
             }
 

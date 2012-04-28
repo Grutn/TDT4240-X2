@@ -179,7 +179,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\GameStuff\PlayerPercentBg.xnb</Output>
-      <Time>2012-04-25T14:58:43.6965438+02:00</Time>
+      <Time>2012-04-28T21:16:33.5359758+02:00</Time>
     </Item>
     <Item>
       <Source>GameStuff\GameEffects.png</Source>
@@ -494,7 +494,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\GameStuff\CountDown.xnb</Output>
-      <Time>2012-04-28T18:26:41.294702+02:00</Time>
+      <Time>2012-04-29T00:02:05.3724268+02:00</Time>
     </Item>
     <Item>
       <Source>GameStuff\Life.png</Source>
@@ -503,7 +503,16 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\GameStuff\Life.xnb</Output>
-      <Time>2012-04-28T20:20:55.7047044+02:00</Time>
+      <Time>2012-04-28T21:11:22.734803+02:00</Time>
+    </Item>
+    <Item>
+      <Source>GameStuff\GameOver.png</Source>
+      <Name>GameStuff\GameOver</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\GameStuff\GameOver.xnb</Output>
+      <Time>2012-04-28T23:01:17.9659049+02:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

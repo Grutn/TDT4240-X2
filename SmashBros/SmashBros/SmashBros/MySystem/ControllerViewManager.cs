@@ -79,7 +79,9 @@ namespace SmashBros.MySystem
                     else
                     {
                         if (controllers.Contains(cont.Item1))
+                        {
                             controllers.Remove(cont.Item1);
+                        }
                     }
                 }
             }

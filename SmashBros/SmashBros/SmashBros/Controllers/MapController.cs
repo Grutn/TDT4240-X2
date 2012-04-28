@@ -109,12 +109,19 @@ namespace SmashBros.Controllers
             boxes = new List<Body>();
         }
 
-        public override void Deactivate()
+        public override void OnNext(MySystem.GameStateManager value)
         {
         }
 
-        public override void OnNext(MySystem.GameStateManager value)
+        public override void Deactivate()
         {
+            RemoveController(bg);
+            RemoveController(map);
+            foreach (var box in boxes)
+            {
+                box.Dispose();
+            }
+            System.GC.SuppressFinalize(this);
         }
     }
 }

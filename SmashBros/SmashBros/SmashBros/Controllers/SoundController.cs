@@ -32,7 +32,7 @@ namespace SmashBros.Controllers
 
         public override void Load(ContentManager content) {}
 
-        public void LoadSelectionMenuSounds(ContentManager content, MenuController controller)
+        public void LoadSelectionMenuSounds(ContentManager content, MenuController controller, List<CharacterStats> characters)
         {
             menuSounds = new Dictionary<MenuSoundType, object>();
             menuSounds.Add(MenuSoundType.choose, content.Load<SoundEffect>("Sound/Menu/chooseCharacter"));
@@ -40,7 +40,7 @@ namespace SmashBros.Controllers
             //menuSounds.Add(MenuSoundType.toMapSelection, content.Load<SoundEffect>("Sound/"));
 
             menuSounds.Add(MenuSoundType.characterSelected, new Dictionary<CharacterStats, SoundEffect>());
-            foreach (CharacterStats character in controller.characterModels)
+            foreach (CharacterStats character in characters)
                 try { ((Dictionary<CharacterStats, SoundEffect>)menuSounds[MenuSoundType.characterSelected]).Add(character, content.Load<SoundEffect>(character.sound_selected)); }
                 catch { }
         }

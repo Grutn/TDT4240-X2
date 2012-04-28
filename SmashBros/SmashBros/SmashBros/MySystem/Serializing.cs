@@ -351,7 +351,7 @@ namespace SmashBros.MySystem
             }
 
             Random r = new Random();
-            for (int i = 0; i < 16; i++)
+            for (int i = 0; i < 21; i++)
             {
                 PowerUp p = new PowerUp()
                 {
