@@ -90,10 +90,11 @@ namespace SmashBros.Controllers
 
         public override void Load(ContentManager content)
         {
-            view = new CharacterView(content, model.stats.animations, 200, 200, 200, 200);
+            view = new CharacterView(content, model.stats.animations, 200, 200, 200, 200, model.stats);
             model.view = view;
             view.Scale = 0.6f;
             view.BoundRect(World, model.stats.size.X, model.stats.size.Y);
+            view.BoundBox.UserData = model.playerIndex;
             view.Layer = 100;
             view.FramesPerRow = 9;
             view.BoundBox.Friction = 0;

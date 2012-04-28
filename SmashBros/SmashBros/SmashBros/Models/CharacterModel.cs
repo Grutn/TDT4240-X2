@@ -38,72 +38,18 @@ namespace SmashBros.Models
         
         public void setState(CharacterState newState, MoveStats move = null)
         {
-            if (newState == CharacterState.attacking && move == null) throw new NotImplementedException();
+            if (newState == CharacterState.attacking || newState == CharacterState.chargingHit || newState == CharacterState.chargingSuper || newState == CharacterState.shielding)
+            {
+                if(newState != CharacterState.shielding && move == null) throw new NotImplementedException();
+                attackMode = true;
+            }
+            else attackMode = false;
+            
+            if(newState == CharacterState.jumping || newState == CharacterState.falling) inAir = true;
+
             if (newState != state)
             {
-                if (newState != CharacterState.running) view.fps = Constants.FPS;
-                switch (newState)
-                {
-                    case CharacterState.none:
-                        attackMode = false;
-                        inAir = false;
-                        if (state == CharacterState.running || state == CharacterState.attacking) view.AddAnimation(0, 2, true);
-                        else if (state == CharacterState.falling || state == CharacterState.jumping)
-                        {
-                            view.StartAnimation(stats.ani_landStart, stats.ani_landEnd, false);
-                            view.AddAnimation(stats.ani_noneStart, stats.ani_noneEnd, true);
-                        }
-                        else view.StartAnimation(stats.ani_noneStart, stats.ani_noneEnd, true);
-                        break;
-                    case CharacterState.running:
-                        attackMode = false;
-                        if (state == CharacterState.falling || state == CharacterState.jumping)
-                        {
-                            view.StartAnimation(stats.ani_landStart, stats.ani_landEnd, false);
-                            view.AddAnimation(stats.ani_runStart, stats.ani_runEnd, true);
-                        }
-                        else view.StartAnimation(stats.ani_runStart, stats.ani_runEnd, true);
-                        break;
-                    case CharacterState.braking:
-                        attackMode = false;
-                        if (state == CharacterState.falling || state == CharacterState.jumping)
-                        {
-                            view.StartAnimation(stats.ani_landStart, stats.ani_landEnd, false);
-                            view.AddAnimation(stats.ani_brake, stats.ani_brake, true);
-                        }
-                        else view.StartAnimation(stats.ani_brake, stats.ani_brake, true);
-                        break;
-                    case CharacterState.jumping:
-                        attackMode = false;
-                        inAir = true;
-                        view.StartAnimation(stats.ani_jumpStart, stats.ani_jumpEnd, false);
-                        view.AddAnimation(stats.ani_fallStart, stats.ani_fallEnd, true);
-                        break;
-                    case CharacterState.falling:
-                        attackMode = false;
-                        inAir = true;
-                        view.StartAnimation(stats.ani_fallStart, stats.ani_fallEnd, true);
-                        break;
-                    case CharacterState.takingHit:
-                        attackMode = true;
-                        view.StartAnimation(stats.ani_takeHitStart, stats.ani_takeHitEnd, true);
-                        break;
-                    case CharacterState.attacking:
-                        attackMode = true;
-                        view.StartAnimation(move.AniFrom, move.AniTo, false);
-                        if (move.Type == MoveType.Body) view.Velocity = ((BodyMove)move).BodySpeed;
-                        break;
-                    case CharacterState.shielding:
-                        attackMode = true;
-                        //invounerable = true;
-                        break;
-                    case CharacterState.chargingHit:
-                        attackMode = true;
-                        break;
-                    case CharacterState.chargingSuper:
-                        attackMode = true;
-                        break;
-                }
+                view.StateChanged(state, newState, move);
                 state = newState;
             }
         }

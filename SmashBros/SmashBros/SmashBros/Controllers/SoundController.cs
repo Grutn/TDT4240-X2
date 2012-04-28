@@ -48,8 +48,8 @@ namespace SmashBros.Controllers
         public void LoadGameSounds(ContentManager content, GamePlayController controller, string background)
         {
             gameSounds = new Dictionary<GameSoundType, SoundEffect>();
-            gameSounds.Add(GameSoundType.hit, content.Load<SoundEffect>("Sound/Wolwerine/pain"));
-            gameSounds.Add(GameSoundType.death, content.Load<SoundEffect>("Sound/Game/hit"));
+            //gameSounds.Add(GameSoundType.hit, content.Load<SoundEffect>("Sound/Game/hit"));
+            //gameSounds.Add(GameSoundType.death, content.Load<SoundEffect>("Sound/Game/hit"));
 
             playerSounds = new Dictionary<int, Dictionary<PlayerSoundType, SoundEffect>>();
 
