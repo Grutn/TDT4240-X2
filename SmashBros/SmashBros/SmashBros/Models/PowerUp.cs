@@ -8,6 +8,10 @@ namespace SmashBros.Model
     public class PowerUp
     {
         /// <summary>
+        /// Which frame on the powerupsheet
+        /// </summary>
+        public int imageFrame;
+        /// <summary>
         /// The duration of the powerup. Countdown starts when some player is equipped with the powerup.
         /// </summary>
         public int duration;

@@ -478,6 +478,15 @@
       <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Maps\CityMapThumb.xnb</Output>
       <Time>2012-04-27T02:06:21.4840892+02:00</Time>
     </Item>
+    <Item>
+      <Source>GameStuff\PowerUps.png</Source>
+      <Name>GameStuff\PowerUps</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\GameStuff\PowerUps.xnb</Output>
+      <Time>2012-04-28T14:30:17.0423809+02:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>

@@ -9,7 +9,9 @@ using SmashBros.System;
 
 namespace SmashBros.Model
 {
-    [DataContract]
+    /// <summary>
+    /// Same as rectangle only with floats instead of ints, and is Serializable
+    /// </summary>
     public class Box
     {
         public Box()
@@ -17,26 +19,23 @@ namespace SmashBros.Model
 
         }
 
-        public Box(float width, float height, float x, float y, float rotation = 0f)
+        public Box(float width, float height, float x, float y)
         {
             this.Width = width;
             this.Height = height;
             this.X = x;
             this.Y = y;
-            this.Rotation = rotation;
         }
 
-        [DataMember]
-        public float Width;
-        [DataMember]
-        public float Height;
-        [DataMember]
-        public float X;
-        [DataMember]
-        public float Y;
-        [DataMember]
-        public float Rotation;
 
+        public float Width;
+        public float Height;
+        public float Friction;
+        public float X;
+        public float Y;
+
+
+        //Creates a body out of this box
         public Body CreateBody(World world, Category collisionCategory = Category.All)
         {
             Body b = BodyFactory.CreateRectangle(
@@ -46,7 +45,6 @@ namespace SmashBros.Model
                 1f, 
                 ConvertUnits.ToSimUnits(X, Y));
 
-            b.Rotation = (float)(Math.PI * Rotation / 180.0);
             b.CollisionCategories = collisionCategory;
             b.IsStatic = true;
             b.Friction = 0.7f;

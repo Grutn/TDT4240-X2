@@ -69,6 +69,8 @@ namespace SmashBros.Model
         /// </summary>
         public Box zoomBox;
 
+        public Box DropZone;
+
         /// <summary>
         /// The assetname of the maps backgroundMusic.
         /// </summary>
@@ -84,14 +86,14 @@ namespace SmashBros.Model
         {
             if (this.boxes == null) this.boxes = new List<Box>();
 
-            this.boxes.Add(new Box(widht, height, x, y, rotation));
+            this.boxes.Add(new Box(widht, height, x, y));
         }
 
         public void AddFloatBox(float x, float y, float widht, float rotation = 0)
         {
             if (this.floatingBoxes == null) this.floatingBoxes = new List<Box>();
 
-            this.floatingBoxes.Add(new Box(widht, 10, x, y, rotation));
+            this.floatingBoxes.Add(new Box(widht, 10, x, y));
         }
 
         public void AddStartPos(float x, float y)
