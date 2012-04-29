@@ -505,6 +505,15 @@
       <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Sound\Spiderman\web.xnb</Output>
       <Time>2012-04-26T01:41:18.9944787+02:00</Time>
     </Item>
+    </Item>
+    <Item>
+      <Source>GameStuff\GameOver.png</Source>
+      <Name>GameStuff\GameOver</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\GameStuff\GameOver.xnb</Output>
+      <Time>2012-04-28T23:01:17.9659049+02:00</Time>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>

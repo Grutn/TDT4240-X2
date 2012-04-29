@@ -56,6 +56,7 @@ namespace SmashBros.Controllers
         /// </summary>
         //public MoveModel move;
 
+
         private MoveController moveC;
 
         /// <summary>
@@ -397,6 +398,7 @@ namespace SmashBros.Controllers
             if (!move.moveStarted)
             {
                 
+
                 move.view = BodyFactory.CreateRectangle(World, ConvertUnits.ToSimUnits(move.stats.SqSize.X), ConvertUnits.ToSimUnits(move.stats.SqSize.Y), 0,
                         view.BoundBox.Position + move.stats.SqFrom, new MoveInfo(this));
                 move.view.IgnoreGravity = true;

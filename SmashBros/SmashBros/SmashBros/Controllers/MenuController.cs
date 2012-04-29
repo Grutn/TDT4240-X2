@@ -25,34 +25,65 @@ namespace SmashBros.Controllers
     public class MenuController : Controller
     {
 
+        #region Private variables
         //Controllers that menucontroller holds
         OverlayMenuController popupMenu;
         CursorController cursors;
         GamePlayController gameController;
-        
+
         //Models tha controller holds
         Map selectedMap;
         GameOptions gameOptions;
         List<Map> mapModels;
-        public List<CharacterStats> characterModels;
-
+        /// <summary>
+        /// Background for startscreen
+        /// </summary>
         ImageController startScreen;
+        /// <summary>
+        /// Background for selection screen
+        /// </summary>
         ImageController selectionScreen;
+        /// <summary>
+        /// Helping tips to user
+        /// </summary>
         TextBox tipsText;
+        /// <summary>
+        /// ContiniueText box, shown  when enough characters is selected
+        /// or map is selected
+        /// </summary>
         TextBox continueText;
+        /// <summary>
+        /// TextFields for player selected
+        /// </summary>
         List<TextBox> playerSelect;
-
-        //Index of character that players hover
-        public Dictionary<int, int> characterHover;
-        
-        //Character images
+        /// <summary>
+        /// Index of character that players hover
+        /// </summary>
+        Dictionary<int, int> characterHover;
+        /// <summary>
+        /// Character thumbnail images
+        /// </summary>
         List<Sprite> characterThumbs;
-        List<ImageController> characterImages;
-
-        //Mapimages
+        /// <summary>
+        ///Map thumbnail sprites
+        /// </summary>
         List<Sprite> mapThumbs;
+        /// <summary>
+        ///List wiht images of character poses
+        /// </summary>
+        List<ImageController> characterImages;
+        /// <summary>
+        /// Gamestats from a gameplay
+        /// </summary>
+        List<PlayerStats> gameStats;
+        /// <summary>
+        /// OptionsButton and helpButton
+        /// </summary>
+        Body optionsBox, helpBox; 
 
-        Body optionsBox, helpBox;
+        #endregion
+
+        List<CharacterStats> characterModels;
 
         public MenuController(ScreenManager screen) : base(screen)
         {
@@ -65,7 +96,9 @@ namespace SmashBros.Controllers
 
         public override void Load(ContentManager content) 
         {
+            //Loads the gameoptions from last time
             gameOptions = Serializing.LoadGameOptions();
+            
             //Creates the controller for the cursor
             cursors = new CursorController(Screen);
             cursors.OnCursorClick += OnCursorClick;
@@ -123,9 +156,8 @@ namespace SmashBros.Controllers
             helpBox = CreateBtn(Constants.WindowWidth - 100, 40, 180, 80, "help");
             optionsBox = CreateBtn(90, 40, 180, 80, "options");
 
-            Screen.soundController.LoadSelectionMenuSounds(content, this);
-
-            Screen.soundController.LoadSelectionMenuSounds(content, this);
+            //Loads the sounds for the menu
+            Screen.soundController.LoadSelectionMenuSounds(content, this, characterModels);
             Screen.soundController.PlayMenuSound(MenuSoundType.choose);
 
             GamePadControllers.ForEach(a => a.OnStartPress += OnStartPress);
@@ -256,9 +288,40 @@ namespace SmashBros.Controllers
 
         public override void Deactivate()
         {
+            //Removes Controllers
             RemoveController(startScreen);
             RemoveController(selectionScreen);
+            RemoveController(popupMenu);
+            RemoveController(cursors);
+            RemoveController(gameController);
+
+            foreach (var item in characterImages)
+            {
+                RemoveController(item);
+            }
+
+            //Removes Views
+            RemoveView(tipsText);
+            RemoveView(continueText);
+
+            foreach (var item in characterThumbs)
+            {
+                RemoveView(item);
+            }
+
+            foreach (var item in mapThumbs)
+            {
+                RemoveView(item);
+            }
+
+            foreach (var item in playerSelect)
+            {
+                RemoveView(item);
+            }
+
         }
+
+        #region Observers
 
         public override void OnNext(GameStateManager value)
         {
@@ -273,8 +336,13 @@ namespace SmashBros.Controllers
                     CharacterSelectionVisible = false;
                     break;
 
-                case GameState.MapsMenu :
+                case GameState.MapsMenu:
                     MapSelectionVisible = false;
+                    break;
+                case GameState.GamePlay:
+                    gameStats = gameController.GetGameStats();
+                    RemoveController(gameController);
+                    gameController = null;
                     break;
             }
 
@@ -286,9 +354,9 @@ namespace SmashBros.Controllers
 
                     AddView(tipsText);
                     break;
-                case GameState.CharacterMenu :
+                case GameState.CharacterMenu:
                     AddController(selectionScreen);
-                    if(value.PreviousState != GameState.MapsMenu)
+                    if (value.PreviousState != GameState.MapsMenu)
                         animateIn = selectionScreen;
 
                     CharacterSelectionVisible = true;
@@ -307,6 +375,9 @@ namespace SmashBros.Controllers
                     startScreen.IsVisible = true;
                     break;
                 case GameState.GamePause:
+                    break;
+                case GameState.GameOver:
+                    CurrentState = GameState.StartScreen;
                     break;
             }
 
@@ -383,13 +454,13 @@ namespace SmashBros.Controllers
                 //If data is character then show the character pose at the playersIndex pos
                 if (targetData.GetType() == typeof(CharacterStats))
                 {
-                CharacterStats c = (CharacterStats)targetData;
+                    CharacterStats c = (CharacterStats)targetData;
                     //Finds the index of the character
                     int index = characterModels.IndexOf(c);
-                    
+
                     //Get character pose by using index
                     ImageController img = characterImages[index];
-                    
+
                     //Checks if player already has an entry for hovered character
                     //Removes the hovered character
                     if (characterHover.ContainsKey(playerIndex))
@@ -401,10 +472,10 @@ namespace SmashBros.Controllers
 
                     characterThumbs[index].Scale = 1.05f;
                     characterThumbs[index].Rotation = 0.05f;
-                   
+
                     img.IsVisible = true;
 
-                    ImageModel model = img.AddPosition(playerIndex * 260, 720 , playerIndex);
+                    ImageModel model = img.AddPosition(playerIndex * 260, 720, playerIndex);
                     img.AnimatePos(model, playerIndex * 260, 450, 300);
                 }
                 else if (targetData.GetType() == typeof(Map))
@@ -420,7 +491,8 @@ namespace SmashBros.Controllers
         {
             if (cursor.TargetCategory == Category.Cat5)
             {
-                if(characterHover.ContainsKey(playerIndex)){
+                if (characterHover.ContainsKey(playerIndex))
+                {
                     var i = characterHover[playerIndex];
                     if (i != -1)
                     {
@@ -448,8 +520,10 @@ namespace SmashBros.Controllers
 
         private void OnBackPress(int playerIndex)
         {
-            CurrentState = (GameState)MathHelper.Clamp((int)CurrentState -1, 0, 5);
-        }
+            CurrentState = (GameState)MathHelper.Clamp((int)CurrentState - 1, 0, 5);
+        } 
+
+        #endregion
 
         private void BgImageAnimationDone(ImageController target, ImageModel imagePosition)
         {
@@ -533,6 +607,13 @@ namespace SmashBros.Controllers
                     RemoveView(continueText);
                 }
             }
+        }
+
+        private bool GameOverVisible
+        {
+            set{
+
+                }
         }
 
     }

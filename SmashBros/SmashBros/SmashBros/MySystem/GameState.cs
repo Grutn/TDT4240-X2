@@ -9,7 +9,8 @@ namespace SmashBros.MySystem
 {
     public enum GameState
     {
-        StartScreen, CharacterMenu, MapsMenu, GamePlay, GamePause
+        StartScreen, CharacterMenu, MapsMenu, GamePlay, GamePause, GameOver
+
     }
 
     public class GameStateManager

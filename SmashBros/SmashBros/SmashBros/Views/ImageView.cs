@@ -22,7 +22,14 @@ namespace SmashBros.Views
         
         public List<ImageModel> imageModels;
         public float Rotation { get; set; }
-        public float Scale { get; set; }
+        public float Scale { get{return imageModels.Count() != 0 ? imageModels.First().CurrentScale : 1f;} 
+            set{
+                if (imageModels.Count() != 0)
+                {
+                    imageModels.First().CurrentScale = value;
+                }
+            }
+        }
         public Rectangle? FrameRectangle;
         public int FramesPrRow = 0;
         public int PosCount { get { return imageModels.Count(); } }
