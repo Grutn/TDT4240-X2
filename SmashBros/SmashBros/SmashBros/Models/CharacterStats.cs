@@ -23,10 +23,16 @@ namespace SmashBros.Model
         /// thumbnail of character.
         /// </summary>
         public string thumbnail;
+
         /// <summary>
         /// Image of the whole character 
         /// </summary>
         public string image;
+
+        /// <summary>
+        /// Assetname of the image that displays all the ranged moves bullets and their animations.
+        /// </summary>
+        public string moveAnimations;
 
         /// <summary>
         /// sounds to be played when (name)

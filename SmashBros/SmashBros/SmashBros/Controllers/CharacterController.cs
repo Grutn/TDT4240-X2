@@ -54,7 +54,9 @@ namespace SmashBros.Controllers
         /// <summary>
         /// The move.move the character is executing.
         /// </summary>
-        public MoveModel move;
+        //public MoveModel move;
+
+        private MoveController moveC;
 
         /// <summary>
         /// DENNE BURDE FJERNES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -82,24 +84,13 @@ namespace SmashBros.Controllers
             }
         }
 
-        public CharacterController(ScreenManager screen, GamepadController pad, Vector2 startPos, ImageController moveController) 
+        public CharacterController(ScreenManager screen, GamepadController pad, Vector2 startPos) 
             : base(screen)
         {
             model = new CharacterModel(pad, startPos);
             move = new MoveModel();
             stats = pad.SelectedCharacter;
             this.pad = pad;
-        }
-
-        public void Reset(Vector2 startPos, bool behindMap)
-        {
-            RemoveView(view);
-            view.BoundBox.IsStatic = true;
-            view.Position = startPos;
-            model.resetTimeLeft = 4000;
-            model.invounerableTimeLeft = 3000;
-            model.invounerable = true;
-            if(move.view != null) move.view.Dispose();
         }
 
         public override void Load(ContentManager content)
@@ -130,6 +121,8 @@ namespace SmashBros.Controllers
             pad.OnSuperkeyDown += SuperKeyDown;
             pad.OnSuperKeyUp += SuperKeyUp;
 
+            moveC = new MoveController(Screen, stats);
+            AddController(moveC);
             Screen.soundController.LoadCharacter(content, this);
         }
 
@@ -264,6 +257,17 @@ namespace SmashBros.Controllers
             }
         }
 
+        public void Reset(Vector2 startPos, bool behindMap)
+        {
+            RemoveView(view);
+            view.BoundBox.IsStatic = true;
+            view.Position = startPos;
+            model.resetTimeLeft = 4000;
+            model.invounerableTimeLeft = 3000;
+            model.invounerable = true;
+            if (move.view != null) move.view.Dispose();
+        }
+
         private void NaturalState()
         {
             if (!model.attackMode)
@@ -392,6 +396,7 @@ namespace SmashBros.Controllers
         {
             if (!move.moveStarted)
             {
+                
                 move.view = BodyFactory.CreateRectangle(World, ConvertUnits.ToSimUnits(move.stats.SqSize.X), ConvertUnits.ToSimUnits(move.stats.SqSize.Y), 0,
                         view.BoundBox.Position + move.stats.SqFrom, new MoveInfo(this));
                 move.view.IgnoreGravity = true;

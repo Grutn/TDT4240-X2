@@ -118,6 +118,7 @@
     <Compile Include="Controllers\GamePlayController.cs" />
     <Compile Include="Controllers\GamepadController.cs" />
     <Compile Include="Controllers\AbstractController.cs" />
+    <Compile Include="Controllers\MoveController.cs" />
     <Compile Include="Controllers\PlayStatsController.cs" />
     <Compile Include="Controllers\ImageController.cs" />
     <Compile Include="Controllers\MapController.cs" />

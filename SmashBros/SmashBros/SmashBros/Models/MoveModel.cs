@@ -12,30 +12,15 @@ namespace SmashBros.Models
         /// <summary>
         /// The move that has either begun, or that is in charging face.
         /// </summary>
-        private MoveStats _stats;
-        public MoveStats stats
-        {
-            get { return _stats; }
-            set
-            {
-                if (value.Type == MoveType.Charge)
-                {
-                    chargeTime = 0;
-                    startMoveWhenReady = false;
-                }
-                else attackTimeLeft = value.Duration;
-                moveStarted = false;
-                _stats = value;
-            }
-        }
+        public MoveStats Stats;
 
         /// <summary>
         /// The box that punches people on collision.
         /// </summary>
-        public Body view;
+        public ImageModel Box;
 
         /// <summary>
-        /// Time left to when attack is over.
+        /// Time left to when move is over.
         /// </summary>
         public float attackTimeLeft = 0;
 
@@ -44,14 +29,10 @@ namespace SmashBros.Models
         /// </summary>
         public float chargeTime = 0;
 
-        /// <summary>
-        /// Is set to true if the character releases attackbutton before minimun chargetime has passed.
-        /// </summary>
-        public bool startMoveWhenReady = false;
-
-        /// <summary>
-        /// Whether the movebox have bin created etc.
-        /// </summary>
-        public bool moveStarted = false;
+        public MoveModel(MoveStats stats)
+        {
+            Stats = stats;
+            attackTimeLeft = stats.Duration;
+        }
     }
 }
