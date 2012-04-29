@@ -1,0 +1,379 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="SmashBros.Controllers.Controller" Collapsed="true">
+    <Position X="13.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEUwgCCBABDAAAoAFAAAACAAAAgQAABEADEAQAAAkCA=</HashCode>
+      <FileName>Controllers\AbstractController.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SmashBros.Controllers.CameraController" Collapsed="true">
+    <Position X="15" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEQAgACAAgBAAAAAAAAAAAAAABADAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Controllers\CameraController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.Controllers.MoveInfo" Collapsed="true">
+    <Position X="32.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAAABAAAAAAAAAAAAAAAAgAAAQAAA=</HashCode>
+      <FileName>Controllers\CharacterController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.Controllers.CharacterController" Collapsed="true">
+    <Position X="12.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEUAgACSAIBABACAAAQAEAAgAQAAACFAAQBAAAAsQAA=</HashCode>
+      <FileName>Controllers\CharacterController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.Controllers.CursorController" Collapsed="true">
+    <Position X="16.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEQBgACAFChBAAAgQAAAACAAABACAAAgIACAAAAAAAA=</HashCode>
+      <FileName>Controllers\CursorController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.Controllers.GamepadController" Collapsed="true">
+    <Position X="15" Y="4.5" Width="1.5" />
+    <NestedTypes>
+      <Delegate Name="SmashBros.Controllers.GamepadController.ButtonDown" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Controllers\GamepadController.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="SmashBros.Controllers.GamepadController.ButtonUp" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Controllers\GamepadController.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="SmashBros.Controllers.GamepadController.ButtonPressed" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Controllers\GamepadController.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="SmashBros.Controllers.GamepadController.NavigationKey" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Controllers\GamepadController.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AEQQkSCQAAHAKEBAACIAWCAAEAAAIAAAFIICAAAAAAI=</HashCode>
+      <FileName>Controllers\GamepadController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.Controllers.GamePlayController" Collapsed="true">
+    <Position X="12.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gEQAlACgCgBAAFAAAAAAAAMAYAABAIAQMAQAAACAQIA=</HashCode>
+      <FileName>Controllers\GamePlayController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.Controllers.ImageController" Collapsed="true">
+    <Position X="16.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AERAgACCAQJAGEABgQAAIAQGAAIIAgEUAggICAAAYEE=</HashCode>
+      <FileName>Controllers\ImageController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.Controllers.MapController" Collapsed="true">
+    <Position X="14.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEQAkAGAAQBAAAIAAAAAAAIAAAAAAEAAAAkAAAQAAAA=</HashCode>
+      <FileName>Controllers\MapController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.Controllers.MenuController" Collapsed="true">
+    <Position X="10.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AGQAgwCAEAFAD4CgAAAAECAIAKAChAAAEQCwAAQAAgA=</HashCode>
+      <FileName>Controllers\MenuController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.Controllers.OverlayMenuController" Collapsed="true">
+    <Position X="17" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AFSAgICBAAhAAJIAADAgACCAEAACAAEECACJBBAAACA=</HashCode>
+      <FileName>Controllers\OverlayMenuController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.Controllers.PlayerStatsController" Collapsed="true">
+    <Position X="10.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEQCgACAAABAAAAAIAAAAIAAACIIQAAABAAAAAQAAAA=</HashCode>
+      <FileName>Controllers\PlayerStatsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.Controllers.PowerUpController" Collapsed="true">
+    <Position X="11" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEQggACAAYBEIAAAAAAwAAAAAAMQAKAAMAQAAAAAAAA=</HashCode>
+      <FileName>Controllers\PowerUpController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.Controllers.SoundController" Collapsed="true">
+    <Position X="12.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEQAgACAAABBEgAAIEACAAACAAAEABAACAgACAAAAAE=</HashCode>
+      <FileName>Controllers\SoundController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.Game" Collapsed="true">
+    <Position X="34" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAhAAAAAAAAAAAAAAAAgAAAAAAAAAAAQ=</HashCode>
+      <FileName>Game.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.Model.Box" Collapsed="true">
+    <Position X="28.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAAAAEAAAAAAAAEAAAAAAAAAYAE=</HashCode>
+      <FileName>Models\Box.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.Model.CharacterStats" Collapsed="true">
+    <Position X="34" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAQAACkIRaAICQIAAgEABEEAQgAJBgBBIAAEI=</HashCode>
+      <FileName>Models\CharacterStats.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.Model.GameModel" Collapsed="true">
+    <Position X="30.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Models\GameModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.Model.Map" Collapsed="true">
+    <Position X="30.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAgAANACAhYAAAAEAAAAQAAUQAACAAA=</HashCode>
+      <FileName>Models\Map.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.Model.MoveStats" Collapsed="true">
+    <Position X="35" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAIAAACQACACIAAAAAAAAAgAAAAgAAABAQAAAAAAIBg=</HashCode>
+      <FileName>Models\MoveStats.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.Model.ChargeMove" Collapsed="true">
+    <Position X="34" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAABAAAAAAAAAABABAQAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\MoveStats.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.Model.AdjustableMove" Collapsed="true">
+    <Position X="35.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAgAAAAAAAAAAAAIgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\MoveStats.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.Model.BodyMove" Collapsed="true">
+    <Position X="34" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAAAABAAAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>Models\MoveStats.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.Model.RangeMove" Collapsed="true">
+    <Position X="36" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAABBAAAAAAAEAAAAgAAAAAAAAAAABAg=</HashCode>
+      <FileName>Models\MoveStats.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.Model.Player" Collapsed="true">
+    <Position X="30.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAACAgABFAAAAEAAAAAAISAAAAAAAAgAEAAAA=</HashCode>
+      <FileName>Models\Player.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.Model.PowerUp" Collapsed="true">
+    <Position X="30.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIBAAAAAAQAAAAAIAAAAAAAAAQgAAAAAAAAAAA=</HashCode>
+      <FileName>Models\PowerUp.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.Model.PowerUpStatus" Collapsed="true">
+    <Position X="32.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAABAAAAAAAAAAAAAAAAAAAAABAAAAAAAQAAAAA=</HashCode>
+      <FileName>Models\PowerUp.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.Model.Weapon" Collapsed="true">
+    <Position X="35.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Weapon.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.Models.CharacterModel" Collapsed="true">
+    <Position X="32.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAASAAUAYABAIAAIAQACAAAAggEAQAAAAAAAkQ=</HashCode>
+      <FileName>Models\CharacterModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.Models.CursorModel" Collapsed="true">
+    <Position X="28.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ADIAAQAAAQAAAoAAAACAEAAAAAAAAgAgIAAAADAAQAA=</HashCode>
+      <FileName>Models\CursorModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.Models.GameOptions" Collapsed="true">
+    <Position X="35.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAIAAAAQAAAAAAAAAAAIAACAAAAAAAAACA=</HashCode>
+      <FileName>Models\GameOptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.Models.ImageModel" Collapsed="true">
+    <Position X="30.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACCIgQCREQAGAAAgAQAEAAQEAAAMAAAAQAAAAoUQAA=</HashCode>
+      <FileName>Models\ImageModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.Models.MenuEntry" Collapsed="true">
+    <Position X="32.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAQBAAAAAQAABiAAAIAACIBAAAAgAAAAA=</HashCode>
+      <FileName>Models\MenuEntry.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.Models.MoveModel" Collapsed="true">
+    <Position X="28.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAQAAAAEAAAAAAACgAAAAACAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>Models\MoveModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.Models.PlayerStats" Collapsed="true">
+    <Position X="32.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAgAAABAAAAAAgAAAAAAAAAAgAAAAABCAAAAAAA=</HashCode>
+      <FileName>Models\PlayerStats.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.MySystem.Camera2D" Collapsed="true">
+    <Position X="19.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ggQCB0BABQEAAIAoEAIIAAAIAggREARTACAAIAIEGxA=</HashCode>
+      <FileName>MySystem\Camera2D.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.MySystem.Constants" Collapsed="true">
+    <Position X="21.25" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAggAEEAAACAAIAAQAgAAEQRAAAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>MySystem\Constants.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.MySystem.ControllerViewManager" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="19.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQSEKAAAiAAAggAAAAAAACCAACAAARAABAAAAMAACA=</HashCode>
+      <FileName>MySystem\ControllerViewManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SmashBros.MySystem.ConvertUnits" Collapsed="true">
+    <Position X="21.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEgABAIAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>MySystem\ConvertUnits.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.MySystem.Draw" Collapsed="true">
+    <Position X="19.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MySystem\Draw.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.MySystem.GameStateManager" Collapsed="true">
+    <Position X="28.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAQAIBAABCCAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>MySystem\GameState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.MySystem.GameStateTracker" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="21.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAAAAAAAACAAAAQAAAAQAAAAA=</HashCode>
+      <FileName>MySystem\GameState.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SmashBros.MySystem.ScreenManager" Collapsed="true">
+    <Position X="19.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIQAAAAAAQgAAgAAIAAAAEgAAAAAAAEEJEAAAAAQAAQ=</HashCode>
+      <FileName>MySystem\ScreenManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.MySystem.Serializing" Collapsed="true">
+    <Position X="21.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QIQABCkAAAgAAICAAAAAAAAgAQIAEAIADCAAIIEAAQA=</HashCode>
+      <FileName>MySystem\Serializing.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.Views.CharacterView" Collapsed="true">
+    <Position X="5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>Views\CharacterView.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.Views.ImageView" Collapsed="true">
+    <Position X="1.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAACAAAoAAAAIIAAAAAAAAABAAAAAAEAAAAAE=</HashCode>
+      <FileName>Views\ImageView.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.Views.IView" Collapsed="true">
+    <Position X="3.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAgAAEAAAAAAAAAAAAAAEAAgAAAgIAAA=</HashCode>
+      <FileName>Views\IView.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.Views.MenuView" Collapsed="true">
+    <Position X="3.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAoAAAAAACAAAgAAAAAwAAAgAAAAAAAAAAAAAAAAoAA=</HashCode>
+      <FileName>Views\MenuView.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.Views.Sprite" Collapsed="true">
+    <Position X="5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACgBMAAAASBBAqAgEIIkBAAAEAAAEgAQADAAAQCMCgA=</HashCode>
+      <FileName>Views\Sprite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SmashBros.Views.TextBox" Collapsed="true">
+    <Position X="6.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAoAogAIAABAAAAAAAAAAAAAACAACAAA=</HashCode>
+      <FileName>Views\TextBox.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

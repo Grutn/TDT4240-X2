@@ -23,7 +23,6 @@ namespace SmashBros.Controllers
         private List<ImageModel> imageModels;
         private ImageView imageView;
         private ConcurrentQueue<Tuple<bool, ImageModel>> imageQueue;
-        private bool emptyList;
         private string assetName;
         private bool visible = true, loaded = false;
         #endregion
@@ -128,7 +127,6 @@ namespace SmashBros.Controllers
 
         public void EmptyList()
         {
-            this.emptyList = true;
         }
 
         /// <summary>
@@ -361,6 +359,17 @@ namespace SmashBros.Controllers
 
         public override void Unload()
         {
+            
+            foreach (var model in imageModels)
+            {
+                if (model.BoundBox != null)
+                {
+                    model.BoundBox.Dispose();
+                }
+            }
+
+            DisposeView(imageView);
+
         }
 
         public override void Update(GameTime gameTime)
@@ -397,9 +406,14 @@ namespace SmashBros.Controllers
 
         public override void Deactivate()
         {
-            imageView.Dispose();
+            foreach (var model in imageModels)
+            {
+                if (model.BoundBox != null)
+                {
+                    model.BoundBox.Enabled = true;
+                }
+            }
             RemoveView(imageView);
-            System.GC.SuppressFinalize(this);
         }
 
         public event AnimationDone OnAnimationDone;

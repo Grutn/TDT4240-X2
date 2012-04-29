@@ -51,7 +51,7 @@ namespace SmashBros.Models
         {
             get
             {
-                if (CurrentTarget != null)
+                if (CurrentTarget != null && CurrentTarget.FixtureList != null && CurrentTarget.FixtureList.Count() != 0)
                 {
                     return CurrentTarget.FixtureList.First().CollisionCategories;
                 }

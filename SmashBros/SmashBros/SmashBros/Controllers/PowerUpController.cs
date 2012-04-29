@@ -51,6 +51,7 @@ namespace SmashBros.Controllers
 
         public override void Unload()
         {
+            DisposeController(powerUpImg);
         }
 
         public override void Update(GameTime gameTime)

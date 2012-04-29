@@ -14,7 +14,7 @@ using System.Diagnostics;
 
 namespace SmashBros.Controllers
 {
-    class CursorController : Controller
+    public class CursorController : Controller
     {
         List<CursorModel> playerCursors;
 
@@ -58,21 +58,23 @@ namespace SmashBros.Controllers
                     EnableCursors = false;
                     break;
                 case GameState.CharacterMenu:
-                    ResetCursors();
                     EnableCursors = true;
                     break;
                 case GameState.MapsMenu:
-                    ResetCursors();
                     EnableCursors = true;
                     break;
                 case GameState.GamePlay:
                     EnableCursors = false;
                     break;
                 case GameState.GamePause:
-                    ResetCursors();
                     EnableCursors = true;
                     break;
+                case GameState.GameOver:
+                    EnableCursors = false;
+                    break;
             }
+
+            ResetCursors();
         }
 
         public override void Deactivate()

@@ -23,7 +23,6 @@ namespace SmashBros.Controllers
     {
         int countDownTime = 5;
         bool waitForGameOverText = false;
-        GameOptions gameOptions;
         MapController map;
         CameraController camera;
         Dictionary<int,PlayerStatsController> players;
@@ -37,15 +36,14 @@ namespace SmashBros.Controllers
 
         int resetPos = 0;
 
-        public GamePlayController(ScreenManager screen, Map selectedMap, GameOptions gameOptions) : base(screen)
+        public GamePlayController(ScreenManager screen, Map selectedMap) : base(screen)
         {
-            this.gameOptions = gameOptions;
             this.players = new Dictionary<int, PlayerStatsController>();
             this.characterControllers = new List<CharacterController>();
             this.map = new MapController(screen, selectedMap);
         }
 
-        public List<PlayerStats> GetGameStats()
+        private List<PlayerStats> GetGameStats()
         {
             List<PlayerStats> gameStats = new List<PlayerStats>();
             foreach (var stats in players)
@@ -94,9 +92,9 @@ namespace SmashBros.Controllers
             //Creates characterController, and PlayerStatsController
             createCharacters(content);
 
-            if (!gameOptions.UseLifes)
+            if (!Screen.GameOptions.UseLifes)
             {
-                timeLeft = new TimeSpan(0, gameOptions.Minutes,0);
+                timeLeft = new TimeSpan(0, Screen.GameOptions.Minutes, 0);
                 timer = new TextBox(getTimeLeft(), FontDefualt, new Vector2(Constants.WindowHeight - 10, 10), Color.White);
                 timer.Layer = 150;
                 timer.StaticPosition = true;
@@ -106,6 +104,8 @@ namespace SmashBros.Controllers
             World.Gravity = new Vector2(0, Constants.GamePlayGravity);
             AddController(camera);
             AddController(this.map);
+
+            SubscribeToGameState = true;
         }
 
         private string getTimeLeft()
@@ -134,7 +134,7 @@ namespace SmashBros.Controllers
                     camera.AddCharacterTarget(character);
 
 
-                    players.Add(pad.PlayerIndex, new PlayerStatsController(Screen, character.model, gameOptions));
+                    players.Add(pad.PlayerIndex, new PlayerStatsController(Screen, character.model, Screen.GameOptions));
                     AddController(players.Last().Value);
 
                     pad.OnStartPress += OnStartPress;
@@ -146,12 +146,27 @@ namespace SmashBros.Controllers
 
         public override void Unload()
         {
+            DisposeController(map, camera, effectImg, countDown, powerUps, gameOver);
+
+            foreach (var c in players)
+            {
+                DisposeController(c.Value);
+            }
+
+            foreach (var c in characterControllers)
+            {
+                DisposeController(c);
+            }
+
+            Screen.ControllerViewManager.camera.ResetCamera();
+
+            //System.GC.SuppressFinalize(this);
         }
 
         public override void Update(GameTime gameTime)
         {
             bool gameOver = false;
-            if (gameOptions.UseLifes)
+            if (Screen.GameOptions.UseLifes)
             {
                 //Checks if all except one player is dead
                 int deadPlayers = 0;
@@ -177,13 +192,44 @@ namespace SmashBros.Controllers
                 }
             }
 
-            DebugWrite("GameOver", gameOver);
 
             //If gameIsOVer and gameOver not is run yet
             //Then add the gameover text and animate it in
             //Game is put in gameover state when animation is done
             if (gameOver && !waitForGameOverText)
             {
+                //Setting the winner
+                if (Screen.GameOptions.UseLifes)
+                {
+                    //if use lifes it finds the player that has lifes left
+                    players.Where(a => a.Value.PlayerStats.LifesLeft != 0).First().Value.PlayerStats.IsWinner = true;
+                }
+                else
+                {
+                    int max = 0;
+                    List<int> winners = new List<int>();
+                    foreach (var p in players)
+                    {
+                        int kills = p.Value.PlayerStats.PlayerKills.Count();
+                        if (kills > max)
+                        {
+                            max = kills;
+                            winners = new List<int>() { p.Value.PlayerStats.PlayerIndex };
+                        }
+                        else if (kills == max)
+                        {
+                            winners.Add(p.Value.PlayerStats.PlayerIndex);
+                        }
+                    }
+
+                    foreach (var p in players)
+                    {
+                        if(winners.Exists(a=> a == p.Value.PlayerStats.PlayerIndex)){
+                            p.Value.PlayerStats.IsWinner = true;
+                        }
+                    }
+
+                }
                 waitForGameOverText = true;
                 AddController(this.gameOver);
                 ImageModel model = this.gameOver.SetPosition(Constants.WindowWidth / 2, Constants.WindowHeight / 2);
@@ -197,10 +243,24 @@ namespace SmashBros.Controllers
         private void OnGameOverDone(ImageModel model)
         {
             CurrentState = GameState.GameOver;
+            AddController(new MenuController(Screen, GetGameStats()));
+            DisposeController(this);
         }
 
         public override void OnNext(GameStateManager value)
         {
+            switch (value.CurrentState)
+            {
+                case GameState.StartScreen:
+                    DisposeController(this);
+                    break;
+                case GameState.CharacterMenu:
+                    DisposeController(this);
+                    break;
+                case GameState.MapsMenu:
+                    DisposeController(this);
+                    break;
+            }
         }
 
         private void OnPlayerHit(Vector2 pos, int damageDone, int newDamagepoints, int puncher, int reciever, GameSoundType soundtype)
@@ -244,6 +304,7 @@ namespace SmashBros.Controllers
             }
             else
             {
+                camera.RemoveCharacterTarget(characterController);
                 RemoveController(characterController);
             }
 
@@ -284,26 +345,6 @@ namespace SmashBros.Controllers
 
         public override void Deactivate()
         {
-            RemoveController(map);
-            RemoveController(camera);
-            RemoveController(effectImg);
-            RemoveController(countDown);
-            RemoveController(powerUps);
-            RemoveController(gameOver);
-
-            Screen.ControllerViewManager.camera.ResetCamera();
-
-            foreach (var c in players)
-            {
-                RemoveController(c.Value);
-            }
-
-            foreach (var c in characterControllers)
-            {
-                RemoveController(c);
-            }
-
-            System.GC.SuppressFinalize(this);
         }
     }
 

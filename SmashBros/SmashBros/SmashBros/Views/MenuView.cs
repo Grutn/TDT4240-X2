@@ -44,6 +44,7 @@ namespace SmashBros.Views
                     ConvertUnits.ToSimUnits(menuWidht), ConvertUnits.ToSimUnits(45), 1f);
                 e.boundBox.CollisionCategories = Category.Cat6;
                 e.boundBox.IsSensor = true;
+                e.boundBox.IsStatic = true;
                 e.boundBox.Position = ConvertUnits.ToSimUnits(StartingPosition.X + menuWidht / 2 + 50, yPos) +
                     ConvertUnits.ToSimUnits(new Vector2(0, menuHeight / 2 - (entries.Count() * 60) / 2));
                    
@@ -79,7 +80,7 @@ namespace SmashBros.Views
 
         public override void Dispose()
         {
-            
+            System.GC.SuppressFinalize(this);   
         }
 
 

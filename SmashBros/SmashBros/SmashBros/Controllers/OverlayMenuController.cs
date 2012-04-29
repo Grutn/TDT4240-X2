@@ -18,14 +18,12 @@ namespace SmashBros.Controllers
         Removed, Colapsed, GamePause, Options, Help
     }
 
-    class OverlayMenuController : Controller
+    public class OverlayMenuController : Controller
     {
         ImageController bg;
         MenuView menuView;
         MenuEntry[] gamePauseMenu, optionsMenu, helpMenu;
-        CursorController cursors;
         PopupState state;
-        GameOptions gameOptions;
 
         public PopupState State
         {
@@ -40,10 +38,8 @@ namespace SmashBros.Controllers
             }
         }
 
-        public OverlayMenuController(ScreenManager screen, CursorController cursors, GameOptions gameOptions) : base(screen)
+        public OverlayMenuController(ScreenManager screen) : base(screen)
         {
-            this.cursors = cursors;
-            this.gameOptions = gameOptions;
         }
 
         public override void Load(ContentManager content)
@@ -67,9 +63,9 @@ namespace SmashBros.Controllers
             createHelpMenu(FontDefualt);
 
             //Adds listeners to cursors
-            cursors.OnCursorClick += OnCursorClick;
-            cursors.OnCursorCollision += OnCursorCollision;
-            cursors.OnCursorSeparation += OnCursorSeparation;
+            Screen.cursorsController.OnCursorClick += OnCursorClick;
+            Screen.cursorsController.OnCursorCollision += OnCursorCollision;
+            Screen.cursorsController.OnCursorSeparation += OnCursorSeparation;
 
             SubscribeToGameState = true;
         }
@@ -87,7 +83,7 @@ namespace SmashBros.Controllers
 
         private void createOptionsMenu(SpriteFont font)
         {
-            var l = gameOptions.CreateMenu(optionsMenuClick);
+            var l = Screen.GameOptions.CreateMenu(optionsMenuClick);
             l.Add(new MenuEntry("Close Menu", closeMenuBox));
             l.Add(new MenuEntry("Exit Game", exitGame));
 
@@ -118,6 +114,8 @@ namespace SmashBros.Controllers
                     CurrentState = GameState.MapsMenu;
                     break;
             }
+            AddController(new MenuController(Screen));
+
         }
 
         private void helpMenuClick(int index)
@@ -138,22 +136,22 @@ namespace SmashBros.Controllers
         {
             if (index == 1)
             {
-                if (gameOptions.UseLifes)
+                if (Screen.GameOptions.UseLifes)
                 {
-                    gameOptions.Lifes = gameOptions.Lifes == 9 ? 1 : gameOptions.Lifes + 1;
+                    Screen.GameOptions.Lifes = Screen.GameOptions.Lifes == 9 ? 1 : Screen.GameOptions.Lifes + 1;
                 }
                 else
                 {
-                    gameOptions.Minutes = gameOptions.Minutes == 9 ? 1 : gameOptions.Minutes+ 1;
+                    Screen.GameOptions.Minutes = Screen.GameOptions.Minutes == 9 ? 1 : Screen.GameOptions.Minutes + 1;
                 }
             }
             else if (index == 0)
             {
-                gameOptions.UseLifes = !gameOptions.UseLifes;
+                Screen.GameOptions.UseLifes = !Screen.GameOptions.UseLifes;
             }
 
-            Serializing.SaveGameOptions(gameOptions);
-            menuView.SetEntries(World, gameOptions.CreateMenu(optionsMenuClick).ToArray());
+            Serializing.SaveGameOptions(Screen.GameOptions);
+            menuView.SetEntries(World, Screen.GameOptions.CreateMenu(optionsMenuClick).ToArray());
         }
 
         private void exitGame(int index)
@@ -333,7 +331,7 @@ namespace SmashBros.Controllers
 
                 bg.IsVisible = true;
                 bg.AnimatePos(175, y, 500, false);
-                cursors.SetCursorCollisionCategory(cursorCategory);
+                Screen.cursorsController.SetCursorCollisionCategory(cursorCategory);
             }
         }
     }

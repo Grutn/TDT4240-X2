@@ -25,7 +25,7 @@ namespace SmashBros.Controllers
         public PlayerStatsController(ScreenManager screen, CharacterModel characterModel, GameOptions gameOptions)
             :base(screen)
         {
-            this.PlayerStats = new PlayerStats(gameOptions.Lifes);
+            this.PlayerStats = new PlayerStats(gameOptions.Lifes, characterModel.playerIndex);
             this.characterModel = characterModel;
             this.gameOptions = gameOptions;
         }
@@ -91,17 +91,19 @@ namespace SmashBros.Controllers
         /// <returns><c>true</c>If character has lifes left</returns>
         public bool GotKilled(out int killerIndex)
         {
-            if(PlayerStats.LifesLeft != 0){
+            if(gameOptions.UseLifes && PlayerStats.LifesLeft != 0){
                 PlayerStats.LifesLeft--;
                 lifes.RemovePosition(PlayerStats.LifesLeft);
             }
             killerIndex = PlayerStats.LastHitBy;
-            DebugWrite("Got killled", PlayerStats.LifesLeft);
             return PlayerStats.LifesLeft != 0;
         }
 
         public override void Unload()
         {
+            DisposeController(lifes);
+            DisposeView(percentBg, percentBox, thumb);
+
         }
 
         public override void Update(GameTime gameTime)

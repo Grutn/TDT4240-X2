@@ -83,5 +83,10 @@ namespace SmashBros.Controllers
         {
             this.characters.Add(character);
         }
+
+        internal void RemoveCharacterTarget(CharacterController character)
+        {
+            this.characters.Remove(character);
+        }
     }
 }

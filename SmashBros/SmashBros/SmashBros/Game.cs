@@ -23,69 +23,27 @@ namespace SmashBros {
         #region Fields
 
         GraphicsDeviceManager graphics;
-        
-        //ScreenManager screenManager;
-
-        static readonly string[] preloadAssets =
-        {
-            "gradient",
-        };
-
         #endregion
 
         #region Initialization
 
         public Game() {
-            Serializing.GenereateModels();
+            if (Constants.DebugMode)
+            {
+                Serializing.GenereateModels();
+            }
 
-            
             Content.RootDirectory = "Content";
-
-            IsMouseVisible = true;
-
+            IsMouseVisible = false;
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferWidth = Constants.WindowWidth;
             graphics.PreferredBackBufferHeight = Constants.WindowHeight;
             graphics.IsFullScreen = Constants.FullScreen;
 
             ConvertUnits.SetDisplayUnitToSimUnitRatio(64f);
-
-
-            Window.AllowUserResizing = false;
-            
             Components.Add(new ScreenManager(this));
         }
 
-        void Window_ClientSizeChanged(object sender, EventArgs e)
-        {
-            graphics.PreferredBackBufferWidth = GraphicsDevice.Viewport.Width;
-            graphics.PreferredBackBufferHeight = GraphicsDevice.Viewport.Height;
-            graphics.ApplyChanges();
-        }
-
-        /// <summary>
-        /// LoadContent will be called once per game and is the place to load
-        /// all of your content.
-        /// </summary>
-        protected override void LoadContent() {
-            foreach (string asset in preloadAssets)
-            {
-                Content.Load<object>(asset);
-            }
-        }
-
-        #endregion
-
-        #region Draw
-
-        /// <summary>
-        /// This is called when the game should draw itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected override void Draw(GameTime gameTime) {
-            GraphicsDevice.Clear(Color.Black);
-            base.Draw(gameTime);
-        }
 
         #endregion
     }

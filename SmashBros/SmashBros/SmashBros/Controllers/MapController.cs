@@ -82,6 +82,12 @@ namespace SmashBros.Controllers
 
         public override void Unload()
         {
+            DisposeController(bg, map);
+            foreach (var box in boxes)
+            {
+                box.Dispose();
+            }
+            //System.GC.SuppressFinalize(this);
         }
 
         float elapsedTime = 0;
@@ -90,7 +96,7 @@ namespace SmashBros.Controllers
 
             elapsedTime += gameTime.ElapsedGameTime.Milliseconds;
             if(elapsedTime >= 2000 ){
-                Dispose();
+                DisposeBoxes();
                 SetUpMap();
                 elapsedTime = 0;
             }
@@ -98,7 +104,7 @@ namespace SmashBros.Controllers
             //bg.Position(screen.controllerViewManager.camera.Position-(new Vector2(2300,1500)*bg.Scale)/2);
         }
 
-        public void Dispose()
+        public void DisposeBoxes()
         {
             foreach (var box in boxes)
             {
@@ -115,13 +121,6 @@ namespace SmashBros.Controllers
 
         public override void Deactivate()
         {
-            RemoveController(bg);
-            RemoveController(map);
-            foreach (var box in boxes)
-            {
-                box.Dispose();
-            }
-            System.GC.SuppressFinalize(this);
         }
     }
 }

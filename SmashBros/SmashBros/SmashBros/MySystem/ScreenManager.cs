@@ -14,21 +14,32 @@ using FarseerPhysics;
 using System.Threading;
 using SmashBros.Model;
 using SmashBros.Controllers;
+using SmashBros.Models;
 
 namespace SmashBros.MySystem
 {
+
+    /// <summary>
+    /// Inits the controllers needed to start the game
+    /// And holds the controllerviewmanager and updates it
+    /// </summary>
     public class ScreenManager : DrawableGameComponent
     {
-        MenuController menu;
         
         public Dictionary<string,SpriteFont> fonts;
         public KeyboardState currentKeyboardState;
         public KeyboardState oldKeyboardState;
         public ControllerViewManager ControllerViewManager;
-        public List<GamepadController> gamePads;
         public GameStateManager gameStateManager;
-        public SoundController soundController;
 
+        //Controllers
+        public SoundController soundController;
+        public List<GamepadController> gamePads;
+        public CursorController cursorsController;
+        public OverlayMenuController popupMenuController;
+        MenuController menu;
+
+        public GameOptions GameOptions;
         
         public ScreenManager(Game game)
             : base(game)
@@ -43,20 +54,25 @@ namespace SmashBros.MySystem
 
         public void Exit()
         {
+            ControllerViewManager.Dispose();
             Exit();
         }
 
         protected override void LoadContent()
         {
             ContentManager content = Game.Content;
+            //Loads the gameoptions from last time
+            GameOptions = Serializing.LoadGameOptions();
 
             ControllerViewManager = new ControllerViewManager(Game.GraphicsDevice, content);
 
+            //Loads and add the fonts to the a list so controllers easily can reach this just by the name of the string
             fonts.Add("Impact", content.Load<SpriteFont>("Fonts/Impact"));
             fonts.Add("Impact.large", content.Load<SpriteFont>("Fonts/Impact.large"));
 
-
+            //Loads the player controllers from file
             List<Player> players = Serializing.LoadPlayerControllers();
+            // Init each player by creating a gamepadcontroller foreach player
             foreach (Player player in players)
             {
                 GamepadController gamepad = new GamepadController(this, player);
@@ -64,40 +80,51 @@ namespace SmashBros.MySystem
                 ControllerViewManager.AddController(gamepad);
             }
 
+            //Creates the controller for the cursor
+            cursorsController = new CursorController(this);
+            ControllerViewManager.AddController(cursorsController);
+
+            //Adds the popupmenu to the controllers stack
+            popupMenuController = new OverlayMenuController(this);
+            ControllerViewManager.AddController(popupMenuController);
+
+
+            //if startgameplay is true then the game goes straight in to game play
             if (Constants.StartGameplay)
             {
+                //Set the right state
                 gameStateManager.CurrentState = GameState.GamePlay;
                 var chars = Serializing.LoadCharacters();
                 var maps = Serializing.LoadMaps();
                 gamePads[0].SelectedCharacter = chars[0];
                 gamePads[1].SelectedCharacter = chars[2];
 
-                GamePlayController game = new GamePlayController(this, maps[0], Serializing.LoadGameOptions());
+                GamePlayController game = new GamePlayController(this, maps[0]);
                 ControllerViewManager.AddController(game);
             }
             else
             {
-                gameStateManager.CurrentState = GameState.CharacterMenu;
+                gameStateManager.CurrentState = GameState.StartScreen;
                 this.menu = new MenuController(this);
                 ControllerViewManager.AddController(menu);
             }
         }
 
+
         float elapsedTime = 0;
         public override void Update(GameTime gameTime)
         {
+
+            //If in debugmode reload the serialized files,
+            //then it's possible to do runtime updates to map and characters
             if (Constants.DebugMode)
             {
                 elapsedTime += gameTime.ElapsedGameTime.Milliseconds;
+                //Updates every 1,5 sec
                 if (elapsedTime >= 1500)
                 {
                     Serializing.Reload();
                     elapsedTime = 0;
-                }
-
-                if (currentKeyboardState.IsKeyUp(Keys.D6) && oldKeyboardState.IsKeyDown(Keys.D6))
-                {
-                    Serializing.Reload();
                 }
             }
             //Save keyboard state so all controllers can access them

@@ -307,8 +307,8 @@ namespace SmashBros.Views
 
         public override void Dispose()
         {
-            texture.Dispose();
             BoundBox.Dispose();
+            System.GC.SuppressFinalize(this);
         }
     }
 }

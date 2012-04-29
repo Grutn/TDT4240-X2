@@ -90,6 +90,14 @@ namespace SmashBros.Controllers
                 RemoveView(view);
             }
         }
+
+        public void DisposeView(params IView[] views)
+        {
+            foreach (var view in views)
+            {
+                Screen.ControllerViewManager.DisposeView(view);                
+            }
+        }
         
         #endregion
 
@@ -110,9 +118,24 @@ namespace SmashBros.Controllers
         /// Removes controller from active controller list
         /// </summary>
         /// <param name="controller">controller to deactivate</param>
-        protected void RemoveController(Controller controller)
+        protected void RemoveController(params Controller[] controller)
         {
-            Screen.ControllerViewManager.RemoveController(controller);
+            foreach (var c in controller)
+            {
+                Screen.ControllerViewManager.RemoveController(c);
+            }
+        }
+
+        /// <summary>
+        /// Dispose the controller
+        /// </summary>
+        /// <param name="controller">controller to deactivate</param>
+        protected void DisposeController(params Controller[] controller)
+        {
+            foreach (var c in controller)
+            {
+                Screen.ControllerViewManager.DisposeController(c);
+            }
         } 
         #endregion
         
