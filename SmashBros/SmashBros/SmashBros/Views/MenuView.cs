@@ -15,25 +15,25 @@ namespace SmashBros.Views
     {
         int menuWidht = 800;
         int menuHeight = 400;
-        List<MenuEntry> entries;
         SpriteFont font;
+        public List<MenuEntry> Entries;
         public Vector2 StartingPosition;
 
 
         public MenuView(SpriteFont font){
-            this.entries = new List<MenuEntry>();
+            this.Entries = new List<MenuEntry>();
             this.font = font;
         }
 
         public void SetEntries(World world, params MenuEntry[] entries)
         {
-            foreach (var e in this.entries)
+            foreach (var e in this.Entries)
             {
                 if(e.boundBox != null)
                     e.boundBox.Dispose();
             }
 
-            this.entries = new List<MenuEntry>();
+            this.Entries = new List<MenuEntry>();
             int i = 0; 
             float yPos = StartingPosition.Y +40;
 
@@ -41,7 +41,7 @@ namespace SmashBros.Views
             {
                 e.textSize = font.MeasureString(e.text);
                 e.boundBox = BodyFactory.CreateRectangle(world, 
-                    ConvertUnits.ToSimUnits(menuWidht), ConvertUnits.ToSimUnits(45), 1f);
+                    ConvertUnits.ToSimUnits(menuWidht), ConvertUnits.ToSimUnits(50), 1f);
                 e.boundBox.CollisionCategories = Category.Cat6;
                 e.boundBox.IsSensor = true;
                 e.boundBox.IsStatic = true;
@@ -53,19 +53,19 @@ namespace SmashBros.Views
                 i++;
                 yPos += e.textSize.Y + 20;
 
-                this.entries.Add(e);
+                this.Entries.Add(e);
             }
         }
 
         public void EmptyEntries()
         {
-            this.entries = new List<MenuEntry>();
+            this.Entries = new List<MenuEntry>();
         }
 
         public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             int i = 0;
-            foreach(var entry in entries){
+            foreach(var entry in Entries){
                 Color color = entry.color;
                 float scale = entry.scale;
                 if (entry.selected && entry.action != null)

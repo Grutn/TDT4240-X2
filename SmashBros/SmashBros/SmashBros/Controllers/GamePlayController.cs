@@ -255,6 +255,9 @@ namespace SmashBros.Controllers
                     ImageModel model = this.gameOver.SetPosition(Constants.WindowWidth / 2, Constants.WindowHeight / 2);
                     //Animates it in
                     this.gameOver.AnimateScale(1f, 800, false);
+
+                    //Disables the start menu so you can't press start while the gameovertext shows
+                    Screen.popupMenuController.Disabled = true;
                 }
             }
             else

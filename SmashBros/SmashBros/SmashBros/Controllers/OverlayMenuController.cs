@@ -30,13 +30,15 @@ namespace SmashBros.Controllers
             get { return state; }
             set
             {
-                if (state != value)
+                if (state != value && !Disabled)
                 {
                     this.state = value;
                     UpdateAccordingToState();
                 }
             }
         }
+
+        public bool Disabled;
 
         public OverlayMenuController(ScreenManager screen) : base(screen)
         {
@@ -69,6 +71,8 @@ namespace SmashBros.Controllers
 
             SubscribeToGameState = true;
         }
+        
+        #region Different menus
 
         private void createGamePauseMenu(SpriteFont font)
         {
@@ -76,7 +80,8 @@ namespace SmashBros.Controllers
             {
                 new MenuEntry("Go to Character Selection", gameMenuClick),
                 new MenuEntry("Go to Map Selection", gameMenuClick),
-                new MenuEntry("Help", gameMenuClick),
+                new MenuEntry("Help", helpMenuShow),
+                new MenuEntry("Close Menu", closeMenuBox),
                 new MenuEntry("Exit Game", exitGame)
             };
         }
@@ -90,6 +95,9 @@ namespace SmashBros.Controllers
             optionsMenu = l.ToArray();
         }
 
+        /// <summary>
+        /// Create the help menu is clicked on
+        /// </summary>
         private void createHelpMenu(SpriteFont font)
         {
             helpMenu = new MenuEntry[]
@@ -103,35 +111,59 @@ namespace SmashBros.Controllers
             };
         }
 
+        /// <summary>
+        /// Runs when game menu is clicked on
+        /// </summary>
+        /// <param name="index">entry Index</param>
         private void gameMenuClick(int index)
         {
             switch (index)
             {
-                case 0 :
+                case 0:
                     CurrentState = GameState.CharacterMenu;
+                    //Deselects players character so menu don't think it's selected
+                    foreach (var pad in GamePadControllers)
+                    {
+                        pad.PlayerModel.SelectedCharacter = null;
+                    }
                     break;
                 case 1:
                     CurrentState = GameState.MapsMenu;
                     break;
             }
+
+            
             AddController(new MenuController(Screen));
 
         }
-
+        /// <summary>
+        /// Runs when help menu is clicked on
+        /// Pints the playser controller
+        /// </summary>
+        /// <param name="index">entry Index</param>
         private void helpMenuClick(int index)
         {
             menuView.SetEntries(World,
-                new MenuEntry("Gampad: \n Navigation : D-Pad or Left Stick \n Normal Attack : A button \n Supper Attack : X button", null) { scale = 0.7f},
+                new MenuEntry(GamePadControllers[index].PlayerModel.HelpToString(), null) { scale = 0.7f },
                 new MenuEntry("Back", helpMenuShow),
                 new MenuEntry("Close Menu", closeMenuBox)
                 );
         }
 
+        /// <summary>
+        /// Runs when back button in help is clicked on
+        /// Prints the first help menu
+        /// </summary>
+        /// <param name="index">entry Index</param>
         private void helpMenuShow(int index)
         {
             menuView.SetEntries(World, helpMenu);
         }
 
+        /// <summary>
+        /// Runs when options menu is clicked on
+        /// </summary>
+        /// <param name="index">entry Index</param>
         private void optionsMenuClick(int index)
         {
             if (index == 1)
@@ -154,10 +186,16 @@ namespace SmashBros.Controllers
             menuView.SetEntries(World, Screen.GameOptions.CreateMenu(optionsMenuClick).ToArray());
         }
 
+        /// <summary>
+        /// Runs when a exit game button is clicked
+        /// </summary>
+        /// <param name="index">entry Index</param>
         private void exitGame(int index)
         {
             Screen.Exit();
         }
+        
+        #endregion
 
         public override void Unload()
         {
@@ -170,6 +208,7 @@ namespace SmashBros.Controllers
 
         public override void OnNext(GameStateManager value)
         {
+            Disabled = false;
             switch (value.CurrentState)
             {
                 case GameState.StartScreen:
@@ -188,8 +227,6 @@ namespace SmashBros.Controllers
                     State = PopupState.GamePause;
                     break;
             }
-
-            //UpdateBgPos();
         }
 
         public override void Deactivate()
@@ -206,6 +243,8 @@ namespace SmashBros.Controllers
             {
                 MenuEntry m = (MenuEntry)targetData;
                 m.action.Invoke(m.entryIndex);
+
+                menuView.Entries.ForEach(a => a.selected = false);
             }
         }
 
@@ -281,8 +320,12 @@ namespace SmashBros.Controllers
             AddView(menuView);
         }
 
+        /// <summary>
+        /// Updates the menu according to which stat it is in
+        /// </summary>
         private void UpdateAccordingToState()
         {
+            //Only run if bt is loaded
             if (bg != null)
             {
                 Category cursorCategory = Category.Cat5;
@@ -290,32 +333,30 @@ namespace SmashBros.Controllers
                 switch (state)
                 {
                     case PopupState.Removed:
-                        cursorCategory = Category.Cat5;
                         y = -700;
                         break;
                     case PopupState.Colapsed:
-                        cursorCategory = Category.Cat5;
                         y = -610;
                         break;
                     case PopupState.GamePause:
-                        cursorCategory = Category.Cat6;
                         break;
                     case PopupState.Options:
-                        cursorCategory = Category.Cat6;
                         break;
                     case PopupState.Help:
-                        cursorCategory = Category.Cat6;
                         break;
 
                 }
 
-
+                //If y == -100  then we know the menubox is open
                 if (y == -100)
                 {
+                    cursorCategory = Category.Cat6;
+                    //Adds back button listener on gamepad
                     foreach (var pad in GamePadControllers)
                     {
                         pad.OnBackPress += closeMenuBox;
                         pad.OnSuperKeyPressed += closeMenuBox;
+                        pad.OnStartPress += closeMenuBox;
                     }
                 }
                 else
@@ -324,6 +365,8 @@ namespace SmashBros.Controllers
                     {
                         pad.OnBackPress -= closeMenuBox;
                         pad.OnSuperKeyPressed -= closeMenuBox;
+                        pad.OnStartPress -= closeMenuBox;
+
                     }
 
                     RemoveView(menuView);
