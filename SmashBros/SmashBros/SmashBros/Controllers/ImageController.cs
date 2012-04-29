@@ -377,6 +377,7 @@ namespace SmashBros.Controllers
                     else
                     {
                         imageModels.Remove(queued.Item2);
+                        if (queued.Item2.BoundBox != null) queued.Item2.BoundBox.Dispose();
                     }
                 }
             }

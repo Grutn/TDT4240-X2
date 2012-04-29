@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SmashBros.Models;
+using SmashBros.Controllers;
 
 namespace SmashBros.Model
 {
@@ -35,7 +36,7 @@ namespace SmashBros.Model
         /// <summary>
         /// The hight of the characters jump.
         /// </summary>
-        public int jumpHeight;
+        public int jumpStartVelocity;
     }
 
     public class PowerUpStatus
@@ -48,6 +49,6 @@ namespace SmashBros.Model
         public float ElapsedTime;
         public PowerUp PowerUp;
         public ImageModel Image;
-        public CharacterModel Player;
+        public CharacterController Player;
     }
 }

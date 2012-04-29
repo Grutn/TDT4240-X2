@@ -16,26 +16,7 @@ using FarseerPhysics.Collision;
 using SmashBros.Models;
 
 namespace SmashBros.Controllers
-{
-    /*
-    internal class MoveInfo
-    {
-        public Vector2 Xdirection;
-        public float chargeTime;
-        public List<int> PlayerIndexes;
-        public MoveStats move;
-
-        public MoveInfo(CharacterController controller)
-        {
-            Xdirection = controller.model.faceRight ? new Vector2(1, 1) : new Vector2(-1, 1);
-            chargeTime = controller.move.chargeTime;
-            PlayerIndexes = new List<int>();
-            PlayerIndexes.Add(controller.model.playerIndex);
-            move = controller.move.stats;
-        }
-    }
-    */
-    
+{   
     public class CharacterController : Controller
     {
         /// <summary>
@@ -88,16 +69,16 @@ namespace SmashBros.Controllers
             set
             {
                 view.Freezed = value;
-                //move.view.Freezed = value;
+                if (value) moves.Freeze();
+                else moves.UnFreeze();
             }
         }
 
-        public CharacterController(ScreenManager screen, GamepadController pad, Vector2 startPos) 
+        public CharacterController(ScreenManager screen, GamepadController pad, Vector2 startPos, int countDown) 
             : base(screen)
         {
-            model = new CharacterModel(pad, startPos);
-            //move = new MoveModel();
             stats = pad.SelectedCharacter;
+            model = new CharacterModel(pad, startPos, countDown, stats);
             moves = new MoveController(Screen, stats, pad.PlayerIndex);
             this.pad = pad;
         }
@@ -108,7 +89,7 @@ namespace SmashBros.Controllers
             model.view = view;
             view.Scale = 0.6f;
             view.BoundRect(World, stats.size.X, stats.size.Y);
-            view.BoundBox.UserData = model;
+            view.BoundBox.UserData = this;
             view.Layer = 100;
             view.FramesPerRow = 9;
             view.BoundBox.Friction = 0;
@@ -151,12 +132,12 @@ namespace SmashBros.Controllers
                         view.Rotation = 0;
                         view.Scale = 0.6f;
                     }
-                    else if (model.resetTimeLeft <= 2000 && model.resetTimeLeft >= 1000)
+                    else if (model.resetTimeLeft <= 4000 && model.resetTimeLeft >= 2000)
                     {
                         model.setState(CharacterState.falling);
                         AddView(view);
                         view.BoundBox.IsStatic = false;
-                        view.Scale = (2 - model.resetTimeLeft / 1000) * 0.6f;
+                        view.Scale = 0.6f - (model.resetTimeLeft - 2000) / 2000 * 0.6f;
                         view.Rotation += (float)Math.PI * 2 * gameTime.ElapsedGameTime.Milliseconds / 1000;
                     }
                 }
@@ -175,8 +156,8 @@ namespace SmashBros.Controllers
                     // Calculating players new velocity
 
                     Vector2 velocityPlus = new Vector2(0, 0);
-                    if (!model.attackMode && (Math.Abs(view.VelocityX) < Math.Abs(stats.maxSpeed * navigation.X) || view.VelocityX * navigation.X < 0))
-                        velocityPlus.X += navigation.X * stats.acceleration * gameTime.ElapsedGameTime.Milliseconds / 1000f;
+                    if (!model.attackMode && (Math.Abs(view.VelocityX) < Math.Abs(model.maxSpeed * navigation.X) || view.VelocityX * navigation.X < 0))
+                        velocityPlus.X += navigation.X * model.acceleration * gameTime.ElapsedGameTime.Milliseconds / 1000f;
 
                     if (!model.attackMode || model.state == CharacterState.takingHit || currentMove.Stats.Type != MoveType.Body
                         || Math.Abs(((BodyMove)currentMove.Stats).BodyEnd - currentMove.Stats.Duration) > currentMove.attackTimeLeft || Math.Abs(((BodyMove)currentMove.Stats).BodyStart - currentMove.Stats.Duration) < currentMove.attackTimeLeft)
@@ -184,7 +165,7 @@ namespace SmashBros.Controllers
                         if (model.inAir)
                             velocityPlus.Y += stats.gravity * gameTime.ElapsedGameTime.Milliseconds / 1000f;
                         else if (view.VelocityX * navigation.X < 0 || navigation.X == 0)
-                            velocityPlus.X += -(view.VelocityX / stats.maxSpeed) * 3 * stats.acceleration * gameTime.ElapsedGameTime.Milliseconds / 1000;
+                            velocityPlus.X += -(view.VelocityX / model.maxSpeed) * 3 * model.acceleration * gameTime.ElapsedGameTime.Milliseconds / 1000;
                     }
 
                     view.Velocity += velocityPlus;
@@ -285,7 +266,7 @@ namespace SmashBros.Controllers
             RemoveView(view);
             view.BoundBox.IsStatic = true;
             view.Position = startPos;
-            model.resetTimeLeft = 4000;
+            model.resetTimeLeft = 7000;
             model.invounerableTimeLeft = 3000;
             model.invounerable = true;
             if (currentMove != null)
@@ -308,6 +289,7 @@ namespace SmashBros.Controllers
 
         public override void OnNext(GameStateManager value)
         {
+            
         }
 
         public override void Deactivate()
@@ -322,7 +304,7 @@ namespace SmashBros.Controllers
                 if (directionY < 0 && newDirection && model.jumpsLeft > 1)
                 {
                     model.setState(CharacterState.jumping);
-                    view.VelocityY = -10;
+                    view.VelocityY = -model.JumpStartVelocity;
                     model.jumpsLeft--;
                 }
                 if (directionY > 0.9)
@@ -339,7 +321,7 @@ namespace SmashBros.Controllers
 
         private void HitKeyDown(float directionX, float directionY, float downTimer, int playerIndex)
         {
-            if (!model.attackMode && !view.Freezed)
+            if (!model.attackMode)
             {
                 MoveStats moveStats;
                 if (newDirection && (Math.Abs(navigation.X) > 0.9 || Math.Abs(navigation.Y) > 0.9))
@@ -367,7 +349,7 @@ namespace SmashBros.Controllers
 
         private void SuperKeyDown(float directionX, float directionY, float downTimer, int playerIndex)
         {
-            if (!model.attackMode && !view.Freezed)
+            if (!model.attackMode)
             {
                 MoveStats moveStats;
                 if (navigation.X == 0 && navigation.Y == 0)
@@ -402,7 +384,7 @@ namespace SmashBros.Controllers
 
         private void HitKeyUp(float downTimer, int playerIndex)
         {
-            if (model.state == CharacterState.chargingHit && !view.Freezed)
+            if (model.state == CharacterState.chargingHit)
             {
                 if (currentMove.chargeTime > ((ChargeMove)currentMove.Stats).MinWait) moves.StartMove(view.Position, view.Velocity, currentMove);
                 else startAfterMinCharge = true;
@@ -411,11 +393,33 @@ namespace SmashBros.Controllers
 
         private void SuperKeyUp(float downTimer, int playerIndex)
         {
-            if (model.state == CharacterState.chargingSuper && !view.Freezed)
+            if (model.state == CharacterState.chargingSuper)
             {
                 if (currentMove.chargeTime > ((ChargeMove)currentMove.Stats).MinWait) moves.StartMove(view.Position, view.Velocity, currentMove);
                 else startAfterMinCharge = true;
             }
+        }
+
+        public void AddPowerUp(PowerUp powerUp)
+        {
+            model.maxSpeed += powerUp.maxSpeed;
+            model.acceleration += powerUp.acceleration;
+            model.weight += powerUp.weight;
+            model.JumpStartVelocity += powerUp.jumpStartVelocity;
+            //model.powerUp += powerUp.power;
+
+            view.Blinking = true;
+        }
+
+        public void RemovePowerUp(PowerUp powerUp)
+        {
+            model.maxSpeed -= powerUp.maxSpeed;
+            model.acceleration -= powerUp.acceleration;
+            model.weight -= powerUp.weight;
+            model.JumpStartVelocity -= powerUp.jumpStartVelocity;
+            //model.powerUp -= powerUp.power;
+
+            view.Blinking = false;
         }
 
         private bool Collision(Fixture chara, Fixture obj, Contact list)
@@ -446,7 +450,7 @@ namespace SmashBros.Controllers
                     Vector2 power = ratio * stats.Power;
                     int damage = (int)ratio * stats.Damage;
 
-                    view.Velocity = move.Xdirection * power * (1 + model.damagePoints / 100);
+                    view.Velocity = move.Xdirection * power * (1 + model.damagePoints / 100) * (100 / model.weight);
                     if (Math.Abs(view.VelocityY) == 0) view.VelocityY = -1;
                     model.damagePoints += damage;
                     model.setState(CharacterState.takingHit);

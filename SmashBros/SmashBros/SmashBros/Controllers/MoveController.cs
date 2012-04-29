@@ -16,10 +16,9 @@ namespace SmashBros.Controllers
         
         private ImageController Img;
         private List<MoveModel> moves;
-        public MoveModel currentMove;
 
         public MoveController(ScreenManager screen, CharacterStats characterStats, int index)
-            :base(screen)
+            : base(screen)
         {
             Img = new ImageController(Screen, characterStats.moveAnimations, 120, false);
             moves = new List<MoveModel>();
@@ -38,11 +37,7 @@ namespace SmashBros.Controllers
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            /*
-            foreach (MoveModel move in moves)
-            {
-            }
-            */
+            
         }
 
         public override void OnNext(GameStateManager value)
@@ -60,25 +55,38 @@ namespace SmashBros.Controllers
 
         public MoveModel newMove(MoveStats stats, bool right)
         {
-            moves.Add(currentMove);
-            return new MoveModel(stats, right, playerIndex);
+            MoveModel move = new MoveModel(stats, right, playerIndex);
+            moves.Add(move);
+            return move;
         }
 
         public void StartMove(Vector2 characterPosition, Vector2 characterVelocity, MoveModel move)
         {
             if (!move.moveStarted)
             {
-                move.Box.SetBoundBox(World, (int)currentMove.Stats.SqSize.X, (int)currentMove.Stats.SqSize.Y, currentMove.Stats.SqFrom, FarseerPhysics.Dynamics.Category.Cat11);
+                move.Box = Img.AddPosition(characterPosition);
+                move.Box.SetBoundBox(World, (int)move.Stats.SqSize.X, (int)move.Stats.SqSize.Y, move.Stats.SqFrom, FarseerPhysics.Dynamics.Category.Cat11);
                 move.Box.BoundBox.IgnoreGravity = true;
                 move.Box.BoundBox.IsStatic = false;
                 move.Box.BoundBox.CollidesWith = Category.Cat11;
                 move.Box.BoundBox.CollisionCategories = Category.Cat20;
 
-                Vector2 velocity = currentMove.Stats.Type != MoveType.Range ?
-                        (currentMove.Stats.SqTo - currentMove.Stats.SqFrom) / (currentMove.Stats.End - currentMove.Stats.Start) : ((RangeMove)currentMove.Stats).BulletVelocity;
-                velocity *= currentMove.Xdirection;
+                Vector2 velocity = move.Stats.Type != MoveType.Range ?
+                        (move.Stats.SqTo - move.Stats.SqFrom) / (move.Stats.End - move.Stats.Start) : ((RangeMove)move.Stats).BulletVelocity;
+                velocity *= move.Xdirection;
                 move.Box.BoundBox.LinearVelocity = velocity + characterVelocity;
-                move.Box.BoundBox.UserData = currentMove;
+                move.Box.BoundBox.UserData = move;
+
+                if (move.Stats.Type == MoveType.Range)
+                {
+                    move.Box.StartFrame = ((RangeMove)move.Stats).AniBulletFrom;
+                    move.Box.EndFrame = ((RangeMove)move.Stats).AniBulletTo;
+                }
+                else
+                {
+                    move.Box.StartFrame = 0;
+                    move.Box.EndFrame = 0;
+                }
 
                 move.moveStarted = true; 
             }
@@ -92,6 +100,22 @@ namespace SmashBros.Controllers
         public void RemoveMove(MoveModel move)
         {
             moves.Remove(move);
+        }
+
+        public void Freeze()
+        {
+            foreach (MoveModel move in moves)
+            {
+                // GJØR NOE
+            }
+        }
+
+        public void UnFreeze()
+        {
+            foreach (MoveModel move in moves)
+            {
+                // GJØR NOE
+            }
         }
     }
 }

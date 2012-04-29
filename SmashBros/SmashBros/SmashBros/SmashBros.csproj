@@ -59,6 +59,9 @@
     <PlatformTarget>x86</PlatformTarget>
     <XnaCompressContent>true</XnaCompressContent>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>SmashBros.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
       <Private>False</Private>
@@ -123,6 +126,7 @@
     <Compile Include="Controllers\MapController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\OverlayMenuController.cs" />
+    <Compile Include="Controllers\PlayerStatsController.cs" />
     <Compile Include="Controllers\PowerUpController.cs" />
     <Compile Include="Models\CharacterModel.cs" />
     <Compile Include="Models\CursorModel.cs" />

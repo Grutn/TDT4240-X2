@@ -164,6 +164,7 @@ namespace SmashBros.MySystem
                 c.animations = "Characters/SpidermanAnimation";
                 c.thumbnail = "Characters/WolverineThumb";
                 c.image = "Characters/WolverineImage";
+                c.moveAnimations = "Characters/WolverineThumb";
                 
                 c.a = new MoveStats(10, 250, 0, 250, 28, 35, 0, 0, new Vector2(10, 0), new Vector2(20, 10), new Vector2(50, 0), new Vector2(10, 10));
                 c.aUp = new ChargeMove(30, 250, 0, 250, 0, 0, 0, 0, new Vector2(0, -20), new Vector2(0, -10), new Vector2(0, -50), new Vector2(10, 10),
@@ -355,10 +356,10 @@ namespace SmashBros.MySystem
             {
                 PowerUp p = new PowerUp()
                 {
-                    acceleration = r.Next(0, 100),
+                    acceleration = r.Next(0, 10),
                     duration = r.Next(2, 4),
-                    jumpHeight = r.Next(0, 100),
-                    maxSpeed = r.Next(0, 100),
+                    jumpStartVelocity = r.Next(0, 10),
+                    maxSpeed = r.Next(0, 10),
                     weight = r.Next(0, 100),
                     imageFrame = i
                 };

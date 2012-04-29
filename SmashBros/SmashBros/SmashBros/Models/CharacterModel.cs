@@ -23,6 +23,11 @@ namespace SmashBros.Models
         public int playerIndex;
 
         /// <summary>
+        /// The stats of the chosen character. STATIC attributes!!
+        /// </summary>
+        public CharacterStats stats;
+
+        /// <summary>
         /// Currently chosen character of this player.
         /// </summary>
         public CharacterView view;
@@ -101,11 +106,6 @@ namespace SmashBros.Models
         public float invounerableTimeLeft = 0;
 
         /// <summary>
-        /// Time left to when the character reappears on the map.
-        /// </summary>
-        public float resetTimeLeft = -1;
-
-        /// <summary>
         /// Number of jumps left. One of them is supermove, and once super is used, jumpsleft = 0.
         /// </summary>
         public int jumpsLeft = 3;
@@ -116,6 +116,11 @@ namespace SmashBros.Models
         public int damagePoints = 0;
 
         /// <summary>
+        /// Time left to when the character reappears on the map.
+        /// </summary>
+        public float resetTimeLeft;
+
+        /// <summary>
         /// The current position of character sprite.
         /// </summary>
         public Vector2 position;
@@ -124,21 +129,55 @@ namespace SmashBros.Models
         /// A powerUp the player currently is in posetion of.
         /// </summary>
         public PowerUp powerUp;
-
-        /// <summary>
-        /// Time left before current powerup expires.
-        /// </summary>
-        public int powerUpTimeLeft;
-
+        /*
+        {
+            get;
+            set
+            {
+                if (value == null)
+                {
+                    maxSpeed = stats.maxSpeed;
+                    acceleration = stats.acceleration;
+                    weight = stats.weight;
+                    jumpHeight = stats.jumpStartVelocity;
+                }
+            }
+        }
+        */
         /// <summary>
         /// Currently posessed weapon.
         /// </summary>
         public Weapon weapon;
 
-        public CharacterModel(GamepadController pad, Vector2 startPos)
+        /// <summary>
+        /// The CURRENT (powerup concidered) maximum magnitude of speed in x-direction this character can have.
+        /// </summary>
+        public int maxSpeed;
+
+        /// <summary>
+        /// CURRENT (powerup concidered) Acceleration!
+        /// </summary>
+        public int acceleration;
+
+        /// <summary>
+        /// The CURRENT (powerup concidered) weight of the character. Determines, along with players damagePoints, how far the character is pushed by some force.
+        /// </summary>
+        public int weight;
+
+        /// <summary>
+        /// The CURRENT (powerup concidered) velocity of the characters jump.
+        /// </summary>
+        public int JumpStartVelocity;
+
+        public CharacterModel(GamepadController pad, Vector2 startPos, int countDown, CharacterStats stats)
         {
             position = startPos;
             playerIndex = pad.PlayerIndex;
+            resetTimeLeft = countDown * 1000;
+            maxSpeed = stats.maxSpeed;
+            acceleration = stats.acceleration;
+            weight = stats.weight;
+            JumpStartVelocity = stats.jumpStartVelocity;
         }
     }
 }
