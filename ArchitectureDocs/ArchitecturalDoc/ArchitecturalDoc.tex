@@ -1,7 +1,9 @@
 \input{../latexTing/style}
 
+\usepackage[T1]{fontenc}
+
 \begin{document}
-\makemytitle{Architectural Description Document}
+\makemytitle{Super Bros \\ Requirements Document}
 {\LARGE TDT4120 \\ \large Software Architecture}
 {{\large\emph{Group X2}}\\[0.2cm]
 	Milos Zlatkovic \\
@@ -9,10 +11,21 @@
 	Emil Grunt\\
 	Nicolay Thafvelin\\
 	Julius Buset Asplin\\
+	Håvard Kindem\\
+	\paragraph{}\paragraph{}\paragraph{}
+	COTS: XNA\\
+	\paragraph{}
+	Primary quality attribute:\\
+	Modifiability\\
+	Secondary quality attribute:\\
+	Usability
 }
+
+
 \tableofcontents
 \chapter{Introduction}
-This document contains the architectural decisions related to the quality attributes we have given in the requirements document. We will describe the architectural drivers, stakeholders, architectural views, quality tactics, and the architectural patterns we have chosen.
+This document is a description of the product delivered by Team X2 in the course TDT4240 Software Architecture and contains the architectural decisions related to the quality attributes we have given in the requirements document. We will describe the architectural drivers, stakeholders, architectural views, quality tactics, and the architectural patterns we have chosen. 
+The chapter architectural drivers will discuss the architectural drivers of the project and stakeholders will discuss the stakeholders. In chapter 4 we will talk about our architectural viewpoints, chapter 5 our tactics for optaining the modifiability, testability, performance, portability and performance. Chapter 6 will describe what architectural patterns we plan to use and chapter 7 will describe our MVC, Scenario view and state machine.
 
 \chapter{Architectural drivers}
 The biggest Architectural Driver in this current project is lack of time. This will affect your architecture to make it more compact and easier to implement.
@@ -35,16 +48,21 @@ The game should be playable on both Xbox 360 and computer.
 The game should be very easy both to start and to play. Their should be easy to find help on which button does what and so on. The objective of the game is quite obvious and therefor needs no introduction.
 
 \chapter{Stakeholders}
-\section{Developers}
+\section{Development team}
 \begin{itemize}
 \item Want a fun playable game as return for their time-investment.
 \item Need a good grade on the project, and therefor a good architectural structure.
 \end{itemize}
 
-\section{The professor}
+\section{Course staff}
 \begin{itemize}
 \item Wants us to learn about and test/use his advises on architectural structures and program design.
 \item Wants us to get a good grade.
+\end{itemize}
+
+\section{ATAM Group}
+\begin{itemize}
+\item Wants a well described project to easier perform the ATAM exercise.
 \end{itemize}
 
 \section{End user}
