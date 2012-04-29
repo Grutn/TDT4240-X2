@@ -84,6 +84,7 @@ namespace SmashBros.Views
 
         public override void Dispose()
         {
+            Image = null;
             System.GC.SuppressFinalize(this);
         }
 

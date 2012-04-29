@@ -17,10 +17,6 @@ using SmashBros.Models;
 
 namespace SmashBros.Controllers
 {
-    public enum MenuState
-    {
-        StartScreen,CharacterSelection,MapSelection
-    }
 
     public class MenuController : Controller
     {
@@ -111,61 +107,81 @@ namespace SmashBros.Controllers
             selectionScreen = new ImageController(Screen, "Menu/SelectionScreen", 1, true);
             selectionScreen.OnAnimationDone += BgImageAnimationDone;
 
+
+            //Loads Maps
+            LoadMaps(content);
+            //Loads characters
+            LoadCharacters(content);
+            //Loads textboxes
+            LoadText();
+            
+            //Creates the help and options button
+            helpBox = CreateBtn(Constants.WindowWidth - 100, 40, 180, 80, "help");
+            optionsBox = CreateBtn(90, 40, 180, 80, "options");
+
+            foreach (var pad in GamePadControllers)
+            {
+                pad.OnStartPress += OnStartPress;
+                pad.OnBackPress += OnBackPress;
+            }
+
+            //Loads the sounds for the menu
+            Screen.soundController.LoadSelectionMenuSounds(content, this, characterModels);
+
+            SubscribeToGameState = true;
+        }
+        
+        /// <summary>
+        /// Loads all the textboxes on the menu
+        /// </summary>
+        private void LoadText()
+        {
+
             //Initialize tips text
-            tipsText = new TextBox("Press H for helpmenu", FontDefualt, 10, 690, Color.White,0.8f);
+            tipsText = new TextBox("Press H for helpmenu", FontDefualt, 10, 690, Color.White, 0.8f);
             tipsText.Layer = 100;
 
             //Init continiue text
             continueText = new TextBox("Press ENTER to continue", GetFont("Impact.large"), 250, 320, Color.White, 1f);
             continueText.StaticPosition = true;
             continueText.Layer = 900;
-            continueText.TextBackground = Draw.ColoredRectangle(Screen.GraphicsDevice, 900, 80, Color.Red);
+            continueText.TextBackground = Draw.ColoredRectangle(Screen.GraphicsDevice, 900, 80, new Color(237, 27, 36));
             continueText.BackgroundOffset = new Vector2(-70, -5);
 
-//Change tip text if xbox
+            //Change tip text if xbox
 #if XBOX
             tipsText.Text = "Press back button for help";
 #endif
             //Inits the player select labels
-            playerSelect = new List<TextBox>(); 
+            playerSelect = new List<TextBox>();
 
             for (int i = 1; i < 5; i++)
             {
-                var l = new TextBox("Player " + i + " DONE!", FontDefualt, 270*(i-1)+60, 680, Color.White, 1.1f);
+                var l = new TextBox("Player " + i + " DONE!", FontDefualt, 270 * (i - 1) + 60, 680, Color.White, 1.1f);
                 l.Layer = 100;
                 l.StaticPosition = true;
-                l.TextBackground = Draw.ColoredRectangle(Screen.GraphicsDevice, 210, 50, GamePadControllers[i-1].PlayerModel.Color);
+                l.TextBackground = Draw.ColoredRectangle(Screen.GraphicsDevice, 210, 50, GamePadControllers[i - 1].PlayerModel.Color);
                 l.BackgroundOffset = new Vector2(-10, -5);
                 playerSelect.Add(l);
             }
 
-            //Loads Maps
-            LoadMaps(content);
-            //Loads characters
-            LoadCharacters(content);
-            
-            //Creates the help and options button
-            helpBox = CreateBtn(Constants.WindowWidth - 100, 40, 180, 80, "help");
-            optionsBox = CreateBtn(90, 40, 180, 80, "options");
-
-            //Loads the sounds for the menu
-            Screen.soundController.LoadSelectionMenuSounds(content, this, characterModels);
-            Screen.soundController.PlayMenuSound(MenuSoundType.choose);
-
             if (gameStats != null)
             {
-                foreach (var stats in gameStats)
+                for (int i = 0; i < 4; i++)
                 {
-                    TextBox textBox = new TextBox(stats.ToString(), FontDefualt, new Vector2(300 * stats.PlayerIndex, 400), Color.White);
-                    textBox.TextBackground = Draw.ColoredRectangle(Screen.GraphicsDevice, 250, Constants.WindowHeight -400, new Color(237,27,36));
-                    textBox.Layer = 4;
+                    TextBox textBox = new TextBox("", FontDefualt, new Vector2(Constants.WindowWidth / 4 * i, Constants.WindowHeight - 300), Color.White);
+                    textBox.TextBackground = Draw.ColoredRectangle(Screen.GraphicsDevice, Constants.WindowWidth / 4, 300, new Color(237, 27, 36));
+                    textBox.Layer = 10;
                     textBox.StaticPosition = true;
+
+                    if (gameStats.Count() > i)
+                    {
+                        textBox.Text = gameStats[i].ToString();
+                    }
                     gameStatsText.Add(textBox);
+
                 }
             }
-
-            GamePadControllers.ForEach(a => a.OnStartPress += OnStartPress);
-            SubscribeToGameState = true;
         }
 
         private void LoadCharacters(ContentManager content)
@@ -291,7 +307,7 @@ namespace SmashBros.Controllers
                     {
 
                         var playerText = playerSelect[pad.PlayerIndex];
-                        if (pad.SelectedCharacter != null)
+                        if (pad.PlayerModel.SelectedCharacter != null)
                         {
                             AddView(playerText);
                             playersSelected++;
@@ -342,6 +358,10 @@ namespace SmashBros.Controllers
                     break;
                 case GameState.GameOver:
                     GameStatsVisible = false;
+                    foreach (var pad in GamePadControllers)
+                    {
+                        pad.PlayerModel.SelectedCharacter = null;
+                    }
                     break;
             }
 
@@ -357,8 +377,9 @@ namespace SmashBros.Controllers
                     AddController(selectionScreen);
                     if (value.PreviousState != GameState.MapsMenu)
                         animateIn = selectionScreen;
-
+                    //Loads the sounds for the menu
                     CharacterSelectionVisible = true;
+                    Screen.soundController.PlayMenuSound(MenuSoundType.choose);
                     break;
 
                 case GameState.MapsMenu:
@@ -415,12 +436,13 @@ namespace SmashBros.Controllers
                         case GameState.CharacterMenu:
                             if (selectKey)
                             {
-                                GamePadControllers[playerIndex].SelectedCharacter = characterModels[(int)targetData];
+                                GamePadControllers[playerIndex].PlayerModel.SelectedCharacter = characterModels[(int)targetData];
+                                GamePadControllers[playerIndex].PlayerModel.CharacterIndex = (int)targetData;
                                 Screen.cursorsController.DisableCursor(playerIndex);
                             }
                             else
                             {
-                                GamePadControllers[playerIndex].SelectedCharacter = null;
+                                GamePadControllers[playerIndex].PlayerModel.SelectedCharacter = null;
                                 Screen.cursorsController.EnableCursor(playerIndex);
                             }
                             break;
@@ -503,7 +525,10 @@ namespace SmashBros.Controllers
         {
             if (continueText.IsActive)
             {
-                CurrentState = (GameState)(int)CurrentState + 1;
+                if (CurrentState != GameState.GameOver)
+                    CurrentState = (GameState)(int)CurrentState + 1;
+                else
+                    CurrentState = GameState.CharacterMenu;
             }
         }
 
@@ -553,7 +578,7 @@ namespace SmashBros.Controllers
                 ImageModel imgModel = characterHover[playerIndex];
                 characterImages[characterIndex].RemovePosition(imgModel);
                 
-                if (!characterHover.Any(a => a.Value.Id == characterIndex && a.Key != playerIndex))
+                if (!characterHover.Any(a => a.Value != null && a.Value.Id == characterIndex && a.Key != playerIndex))
                 {
                     characterThumbs[characterIndex].GetAt(0).CurrentRotation = 0;
                     characterThumbs[characterIndex].AnimateScale(1f, 300);
@@ -645,7 +670,7 @@ namespace SmashBros.Controllers
                         character.GetAt(0).BoundBox.Enabled = false;
                     }
                     characterImages.ForEach(a => a.IsVisible = false);
-                    RemoveViews(playerSelect.ToArray());
+                    RemoveView(playerSelect.ToArray());
                     RemoveView(continueText);
                 }
             }
@@ -656,13 +681,28 @@ namespace SmashBros.Controllers
             set{
                 if (value)
                 {
-                    AddViews(gameStatsText.ToArray());
+                    AddView(gameStatsText.ToArray());
                     continueText.Text = "Press ENTRER or START button to continue";
+                    continueText.Position = new Vector2(continueText.Position.X, 0);
                     AddView(continueText);
+                    int i = 0;
+                    foreach (var stats in gameStats)
+                    {
+                        int index = GamePadControllers[stats.PlayerIndex].PlayerModel.CharacterIndex;
+                        AddController(characterImages[index]);
+                        ImageModel model = characterImages[index].SetPosition(stats.PlayerIndex * Constants.WindowWidth / 4 + 30, 600);
+                        characterImages[index].AnimatePos(i * Constants.WindowWidth / 4 + 10, 160, 500);
+
+                        i++;
+                    }
                 }
                 else
                 {
-                    RemoveViews(gameStatsText.ToArray());
+                    foreach (var img in characterImages)
+                    {
+                        RemoveController(img);
+                    }
+                    RemoveView(gameStatsText.ToArray());
                 }
             }
         }

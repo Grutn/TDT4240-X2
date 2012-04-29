@@ -29,23 +29,41 @@ namespace SmashBros.Controllers
         public GamePadState currentGamePadState;
 
         public Player PlayerModel { get; set; }
-        public int PlayerIndex { get; set; }
-       
+        public int PlayerIndex { get { return PlayerModel.PlayerIndex; } }
+
+        #region Keyboard Functions
 
         /// <summary>
-        /// The slected character can only be set by the gamepad itself, it uses the HoverCharacter and checks if Selection key is pressed
+        /// Checks the old keyboard state agianst the current keyboard state to 
+        /// determin if a key was pressed
         /// </summary>
-        public CharacterStats SelectedCharacter { get; set; }
-        /// <summary>
-        /// Assigned when the players cursor hovers a player
-        /// </summary>
-        public CharacterStats HoverCharacter { get; set; }
+        /// <param name="key">Which key was pressed</param>
+        /// <returns></returns>
+        protected bool IsKeyPressed(Keys key)
+        {
+            return Screen.oldKeyboardState.IsKeyDown(key) && Screen.currentKeyboardState.IsKeyUp(key);
+        }
+
+        protected bool IsKeyPressedReversed(Keys key)
+        {
+            return Screen.oldKeyboardState.IsKeyUp(key) && Screen.currentKeyboardState.IsKeyDown(key);
+        }
+
+        protected bool IsKeyDown(Keys key)
+        {
+            return Screen.currentKeyboardState.IsKeyDown(key);
+        }
+
+        protected bool IsKeyUp(Keys key)
+        {
+            return Screen.currentKeyboardState.IsKeyUp(key);
+        }
+
+        #endregion
 
         public GamepadController(ScreenManager screen, Player playerModel) : base(screen)
         {
-           // this.playerIndex = playerIndex;
             this.PlayerModel = playerModel;
-            this.PlayerIndex = PlayerModel.PlayerIndex;
         }
 
         public override void Load(ContentManager content)

@@ -35,7 +35,7 @@ namespace SmashBros.Controllers
 
             Vector2 percentPos = new Vector2(330 * characterModel.playerIndex + 30, Constants.WindowHeight - 120);
             
-            thumb = new ImageView(content.Load<Texture2D>(GamePadControllers[characterModel.playerIndex].SelectedCharacter.thumbnail),
+            thumb = new ImageView(content.Load<Texture2D>(GamePadControllers[characterModel.playerIndex].PlayerModel.SelectedCharacter.thumbnail),
                 percentPos, 159, true);
             thumb.Scale = 0.6f;
             AddView(thumb);

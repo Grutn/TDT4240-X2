@@ -28,13 +28,11 @@ namespace SmashBros {
         #region Initialization
 
         public Game() {
-            if (Constants.DebugMode)
-            {
-                Serializing.GenereateModels();
-            }
+            
+            Serializing.GenereateModels();
 
             Content.RootDirectory = "Content";
-            IsMouseVisible = false;
+            IsMouseVisible = true;
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferWidth = Constants.WindowWidth;
             graphics.PreferredBackBufferHeight = Constants.WindowHeight;

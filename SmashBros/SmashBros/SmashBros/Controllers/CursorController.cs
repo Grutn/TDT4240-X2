@@ -107,7 +107,7 @@ namespace SmashBros.Controllers
                     {
                         if (onlyHasSelCharacter)
                         {
-                            if (GamePadControllers[i].SelectedCharacter == null)
+                            if (GamePadControllers[i].PlayerModel.SelectedCharacter == null)
                             {
                                 RemoveView(cursor.Cursor);
                                 cursor.Enabled = false;

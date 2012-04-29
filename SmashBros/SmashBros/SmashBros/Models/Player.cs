@@ -64,6 +64,15 @@ namespace SmashBros.Model
         /// Back button for keyboard
         /// </summary>
         public Keys KeyboardBack { get; set; }
+        /// <summary>
+        /// The index of the selected character
+        /// </summary>
+        public int CharacterIndex { get; set; }
+
+        /// <summary>
+        /// Which character this person has selected
+        /// </summary>
+        public CharacterStats SelectedCharacter { get; set; }
 
     }
 }

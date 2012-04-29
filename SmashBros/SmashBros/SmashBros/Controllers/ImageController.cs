@@ -415,6 +415,8 @@ namespace SmashBros.Controllers
                 }
             }
             RemoveView(imageView);
+
+            this.imageModels = new List<ImageModel>();
         }
 
         public event AnimationDone OnAnimationDone;
