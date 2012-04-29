@@ -314,10 +314,11 @@ namespace SmashBros.Controllers
 
         private void Navigation(float directionX, float directionY, int playerIndex, bool newDirection)
         {
-            if (!model.attackMode && model.resetTimeLeft < 0)
+            if (!model.attackMode && model.resetTimeLeft <= 0)
             {
                 if (directionX !=0 && directionX * view.VelocityX >= 0) model.faceRight = directionX > 0;
-                if (directionY < 0 && newDirection && model.jumpsLeft > 1)
+                
+                if (directionY < 0 && newDirection && model.jumpsLeft > 1 && view.VelocityY > -model.JumpStartVelocity + 4)
                 {
                     model.setState(CharacterState.jumping);
                     view.VelocityY = -model.JumpStartVelocity;
@@ -352,7 +353,7 @@ namespace SmashBros.Controllers
                     currentMove = moves.newMove(moveStats, model.faceRight);
                     if (currentMove.Stats.Type == MoveType.Charge)
                     {
-                        model.setState(CharacterState.chargingHit);
+                        model.setState(CharacterState.chargingHit, currentMove.Stats);
                     }
                     else
                     {
@@ -381,7 +382,7 @@ namespace SmashBros.Controllers
                 }
                 else return;
 
-                Debug.WriteLine("new move");
+                Debug.WriteLine("new move: " + currentMove.Stats.Type);
                 if (moveStats != null)
                 {
                     currentMove = moves.newMove(moveStats, model.faceRight);
@@ -402,7 +403,12 @@ namespace SmashBros.Controllers
         {
             if (model.state == CharacterState.chargingHit)
             {
-                if (currentMove.chargeTime > ((ChargeMove)currentMove.Stats).MinWait) moves.StartMove(view.Position, view.Velocity, currentMove);
+                if (currentMove.chargeTime > ((ChargeMove)currentMove.Stats).MinWait)
+                {
+                    moves.StartMove(view.Position, view.Velocity, currentMove);
+                    model.setState(CharacterState.attacking, currentMove.Stats);
+                    currentMove.moveStarted = true;
+                }
                 else startAfterMinCharge = true;
             }
         }

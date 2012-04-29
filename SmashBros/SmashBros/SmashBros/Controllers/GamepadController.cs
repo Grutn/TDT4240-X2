@@ -28,6 +28,9 @@ namespace SmashBros.Controllers
         public GamePadState oldGamePadState;
         public GamePadState currentGamePadState;
 
+        private Queue<Tuple<TimeSpan, Vector2>> oldNavigations;
+        private bool newDirection = false;
+
         public Player PlayerModel { get; set; }
         public int PlayerIndex { get { return PlayerModel.PlayerIndex; } }
 
@@ -64,6 +67,7 @@ namespace SmashBros.Controllers
         public GamepadController(ScreenManager screen, Player playerModel) : base(screen)
         {
             this.PlayerModel = playerModel;
+            this.oldNavigations = new Queue<Tuple<TimeSpan, Vector2>>(8);
         }
 
         public override void Load(ContentManager content)
@@ -114,41 +118,32 @@ namespace SmashBros.Controllers
 
             //Update the position of the cursor
             float directionX = 0, directionY = 0;
-            bool newDirection = false;
 
-            if (IsKeyDown(PlayerModel.KeyboardLeft))
-            {
-                directionX = -1;
-                newDirection = IsKeyPressedReversed(PlayerModel.KeyboardLeft);
-            }
+            if (IsKeyDown(PlayerModel.KeyboardLeft)) directionX = -1;
+            else if (IsKeyDown(PlayerModel.KeyboardRight)) directionX = 1;
 
-            else if (IsKeyDown(PlayerModel.KeyboardRight))
-            {
-                directionX = 1;
-                newDirection = IsKeyPressedReversed(PlayerModel.KeyboardRight);
-            }
-
-            if (IsKeyDown(PlayerModel.KeyboardUp))
-            {
-                directionY = -1;
-                newDirection = IsKeyPressedReversed(PlayerModel.KeyboardUp);
-            }
-            else if (IsKeyDown(PlayerModel.KeyboardDown))
-            {
-                directionY = 1;
-                newDirection = IsKeyPressedReversed(PlayerModel.KeyboardDown);
-            }
-
+            if (IsKeyDown(PlayerModel.KeyboardUp)) directionY = -1;
+            else if (IsKeyDown(PlayerModel.KeyboardDown)) directionY = 1;
 
             Vector2 stick = currentGamePadState.ThumbSticks.Left;
-            if (stick.X != 0)
-            {
-                directionX = stick.X;
-            }
+            if (stick.X != 0) directionX = stick.X;
+            if (stick.Y != 0) directionY = stick.Y * -1;
 
-            if (stick.Y != 0)
+            if (oldNavigations.Count == 0)
             {
-                directionY = stick.Y * -1;
+                oldNavigations.Enqueue(new Tuple<TimeSpan, Vector2> (gameTime.TotalGameTime, new Vector2(directionX, directionY)));
+                newDirection = true;
+            }
+            else
+            {
+                TimeSpan lastNavigation = new TimeSpan(oldNavigations.Last().Item1.Ticks);
+                if (lastNavigation.Add(new TimeSpan(0,0,0,0,50)).CompareTo(gameTime.TotalGameTime) <= 0)
+                {
+                    Tuple<TimeSpan, Vector2> oldNav = oldNavigations.Peek();
+                    if (new TimeSpan(oldNav.Item1.Ticks).Add(new TimeSpan(0,0,0,0,200)).CompareTo(gameTime.TotalGameTime) <= 0) oldNavigations.Dequeue();
+                    newDirection = Math.Abs(directionX - oldNav.Item2.X) > 0.8 || Math.Abs(directionY - oldNav.Item2.Y) > 0.8;
+                    oldNavigations.Enqueue(new Tuple<TimeSpan, Vector2>(gameTime.TotalGameTime, new Vector2(directionX, directionY)));
+                }
             }
 
             if (OnNavigation != null)
