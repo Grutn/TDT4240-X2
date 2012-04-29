@@ -1,60 +1,8 @@
-As mentioned before the game is built using the FarSeer Pyshics Engine version 3.2 (FPE). The overarching architecture is modelled after the Model View Controller (MVC) pattern. The game also makes extensive use of the Observer Pattern(OP) and State Machines. Some structures in the game can be serialized to the JavaScript Object Notation (JSON) standard. 
+As mentioned before the game is built using the FarSeer Pyshics Engine version 3.2 (FPE). This is an open source physics engine for XNA. To cut down on the development time, we decided to use this as it handles 2D collision detection and has a lot of physics features. Of these features, we are using the collision detection and basic gravity and reflection physics.
 
+The overarching architecture is modelled after the Model View Controller (MVC) pattern. This makes it easy get get an overview of the project as it strictly differentiates between data, views and input/data handling. 
 
-\subsection{Model View Controller}
-The main focus during development was MVC. This makes it easy for the developers to get an overview of the project.
+The game also makes extensive use of the Observer Pattern(OP) and State Machines. 
 
-Models contains all the data in the game. This consists of game data, character data, character-, cursor- and map data. As we areusing the MVC architecture, these classes only contain raw data, nothing to view them at all.
+Some structures in the game can be serialized to the JavaScript Object Notation (JSON) standard. 
 
-Views contains everything that can be displayed. The different views then get their data from the models and display them accordingly. Defined as views, we have sprites, images, text viewing and the menu view.
-
-The controllers handles all the data from the models handles all updates and uses the views to display the result.\\
-
-
-\begin{tabular}{ll}
-Models & \\
-&Box\\
-&Character\\
-&CursorModel\\
-&GameModel\\
-&GameOptions\\
-&Map\\
-&MenuEntry\\
-&Move\\
-&Player\\
-&PowerUp\\
-&Weapon\\
-
-Views & \\
-&ImageTexture\\
-&IView\\
-&MenuView\\
-&Sprite\\
-&TextBox\\
-
-Controllers & \\
-&CameraController\\
-&CharacterController\\
-&CursorController\\
-&GamepadController\\
-&GamePlayController\\
-&IController\\
-&MapController\\
-&MenuController\\
-&OverlayMenuController\\
-&SoundController\\
-\end{tabular}
-
-
-
-\subsection{Service Oriented Architecture}
-We found that this was a nice addition to MVC. We have implemented a class, ControllerViewManager which acts as an interface for the controllers and views. This class then handles all of the world updating as well as the rendering of the game and handling of sprites. 
-
-By using this, we dont need to worry about adding or removing components and makes it very easy to add more functionality to the game, as it then just has to be added to the SOA interface.
-
-
-\subsection{Observer pattern}
-
-
-
-\subsection{State Machine}

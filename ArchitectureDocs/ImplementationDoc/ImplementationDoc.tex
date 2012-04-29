@@ -1,7 +1,8 @@
 \documentclass[a4paper,oneside,10pt]{article}
 
-
 \usepackage{multirow}
+\usepackage[T1]{fontenc}
+\usepackage[ansinew]{inputenc}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% TODO
@@ -14,14 +15,25 @@
 \begin{document}
 \pagestyle{empty} 
 
-\title{TDT4240 Software Architecture\\X2}
+
+\title{TDT4240 Software Architecture\\\paragraph{}Smash Bros\\Implementation Document\\XNA Group 2}
 \author{Julius Buset Asplin\\
 Emil Grunt\\
 Håvard Kindem\\
 Dimitry Kongevold\\
 Nicolay Thafvelin\\
 Milos Zlatkovic\\}
+\date{}
 \maketitle
+
+\begin{center}
+Primary quality attribute:\\
+Modifiability\\
+
+Secondary quality attribute:\\
+Usability
+\end{center}
+
 \clearpage{}
 
 \tableofcontents 
@@ -63,11 +75,14 @@ During development the main focus was on modifiability. The game has the possibi
 %	\bibitem{bib:phpnet} PHP: mysql-connect, \emph{PHP.net}, 2012,\\
 %		http://no.php.net/manual/en/function.mysql-connect.php
 	
-\bibitem{bib:visualstudio} Visual Studio | MSDN, \emph{Microsoft}, 2012,\\
+\bibitem[VS10]{bib:visualstudio} Visual Studio | MSDN, \emph{Microsoft}, 2012,\\
 		http://msdn.microsoft.com/en-us/vstudio/aa718325
 		
-\bibitem{bib:xna} Download: Microsoft XNA Game Studio - MSDN, \emph{Microsoft}, 2012,\\
+\bibitem[XNA]{bib:xna} Download: Microsoft XNA Game Studio - MSDN, \emph{Microsoft}, 2012,\\
 		http://www.microsoft.com/en-us/download/details.aspx?id=23714\#overview
+		
+\bibitem[FsPe]{bib:farseer} Download: Microsoft XNA Game Studio - MSDN, \emph{Microsoft}, 2012,\\
+		http://http://farseerphysics.codeplex.com/
 
 \end{thebibliography}
 
