@@ -30,20 +30,34 @@ namespace SmashBros.Controllers
             this.Screen = screen;
         }
 
+        /// <summary>
+        /// Here the controller should load its content
+        /// Runs when the controller is added for first time
+        /// When Controller is disposed the Load is run once more
+        /// </summary>
         public abstract void Load(ContentManager content);
         
+        /// <summary>
+        /// Runs when the controller is disoposed
+        /// Her all the controllers and views the controller holds should be disposed
+        /// </summary>
         public abstract void Unload();
         
-        public abstract void Update(GameTime gameTime);
         /// <summary>
-        /// Is run when the current state of game is updated
+        /// Runs on game update
         /// </summary>
-        /// <param name="value"></param>
+        public abstract void Update(GameTime gameTime);
+       
+        /// <summary>
+        /// Runs when the current state of game is updated
+        /// Tells which main state the game is in
+        /// </summary>
         public abstract void OnNext(GameStateManager value);
 
         /// <summary>
         /// Is run when the controller is removed from the active controller list
-        /// Should be used to remove the controllers views
+        /// Should be used de remove other controller from active list
+        /// And if wanted remove other view
         /// </summary>
         public abstract void Deactivate();
 
@@ -53,11 +67,12 @@ namespace SmashBros.Controllers
         /// Marks the view active
         /// </summary>
         /// <param name="view">View to activate</param>
-        protected void AddView(IView view)
+        protected void AddView(params IView[] view)
         {
-            if (!view.IsActive)
+            foreach (var v in view)
             {
-                Screen.ControllerViewManager.AddView(view);
+                if (!v.IsActive)
+                    Screen.ControllerViewManager.AddView(v);
             }
         }
 
@@ -66,31 +81,18 @@ namespace SmashBros.Controllers
         /// Marks the view not active
         /// </summary>
         /// <param name="view">View to deactivate</param>
-        protected void RemoveView(IView view)
+        protected void RemoveView(params IView[] view)
         {
-            if (view.IsActive)
+            foreach (var v in view)
             {
-                Screen.ControllerViewManager.RemoveView(view);
-
+                if (v.IsActive)
+                    Screen.ControllerViewManager.RemoveView(v);
             }
         }
-
-        public void AddViews(params IView[] views)
-        {
-            foreach (var view in views)
-            {
-                AddView(view);
-            }
-        }
-
-        public void RemoveViews(params IView[] views)
-        {
-            foreach (var view in views)
-            {
-                RemoveView(view);
-            }
-        }
-
+        /// <summary>
+        /// Disposes the view
+        /// removes it from draw list and runs dispose on the view
+        /// </summary>
         public void DisposeView(params IView[] views)
         {
             foreach (var view in views)
@@ -129,7 +131,7 @@ namespace SmashBros.Controllers
         /// <summary>
         /// Dispose the controller
         /// </summary>
-        /// <param name="controller">controller to deactivate</param>
+        /// <param name="controller">controller to unload</param>
         protected void DisposeController(params Controller[] controller)
         {
             foreach (var c in controller)
@@ -192,35 +194,6 @@ namespace SmashBros.Controllers
         /// </summary>
         public List<GamepadController> GamePadControllers { get { return Screen.gamePads; } }
 
-        #region Keyboard Functions
-        
-        /// <summary>
-        /// Checks the old keyboard state agianst the current keyboard state to 
-        /// determin if a key was pressed
-        /// </summary>
-        /// <param name="key">Which key was pressed</param>
-        /// <returns></returns>
-        protected bool IsKeyPressed(Keys key)
-        {
-            return Screen.oldKeyboardState.IsKeyDown(key) && Screen.currentKeyboardState.IsKeyUp(key);
-        }
-
-        protected bool IsKeyPressedReversed(Keys key)
-        {
-            return Screen.oldKeyboardState.IsKeyUp(key) && Screen.currentKeyboardState.IsKeyDown(key);
-        }
-
-        protected bool IsKeyDown(Keys key)
-        {
-            return Screen.currentKeyboardState.IsKeyDown(key);
-        }
-
-        protected bool IsKeyUp(Keys key)
-        {
-            return Screen.currentKeyboardState.IsKeyUp(key);
-        } 
-
-        #endregion
 
         public void OnCompleted()
         {

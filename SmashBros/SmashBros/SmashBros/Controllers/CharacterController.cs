@@ -77,7 +77,7 @@ namespace SmashBros.Controllers
         public CharacterController(ScreenManager screen, GamepadController pad, Vector2 startPos, int countDown) 
             : base(screen)
         {
-            stats = pad.SelectedCharacter;
+            stats = pad.PlayerModel.SelectedCharacter;
             model = new CharacterModel(pad, startPos, countDown, stats);
             moves = new MoveController(Screen, stats, pad.PlayerIndex);
             this.pad = pad;
@@ -117,6 +117,22 @@ namespace SmashBros.Controllers
 
         public override void Unload()
         {
+            pad.OnNavigation -= Navigation;
+            pad.OnHitkeyDown -= HitKeyDown;
+            pad.OnHitKeyUp -= HitKeyUp;
+            pad.OnSuperkeyDown -= SuperKeyDown;
+            pad.OnSuperKeyUp -= SuperKeyUp;
+
+            if (view.BoundBox != null && view.BoundBox.FixtureList != null)
+            {
+                view.BoundBox.OnCollision -= Collision;
+                view.BoundBox.OnSeparation -= Seperation;
+            }
+
+            SubscribeToGameState = false;
+
+            DisposeView(view);
+            System.GC.SuppressFinalize(this);
         }
 
         public override void Update(GameTime gameTime)
