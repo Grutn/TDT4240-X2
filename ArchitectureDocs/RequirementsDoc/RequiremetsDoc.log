@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2012.2.20)  29 APR 2012 21:13
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2012.2.20)  29 APR 2012 21:18
 entering extended mode
 **C:/Users/Nexcius/Desktop/TDT4240-X2/ArchitectureDocs/RequirementsDoc/Requirem
 etsDoc.tex
@@ -110,21 +110,31 @@ Package: `anysize' 1.0 <1994/08/13>
 ) (C:\Users\Nexcius\AppData\Roaming\MiKTeX\2.9\tex\latex\titlesec\block.tss
 File: block.tss 2011/12/15
 ))
+("E:\Apps\MiKTeX 2.9\tex\latex\base\fontenc.sty"
+Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
+
+("E:\Apps\MiKTeX 2.9\tex\latex\base\t1enc.def"
+File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
+LaTeX Font Info:    Redeclaring font encoding T1 on input line 43.
+))
 (C:\Users\Nexcius\Desktop\TDT4240-X2\ArchitectureDocs\RequirementsDoc\Requireme
 tsDoc.aux)
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Try loading font information for T1+cmss on input line 5.
+ ("E:\Apps\MiKTeX 2.9\tex\latex\base\t1cmss.fd"
+File: t1cmss.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
 (C:\Users\Nexcius\AppData\Roaming\MiKTeX\2.9\tex\context\base\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count89
@@ -140,17 +150,12 @@ LaTeX Font Info:    ... okay on input line 3.
 \everyMPtoPDFconversion=\toks17
 )
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 20.
+(Font)              <12> on input line 23.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 20.
+(Font)              <8> on input line 23.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 20.
-
-
-LaTeX Font Warning: Font shape `OT1/cmss/m/it' in size <14.4> not available
-(Font)              Font shape `OT1/cmss/m/sl' tried instead on input line 20.
-
-[1
+(Font)              <6> on input line 23.
+ [1
 
 {C:/Users/Nexcius/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
 (C:\Users\Nexcius\Desktop\TDT4240-X2\ArchitectureDocs\RequirementsDoc\Requireme
@@ -164,22 +169,17 @@ Chapter 1.
 
 ]
 Chapter 2.
-Missing character: There is no ’ in font cmss12!
 [3
 
 ]
-LaTeX Font Info:    Try loading font information for OMS+cmss on input line 68.
+LaTeX Font Info:    Try loading font information for OMS+cmss on input line 71.
 
-LaTeX Font Info:    No file OMScmss.fd. on input line 68.
+LaTeX Font Info:    No file OMScmss.fd. on input line 71.
 
 
 LaTeX Font Warning: Font shape `OMS/cmss/m/n' undefined
 (Font)              using `OMS/cmsy/m/n' instead
-(Font)              for symbol `textbullet' on input line 68.
-
-
-LaTeX Font Warning: Font shape `OT1/cmss/m/it' in size <12> not available
-(Font)              Font shape `OT1/cmss/m/sl' tried instead on input line 89.
+(Font)              for symbol `textbullet' on input line 71.
 
 [4] [5]
 Chapter 3.
@@ -209,20 +209,27 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 2255 strings out of 494045
- 30346 string characters out of 3152008
+ 2486 strings out of 494045
+ 32478 string characters out of 3152008
  114615 words of memory out of 3000000
- 5557 multiletter control sequences out of 15000+200000
- 8920 words of font info for 31 fonts, out of 3000000 for 9000
+ 5775 multiletter control sequences out of 15000+200000
+ 13412 words of font info for 32 fonts, out of 3000000 for 9000
  715 hyphenation exceptions out of 8191
- 29i,5n,53p,2061b,205s stack positions out of 5000i,500n,10000p,200000b,50000s
-<E:/Apps/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss12.pfb><E:/Apps/MiKTeX
- 2.9/fonts/type1/public/amsfonts/cm/cmss17.pfb><E:/Apps/MiKTeX 2.9/fonts/type1/
-public/amsfonts/cm/cmssbx10.pfb><E:/Apps/MiKTeX 2.9/fonts/type1/public/amsfonts
-/cm/cmssi12.pfb><E:/Apps/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on RequiremetsDoc.pdf (14 pages, 85151 bytes).
+ 29i,5n,53p,2061b,211s stack positions out of 5000i,500n,10000p,200000b,50000s
+ <C:\Users\Nexcius\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi60
+0\ecsi1200.pk> <C:\Users\Nexcius\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknap
+pen\ec\dpi600\ecss1728.pk> <C:\Users\Nexcius\AppData\Local\MiKTeX\2.9\fonts\pk\
+ljfour\jknappen\ec\dpi600\ecsx1200.pk> <C:\Users\Nexcius\AppData\Local\MiKTeX\2
+.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecss1200.pk> <C:\Users\Nexcius\AppData\Lo
+cal\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecsi1440.pk> <C:\Users\Nexciu
+s\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecss2488.pk> <C:\
+Users\Nexcius\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecss1
+440.pk> <C:\Users\Nexcius\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\
+dpi600\ecss2074.pk><E:/Apps/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pf
+b>
+Output written on RequiremetsDoc.pdf (14 pages, 116698 bytes).
 PDF statistics:
- 68 PDF objects out of 1000 (max. 8388607)
+ 313 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
