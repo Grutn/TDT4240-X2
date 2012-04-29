@@ -1,8 +1,8 @@
-We originally decided to use the the architectures: ModelView Controller(MVC), Service Oriented Architecture(SOA), Observer Patterns(OP) and State Machine.
+As mentioned before the game is built using the FarSeer Pyshics Engine version 3.2 (FPE). The overarching architecture is modelled after the Model View Controller (MVC) pattern. The game also makes extensive use of the Observer Pattern(OP) and State Machines. Some structures in the game can be serialized to the JavaScript Object Notation (JSON) standard. 
 
 
 \subsection{Model View Controller}
-MVC is the architecture that we have focused the most on. This makes it easy for the developers to get an overview of the project.
+The main focus during development was MVC. This makes it easy for the developers to get an overview of the project.
 
 Models contains all the data in the game. This consists of game data, character data, character-, cursor- and map data. As we areusing the MVC architecture, these classes only contain raw data, nothing to view them at all.
 
