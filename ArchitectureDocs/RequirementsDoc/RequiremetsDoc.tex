@@ -2,7 +2,7 @@
 
 \begin{document}
 
-\makemytitle{Requirements Document}
+\makemytitle{Super Bros \\ Requirements Document}
 {\LARGE TDT4120 \\ \large Software Architecture}
 {{\large\emph{Group X2}}\\[0.2cm]
 	Milos Zlatkovic \\
@@ -10,18 +10,26 @@
 	Emil Grunt\\
 	Nicolay Thafvelin\\
 	Julius Buset Asplin\\
+	\paragraph{}\paragraph{}\paragraph{}
+	COTS: XNA\\
+	\paragraph{}
+	Primary quality attribute:\\
+	Modifiability\\
+	Secondary quality attribute:\\
+	Usability
 }
 
 \tableofcontents
 
 \chapter{Introduction}
-	This document describes in short what kind of game we are going to create, and some of its features. The document also contains the requirements and constraints of the system, and what kind of quality attributes we are focusing on.
+	This document is a description of the product delivered by Team X2 in the course TDT4240 Software Architecture. This document describes in short what kind of game we are going to create, and some of its features. The document  contains the requirements and constraints of the system, and what kind of quality attributes we are focusing on. In part of the functional requirements we will describe a function of our application. Functional requirements are supported by quality requirement. In part of quality requirements we will describe non-functional requirements like Modifiability, Performance,  Portability, Testability and Usability. The goal of our project  is to be completed all high priorities functional requirements.  At the end of document, there will be list of references, issues and changes for this document.
 
 \section{About the game}
 	Our game is much like the popular Nintendo game Super Smash Brothers, with some tweaks from other 2D fighting games like ``Street Fighter'', ``Tekken'' and ``Capcom VS Marvel''. The game is a 2D fighting game where  you select a character and a map and play. The player can move freely at the selected game map. If the player is hit by an object or an attack the players damage/percentage is increased, which makes it easier to hit the player out of the map. If the player falls outside a given area of the map, the player dies. If the player has more lives left he is put back onto the course with his damage/percentage reset. The goal of the game is to hit the other players of the map as many times as possible. The game ends after a given time or if all the players except one has died a given number of times. The winner is the person that has the best kill, death ratio. The game is mainly played whit xbox 360 controllers, from 2-4 players. You can play the game with the keyboard if you're only two players.
 
 \chapter{Functional requirements}
-A short description of all of the games functional requirements
+Priorities of the functional requirements distributed from Low to High. High means that functional requirements very important for the project. Project misses the point without that functional requirements with high priorities. Low means that functional requirements don’t important for project. If we have a time we will do that functional requirements. Medium means that the functional requirements are important for the project but not like the high priorities. 
+
 \section{Starting a game}
 	\paragraph{Summary:}
 		Before you can start to play the players have to choose their character amongst the given characters, and then choose a map.
@@ -40,6 +48,16 @@ A short description of all of the games functional requirements
 		The target of the game is to hit other players out of the map, and not get hit out yourself. The game is finished when the time is out or the all the players except one has used up a given number of lives.
 		The winner is the person that whit the best kill death ratio in the time mode, or the the last one standing i life mode.
 
+
+\section{Physics requirement}
+	\paragraph{Summary:}
+		The characters should be able to move and jump around at the map, whit realistic physics. Should also be possible to throw objects, attack other players (hit, shoot, special attacks), if it hits another player it should affect the player in realistic way.
+	\paragraph{Rationale:}
+		When the left stick on the controller is used it should control the character in the same direction as the stick is moved. If stick is moved upwards the character should jump, if down the player should crouch. 
+		Pressing the A or B buttons should cause the character to do an attack. You can combine A and B with the stick in a direction to do a different attack.
+		A gravity will always pull the characters and objects down to the ground.
+\newpage
+
 \section{Character}
 	\paragraph{Summary:}
 		The game should support different characters with different attributes and look. 
@@ -54,7 +72,7 @@ A short description of all of the games functional requirements
 		\end{itemize}
 		It should be easy to add more characters without needing to recompile the game.
 
-\newpage
+
 \section{Map}
 	\paragraph{Summary:}
 		The game should support different maps, with different architecture and look.
@@ -63,12 +81,6 @@ A short description of all of the games functional requirements
 		This means that the map has different platform around on the stage that the characters can stand on, the platforms should match the image in the background. E.g. if the image has a rooftop, it should be a platform her that the character can stand on.
 		It should be easy to add more maps without needing to recompile the game.
 
-\section{Map objects and power-ups}
-	\paragraph{Summary:}
-		Objects and power-ups should show up at the map.
-		The character should be able to pick up objects and power-ups.
-	\paragraph{Rationale:}
-		It should show up objects and power-ups at random location on the map at random time throughout the game. The player should be able to pick up objects and use it in the way the object is intended to be used. The character can also throw the object at other players, which will cause damage/percentage. Power-ups can also be picked up by the character. The power-up should change some of the attributes to the character.
 
 \section{Graphics requirement}
 	\paragraph{Summary:}
@@ -78,13 +90,6 @@ A short description of all of the games functional requirements
 		The game should represent the \emph{map} with an static sprite in 2D with collision boxes for the platforms on the map.
 		The game should represent the \emph{objects} with an animated sprite in 2D.
 
-\section{Physics requirement}
-	\paragraph{Summary:}
-		The characters should be able to move and jump around at the map, whit realistic physics. Should also be possible to throw objects, attack other players (hit, shoot, special attacks), if it hits another player it should affect the player in realistic way.
-	\paragraph{Rationale:}
-		When the left stick on the controller is used it should control the character in the same direction as the stick is moved. If stick is moved upwards the character should jump, if down the player should crouch. 
-		Pressing the A or B buttons should cause the character to do an attack. You can combine A and B with the stick in a direction to do a different attack.
-		A gravity will always pull the characters and objects down to the ground.
 
 \section{Sound FX and Music}
 	\paragraph{Summary:}
@@ -100,6 +105,15 @@ A short description of all of the games functional requirements
 			\item Object is thrown and hits ground
 			\item Menu navigation
 		\end{itemize}
+		
+
+\section{Map objects and power-ups}
+	\paragraph{Summary:}
+		Objects and power-ups should show up at the map.
+		The character should be able to pick up objects and power-ups.
+	\paragraph{Rationale:}
+		It should show up objects and power-ups at random location on the map at random time throughout the game. The player should be able to pick up objects and use it in the way the object is intended to be used. The character can also throw the object at other players, which will cause damage/percentage. Power-ups can also be picked up by the character. The power-up should change some of the attributes to the character.	
+	
 
 \chapter{Quality requirements}
 Our games quality requirements
@@ -117,8 +131,9 @@ Our games quality requirements
 	\myItem{Stimulus}{Add more characters, maps, objects and power-ups to the game}
 	\myItem{Artifact}{Game system}
 	\myItem{Enviroment}{During development or after releaser}
-	\myItem{Response}{It should be possible to add more characters, maps, objects and power-ups without recompiling the game}
-	\myItem{Response Measure}{Characters, maps, objects and power-ups should be read from XML file, not from code}
+	\myItem{Response}{It should be possible to add more characters, maps, objects and power-ups without
+		recompiling the game, Characters, maps, objects and power-ups should be read from XML}
+	\myItem{Response Measure}{The functionality should be added in 1-2 hours.}
 	\end{itemize}
 	
 \subsection{Functional components should be specified in file}
@@ -147,8 +162,9 @@ Our games quality requirements
 	\myItem{Stimulus}{Play game via LAN}
 	\myItem{Artifact}{Game system}
 	\myItem{Enviroment}{During development}
-	\myItem{Response}{It should be possible to implement playing via LAN without have to change many classes}
-	\myItem{Response Measure}{Create server/client class that manages the LAN part of the game, without changing lots of other classes}
+	\myItem{Response}{It should be possible to add more characters, maps, objects and power-ups without
+		recompiling the game, Characters, maps, objects and power-ups should be read from XML}
+	\myItem{Response Measure}{The functionality should be added in 2-3 hours.}
 	\end{itemize}	
 
 \section{Performance}
@@ -194,8 +210,8 @@ Our games quality requirements
 		\myItem{Stimulus}{Support both pc and xbox 360}
 		\myItem{Artifact}{Implementation}
 		\myItem{Enviroment}{Design}
-		\myItem{Response}{Should be possible to compile the game for both pc and xbox 360}
-		\myItem{Response Measure}{The game works on both platforms}
+		\myItem{Response}{Should be possible to compile the game for both pc and xbox 360. The game works on both platforms}
+		\myItem{Response Measure}{The functionality should be added in 2-3 hours}
 	\end{itemize}
 
 
@@ -273,14 +289,42 @@ Swf2XNA allows the use of Flash assets, animation and layout in XNA games. Box2D
 This is the references we used to complete this document
 \section{Books}
 \begin{itemize}
-\item "Software Architecture in Practice, Second Edition", Len Bass, Paul Clements, Rick Kazman, Addision-Wesley, 2003, ISBN 0-321-15495-9
-\item "Game Architecture and Design - A New Edition", Andrew Rollings and Dave Morris
+\item [1] "Software Architecture in Practice, Second Edition", Len Bass, Paul Clements, Rick Kazman, Addision-Wesley, 2003, ISBN 0-321-15495-9
+\item [2] "Game Architecture and Design - A New Edition", Andrew Rollings and Dave Morris
 \end{itemize}
 \section{Webpages}
 \begin{itemize}
-\item https://github.com/debreuil/Swf2XNA
-\item http://en.wikipedia.org/wiki/MicrosoftXNA
-\item http://www.microsoft.com/NET/
+\item [3] https://github.com/debreuil/Swf2XNA
+\item [4] http://en.wikipedia.org/wiki/MicrosoftXNA
+\item [5] http://www.microsoft.com/NET/
 
 \end{itemize}
+
+
+\chapter{Issues}
+\begin{itemize}
+\item With modifiability in mind, the XNA framework only runs on Windowsbased computers, XBOX 360 and Windows Phone 7 (limited API).
+\item Restricted to using C\#
+\item Restricted to using .wav files for audio
+\item Restricted to using common image-formats
+\end{itemize}
+
+
+\chapter{Changes}
+
+ 02/03/2012\\		
+-Original document
+\paragraph{}
+27/03/2012\\
+-Added Issues\\ 
+- Added priorities for functional requirements\\
+- Changed quality requirements\\
+- References  fixed
+\paragraph{}
+29/04/2012	\\
+Delivery version:\\
+- Clarification of some sentences and spell checking
+
+
+
 \end{document}
