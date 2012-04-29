@@ -143,7 +143,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\GameStuff\CountDown.xnb</Output>
-      <Time>2012-04-28T20:29:14.1011815+02:00</Time>
+      <Time>2012-04-29T13:33:00.2331678+02:00</Time>
     </Item>
     <Item>
       <Source>Characters\SpidermanAnimation.png</Source>
@@ -188,7 +188,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\GameStuff\PlayerPercentBg.xnb</Output>
-      <Time>2012-04-25T16:24:27.3270115+02:00</Time>
+      <Time>2012-04-29T13:33:00.2650252+02:00</Time>
     </Item>
     <Item>
       <Source>GameStuff\GameEffects.png</Source>
@@ -269,7 +269,16 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\GameStuff\Life.xnb</Output>
-      <Time>2012-04-28T20:29:14.1011815+02:00</Time>
+      <Time>2012-04-29T13:33:00.2341675+02:00</Time>
+    </Item>
+    <Item>
+      <Source>GameStuff\GameOver.png</Source>
+      <Name>GameStuff\GameOver</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\GameStuff\GameOver.xnb</Output>
+      <Time>2012-04-29T13:33:00.2341675+02:00</Time>
     </Item>
     <Item>
       <Source>Fonts\gamefont.spritefont</Source>
@@ -505,15 +514,6 @@
       <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Sound\Spiderman\web.xnb</Output>
       <Time>2012-04-26T01:41:18.9944787+02:00</Time>
     </Item>
-    </Item>
-    <Item>
-      <Source>GameStuff\GameOver.png</Source>
-      <Name>GameStuff\GameOver</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\GameStuff\GameOver.xnb</Output>
-      <Time>2012-04-28T23:01:17.9659049+02:00</Time>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SmashBros.Model;
 using FarseerPhysics.Dynamics;
+using Microsoft.Xna.Framework;
 
 namespace SmashBros.Models
 {
@@ -22,17 +23,37 @@ namespace SmashBros.Models
         /// <summary>
         /// Time left to when move is over.
         /// </summary>
-        public float attackTimeLeft = 0;
+        public float attackTimeLeft;
 
         /// <summary>
         /// How long the character has charged the attack.
         /// </summary>
-        public float chargeTime = 0;
+        public float chargeTime;
 
-        public MoveModel(MoveStats stats)
+        /// <summary>
+        /// Whether the move is in positive or negative X direction. (either (1,1) or (-1,1)).
+        /// </summary>
+        public Vector2 Xdirection;
+
+        /// <summary>
+        /// The list of playerIndexen that have bin hit by this move.
+        /// </summary>
+        public List<int> PlayerIndexes;
+
+        /// <summary>
+        /// Whether the movebox have bin created etc.
+        /// </summary>
+        public bool moveStarted;
+
+        public MoveModel(MoveStats stats, bool right, int playerIndex)
         {
             Stats = stats;
             attackTimeLeft = stats.Duration;
+            chargeTime = 0;
+            moveStarted = false;
+            Xdirection = right ? new Vector2(1, 1) : new Vector2(-1, 1);
+            PlayerIndexes = new List<int>();
+            PlayerIndexes.Add(playerIndex);
         }
     }
 }

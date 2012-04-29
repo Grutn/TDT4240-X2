@@ -12,25 +12,18 @@ namespace SmashBros.Controllers
 {
     public class MoveController : Controller
     {
-        public ImageController Img;
-        public List<MoveModel> models;
-        public MoveModel currentModel;
+        private int playerIndex;
+        
+        private ImageController Img;
+        private List<MoveModel> moves;
+        public MoveModel currentMove;
 
-        /// <summary>
-        /// Is set to true if the character releases attackbutton before minimun chargetime has passed.
-        /// </summary>
-        public bool startMoveWhenReady = false;
-
-        /// <summary>
-        /// Whether the movebox have bin created etc.
-        /// </summary>
-        public bool moveStarted = false;
-
-        public MoveController(ScreenManager screen, CharacterStats characterStats)
+        public MoveController(ScreenManager screen, CharacterStats characterStats, int index)
             :base(screen)
         {
             Img = new ImageController(Screen, characterStats.moveAnimations, 120, false);
-            models = new List<MoveModel>();
+            moves = new List<MoveModel>();
+            playerIndex = index;
         }
 
         public override void Load(Microsoft.Xna.Framework.Content.ContentManager content)
@@ -45,7 +38,11 @@ namespace SmashBros.Controllers
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            
+            /*
+            foreach (MoveModel move in moves)
+            {
+            }
+            */
         }
 
         public override void OnNext(GameStateManager value)
@@ -61,26 +58,40 @@ namespace SmashBros.Controllers
             throw new NotImplementedException();
         }
 
-        public void newMove(MoveStats stats)
+        public MoveModel newMove(MoveStats stats, bool right)
         {
-            currentModel = new MoveModel(stats);
-            models.Add(currentModel);
+            moves.Add(currentMove);
+            return new MoveModel(stats, right, playerIndex);
         }
 
-        public void StartMove(Vector2 characterPosition)
+        public void StartMove(Vector2 characterPosition, Vector2 characterVelocity, MoveModel move)
         {
-            currentModel.Box.SetBoundBox(World, (int)currentModel.Stats.SqSize.X, (int)currentModel.Stats.SqSize.Y, currentModel.Stats.SqFrom, FarseerPhysics.Dynamics.Category.Cat11);
-            currentModel.Box.BoundBox.IgnoreGravity = true;
-            currentModel.Box.BoundBox.IsStatic = false;
-            currentModel.Box.BoundBox.CollidesWith = Category.Cat11;
-            currentModel.Box.BoundBox.CollisionCategories = Category.Cat20;
+            if (!move.moveStarted)
+            {
+                move.Box.SetBoundBox(World, (int)currentMove.Stats.SqSize.X, (int)currentMove.Stats.SqSize.Y, currentMove.Stats.SqFrom, FarseerPhysics.Dynamics.Category.Cat11);
+                move.Box.BoundBox.IgnoreGravity = true;
+                move.Box.BoundBox.IsStatic = false;
+                move.Box.BoundBox.CollidesWith = Category.Cat11;
+                move.Box.BoundBox.CollisionCategories = Category.Cat20;
 
-            startMoveWhenReady = false;
+                Vector2 velocity = currentMove.Stats.Type != MoveType.Range ?
+                        (currentMove.Stats.SqTo - currentMove.Stats.SqFrom) / (currentMove.Stats.End - currentMove.Stats.Start) : ((RangeMove)currentMove.Stats).BulletVelocity;
+                velocity *= currentMove.Xdirection;
+                move.Box.BoundBox.LinearVelocity = velocity + characterVelocity;
+                move.Box.BoundBox.UserData = currentMove;
+
+                move.moveStarted = true; 
+            }
         }
 
-        public void EndMove()
+        public void EndMove(MoveModel move)
         {
+            Img.RemovePosition(move.Box);
+        }
 
+        public void RemoveMove(MoveModel move)
+        {
+            moves.Remove(move);
         }
     }
 }
