@@ -14,7 +14,7 @@
 \begin{document}
 \pagestyle{empty} 
 
-\title{TDT4240 Programvarearkitektur\\X2}
+\title{TDT4240 Software Architecture\\X2}
 \author{Julius Buset Asplin\\
 Emil Grunt\\
 Håvard Kindem\\
@@ -29,9 +29,9 @@ Milos Zlatkovic\\}
 \pagestyle{plain} 
 
 \section{Introduction}
-This document describes product delivered by team X2 in the courseTDT4240 Software Architecture. The document contains: design and implementation details, tests run on the final product and during the development, the User’s manual and the list of inconsistencies between implementation and the architecture.\\
+This document is a description of the product delivered by Team X2 in the course TDT4240 Software Architecture. The document contains design, and implementation details, tests results from testing done during development and on the final product, the user manual, and a discussion on the architecture implementation.\\
 
-The main attribute that have been focus under development of the project is modifiability. Game, as in now, is just an engine with the possibilities to add new features, characters, maps and power ups. Those opportunities could be explored by an advanced user as well as a developer, or future support personnel, by adding an XML file to a specific folder.
+During development the main focus was on modifiability. The game has the possibility to be expanded with new features, characters, maps and power ups. The game uses the FarSeer Physics Engine 3.2 (FPE) a COTS for physics simulation and collision detection. FPE lets the developer easily create new dynamic objects in the game world, which could be used to create dynamic levels at a later date.
 
 \section{Implementation Details}
 \input{implementation}

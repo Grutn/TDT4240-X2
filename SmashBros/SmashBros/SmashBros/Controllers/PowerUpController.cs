@@ -93,7 +93,7 @@ namespace SmashBros.Controllers
                 p.Value.ElapsedTime += gameTime.ElapsedGameTime.Milliseconds;
                 if (p.Value.ElapsedTime / 1000 > p.Value.PowerUp.duration)
                 {
-                    p.Value.Player.powerUp = null;
+                    p.Value.Player.RemovePowerUp(p.Value.PowerUp);
                     activePowerUps.Remove(p.Key);
                     count--;
                 }
@@ -128,8 +128,8 @@ namespace SmashBros.Controllers
                 PowerUpStatus powerUpStatus = (PowerUpStatus)powerUpGeom.Body.UserData;
                 waitingPowerUps.Remove(powerUpStatus);
 
-                CharacterModel player = (CharacterModel)character.Body.UserData;
-                player.powerUp = powerUpStatus.PowerUp;
+                CharacterController player = (CharacterController)character.Body.UserData;
+                player.AddPowerUp(powerUpStatus.PowerUp);
 
                 //Setup the powerupstatus for the player
                 powerUpStatus.ElapsedTime = 0;
@@ -139,9 +139,9 @@ namespace SmashBros.Controllers
                 powerUpStatus.Image.DisposBoundBox();
                 powerUpImg.RemovePosition(powerUpStatus.Image);
 
-                if (activePowerUps.ContainsKey(player.playerIndex))
-                    activePowerUps[player.playerIndex] = powerUpStatus;
-                else activePowerUps.Add(player.playerIndex, powerUpStatus);
+                if (activePowerUps.ContainsKey(player.model.playerIndex))
+                    activePowerUps[player.model.playerIndex] = powerUpStatus;
+                else activePowerUps.Add(player.model.playerIndex, powerUpStatus);
 
                 return false;
             }

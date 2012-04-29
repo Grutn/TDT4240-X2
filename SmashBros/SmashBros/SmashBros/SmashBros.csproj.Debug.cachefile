@@ -13,6 +13,7 @@ Content\Cursors\Player3.xnb
 Content\Cursors\Player2.xnb
 Content\Characters\WolverineImage.xnb
 Content\Characters\SpidermanImage.xnb
+Content\GameStuff\CountDown.xnb
 Content\Characters\SpidermanAnimation.xnb
 Content\Menu\PopupMenu.xnb
 Content\Maps\CityBg.xnb
@@ -26,6 +27,8 @@ Content\Characters\SupermanFatPose.xnb
 Content\Characters\SupermanFatThumb.xnb
 Content\Characters\SupermanFatAnimation.xnb
 Content\Maps\CityMapThumb.xnb
+Content\GameStuff\Life.xnb
+Content\GameStuff\GameOver.xnb
 Content\Fonts\gamefont.xnb
 Content\menufont.xnb
 Content\Fonts\Impact.xnb
@@ -52,7 +55,4 @@ Content\Sound\Spiderman\pain.xnb
 Content\Sound\Spiderman\punch.xnb
 Content\Sound\Spiderman\selected.xnb
 Content\Sound\Spiderman\web.xnb
-Content\GameStuff\CountDown.xnb
-Content\GameStuff\Life.xnb
-Content\GameStuff\GameOver.xnb
 Content\font.xnb

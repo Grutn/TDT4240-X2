@@ -21,7 +21,7 @@ namespace SmashBros.Controllers
     /// </summary>
     public class GamePlayController : Controller
     {
-        int countDownTime = 5;
+        int countDownTime = 4;
         bool waitForGameOverText = false;
         MapController map;
         CameraController camera;
@@ -122,7 +122,7 @@ namespace SmashBros.Controllers
             {
                 if (pad.SelectedCharacter != null)
                 {
-                    var character = new CharacterController(Screen, pad, map.CurrentMap.startingPosition[i]);
+                    var character = new CharacterController(Screen, pad, map.CurrentMap.startingPosition[i], countDownTime);
                     //Add HitHappens listener
                     character.OnHit += OnPlayerHit;
                     // Add Playerdeath listener.
