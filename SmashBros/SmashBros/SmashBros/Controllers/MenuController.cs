@@ -206,6 +206,7 @@ namespace SmashBros.Controllers
             {
 
                 ImageController thumb = new ImageController(Screen, character.thumbnail, 3, true);
+                thumb.OriginDefault = new Vector2(Constants.ThumbWith - 10, Constants.ThumbHeight - 10) / 2;
                 thumb.IsVisible = false;
                 thumb.ScaleDefault = 0.1f;
 
@@ -247,6 +248,7 @@ namespace SmashBros.Controllers
                 ImageController thumb = new ImageController(Screen, map.thumbImage, 3, true);
                 thumb.IsVisible = false;
                 thumb.ScaleDefault = 0.1f;
+                thumb.OriginDefault = new Vector2(300, 230)/2;
 
                 ImageModel img = thumb.SetPosition(300 * column + 200, row * 230 + 180);
                 img.SetBoundBox(World, 280, 210, Vector2.Zero, Category.Cat5, Category.Cat4, true);
@@ -276,6 +278,9 @@ namespace SmashBros.Controllers
             Screen.cursorsController.OnCursorClick -= OnCursorClick;
             Screen.cursorsController.OnCursorCollision -= OnCursorCollision;
             Screen.cursorsController.OnCursorSeparation -= OnCursorSeparation;
+
+            optionsBox.Dispose();
+            helpBox.Dispose();
 
             foreach (var pad in GamePadControllers)
             {

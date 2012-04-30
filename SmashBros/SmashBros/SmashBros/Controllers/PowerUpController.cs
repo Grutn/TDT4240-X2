@@ -48,6 +48,7 @@ namespace SmashBros.Controllers
             AddController(powerUpImg);
 
             generateTimeToNext();
+
         }
 
         public override void Unload()
@@ -57,48 +58,60 @@ namespace SmashBros.Controllers
 
         public override void Update(GameTime gameTime)
         {
-            elapsedTime += gameTime.ElapsedGameTime.Milliseconds;
-            if (elapsedTime / 1000 > random.Next(minNew, maxNew))
+            //if game is paused then no updates
+            if (CurrentState != GameState.GamePause)
             {
-                ImageModel model = powerUpImg.AddPosition(randomDropPosition());
-                model.SetBoundBox(World, 50, 50, Vector2.Zero, Category.Cat6, Category.All);
-                model.BoundBox.OnCollision += OnCollision;
-                powerUpImg.AnimateScale(model, 1f, 400, false);
-                elapsedTime = 0;
-                generateTimeToNext();
-
-                PowerUpStatus status = new PowerUpStatus(randomPowerUp(), model);
-                model.BoundBox.UserData = status;
-                model.CurrentFrame = (int)MathHelper.Clamp(status.PowerUp.imageFrame, 0f, 3f);
-                waitingPowerUps.Add(status);
-            }
-
-            int count = waitingPowerUps.Count();
-            for (int i = 0; i < count; i++)
-			{
-                PowerUpStatus p = waitingPowerUps[i];
-			    p.ElapsedTime += gameTime.ElapsedGameTime.Milliseconds;
-                if (p.ElapsedTime / 1000 > waitMax)
+                elapsedTime += gameTime.ElapsedGameTime.Milliseconds;
+                if (elapsedTime / 1000 > random.Next(minNew, maxNew))
                 {
-                    waitingPowerUps.RemoveAt(i);
-                    p.Image.DisposBoundBox();
-                    powerUpImg.RemovePosition(p.Image);
-                    count--;
+                    addPowerUpToMap();
                 }
-			}
-
-            count = activePowerUps.Count();
-            for (int i = 0; i < count; i++)
-            {
-                var p = activePowerUps.ElementAt(i);
-                p.Value.ElapsedTime += gameTime.ElapsedGameTime.Milliseconds;
-                if (p.Value.ElapsedTime / 1000 > p.Value.PowerUp.duration)
+                
+                //Updates the powerups that havent been picked up yet
+                //Removes the powerups that has layn ther to long
+                int count = waitingPowerUps.Count();
+                for (int i = 0; i < count; i++)
                 {
-                    p.Value.Player.RemovePowerUp(p.Value.PowerUp);
-                    activePowerUps.Remove(p.Key);
-                    count--;
+                    PowerUpStatus p = waitingPowerUps[i];
+                    p.ElapsedTime += gameTime.ElapsedGameTime.Milliseconds;
+                    if (p.ElapsedTime / 1000 > waitMax)
+                    {
+                        waitingPowerUps.RemoveAt(i);
+                        p.Image.DisposBoundBox();
+                        powerUpImg.RemovePosition(p.Image);
+                        count--;
+                    }
+                }
+
+                //Updates the powerup that players has, remove then when time left if 0
+                count = activePowerUps.Count();
+                for (int i = 0; i < count; i++)
+                {
+                    var p = activePowerUps.ElementAt(i);
+                    p.Value.ElapsedTime += gameTime.ElapsedGameTime.Milliseconds;
+                    if (p.Value.ElapsedTime / 1000 > p.Value.PowerUp.duration)
+                    {
+                        p.Value.Player.RemovePowerUp(p.Value.PowerUp);
+                        activePowerUps.Remove(p.Key);
+                        count--;
+                    }
                 }
             }
+        }
+
+        public void addPowerUpToMap()
+        {
+            ImageModel model = powerUpImg.AddPosition(randomDropPosition());
+            model.SetBoundBox(World, 50, 50, Vector2.Zero, Category.Cat6, Category.All);
+            model.BoundBox.OnCollision += OnCollision;
+            powerUpImg.AnimateScale(model, 1f, 400, false);
+            elapsedTime = 0;
+            generateTimeToNext();
+
+            PowerUpStatus status = new PowerUpStatus(randomPowerUp(), model);
+            model.BoundBox.UserData = status;
+            model.CurrentFrame = (int)MathHelper.Clamp(status.PowerUp.imageFrame, 0f, 3f);
+            waitingPowerUps.Add(status);
         }
 
 
