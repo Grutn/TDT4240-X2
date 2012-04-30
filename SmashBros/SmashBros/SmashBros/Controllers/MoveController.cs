@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using SmashBros.Models;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Dynamics.Contacts;
+using System.Diagnostics;
 
 namespace SmashBros.Controllers
 {
@@ -96,7 +97,9 @@ namespace SmashBros.Controllers
                 Vector2 velocity = move.Stats.Type != MoveType.Range ?
                         ConvertUnits.ToSimUnits((move.Stats.SqTo - move.Stats.SqFrom) / (move.Stats.End - move.Stats.Start) * 1000) : move.Stats.BulletVelocity;
                 velocity *= move.Xdirection;
-                move.Img.BoundBox.LinearVelocity = velocity + characterVelocity;
+                velocity = move.Stats.SqFrom == move.Stats.SqTo ? characterVelocity : velocity + characterVelocity;
+                Debug.WriteLine(velocity);
+                move.Img.BoundBox.LinearVelocity = velocity;
                 move.Img.BoundBox.UserData = move;
 
                 if (move.Stats.Type == MoveType.Range)
@@ -141,12 +144,15 @@ namespace SmashBros.Controllers
 
         private bool Collision(Fixture moveFixture, Fixture geom2, Contact list)
         {
-            MoveModel move = (MoveModel)moveFixture.Body.UserData;
-            if (move.Stats.Explotion != null && geom2.CollisionCategories != (Category.Cat8 | Category.Cat7))
-                Explode(move.Stats.Explotion, ConvertUnits.ToDisplayUnits(moveFixture.Body.Position));
-            Img.RemovePosition(move.Img);
-            move.Ended = true;
-            moves.Remove(move);
+            if (geom2.CollisionCategories != Category.Cat11 || ((CharacterController)geom2.Body.UserData).model.playerIndex != playerIndex)
+            {
+                MoveModel move = (MoveModel)moveFixture.Body.UserData;
+                if (move.Stats.Explotion != null && geom2.CollisionCategories != (Category.Cat8 | Category.Cat7))
+                    Explode(move.Stats.Explotion, ConvertUnits.ToDisplayUnits(moveFixture.Body.Position));
+                Img.RemovePosition(move.Img);
+                move.Ended = true;
+                moves.Remove(move); 
+            }
             return false;
         }
 

@@ -252,6 +252,8 @@ namespace SmashBros.Controllers
                         case CharacterState.attacking:
                             if (currentMove.Ended)
                             {
+                                view.Rotation = 0;
+                                view.BoundBox.Rotation = 0;
                                 model.attackMode = false;
                                 NaturalState();
                                 break;
@@ -263,6 +265,8 @@ namespace SmashBros.Controllers
                                 {
                                     moves.EndMove(currentMove);
                                     moves.RemoveMove(currentMove);
+                                    view.Rotation = 0;
+                                    view.BoundBox.Rotation = 0;
                                 }
                                 if (currentMove.Stats.Type != MoveType.Range || !currentMove.Stats.Adjustable)
                                 {
@@ -284,11 +288,18 @@ namespace SmashBros.Controllers
 
                             if (currentMove.Stats.Adjustable && currentMove.attackTimeLeft <= Math.Abs(currentMove.Stats.Start - currentMove.Stats.Duration))
                             {
-                                float velocity = currentMove.Img.BoundBox.LinearVelocity.Length();
+                                float velocity = currentMove.Stats.Type == MoveType.Body? view.Velocity.Length() : currentMove.Img.BoundBox.LinearVelocity.Length();
                                 adjustAngle += model.faceRight ?
                                     navigation.Y * currentMove.Stats.AdjustAcc * gameTime.ElapsedGameTime.Milliseconds / 1000f :
                                     -navigation.Y * currentMove.Stats.AdjustAcc* 1f * gameTime.ElapsedGameTime.Milliseconds / 1000f;
-                                currentMove.Img.BoundBox.LinearVelocity = new Vector2(velocity * (float)Math.Cos(adjustAngle), velocity * (float)Math.Sin(adjustAngle));
+                                Vector2 newVelocity = new Vector2(velocity * (float)Math.Cos(adjustAngle), velocity * (float)Math.Sin(adjustAngle));
+                                currentMove.Img.BoundBox.LinearVelocity = newVelocity;
+                                if (currentMove.Stats.Type == MoveType.Body)
+                                {
+                                    view.Velocity = newVelocity;
+                                    view.BoundBox.Rotation = (float)adjustAngle;
+                                    view.Rotation = (float)adjustAngle;
+                                }
                                 try { currentMove.Img.BoundBox.Rotation = (float)adjustAngle; } catch { }
                             }
                             break;
@@ -453,7 +464,7 @@ namespace SmashBros.Controllers
                             model.setState(CharacterState.attacking, currentMove.Stats);
                             if (currentMove.Stats.Start == 0) moves.StartMove(view.Position, view.Velocity, currentMove);
                             if (currentMove.Stats.Type == MoveType.Body && currentMove.Stats.BodyStart == 0) view.Velocity = currentMove.Stats.BodySpeed * currentMove.Xdirection;
-                            else if (currentMove.Stats.Adjustable) adjustAngle = model.faceRight ? 0 : Math.PI;
+                            if (currentMove.Stats.Adjustable) adjustAngle = model.faceRight ? currentMove.Stats.StartAngle : Math.PI - currentMove.Stats.StartAngle;
                         }
                     }
                 }
@@ -521,9 +532,16 @@ namespace SmashBros.Controllers
 
         private bool Collision(Fixture chara, Fixture obj, Contact list)
         {
+            if (model.state == CharacterState.attacking && currentMove.Stats.Type == MoveType.Body && currentMove.Stats.Adjustable && (currentMove.Stats.StopAtHit || obj.CollisionCategories != Category.Cat11))
+            {
+                moves.EndMove(currentMove);
+                view.Rotation = 0;
+                view.BoundBox.Rotation = 0;
+                model.attackMode = false;
+            }
             if ((obj.CollisionCategories == Category.Cat9 || obj.CollisionCategories == Category.Cat10)
                 && (chara.Body.Position.Y + view.size.Y / 2 <= obj.Body.Position.Y - (float)obj.Body.UserData / 2 && view.VelocityY >= 0))
-            {
+            {   
                 model.inAir = false;
                 if (obj.CollisionCategories == Category.Cat10) model.onSoftBox = true;
                 NaturalState();

@@ -90,6 +90,11 @@ namespace SmashBros.Model
         public float AdjustAcc;
 
         /// <summary>
+        /// The angle the adjustable move starts out from.
+        /// </summary>
+        public double StartAngle;
+
+        /// <summary>
         /// Whether the move stops when it hits a character.
         /// </summary>
         public bool StopAtHit;
@@ -212,11 +217,12 @@ namespace SmashBros.Model
         public int AniAdjustmodeFrom, AniAdjustmodeTo;
         */
         public AdjustableMove(int damage, int duration, int start, int end, int aniFrom, int aniTo, int effectFrame, Vector2 power, Vector2 sqFrom, Vector2 sqTo, Vector2 sqSize,
-            float adjustAcc, int aniAdjustmodeFrom, int aniAdjustmodeTo, bool stopAtHit)
+            float adjustAcc, double startAngle, int aniAdjustmodeFrom, int aniAdjustmodeTo, bool stopAtHit)
             : base(damage, duration, start, end, aniFrom, aniTo, effectFrame, power, sqFrom, sqTo, sqSize)
         {
             Adjustable = adjustAcc != 0;
             AdjustAcc = adjustAcc;
+            startAngle = startAngle;
             AniAdjustmodeFrom = aniAdjustmodeFrom;
             AniAdjustmodeTo = aniAdjustmodeTo;
             StopAtHit = stopAtHit;
@@ -237,8 +243,8 @@ namespace SmashBros.Model
         public int BodyStart, BodyEnd;
         */
         public BodyMove(int damage, int duration, int start, int end, int aniFrom, int aniTo, int effectFrame, Vector2 power, Vector2 sqFrom, Vector2 sqTo, Vector2 sqSize,
-            Vector2 bodySpeed, int bodyStart = -1, int bodyEnd = -1, float adjustAcc = 0, int aniAdjustmodeFrom = 0, int aniAdjustmodeTo = 0, bool stopAtHit = false)
-            : base(damage, duration, start, end, aniFrom, aniTo, effectFrame, power, sqFrom, sqTo, sqSize, adjustAcc, aniAdjustmodeFrom, aniAdjustmodeTo, stopAtHit)
+            Vector2 bodySpeed, int bodyStart = -1, int bodyEnd = -1, float adjustAcc = 0, double startAngle = 0, int aniAdjustmodeFrom = 0, int aniAdjustmodeTo = 0, bool stopAtHit = false)
+            : base(damage, duration, start, end, aniFrom, aniTo, effectFrame, power, sqFrom, sqTo, sqSize, adjustAcc, startAngle, aniAdjustmodeFrom, aniAdjustmodeTo, stopAtHit)
         {
             Type = MoveType.Body;
             
@@ -282,8 +288,8 @@ namespace SmashBros.Model
         public int StopAfter;
         */
         public RangeMove(int damage, int duration, int start, int aniFrom, int aniTo, int effectFrame, Vector2 power, Vector2 sqFrom, Vector2 sqSize,
-            Vector2 bulletVelocity, int aniBulletFrom, int aniBulletTo, bool gravity = false, bool heatSeaking = false, Explotion explotion = null, bool stopAtHit = true, int stopAfter = -1, float adjustAcc = 0, int aniAdjustmodeFrom = 0, int aniAdjustmodeTo = 0)
-            : base(damage, duration, start, 5000, aniFrom, aniTo, effectFrame, power, sqFrom, new Vector2(0,0), sqSize, adjustAcc, aniAdjustmodeFrom, aniAdjustmodeTo, stopAtHit)
+            Vector2 bulletVelocity, int aniBulletFrom, int aniBulletTo, bool gravity = false, bool heatSeaking = false, Explotion explotion = null, bool stopAtHit = true, int stopAfter = -1, float adjustAcc = 0, double startAngle = 0, int aniAdjustmodeFrom = 0, int aniAdjustmodeTo = 0)
+            : base(damage, duration, start, 5000, aniFrom, aniTo, effectFrame, power, sqFrom, new Vector2(0,0), sqSize, adjustAcc, startAngle, aniAdjustmodeFrom, aniAdjustmodeTo, stopAtHit)
         {
             Type = MoveType.Range;
 
