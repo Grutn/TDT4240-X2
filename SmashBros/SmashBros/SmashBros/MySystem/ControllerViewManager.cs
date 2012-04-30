@@ -41,7 +41,7 @@ namespace SmashBros.MySystem
             this.content = content;
             this.graphicsDevice = graphicsDevice;
             this.batch = new SpriteBatch(graphicsDevice);
-            this.world = new World(Vector2.Zero);
+            this.world = new World(new Vector2(0, Constants.GamePlayGravity));
             this.controllerQueue = new ConcurrentQueue<Tuple<Controller, QueueState>>();
             this.viewQueue = new ConcurrentQueue<Tuple<IView, QueueState>>();
 
@@ -241,7 +241,7 @@ namespace SmashBros.MySystem
             {
                 controllerQueue.Enqueue(Tuple.Create(controller, QueueState.Dispose));
             }
-            else
+            else if(controller != null)
             {
                 controller.Unload();
             }

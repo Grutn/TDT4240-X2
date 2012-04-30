@@ -1,5 +1,6 @@
 Content\background.xnb
 Content\blank.xnb
+Content\GameStuff\PowerUps.xnb
 Content\gradient.xnb
 Content\spiderman.xnb
 Content\Menu\StartScreen.xnb
@@ -10,8 +11,7 @@ Content\Cursors\Player0.xnb
 Content\Cursors\Player1.xnb
 Content\Cursors\Player3.xnb
 Content\Cursors\Player2.xnb
-Content\Characters\WolverineImage.xnb
-Content\Characters\SpidermanImage.xnb
+Content\GameStuff\CountDown.xnb
 Content\Characters\SpidermanAnimation.xnb
 Content\Menu\PopupMenu.xnb
 Content\Maps\CityBg.xnb
@@ -25,6 +25,8 @@ Content\Characters\SupermanFatPose.xnb
 Content\Characters\SupermanFatThumb.xnb
 Content\Characters\SupermanFatAnimation.xnb
 Content\Maps\CityMapThumb.xnb
+Content\GameStuff\Life.xnb
+Content\GameStuff\GameOver.xnb
 Content\Fonts\gamefont.xnb
 Content\menufont.xnb
 Content\Fonts\Impact.xnb
@@ -52,8 +54,16 @@ Content\Sound\Spiderman\punch.xnb
 Content\Sound\Spiderman\selected.xnb
 Content\Sound\Spiderman\web.xnb
 <<<<<<< HEAD
+Content\Maps\HeroStadium.xnb
+Content\Maps\CloudBg.xnb
+Content\Maps\HeroStadiumThumb.xnb
+Content\Sound\Menu\MenuMusic.xnb
+Content\Sound\Menu\btn.xnb
+Content\Characters\SpidermanPose.xnb
+Content\Sound\Game\HeroStadium.xnb
+Content\Characters\WolverineAnimation.xnb
+Content\Characters\WolverinePose.xnb
 =======
-Content\Maps\CityMapThumb.xnb
-Content\GameStuff\PowerUps.xnb
->>>>>>> 481371d2ae342a3224c6da18094824e1aaa55a90
+Content\GameStuff\RangeAttacks.xnb
+>>>>>>> 36104da383ef6ae792c5a75350c3c92f5667c8b1
 Content\font.xnb

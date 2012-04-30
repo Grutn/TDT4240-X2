@@ -140,7 +140,7 @@ namespace SmashBros.MySystem
                 if (i == 1)
                 {
                     c.thumbnail = "Characters/SpidermanThumb";
-                    c.image = "Characters/SpidermanImage";
+                    c.image = "Characters/SpidermanPose";
                     c.sound_selected = "Sound/Spiderman/selected";
                     c.sound_jump = "Sound/Spiderman/jump";
                     c.sound_kill = "Sound/Wolwerine/kill";
@@ -229,26 +229,51 @@ namespace SmashBros.MySystem
                 map.bgImage = "Maps/CityBg";
                 map.mapImage = "Maps/CityMap";
                 map.thumbImage = "Maps/CityMapThumb";
-                map.backgroundMusic = "Sound/main";
+                map.backgroundMusic = "Sound/Game/HeroStadium";
                 map.size = new Box(3500, 1600, -800, 0);
                 map.zoomBox = new Box(3000, 1300, -800, 100);
-                map.DropZone = new Box(1000, 800, 500, 100);
+                map.DropZone = new Box(200, 800, 500, 100);
 
 
-                map.AddBox(680, 1270, 620, 450);
-                map.AddBox(1245, 990, 540, 60);
-                map.AddBox(1235, 1290, 520, 540);
-                map.AddBox(245, 1200, 360, 570);
+                if (i == 0)
+                {
+                    map.name = "Hero Stadium";
+                    map.bgImage = "Maps/CloudBg";
+                    map.mapImage = "Maps/HeroStadium";
+                    map.thumbImage = "Maps/HeroStadiumThumb";
+                    map.size = new Box(3400, 2000, -1100, -1200);
+                    map.zoomBox = new Box(2500, 1370, -570, -570);
+                    map.DropZone = new Box(1300, 415, 50, -330);
 
-                map.AddFloatBox(765, 620, 485);
-                map.AddFloatBox(705, 815, 670);
+                    map.AddBox(690, 270, 1300, 70);
+                    map.AddBox(705, 376, 1155, 145);
+                    map.AddBox(700, 636, 250, 370);
+
+                    map.AddFloatBox(700, 50, 515);
+
+                    map.AddStartPos(280, 140);
+                    map.AddStartPos(1170, 140);
+                    map.AddStartPos(530, -70);
+                    map.AddStartPos(870, -70);
+                }
+                else
+                {
+
+                    map.AddBox(680, 1270, 620, 450);
+                    map.AddBox(1245, 990, 540, 60);
+                    map.AddBox(1235, 1290, 520, 540);
+                    map.AddBox(245, 1200, 360, 570);
+
+                    map.AddFloatBox(765, 620, 485);
+                    map.AddFloatBox(705, 815, 670);
 
 
-                int mx = -420;
-                map.AddStartPos(650 + mx, 800);
-                map.AddStartPos(1700 + mx, 850);
-                map.AddStartPos(850 + mx, 700);
-                map.AddStartPos(1400 + mx, 700);
+                    int mx = -420;
+                    map.AddStartPos(650 + mx, 800);
+                    map.AddStartPos(1700 + mx, 850);
+                    map.AddStartPos(850 + mx, 700);
+                    map.AddStartPos(1400 + mx, 700);
+                }
 
                 Write(map, MapFolder, "Map" + i);
             }
@@ -332,7 +357,7 @@ namespace SmashBros.MySystem
                 PowerUp p = new PowerUp()
                 {
                     acceleration = r.Next(0, 10),
-                    duration = r.Next(2, 4),
+                    duration = r.Next(5, 15),
                     jumpStartVelocity = r.Next(0, 10),
                     maxSpeed = r.Next(0, 10),
                     weight = r.Next(0, 100),

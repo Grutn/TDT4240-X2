@@ -58,7 +58,7 @@ namespace SmashBros.Controllers
         {
 
             Screen.soundController.LoadGameSounds(content, this, map.CurrentMap.backgroundMusic);
-            
+
             this.camera = new CameraController(Screen, map.Model.zoomBox);
 
             //The effects image for hits
@@ -95,13 +95,12 @@ namespace SmashBros.Controllers
             if (!Screen.GameOptions.UseLifes)
             {
                 timeLeft = new TimeSpan(0, Screen.GameOptions.Minutes, 0);
-                timer = new TextBox(getTimeLeft(), FontDefualt, new Vector2(Constants.WindowHeight - 10, 10), Color.White);
+                timer = new TextBox(getTimeLeft(), FontDefualt, new Vector2(Constants.WindowWidth - 80, 10), Color.White);
                 timer.Layer = 150;
                 timer.StaticPosition = true;
                 AddView(timer);
             }
             
-            World.Gravity = new Vector2(0, Constants.GamePlayGravity);
             AddController(camera);
             AddController(this.map);
 
@@ -165,6 +164,8 @@ namespace SmashBros.Controllers
                 pad.OnStartPress -= OnStartPress;
             }
 
+            RemoveView(timer);
+
             Screen.ControllerViewManager.camera.ResetCamera();
 
             System.GC.SuppressFinalize(this);
@@ -173,110 +174,124 @@ namespace SmashBros.Controllers
         public override void Update(GameTime gameTime)
         {
             //If wait for gameovertext = true then game is over, just waiting for gameOver text to animate + som extra time
-            if (!waitForGameOverText)
+            if (CurrentState != GameState.GamePause)
             {
-                bool gameOver = false;
-
-                #region Checks if game is over
-                //If uselifes is set, then check if there is only one player left with one life
-                //else check if timeLEft is 0
-                if (Screen.GameOptions.UseLifes)
+                if (!waitForGameOverText)
                 {
-                    //Checks if all except one player is dead
-                    int deadPlayers = 0;
-                    foreach (var stats in players)
-                    {
-                        if (stats.Value.PlayerStats.LifesLeft == 0)
-                        {
-                            deadPlayers++;
-                        }
-                    }
 
-                    gameOver = deadPlayers == players.Count() - 1;
+                    bool gameOver = false;
 
-                }
-                else
-                {
-                    timeLeft = timeLeft - new TimeSpan(0, 0, 0, 0, gameTime.ElapsedGameTime.Milliseconds);
-                    timer.Text = getTimeLeft();
-
-                    if (timeLeft.Minutes <= 0 && timeLeft.Seconds <= 0)
-                    {
-                        gameOver = true;
-                    }
-                }
-                #endregion
-
-                //If gameIsOVer and gameOver not is run yet
-                //Then add the gameover text and animate it in
-                //Game is put in gameover state when animation is done
-                if (gameOver)
-                {
-                    #region Check and sets which player that has won game
+                    #region Checks if game is over
+                    //If uselifes is set, then check if there is only one player left with one life
+                    //else check if timeLEft is 0
                     if (Screen.GameOptions.UseLifes)
                     {
-                        //if use lifes it finds the player that has lifes left
-                        players.Where(a => a.Value.PlayerStats.LifesLeft != 0).First().Value.PlayerStats.IsWinner = true;
+                        //Checks if all except one player is dead
+                        int deadPlayers = 0;
+                        foreach (var stats in players)
+                        {
+                            if (stats.Value.PlayerStats.LifesLeft == 0)
+                            {
+                                deadPlayers++;
+                            }
+                        }
+
+                        gameOver = deadPlayers == players.Count() - 1;
+
                     }
                     else
                     {
-                        int max = 0;
-                        List<int> winners = new List<int>();
-                        foreach (var p in players)
+                        timeLeft = timeLeft - new TimeSpan(0, 0, 0, 0, gameTime.ElapsedGameTime.Milliseconds);
+                        timer.Text = getTimeLeft();
+
+                        if (timeLeft.Minutes <= 0 && timeLeft.Seconds <= 0)
                         {
-                            int kills = p.Value.PlayerStats.PlayerKills.Count();
-                            if (kills > max)
-                            {
-                                max = kills;
-                                winners = new List<int>() { p.Value.PlayerStats.PlayerIndex };
-                            }
-                            else if (kills == max)
-                            {
-                                winners.Add(p.Value.PlayerStats.PlayerIndex);
-                            }
+                            gameOver = true;
                         }
-
-                        foreach (var p in players)
-                        {
-                            if (winners.Exists(a => a == p.Value.PlayerStats.PlayerIndex))
-                            {
-                                p.Value.PlayerStats.IsWinner = true;
-                            }
-                        }
-
-
                     }
                     #endregion
 
-                    waitForGameOverText = true;
+                    //If gameIsOVer and gameOver not is run yet
+                    //Then add the gameover text and animate it in
+                    //Game is put in gameover state when animation is done
+                    if (gameOver)
+                    {
+                        Screen.popupMenuController.State = PopupState.Removed;
 
-                    //Shows the gameover text
-                    AddController(this.gameOver);
-                    ImageModel model = this.gameOver.SetPosition(Constants.WindowWidth / 2, Constants.WindowHeight / 2);
-                    //Animates it in
-                    this.gameOver.AnimateScale(1f, 800, false);
+                        #region Check and sets which player that has won game
+                        if (Screen.GameOptions.UseLifes)
+                        {
+                            //if use lifes it finds the player that has lifes left
+                            players.Where(a => a.Value.PlayerStats.LifesLeft != 0).First().Value.PlayerStats.IsWinner = true;
+                        }
+                        else
+                        {
+                            int max = 0;
+                            List<int> winners = new List<int>();
+                            foreach (var p in players)
+                            {
+                                int kills = p.Value.PlayerStats.PlayerKills.Count();
+                                if (kills > max)
+                                {
+                                    max = kills;
+                                    winners = new List<int>() { p.Value.PlayerStats.PlayerIndex };
+                                }
+                                else if (kills == max)
+                                {
+                                    winners.Add(p.Value.PlayerStats.PlayerIndex);
+                                }
+                            }
 
-                    //Disables the start menu so you can't press start while the gameovertext shows
-                    Screen.popupMenuController.Disabled = true;
+                            foreach (var p in players)
+                            {
+                                if (winners.Exists(a => a == p.Value.PlayerStats.PlayerIndex))
+                                {
+                                    p.Value.PlayerStats.IsWinner = true;
+                                }
+                            }
+
+
+                        }
+                        #endregion
+
+                        waitForGameOverText = true;
+
+                        //Shows the gameover text
+                        AddController(this.gameOver);
+                        ImageModel model = this.gameOver.SetPosition(Constants.WindowWidth / 2, Constants.WindowHeight / 2);
+                        //Animates it in
+                        this.gameOver.AnimateScale(1f, 800, false);
+
+                        //Disables the start menu so you can't press start while the gameovertext shows
+                        Screen.popupMenuController.Disabled = true;
+                    }
                 }
-            }
-            else
-            {
-                //Terminate the controller and starts the menu controller when the gameoverwait is done
-                gameOverWait -= gameTime.ElapsedGameTime.Milliseconds;
-                if (gameOverWait <= 0)
+                else
                 {
-                    CurrentState = GameState.GameOver;
-                    AddController(new MenuController(Screen, GetGameStats()));
-                    DisposeController(this);
+                    //Terminate the controller and starts the menu controller when the gameoverwait is done
+                    gameOverWait -= gameTime.ElapsedGameTime.Milliseconds;
+                    if (gameOverWait <= 0)
+                    {
+                        CurrentState = GameState.GameOver;
+                        AddController(new MenuController(Screen, GetGameStats()));
+                        DisposeController(this);
+                    }
                 }
             }
+           
         }
 
         #region Observers
 
         public override void OnNext(GameStateManager value)
         {
+            switch (value.PreviousState)
+            {
+                case GameState.GamePause:
+                    characterControllers.ForEach(a => a.Freezed = false);
+                    break;
+            }
+
             switch (value.CurrentState)
             {
                 case GameState.StartScreen:
@@ -287,6 +302,10 @@ namespace SmashBros.Controllers
                     break;
                 case GameState.MapsMenu:
                     DisposeController(this);
+                    break;
+
+                case GameState.GamePause:
+                    characterControllers.ForEach(a => a.Freezed = true);
                     break;
             }
         }

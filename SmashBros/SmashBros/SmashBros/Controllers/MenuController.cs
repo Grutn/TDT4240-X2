@@ -103,7 +103,9 @@ namespace SmashBros.Controllers
             //Loads the background for selectionmenuy and startscreen
             startScreen = new ImageController(Screen, "Menu/StartScreen", 1, true);
             startScreen.OnAnimationDone += BgImageAnimationDone;
-            
+            startScreen.IsVisible = true;
+            AddController(startScreen);
+
             selectionScreen = new ImageController(Screen, "Menu/SelectionScreen", 1, true);
             selectionScreen.IsVisible = false;
             selectionScreen.OnAnimationDone += BgImageAnimationDone;
@@ -130,7 +132,9 @@ namespace SmashBros.Controllers
             //Loads the sounds for the menu
             Screen.soundController.LoadSelectionMenuSounds(content, this, characterModels);
 
+
             SubscribeToGameState = true;
+
         }
         
         /// <summary>
@@ -144,7 +148,7 @@ namespace SmashBros.Controllers
             tipsText.Layer = 100;
 
             //Init continiue text
-            continueText = new TextBox("Press ENTER to continue", GetFont("Impact.large"), 250, 320, Color.White, 1f);
+            continueText = new TextBox("Press ENTER or START to continue", GetFont("Impact.large"), 250, 320, Color.White, 1f);
             continueText.StaticPosition = true;
             continueText.Layer = 900;
             continueText.TextBackground = Draw.ColoredRectangle(Screen.GraphicsDevice, 900, 80, new Color(237, 27, 36));
@@ -202,6 +206,7 @@ namespace SmashBros.Controllers
             {
 
                 ImageController thumb = new ImageController(Screen, character.thumbnail, 3, true);
+                thumb.OriginDefault = new Vector2(Constants.ThumbWith - 10, Constants.ThumbHeight - 10) / 2;
                 thumb.IsVisible = false;
                 thumb.ScaleDefault = 0.1f;
 
@@ -243,9 +248,10 @@ namespace SmashBros.Controllers
                 ImageController thumb = new ImageController(Screen, map.thumbImage, 3, true);
                 thumb.IsVisible = false;
                 thumb.ScaleDefault = 0.1f;
+                thumb.OriginDefault = new Vector2(300, 230)/2;
 
                 ImageModel img = thumb.SetPosition(300 * column + 200, row * 230 + 180);
-                img.SetBoundBox(World, 300, 210, Vector2.Zero, Category.Cat5, Category.Cat4, true);
+                img.SetBoundBox(World, 280, 210, Vector2.Zero, Category.Cat5, Category.Cat4, true);
                 img.BoundBox.IsSensor = true;
                 img.BoundBox.Enabled = false;
                 img.BoundBox.UserData = i;
@@ -268,9 +274,13 @@ namespace SmashBros.Controllers
         public override void Unload()
         {
 
+            Screen.soundController.UnloadMenuSounds();
             Screen.cursorsController.OnCursorClick -= OnCursorClick;
             Screen.cursorsController.OnCursorCollision -= OnCursorCollision;
             Screen.cursorsController.OnCursorSeparation -= OnCursorSeparation;
+
+            optionsBox.Dispose();
+            helpBox.Dispose();
 
             foreach (var pad in GamePadControllers)
             {
@@ -371,6 +381,7 @@ namespace SmashBros.Controllers
                     break;
                 case GameState.GameOver:
                     GameStatsVisible = false;
+                    continueText.Position = new Vector2(250, 320);
                     foreach (var pad in GamePadControllers)
                     {
                         pad.PlayerModel.SelectedCharacter = null;
@@ -381,9 +392,9 @@ namespace SmashBros.Controllers
             switch (value.CurrentState)
             {
                 case GameState.StartScreen:
-                    AddController(startScreen);
+                    startScreen.IsVisible = true;
+                    animateOut = selectionScreen;
                     animateIn = startScreen;
-
                     AddView(tipsText);
                     break;
                 case GameState.CharacterMenu:
@@ -392,6 +403,7 @@ namespace SmashBros.Controllers
                         animateIn = selectionScreen;
                     //Loads the sounds for the menu
                     CharacterSelectionVisible = true;
+                    
                     Screen.soundController.PlayMenuSound(MenuSoundType.choose);
                     break;
 
@@ -416,6 +428,7 @@ namespace SmashBros.Controllers
                     selectionScreen.IsVisible = true;
                     animateIn = selectionScreen;
                     GameStatsVisible = true;
+                    Screen.popupMenuController.Disabled = false;
                     break;
             }
 
@@ -459,6 +472,8 @@ namespace SmashBros.Controllers
                                 GamePadControllers[playerIndex].PlayerModel.SelectedCharacter = characterModels[(int)targetData];
                                 GamePadControllers[playerIndex].PlayerModel.CharacterIndex = (int)targetData;
                                 Screen.cursorsController.DisableCursor(playerIndex);
+
+                                Screen.soundController.PlayMenuSound(MenuSoundType.characterSelected, characterModels[(int)targetData]);
                             }
                             else
                             {
@@ -554,7 +569,19 @@ namespace SmashBros.Controllers
 
         private void OnBackPress(int playerIndex)
         {
-            CurrentState = (GameState)MathHelper.Clamp((int)CurrentState - 1, 0, 5);
+            //Returns if the popupmenu is open
+            if (Screen.popupMenuController.State != (PopupState.Colapsed | PopupState.Removed)) return;
+
+            if (CurrentState != GameState.GameOver)
+            {
+                //If current state is character menu then it goes to start screen, so deselct all chracters
+                if (CurrentState == GameState.CharacterMenu)
+                    GamePadControllers.ForEach(a => a.PlayerModel.SelectedCharacter = null);
+
+                CurrentState = (GameState)MathHelper.Clamp((int)CurrentState - 1, 0, 5);
+            }
+            else
+                CurrentState = GameState.CharacterMenu;
         } 
 
         #endregion
@@ -612,24 +639,11 @@ namespace SmashBros.Controllers
         {
             if (imagePosition.CurrentPos.Y <= -10)
                 target.IsVisible = false;
-
-            switch (CurrentState)
-            {
-                case GameState.StartScreen:
-                    break;
-                case GameState.CharacterMenu:
-                    characterThumbs.ForEach(a => AddController(a));
-                    break;
-                case GameState.MapsMenu:
-                    break;
-                case GameState.GamePlay:
-                    break;
-                default:
-                    break;
-            }
-
         }
 
+        /// <summary>
+        /// Creates a collision box that works as a button
+        /// </summary>
         private Body CreateBtn(int x, int y, int width, int height, string btnName){
             Body btn = BodyFactory.CreateRectangle(World, ConvertUnits.ToSimUnits(width), ConvertUnits.ToSimUnits(height), 1f);
             btn.Position = ConvertUnits.ToSimUnits(x, y);
@@ -652,7 +666,7 @@ namespace SmashBros.Controllers
                         map.GetAt(0).BoundBox.Enabled = true;
                         map.AnimateScale(1, 300);
                     }
-                    continueText.Text = "Press ENTER to start game";
+                    continueText.Text = "Press ENTER or START to start game";
                     continueText.Scale = 1.2f;
                 }
                 else

@@ -27,8 +27,6 @@ namespace SmashBros.MySystem
     {
         
         public Dictionary<string,SpriteFont> fonts;
-        public KeyboardState currentKeyboardState;
-        public KeyboardState oldKeyboardState;
         public ControllerViewManager ControllerViewManager;
         public GameStateManager gameStateManager;
 
@@ -60,11 +58,16 @@ namespace SmashBros.MySystem
 
         protected override void LoadContent()
         {
+
+
             ContentManager content = Game.Content;
+
             //Loads the gameoptions from last time
             GameOptions = Serializing.LoadGameOptions();
 
             ControllerViewManager = new ControllerViewManager(Game.GraphicsDevice, content);
+            //Adds the sound controller
+            ControllerViewManager.AddController(soundController);
 
             //Loads and add the fonts to the a list so controllers easily can reach this just by the name of the string
             fonts.Add("Impact", content.Load<SpriteFont>("Fonts/Impact"));
@@ -129,9 +132,6 @@ namespace SmashBros.MySystem
                     elapsedTime = 0;
                 }
             }
-            //Save keyboard state so all controllers can access them
-            oldKeyboardState = currentKeyboardState;
-            currentKeyboardState = Keyboard.GetState();
 
             ControllerViewManager.Update(gameTime);
 

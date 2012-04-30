@@ -99,9 +99,7 @@ namespace SmashBros.Controllers
 
                 if (value)
                 {
-                    ResetCursors();
                     bool onlyHasSelCharacter = GameState.MapsMenu == CurrentState || GameState.GamePause == CurrentState;
-
                     int i = 0;
                     foreach (var cursor in playerCursors)
                     {
@@ -159,6 +157,7 @@ namespace SmashBros.Controllers
 
         private bool OnCollision(Fixture cursor, Fixture box, Contact contact)
         {
+            Screen.soundController.PlayMenuSound(MenuSoundType.btnHover, null);
             int playerIndex = (int)cursor.Body.UserData;
             var cursorModel = playerCursors[playerIndex];
             cursorModel.CurrentTarget = box.Body;

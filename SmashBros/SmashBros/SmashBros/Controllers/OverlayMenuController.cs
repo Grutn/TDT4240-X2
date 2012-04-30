@@ -13,9 +13,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace SmashBros.Controllers
 {
+    [Flags]
     public enum PopupState
     {
-        Removed, Colapsed, GamePause, Options, Help
+        Removed=1, Colapsed=2, GamePause=3, Options=4, Help=5
     }
 
     public class OverlayMenuController : Controller
@@ -132,7 +133,8 @@ namespace SmashBros.Controllers
                     break;
             }
 
-            
+            Disabled = false;
+            State = PopupState.Colapsed;
             AddController(new MenuController(Screen));
 
         }
@@ -183,9 +185,12 @@ namespace SmashBros.Controllers
             }
 
             Serializing.SaveGameOptions(Screen.GameOptions);
-            menuView.SetEntries(World, Screen.GameOptions.CreateMenu(optionsMenuClick).ToArray());
+            menuView.SetEntries(World,Screen.GameOptions.CreateMenu(optionsMenuClick).ToArray());
+            menuView.AddEntries(World, new MenuEntry("Close Menu", closeMenuBox),
+            new MenuEntry("Exit Game", exitGame));
         }
 
+        
         /// <summary>
         /// Runs when a exit game button is clicked
         /// </summary>
@@ -208,7 +213,6 @@ namespace SmashBros.Controllers
 
         public override void OnNext(GameStateManager value)
         {
-            Disabled = false;
             switch (value.CurrentState)
             {
                 case GameState.StartScreen:
@@ -275,10 +279,17 @@ namespace SmashBros.Controllers
 
         private void closeMenuBox(int i)
         {
-            if (CurrentState == GameState.MapsMenu || CurrentState == GameState.CharacterMenu)
+
+            if (CurrentState == GameState.MapsMenu || CurrentState ==  GameState.CharacterMenu)
                 this.State = PopupState.Colapsed;
             else
                 this.State = PopupState.Removed;
+
+            //Unpauses the game if in gamepuase
+            if (CurrentState == GameState.GamePause)
+            {
+                CurrentState = GameState.GamePlay;
+            }
         }
 
         private void OnAnimationDone(ImageController img, ImageModel pos)

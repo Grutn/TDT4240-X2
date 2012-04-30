@@ -34,20 +34,21 @@ namespace SmashBros.Views
             }
 
             this.Entries = new List<MenuEntry>();
-            int i = 0; 
-            float yPos = StartingPosition.Y +40;
+
+            float yPos = StartingPosition.Y + 40;
+            int i = 0;
 
             foreach (var e in entries)
             {
                 e.textSize = font.MeasureString(e.text);
-                e.boundBox = BodyFactory.CreateRectangle(world, 
+                e.boundBox = BodyFactory.CreateRectangle(world,
                     ConvertUnits.ToSimUnits(menuWidht), ConvertUnits.ToSimUnits(50), 1f);
                 e.boundBox.CollisionCategories = Category.Cat6;
                 e.boundBox.IsSensor = true;
                 e.boundBox.IsStatic = true;
                 e.boundBox.Position = ConvertUnits.ToSimUnits(StartingPosition.X + menuWidht / 2 + 50, yPos) +
                     ConvertUnits.ToSimUnits(new Vector2(0, menuHeight / 2 - (entries.Count() * 60) / 2));
-                   
+
                 e.boundBox.UserData = e;
                 e.entryIndex = i;
                 i++;
@@ -55,6 +56,17 @@ namespace SmashBros.Views
 
                 this.Entries.Add(e);
             }
+
+        }
+
+        public void AddEntries(World world, params MenuEntry[] entries)
+        {
+            foreach (var e in entries)
+	        {
+                Entries.Add(e);
+	        }
+
+            SetEntries(world, Entries.ToArray());
         }
 
         public void EmptyEntries()
