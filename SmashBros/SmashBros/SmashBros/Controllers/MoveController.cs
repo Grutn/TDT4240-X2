@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using SmashBros.Models;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Dynamics.Contacts;
+using Microsoft.Xna.Framework.Content;
 
 namespace SmashBros.Controllers
 {
@@ -24,12 +25,13 @@ namespace SmashBros.Controllers
         {
             Img = new ImageController(Screen, characterStats.moveAnimations, 120, false);
             Img.SetFrameRectangle(100, 100);
+            Img.OriginDefault = new Vector2(50, 50);
             moves = new List<MoveModel>();
             explotions = new List<Explotion>();
             playerIndex = index;
         }
 
-        public override void Load(Microsoft.Xna.Framework.Content.ContentManager content)
+        public override void Load(ContentManager content)
         {
             AddController(Img);
         }
@@ -90,6 +92,7 @@ namespace SmashBros.Controllers
             {
                 move.Img = Img.AddPosition(characterPosition + move.Stats.SqFrom * move.Xdirection);
                 move.Img.SetBoundBox(World, (int)move.Stats.SqSize.X, (int)move.Stats.SqSize.Y, Vector2.Zero, Category.Cat20, Category.Cat11);
+
                 move.Img.BoundBox.IgnoreGravity = true;
                 move.Img.BoundBox.IsStatic = false;
 

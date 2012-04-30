@@ -42,6 +42,7 @@ namespace SmashBros.Controllers
             powerUps = Serializing.LoadPowerUps();
             powerUpImg = new ImageController(Screen, "GameStuff/PowerUps", 120, false);
             powerUpImg.FrameRectangle = new Rectangle(0, 0, 50, 50);
+            powerUpImg.OriginDefault = new Vector2(25, 25);
             powerUpImg.FramesPerRow = 5;
             powerUpImg.ScaleDefault = 0;
             AddController(powerUpImg);
@@ -60,7 +61,7 @@ namespace SmashBros.Controllers
             if (elapsedTime / 1000 > random.Next(minNew, maxNew))
             {
                 ImageModel model = powerUpImg.AddPosition(randomDropPosition());
-                model.SetBoundBox(World, 60, 60, Vector2.Zero, Category.Cat6, Category.All);
+                model.SetBoundBox(World, 50, 50, Vector2.Zero, Category.Cat6, Category.All);
                 model.BoundBox.OnCollision += OnCollision;
                 powerUpImg.AnimateScale(model, 1f, 400, false);
                 elapsedTime = 0;

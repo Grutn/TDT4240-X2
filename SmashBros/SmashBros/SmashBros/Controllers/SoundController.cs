@@ -121,17 +121,21 @@ namespace SmashBros.Controllers
         float elapsedTime = 0;
         public override void Update(GameTime gameTime)
         {
-            if (backgroundMusic.Volume != toVolume)
+            if (Constants.Music)
             {
-                elapsedTime += gameTime.ElapsedGameTime.Milliseconds;
-                //Uses 1.5 sec to fade in so percent is elapsed/1500
-                if (elapsedTime >= 5000)
+                if (backgroundMusic.Volume != toVolume)
                 {
-                    elapsedTime = 0;
-                    backgroundMusic.Volume = toVolume;
-                }else 
-                    backgroundMusic.Volume = toVolume * elapsedTime / 5000;
+                    elapsedTime += gameTime.ElapsedGameTime.Milliseconds;
+                    //Uses 1.5 sec to fade in so percent is elapsed/1500
+                    if (elapsedTime >= 5000)
+                    {
+                        elapsedTime = 0;
+                        backgroundMusic.Volume = toVolume;
+                    }
+                    else
+                        backgroundMusic.Volume = toVolume * elapsedTime / 5000;
 
+                }
             }
         }
 

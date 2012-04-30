@@ -84,6 +84,8 @@ namespace SmashBros.Models
         /// </summary>
         public int CurrentFrame, StartFrame, EndFrame;
 
+        public Vector2 Offset;
+
         /// <summary>
         /// Callback that is run every time the animation reaches a end point
         /// event if loop
@@ -98,14 +100,13 @@ namespace SmashBros.Models
             BoundBox = BodyFactory.CreateRectangle(World, ConvertUnits.ToSimUnits(width),
                 ConvertUnits.ToSimUnits(height), 1f);
 
-            BoundBox.Position = ConvertUnits.ToSimUnits(CurrentPos) +
-                ConvertUnits.ToSimUnits(offset);
-
+            BoundBox.Position = ConvertUnits.ToSimUnits(CurrentPos);
             BoundBox.CollidesWith = collidesWith;
             BoundBox.CollisionCategories = category;
             BoundBox.IsStatic = isStatic;
 
-            Origin = new Vector2(width / 2, height / 2);
+            Offset = offset;
+
         }
 
         internal void BoundBoxDimension(World world, int width, int height, Vector2 offset)

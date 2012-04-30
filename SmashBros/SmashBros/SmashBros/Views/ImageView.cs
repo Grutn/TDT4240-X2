@@ -78,7 +78,7 @@ namespace SmashBros.Views
                     rotation = i.BoundBox.Rotation;
                 }
                 
-                spriteBatch.Draw(Image, pos, r, Color.White, rotation, i.Origin, i.CurrentScale, SpriteEffects.None, 0);
+                spriteBatch.Draw(Image, pos + i.Offset, r, Color.White, rotation, i.Origin, i.CurrentScale, SpriteEffects.None, 0);
             }
         }
 
