@@ -128,55 +128,13 @@ namespace SmashBros.MySystem
             {
                 Directory.CreateDirectory(CharacterFolder);
             }
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 4; i++)
             {
-                CharacterStats c = new CharacterStats()
+                CharacterStats c = new CharacterStats();
+                if (i == 0)
                 {
-                    maxSpeed = 5,
-                    acceleration = 10,
-                    weight = 100,
-                    jumpStartVelocity = 10,
-                    gravity = 20,
-                    name = "",
-                    size = new Vector2(50, 120),
-                    
-                    sound_jump = null,
-                    sound_kill = null,
-                    sound_punch = null,
-                    sound_selected = null,
-                    sound_won = null,
 
-                    ani_noneStart = 0,
-                    ani_noneEnd = 0,
-                    ani_runStart = 0,
-                    ani_runEnd = 11,
-                    ani_brake = 42,
-                    ani_jumpStart = 16,
-                    ani_jumpEnd = 22,
-                    ani_fallStart = 22,
-                    ani_fallEnd = 24,
-                    ani_landStart = 24,
-                    ani_landEnd = 26,
-                    ani_takeHitStart = 12,
-                    ani_takeHitEnd = 1
-                };
-
-                c.animations = "Characters/SpidermanAnimation";
-                c.thumbnail = "Characters/WolverineThumb";
-                c.image = "Characters/WolverineImage";
-                c.moveAnimations = "GameStuff/RangeAttacks";
-
-                c.a = new MoveStats(10, 5000, 1500, 3500, 26, 35, 0, new Vector2(10, 0), new Vector2(20, 15), new Vector2(50, -5), new Vector2(10, 10));
-                c.aUp = new ChargeMove(30, 5000, 0, 250, 0, 0, 0, new Vector2(0, -20), new Vector2(0, -10), new Vector2(0, -50), new Vector2(10, 10),
-                    400, 2000, 0, 0, 0, 0);
-                c.aLR = new ChargeMove(30, 5000, 0, 250, 0, 0, 0, new Vector2(16, -3), new Vector2(10, 0), new Vector2(50, 0), new Vector2(10, 10),
-                    400, 2000, 0, 0, 0, 0);
-                c.aDown = new MoveStats(10, 5000, 0, 250, 28, 35, 0, new Vector2(5, 10), new Vector2(10, 10), new Vector2(30, 50), new Vector2(10, 10));
-
-                c.x = new RangeMove(3, 5000, 200, 0, 0, 0, new Vector2(1, 0), new Vector2(40, 0), new Vector2(10, 10), new Vector2(20, 0), 0, 0);
-                c.xLR = new MoveStats(10, 5000, 0, 100, 0, 0, 0, new Vector2(10, 10), new Vector2(0, 0), new Vector2(100, 100), new Vector2(50, 50));
-                c.xUp = new BodyMove(10, 5000, 300, 1400, 0, 0, 0, new Vector2(5, 5), new Vector2(0, 0), new Vector2(0, 0), new Vector2(30, 30), new Vector2(10, 20), 100, 1000);
-                c.aDown = new MoveStats(10, 5000, 0, 100, 0, 0, 0, new Vector2(10, 10), new Vector2(0, 0), new Vector2(100, 100), new Vector2(50, 50));
+                }
 
                 float caUP = 0.7f;
                 if (i == 1)
