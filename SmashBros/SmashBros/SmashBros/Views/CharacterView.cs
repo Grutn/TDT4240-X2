@@ -61,15 +61,13 @@ namespace SmashBros.Views
                     StartAnimation(stats.ani_takeHitStart, stats.ani_takeHitEnd, true);
                     break;
                 case CharacterState.attacking:
-                    StartAnimation(move.AniFrom, move.AniTo, false);
-                    if (move.Type == MoveType.Body) Velocity = ((BodyMove)move).BodySpeed;
+                    StartAnimation(move.AniFrom, move.AniTo, false, move.Duration);
                     break;
                 case CharacterState.shielding:
-                    
                     break;
-                case CharacterState.chargingHit:
-                    break;
-                case CharacterState.chargingSuper:
+                case CharacterState.charging:
+                    StartAnimation(move.AniStartChargeFrom, move.AniStartChargeTo, false, move.MinWait);
+                    AddAnimation(move.AniChargeLoopFrom, move.AniChargeLoopTo, true);
                     break;
                 default:
                     break;

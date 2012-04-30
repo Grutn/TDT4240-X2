@@ -72,7 +72,7 @@ namespace SmashBros.Views
                 //If not then used defined curent position
                 Vector2 pos = i.CurrentPos;
                 float rotation = i.CurrentRotation;
-                if (i.BoundBox != null && (!i.BoundBox.IsStatic || !i.BoundBox.FixtureList.First().IsSensor))
+                if (i.BoundBox != null && (!i.BoundBox.IsStatic || (i.BoundBox.FixtureList != null && !i.BoundBox.FixtureList.First().IsSensor)))
                 {
                     pos = ConvertUnits.ToDisplayUnits(i.BoundBox.Position);
                     rotation = i.BoundBox.Rotation;

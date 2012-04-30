@@ -11,7 +11,6 @@ namespace SmashBros.MySystem
         public const bool StartGameplay = true;
         public const bool Music = !true;
 
-
         public const int WindowWidth = 1280;
         public const int WindowHeight = 720;
         public const bool FullScreen = false;

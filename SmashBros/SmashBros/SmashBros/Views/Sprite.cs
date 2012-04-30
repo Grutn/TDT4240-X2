@@ -14,18 +14,19 @@ namespace SmashBros.Views
 {
     class SpriteAnimation
     {
-        public SpriteAnimation(int fromFrame, int toFrame, bool loop = false, string name = "")
+        public SpriteAnimation(int fromFrame, int toFrame, int duration, bool loop)
         {
             this.CurrentFrame = fromFrame;
             this.FromFrame = fromFrame;
             this.ToFrame = toFrame;
+            this.FPS = duration == -1 ? -1 : (toFrame - fromFrame + 2) * 1000f / duration;
             this.Loop = loop;
-            this.Name = name;
         }
 
         public string Name;
         public int FromFrame;
         public int ToFrame;
+        public float FPS;
         public int CurrentFrame;
         public bool Loop;
 
@@ -51,7 +52,7 @@ namespace SmashBros.Views
                     CurrentFrame = FromFrame;
                 }
                 //Check if elapsed time is large enough for the gams fps
-                if (elapsedTime >= 1000 / fps)
+                if (elapsedTime >= 1000 / (FPS == -1? fps : FPS == 0? 0.1 : FPS))
                 {
                     elapsedTime = 0;
                     int row = (int)Math.Floor((double)CurrentFrame / framesPerRow);
@@ -63,7 +64,7 @@ namespace SmashBros.Views
                 }
             }
 
-            return CurrentFrame == ToFrame;
+            return CurrentFrame == ToFrame + 1;
         }
     }
 
@@ -81,6 +82,7 @@ namespace SmashBros.Views
         public int fps = Constants.FPS;
         public float Opacity = 1;
         public bool Blinking = false;
+        public bool Red = false;
         private bool blinkUp = false;
 
         private Vector2 FreezedVelocity;
@@ -113,6 +115,7 @@ namespace SmashBros.Views
             this.spritePos = ConvertUnits.ToSimUnits(xPos, yPos);
             this.Scale = 1f;
             this.animations = new List<SpriteAnimation>();
+            this.Origin = new Vector2(frame.Width, frame.Height) / 2;
         }
 
         public void BoundRect(World world, float width, float height, BodyType type = BodyType.Dynamic)
@@ -256,15 +259,15 @@ namespace SmashBros.Views
         /// <param name="frameStart"></param>
         /// <param name="frameEnd"></param>
         /// <param name="loop"></param>
-        public void StartAnimation(int frameStart, int frameEnd, bool loop = false, string name = null)
+        public void StartAnimation(int frameStart, int frameEnd, bool loop = false, int duration = -1)
         {
             this.animations = new List<SpriteAnimation>();
-            AddAnimation(frameStart, frameEnd, loop, name);
+            AddAnimation(frameStart, frameEnd, loop, duration);
         }
 
-        public void AddAnimation(int frameStart, int frameEnd, bool loop = false, string name = null)
+        public void AddAnimation(int frameStart, int frameEnd, bool loop = false, int duration = -1)
         {
-            this.animations.Add(new SpriteAnimation(frameStart, frameEnd, loop, name));
+            this.animations.Add(new SpriteAnimation(frameStart, frameEnd, duration, loop));
         }
 
         public void ClearAnimations()
@@ -321,7 +324,7 @@ namespace SmashBros.Views
             }
             else Opacity = 1;
 
-            spriteBatch.Draw(texture, ConvertUnits.ToDisplayUnits(BoundBox.Position), frame, new Color(255,255,255, Opacity), Rotation, origin, Scale, SpriteEffect, 0f);
+            spriteBatch.Draw(texture, ConvertUnits.ToDisplayUnits(BoundBox.Position), frame, Red? new Color(255,0,0,Opacity) : new Color(255,255,255, Opacity), Rotation, Origin, Scale, SpriteEffect, 0f);
         }
 
         public override void Dispose()

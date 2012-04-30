@@ -152,7 +152,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Characters\SpidermanAnimation.xnb</Output>
-      <Time>2012-04-29T21:27:28.7070581+02:00</Time>
+      <Time>2012-04-30T06:47:07.1719733+02:00</Time>
     </Item>
     <Item>
       <Source>Menu\PopupMenu.png</Source>
@@ -206,7 +206,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Characters\RoketRacoonAnimation.xnb</Output>
-      <Time>2012-04-29T21:27:28.7017516+02:00</Time>
+      <Time>2012-04-30T08:24:27.9511955+02:00</Time>
     </Item>
     <Item>
       <Source>Characters\RoketRacoonPose.png</Source>
@@ -513,6 +513,15 @@
       <Options>None</Options>
       <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Sound\Spiderman\web.xnb</Output>
       <Time>2012-04-29T21:27:28.8130606+02:00</Time>
+    </Item>
+    <Item>
+      <Source>GameStuff\RangeAttacks.png</Source>
+      <Name>GameStuff\RangeAttacks</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\GameStuff\RangeAttacks.xnb</Output>
+      <Time>2012-04-30T02:31:57.0116187+02:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

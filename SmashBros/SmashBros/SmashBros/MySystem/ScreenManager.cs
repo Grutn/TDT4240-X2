@@ -96,7 +96,7 @@ namespace SmashBros.MySystem
                 gameStateManager.CurrentState = GameState.GamePlay;
                 var chars = Serializing.LoadCharacters();
                 var maps = Serializing.LoadMaps();
-                gamePads[0].PlayerModel.SelectedCharacter = chars[0];
+                gamePads[0].PlayerModel.SelectedCharacter = chars[1];
                 gamePads[0].PlayerModel.CharacterIndex = 0;
                 gamePads[1].PlayerModel.SelectedCharacter = chars[2];
                 gamePads[1].PlayerModel.CharacterIndex = 2;
