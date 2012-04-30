@@ -25,8 +25,10 @@ namespace SmashBros.Controllers
 
         //public int playerIndex;
         // Get the current gamepad state.
-        public GamePadState oldGamePadState;
-        public GamePadState currentGamePadState;
+        private GamePadState oldGamePadState;
+        private GamePadState currentGamePadState;
+        private KeyboardState currentKeyboardState;
+        private KeyboardState oldKeyboardState;
 
         private Queue<Tuple<TimeSpan, Vector2>> oldNavigations;
         private bool newDirection = false;
@@ -44,22 +46,22 @@ namespace SmashBros.Controllers
         /// <returns></returns>
         protected bool IsKeyPressed(Keys key)
         {
-            return Screen.oldKeyboardState.IsKeyDown(key) && Screen.currentKeyboardState.IsKeyUp(key);
+            return this.oldKeyboardState.IsKeyDown(key) && this.currentKeyboardState.IsKeyUp(key);
         }
 
         protected bool IsKeyPressedReversed(Keys key)
         {
-            return Screen.oldKeyboardState.IsKeyUp(key) && Screen.currentKeyboardState.IsKeyDown(key);
+            return this.oldKeyboardState.IsKeyUp(key) && this.currentKeyboardState.IsKeyDown(key);
         }
 
         protected bool IsKeyDown(Keys key)
         {
-            return Screen.currentKeyboardState.IsKeyDown(key);
+            return this.currentKeyboardState.IsKeyDown(key);
         }
 
         protected bool IsKeyUp(Keys key)
         {
-            return Screen.currentKeyboardState.IsKeyUp(key);
+            return this.currentKeyboardState.IsKeyUp(key);
         }
 
         #endregion
@@ -93,7 +95,7 @@ namespace SmashBros.Controllers
             else if (IsKeyUp(key) || currentGamePadState.IsButtonUp(button))
             {
                 //Check if it was a press of key
-                if(Screen.oldKeyboardState.IsKeyDown(key) || oldGamePadState.IsButtonDown(button)){
+                if(this.oldKeyboardState.IsKeyDown(key) || oldGamePadState.IsButtonDown(button)){
                     if (pressAction != null)
                         pressAction.Invoke(PlayerIndex);
 
@@ -113,8 +115,11 @@ namespace SmashBros.Controllers
         public override void Update(GameTime gameTime)
         {
             oldGamePadState = currentGamePadState;
-            
             currentGamePadState = GamePad.GetState((Microsoft.Xna.Framework.PlayerIndex)PlayerIndex);
+
+            //Save keyboard state so all controllers can access them
+            oldKeyboardState = currentKeyboardState;
+            currentKeyboardState = Keyboard.GetState();
 
             //Update the position of the cursor
             float directionX = 0, directionY = 0;
@@ -153,11 +158,11 @@ namespace SmashBros.Controllers
             switch (CurrentState)
             {
                 case GameState.StartScreen :
-                    if(IsKeyDown(Keys.H))
+                    if(IsKeyDown(Keys.H) || currentGamePadState.IsButtonDown(Buttons.Back))
                     {
-                        throw new NotImplementedException("Show help menu to user, same help menu as in character and mapselection menu");
+                        Screen.popupMenuController.State = PopupState.Options;
                     }
-                    else if (Screen.currentKeyboardState.GetPressedKeys().Count() != 0)
+                    else if (this.currentKeyboardState.GetPressedKeys().Count() != 0 || currentGamePadState.IsButtonDown(Buttons.A) || currentGamePadState.IsButtonDown(Buttons.Start))
                     {
                         CurrentState = GameState.CharacterMenu;
                     }

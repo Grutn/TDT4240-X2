@@ -21,10 +21,11 @@ namespace SmashBros.Models
             Cursor.StaticPosition = true;
             Cursor.Category = Category.Cat4;
             Cursor.CollidesWith = Category.Cat5;
-
             Cursor.Layer = 1002;
             Cursor.Mass = 1;
             Cursor.UserData = pad.PlayerIndex;
+            Cursor.BoundBox.IgnoreGravity = true;
+            Cursor.Origin = new Vector2(35, 35);
 
             this.Pad = pad;
             this.Navigation = navigationMethod;

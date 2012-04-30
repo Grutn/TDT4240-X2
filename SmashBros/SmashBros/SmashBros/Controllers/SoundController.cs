@@ -6,12 +6,13 @@ using Microsoft.Xna.Framework.Content;
 using SmashBros.MySystem;
 using Microsoft.Xna.Framework.Audio;
 using SmashBros.Model;
+using Microsoft.Xna.Framework;
 
 namespace SmashBros.Controllers
 {
     public enum GameSoundType { hit, explotion, death, deathFar }
     public enum PlayerSoundType { Jump, Hit, ChargingHit, ChargedHit, Super, ChargingSuper, ChargedSuper, Kill }
-    public enum MenuSoundType { choose, characterSelected, toMapSelection, optionsInOut }
+    public enum MenuSoundType { choose, characterSelected, toMapSelection, optionsInOut, btnHover }
 
     public class SoundController : Controller
     {
@@ -24,10 +25,15 @@ namespace SmashBros.Controllers
         
         // Menu sounds:
         private Dictionary<MenuSoundType, object> menuSounds;
+        
+        List<SoundEffect> soundEffects;
+
+        //Used to fade bg sound in
+        float toVolume;
 
         public SoundController(ScreenManager screen) : base(screen)
         {
-            
+            this.soundEffects = new List<SoundEffect>();
         }
 
         public override void Load(ContentManager content) {}
@@ -35,14 +41,21 @@ namespace SmashBros.Controllers
         public void LoadSelectionMenuSounds(ContentManager content, MenuController controller, List<CharacterStats> characters)
         {
             menuSounds = new Dictionary<MenuSoundType, object>();
-            menuSounds.Add(MenuSoundType.choose, content.Load<SoundEffect>("Sound/Menu/chooseCharacter"));
-            //menuSounds.Add(MenuSoundType.optionsInOut, content.Load<SoundEffect>("Sound/"));
-            //menuSounds.Add(MenuSoundType.toMapSelection, content.Load<SoundEffect>("Sound/"));
+
+            SoundEffectInstance i = createSound(content, "Sound/Menu/chooseCharacter");
+            menuSounds.Add(MenuSoundType.choose,i);
+
+            i = createSound(content, "Sound/Menu/btn");
+            i.Volume = 0.3f;
+            i.Pitch = 1f;
+            menuSounds.Add(MenuSoundType.btnHover, i);
 
             menuSounds.Add(MenuSoundType.characterSelected, new Dictionary<CharacterStats, SoundEffect>());
             foreach (CharacterStats character in characters)
                 try { ((Dictionary<CharacterStats, SoundEffect>)menuSounds[MenuSoundType.characterSelected]).Add(character, content.Load<SoundEffect>(character.sound_selected)); }
                 catch { }
+
+            SetBacgroundMusic(content, "Sound/Menu/MenuMusic", 0.2f);
         }
         
         public void LoadGameSounds(ContentManager content, GamePlayController controller, string background)
@@ -53,13 +66,8 @@ namespace SmashBros.Controllers
 
             playerSounds = new Dictionary<int, Dictionary<PlayerSoundType, SoundEffect>>();
 
-            if (Constants.Music && background != "")
-            {
-                _backgroundMusic = content.Load<SoundEffect>(background);
-                backgroundMusic = _backgroundMusic.CreateInstance();
-                backgroundMusic.IsLooped = true;
-                backgroundMusic.Play();
-            }
+            SetBacgroundMusic(content, background, 0.8f);
+            
         }
 
         public void LoadCharacter(ContentManager content, CharacterController controller)
@@ -70,6 +78,21 @@ namespace SmashBros.Controllers
             catch { }
             try { playerSounds[controller.model.playerIndex].Add(PlayerSoundType.Kill, content.Load<SoundEffect>(controller.stats.sound_kill)); }
             catch { }
+        }
+
+        public void SetBacgroundMusic(ContentManager content, string source, float volume)
+        {
+            if (Constants.Music && !string.IsNullOrEmpty(source))
+            {
+                if (backgroundMusic != null) backgroundMusic.Stop();
+
+                toVolume = volume;
+                _backgroundMusic = content.Load<SoundEffect>(source);
+                backgroundMusic = _backgroundMusic.CreateInstance();
+                backgroundMusic.IsLooped = true;
+                backgroundMusic.Volume = 0f;
+                backgroundMusic.Play();
+            }
         }
 
         public override void Unload()
@@ -84,50 +107,36 @@ namespace SmashBros.Controllers
 
         public void UnloadMenuSounds()
         {
-
+            foreach (var sound in menuSounds)
+            {
+                object effect;
+                if (menuSounds.TryGetValue(sound.Key, out effect)){
+                    if (effect.GetType() == typeof(SoundEffectInstance))
+                        ((SoundEffectInstance)effect).Stop();    
+                }
+            }
         }
 
-        public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
+
+        float elapsedTime = 0;
+        public override void Update(GameTime gameTime)
         {
-            
+            if (backgroundMusic.Volume != toVolume)
+            {
+                elapsedTime += gameTime.ElapsedGameTime.Milliseconds;
+                //Uses 1.5 sec to fade in so percent is elapsed/1500
+                if (elapsedTime >= 5000)
+                {
+                    elapsedTime = 0;
+                    backgroundMusic.Volume = toVolume;
+                }else 
+                    backgroundMusic.Volume = toVolume * elapsedTime / 5000;
+
+            }
         }
 
         public override void OnNext(MySystem.GameStateManager value) 
         {
-            string background = "";
-            switch (value.PreviousState)
-            {
-                case GameState.StartScreen:
-                    break;
-                case GameState.CharacterMenu:
-                    break;
-                case GameState.MapsMenu:
-                    break;
-                case GameState.GamePlay:
-                    break;
-            }
-
-            switch (value.CurrentState)
-            {
-                case GameState.StartScreen:
-                    break;
-                case GameState.CharacterMenu:
-                    break;
-                case GameState.MapsMenu:
-                    break;
-                case GameState.GamePlay:
-                    
-                    break;
-            }
-            /*
-            if (Constants.Music && background != "")
-            {
-                _backgroundMusic = content.Load<SoundEffect>(background);
-                backgroundMusic = _backgroundMusic.CreateInstance();
-                backgroundMusic.IsLooped = true;
-                backgroundMusic.Play();
-            }
-             * */
         }
 
         public override void Deactivate()
@@ -157,8 +166,19 @@ namespace SmashBros.Controllers
             else
             {
                 object effect;
-                if (menuSounds.TryGetValue(soundtype, out effect)) ((SoundEffect)effect).Play();
+                if (menuSounds.TryGetValue(soundtype, out effect))
+                {
+                    SoundEffectInstance s = (SoundEffectInstance)effect;
+                    s.Play();
+                }      
             }
+        }
+
+        private SoundEffectInstance createSound(ContentManager content, string source)
+        {
+            SoundEffect soundEffect = content.Load<SoundEffect>(source);
+            soundEffects.Add(soundEffect);
+            return soundEffect.CreateInstance();
         }
     }
 }

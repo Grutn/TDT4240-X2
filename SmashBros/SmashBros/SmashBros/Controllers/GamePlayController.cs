@@ -58,7 +58,7 @@ namespace SmashBros.Controllers
         {
 
             Screen.soundController.LoadGameSounds(content, this, map.CurrentMap.backgroundMusic);
-            
+
             this.camera = new CameraController(Screen, map.Model.zoomBox);
 
             //The effects image for hits
@@ -95,13 +95,12 @@ namespace SmashBros.Controllers
             if (!Screen.GameOptions.UseLifes)
             {
                 timeLeft = new TimeSpan(0, Screen.GameOptions.Minutes, 0);
-                timer = new TextBox(getTimeLeft(), FontDefualt, new Vector2(Constants.WindowHeight - 10, 10), Color.White);
+                timer = new TextBox(getTimeLeft(), FontDefualt, new Vector2(Constants.WindowWidth - 80, 10), Color.White);
                 timer.Layer = 150;
                 timer.StaticPosition = true;
                 AddView(timer);
             }
             
-            World.Gravity = new Vector2(0, Constants.GamePlayGravity);
             AddController(camera);
             AddController(this.map);
 
@@ -165,6 +164,8 @@ namespace SmashBros.Controllers
                 pad.OnStartPress -= OnStartPress;
             }
 
+            RemoveView(timer);
+
             Screen.ControllerViewManager.camera.ResetCamera();
 
             System.GC.SuppressFinalize(this);
@@ -173,7 +174,7 @@ namespace SmashBros.Controllers
         public override void Update(GameTime gameTime)
         {
             //If wait for gameovertext = true then game is over, just waiting for gameOver text to animate + som extra time
-            if (!waitForGameOverText)
+            if (!waitForGameOverText && CurrentState != GameState.GamePause)
             {
                 bool gameOver = false;
 
@@ -212,6 +213,8 @@ namespace SmashBros.Controllers
                 //Game is put in gameover state when animation is done
                 if (gameOver)
                 {
+                    Screen.popupMenuController.State = PopupState.Removed;
+
                     #region Check and sets which player that has won game
                     if (Screen.GameOptions.UseLifes)
                     {

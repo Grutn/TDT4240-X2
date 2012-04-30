@@ -85,7 +85,7 @@ namespace SmashBros.Controllers
         {
             foreach (var v in view)
             {
-                if (v.IsActive)
+                if (v != null && v.IsActive)
                     Screen.ControllerViewManager.RemoveView(v);
             }
         }
@@ -140,7 +140,7 @@ namespace SmashBros.Controllers
             }
         } 
         #endregion
-        
+
         /// <summary>
         /// The farseer worl object
         /// </summary>

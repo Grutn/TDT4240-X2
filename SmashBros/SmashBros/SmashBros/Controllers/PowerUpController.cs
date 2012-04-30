@@ -15,7 +15,7 @@ namespace SmashBros.Controllers
 {
     class PowerUpController : Controller
     {
-        int waitMax = 7, minNew = 15, maxNew = 30;
+        int waitMax = 7, minNew = 10, maxNew = 20;
         List<PowerUp> powerUps;
         //List with powerups that is picked up, key is playerindex
         Dictionary<int, PowerUpStatus> activePowerUps;
@@ -41,7 +41,7 @@ namespace SmashBros.Controllers
         {
             powerUps = Serializing.LoadPowerUps();
             powerUpImg = new ImageController(Screen, "GameStuff/PowerUps", 120, false);
-            powerUpImg.FrameRectangle = new Rectangle(0, 0, 60, 60);
+            powerUpImg.FrameRectangle = new Rectangle(0, 0, 50, 50);
             powerUpImg.FramesPerRow = 5;
             powerUpImg.ScaleDefault = 0;
             AddController(powerUpImg);
@@ -68,7 +68,7 @@ namespace SmashBros.Controllers
 
                 PowerUpStatus status = new PowerUpStatus(randomPowerUp(), model);
                 model.BoundBox.UserData = status;
-                model.CurrentFrame = status.PowerUp.imageFrame;
+                model.CurrentFrame = (int)MathHelper.Clamp(status.PowerUp.imageFrame, 0f, 3f);
                 waitingPowerUps.Add(status);
             }
 

@@ -63,6 +63,16 @@ namespace SmashBros.Controllers
 
             if (zoomBox != null)
             {
+                 if (Constants.ZoomMin)
+                {
+                    Vector2 h = new Vector2(Constants.WindowWidth, Constants.WindowHeight) / 
+                        new Vector2(zoomBox.Width - zoomBox.X, zoomBox.Height - zoomBox.Y);
+
+                    zoom = MathHelper.Min(h.X, h.Y);
+                   
+                }
+                //Calculates the zoom max position
+                //halfWindow/2*zoom = pixels to the edge from center, then is use the zoomBox to define what the max and min pos is
                 Vector2 halfWindow = new Vector2(Constants.WindowWidth, Constants.WindowHeight) / (2 * zoom);
                 camera.MaxPosition = new Vector2(zoomBox.X + zoomBox.Width - halfWindow.X, zoomBox.Y + zoomBox.Height - halfWindow.Y);
                 camera.MinPosition = new Vector2(zoomBox.X + halfWindow.X, zoomBox.Y + halfWindow.Y);
