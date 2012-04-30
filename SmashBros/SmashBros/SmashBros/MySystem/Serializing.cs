@@ -161,7 +161,7 @@ namespace SmashBros.MySystem
                     ani_takeHitEnd = 1
                 };
 
-                c.animations = "Characters/SpidermanAnimation";
+                c.animations = "Characters/WolverineAnimation";
                 c.thumbnail = "Characters/WolverineThumb";
                 c.image = "Characters/WolverinePose";
                 c.moveAnimations = "GameStuff/RangeAttacks";
@@ -181,10 +181,10 @@ namespace SmashBros.MySystem
 
                 if (i == 0)
                 {
-                    c.animations = "Characters/SpidermanAnimation";
+                    c.animations = "Characters/WolverineAnimation";
                     c.thumbnail = "Characters/WolverineThumb";
                     c.image = "Characters/WolverinePose";
-                    c.sound_selected = "Sound/Spiderman/selected";
+                    c.sound_selected = "Sound/Wolverine/selected";
                     c.sound_jump = "Sound/Spiderman/jump";
                     c.sound_kill = "Sound/Wolwerine/kill";
                     c.sound_punch = "Sound/Spiderman/punch";
@@ -193,12 +193,14 @@ namespace SmashBros.MySystem
 
                     c.ani_noneStart = 0;
                     c.ani_noneEnd = 0;
-                    c.ani_runStart = 13;
+                    c.ani_runStart = 1;
+                    c.ani_runEnd = 13;
                     c.ani_jumpStart = 14;
                     c.ani_jumpEnd = 19;
-                    c.ani_fallStart = 22;
-                    c.ani_landStart = 22;
-                    c.ani_landEnd = 25;
+                    c.ani_fallStart = 19;
+                    c.ani_fallEnd = 22;
+                    c.ani_landStart = 24;
+                    c.ani_landEnd = 26;
                     c.ani_takeHitStart = 26;
                     c.ani_takeHitEnd = 27;
                     c.ani_brake = 26;
@@ -206,16 +208,17 @@ namespace SmashBros.MySystem
                     c.size = new Vector2(40, 120);
 
                     c.a = new MoveStats(10, 500, 150, 300, 28, 34, 0, new Vector2(10, 0), new Vector2(20, 15), new Vector2(50, -5), new Vector2(10, 10));
-                    c.aLR = new ChargeMove(30, 500, 100, 250, 45, 52, 0, new Vector2(20, 20), new Vector2(40, 40), new Vector2(45, -20), new Vector2(10, 10), 50, 250, 40, 42, 42, 45);
+                    c.xDown = new BodyMove(30, 1000, 450, 750, 40, 52, 0, new Vector2(0, -20), new Vector2(0, 20), new Vector2(0, -40), new Vector2(150, 10), new Vector2(0, -3), 450, 750);
+                    //c.aLR = new BodyMove(30, 1000, 100, 250, 67, 80, 0, new Vector2(0, -20), new Vector2(0, 20), new Vector2(0, -40), new Vector2(100, 10), new Vector2(0, -5), 450, 600);
                     c.x = new BodyMove(10, 500, 275, 360, 53, 71, 0, new Vector2(-3, 20), new Vector2(0, -60), new Vector2(0, -60), new Vector2(10, 10), new Vector2(0, -5.0f), 100, 300);
-                    c.xLR = new BodyMove(20, 1000, 500, 850, 72, 86, 0, new Vector2(20, -1), new Vector2(50, 0), new Vector2(50, 0), new Vector2(10, 30), new Vector2(10.0f, -1.0f), 220, 700);
+                    c.xLR = new BodyMove(20, 1000, 300, 650, 72, 86, 0, new Vector2(20, -1), new Vector2(50, -10), new Vector2(50, -10), new Vector2(10, 30), new Vector2(10.0f, -1.0f), 220, 700);
                 }
 
-                float caUP = 0.7f;
                 if (i == 1)
                 {
                     c.thumbnail = "Characters/SpidermanThumb";
                     c.image = "Characters/SpidermanPose";
+                    c.animations = "Characters/SpidermanAnimation";
                     c.sound_selected = "Sound/Spiderman/selected";
                     c.sound_jump = "Sound/Spiderman/jump";
                     c.sound_kill = "Sound/Wolwerine/kill";
@@ -224,8 +227,8 @@ namespace SmashBros.MySystem
                     c.size = new Vector2(40, 120);
 
                     c.a = new MoveStats(10, 500, 150, 300, 26, 32, 0, new Vector2(10, 0), new Vector2(20, 15), new Vector2(50, -5), new Vector2(10, 10));
-                    c.aUp = new BodyMove(10, 500, 275, 360, 32, 42, 0, new Vector2(-3, 20), new Vector2(0, -60), new Vector2(0, -60), new Vector2(10, 10), new Vector2(0, -5.0f), 100, 300);
-                    c.aLR = new ChargeMove(30, 500, 100, 250, 73, 80, 0, new Vector2(20, 20), new Vector2(40, 40), new Vector2(45, -20), new Vector2(10, 10), 50, 250, 67, 69, 69, 73);
+                    c.aUp = new BodyMove(10, 500, 275, 360, 32, 42, 0, new Vector2(-3, -20), new Vector2(0, -60), new Vector2(0, -60), new Vector2(10, 10), new Vector2(0, -5.0f), 100, 300);
+                    c.aLR = new ChargeMove(30, 500, 100, 250, 73, 80, 0, new Vector2(20, -20), new Vector2(40, 40), new Vector2(45, -20), new Vector2(10, 10), 50, 250, 67, 69, 69, 73);
                     c.x = new RangeMove(5, 500, 340, 43, 50, 0, new Vector2(1, 1), new Vector2(40, 0), new Vector2(30, 100), new Vector2(13, -3), 0, 0, true);
                     c.xLR = new BodyMove(20, 1000, 500, 850, 51, 66, 0, new Vector2(20, -1), new Vector2(50, 0), new Vector2(50, 0), new Vector2(10, 30), new Vector2(10.0f, -1.0f), 220, 700);
                 }
@@ -254,7 +257,7 @@ namespace SmashBros.MySystem
                     c.a = new MoveStats(100, 250, 0, 250, 23, 28, 0, new Vector2(1, 0), new Vector2(0, 0), new Vector2(1, 0), new Vector2(10, 10));
                     c.aUp = new MoveStats(10, 250, 0, 250, 29, 34, 0, new Vector2(2, 10), new Vector2(-10, 0), new Vector2(10, -40), new Vector2(10, 10));
                     c.x = new RangeMove(10, 500, 310, 36, 42, 0, new Vector2(3, 0), new Vector2(25, 0), new Vector2(5, 5), new Vector2(20, 0), 3, 3);
-                    c.xLR = new RangeMove(25, 5000, 3500, 42, 54, 0, new Vector2(0, 0), new Vector2(30, -5), new Vector2(27, 20), new Vector2(1, 0), 1, 1, false, false, new Explotion(new Vector2(500, 500), 250, 0, 0), true, -1, (float)Math.PI, 54, 55);
+                    c.xLR = new RangeMove(25, 500, 350, 42, 54, 0, new Vector2(0, 0), new Vector2(30, -5), new Vector2(27, 20), new Vector2(3, 0), 1, 1, false, false, null, true, -1, (float)Math.PI, 54, 55);
                     c.xDown = new RangeMove(25, 500, 350, 56, 62, 0, new Vector2(0, 0), new Vector2(0, 37), new Vector2(10, 5), new Vector2(0, 0), 2, 2);
                 }
                 else if (i == 3)
@@ -277,11 +280,11 @@ namespace SmashBros.MySystem
                     c.ani_takeHitEnd = 57;
 
                     c.a = new MoveStats(10, 250, 0, 250, 20, 30, 0, new Vector2(1, 0.5f), new Vector2(0,0), new Vector2(0,0.8f), new Vector2(10,10));
-                    c.aLR = new ChargeMove(10, 5000, 1000, 4000, 26, 30, 0, new Vector2(15, 1), new Vector2(30, -10), new Vector2(60, -10), new Vector2(30, 5), 500, 2500, 20, 25, 25, 26);
-                    c.aUp = new MoveStats(10, 5000, 1000, 4000, 31, 37, 0, new Vector2(10, 10), new Vector2(0, 0), new Vector2(30, 30), new Vector2(10, 10));
-                    c.xUp = new BodyMove(20, 10000, 1000, 4000, 11, 16, 0, new Vector2(10, 10), new Vector2(0, -40), new Vector2(0, -40), new Vector2(30, 5), new Vector2(0, -10), 1000, -1, (float)Math.PI, Math.PI / 2, 16, 16);// after = 17 - 19);
-                    c.x = new MoveStats(10, 5000, 1000, 4000, 45, 54, 0, new Vector2(5, 0), new Vector2(0, 0), new Vector2(0, 0), new Vector2(10, 10));
-                    c.xLR = new BodyMove(10, 5000, 1000, 4000, 39, 44, 0, new Vector2(10, 1), new Vector2(0, 0), new Vector2(0, 0), new Vector2(10, 10), new Vector2(5, 2));
+                    c.aLR = new ChargeMove(10, 500, 100, 400, 26, 30, 0, new Vector2(10, 1), new Vector2(30, -10), new Vector2(60, -10), new Vector2(30, 5), 500, 2500, 20, 25, 25, 26);
+                    c.aUp = new MoveStats(10, 500, 100, 400, 31, 37, 0, new Vector2(10, 10), new Vector2(0, 0), new Vector2(30, 30), new Vector2(10, 10));
+                    c.xUp = new BodyMove(20, 10000, 100, 9000, 11, 16, 0, new Vector2(10, 10), new Vector2(0, -40), new Vector2(0, -40), new Vector2(30, 5), new Vector2(0, -10), 1000, -1, (float)Math.PI, Math.PI / 2, 16, 16);// after = 17 - 19);
+                    c.x = new MoveStats(10, 500, 100, 400, 45, 54, 0, new Vector2(5, 0), new Vector2(0, 0), new Vector2(0, 0), new Vector2(10, 10));
+                    c.xLR = new BodyMove(10, 500, 100, 400, 39, 44, 0, new Vector2(10, 1), new Vector2(0, 0), new Vector2(0, 0), new Vector2(10, 10), new Vector2(5, 2));
                 }
                 Write(c, CharacterFolder, "Character" + i);
             }

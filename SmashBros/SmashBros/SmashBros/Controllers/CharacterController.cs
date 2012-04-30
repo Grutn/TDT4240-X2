@@ -221,9 +221,9 @@ namespace SmashBros.Controllers
                     view.Velocity += velocityPlus;
                     if (model.state == CharacterState.attacking && currentMove.Stats.Type != MoveType.Range && currentMove.moveStarted)
                     {
-                        //Vector2 moveVelocity = ConvertUnits.ToSimUnits((currentMove.Stats.SqTo - currentMove.Stats.SqFrom) / (currentMove.Stats.End - currentMove.Stats.Start) * 1000);
-                        //if (!model.faceRight) moveVelocity *= new Vector2(-1, 1);
-                        currentMove.Img.BoundBox.LinearVelocity += velocityPlus;// moveVelocity + view.Velocity;
+                        Vector2 moveVelocity = ConvertUnits.ToSimUnits((currentMove.Stats.SqTo - currentMove.Stats.SqFrom) / (currentMove.Stats.End - currentMove.Stats.Start) * 1000);
+                        if (!model.faceRight) moveVelocity *= new Vector2(-1, 1);
+                        currentMove.Img.BoundBox.LinearVelocity = moveVelocity + view.Velocity;
                     }
 
                     model.position = view.Position;
@@ -245,9 +245,7 @@ namespace SmashBros.Controllers
                         case CharacterState.charging:
                             currentMove.chargeTime += gameTime.ElapsedGameTime.Milliseconds;
                             if (startAfterMinCharge && currentMove.chargeTime > currentMove.Stats.MinWait)
-                            {
                                 model.setState(CharacterState.attacking, currentMove.Stats);
-                            }
                             break;
                         case CharacterState.attacking:
                             if (currentMove.Ended)
@@ -283,8 +281,13 @@ namespace SmashBros.Controllers
                                 moves.StartMove(view.Position, view.Velocity, currentMove);
                                 
                             }
-                            if (currentMove.Stats.Type == MoveType.Body && currentMove.attackTimeLeft <= Math.Abs(currentMove.Stats.BodyStart - currentMove.Stats.Duration) && currentMove.attackTimeLeft >= Math.Abs(currentMove.Stats.BodyEnd - currentMove.Stats.Duration))
+                            if (currentMove.Stats.Type == MoveType.Body && currentMove.attackTimeLeft <= Math.Abs(currentMove.Stats.BodyStart - currentMove.Stats.Duration)
+                                && currentMove.attackTimeLeft >= Math.Abs(currentMove.Stats.BodyEnd - currentMove.Stats.Duration))
+                            {
                                 view.Velocity = currentMove.Stats.BodySpeed * currentMove.Xdirection;
+                                if (currentMove.Img != null) 
+                                    currentMove.Img.BoundBox.LinearVelocity = view.Velocity + (currentMove.Stats.SqTo - currentMove.Stats.SqFrom) / (currentMove.Stats.End - currentMove.Stats.Start);
+                            }
 
                             if (currentMove.Stats.Adjustable && currentMove.attackTimeLeft <= Math.Abs(currentMove.Stats.Start - currentMove.Stats.Duration))
                             {
@@ -299,6 +302,7 @@ namespace SmashBros.Controllers
                                     view.Velocity = newVelocity;
                                     view.BoundBox.Rotation = (float)adjustAngle;
                                     view.Rotation = (float)adjustAngle;
+                                    Debug.WriteLine(adjustAngle);
                                 }
                                 try { currentMove.Img.BoundBox.Rotation = (float)adjustAngle; } catch { }
                             }
@@ -405,7 +409,6 @@ namespace SmashBros.Controllers
 
                     if (moveStats != null)
                     {
-                        if (moveStats == stats.aUp) view.VelocityY = 0;
                         currentMove = moves.newMove(moveStats, model.faceRight);
                         if (currentMove.Stats.Type == MoveType.Charge)
                         {
@@ -546,7 +549,6 @@ namespace SmashBros.Controllers
                 if (obj.CollisionCategories == Category.Cat10) model.onSoftBox = true;
                 NaturalState();
                 model.jumpsLeft = 3;
-                view.VelocityY = 0;
                 if (model.state == CharacterState.attacking && currentMove.Stats.Type != MoveType.Range && currentMove.moveStarted)
                 {
                     currentMove.Img.BoundBox.LinearVelocity = ConvertUnits.ToSimUnits((currentMove.Stats.SqTo - currentMove.Stats.SqFrom) / (currentMove.Stats.End - currentMove.Stats.Start) * 1000)
