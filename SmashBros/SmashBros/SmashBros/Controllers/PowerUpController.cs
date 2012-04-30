@@ -13,9 +13,15 @@ using FarseerPhysics.Dynamics.Contacts;
 
 namespace SmashBros.Controllers
 {
+
+    /// <summary>
+    /// Holds and controls all powerUps on map and drops powerups at random time at random position 
+    /// inside the dropZone
+    /// </summary>
     class PowerUpController : Controller
     {
-        int waitMax = 7, minNew = 10, maxNew = 20;
+        //WaitMax=how long poweupsWaits, minNew/maxNew = min/max time before new poweupShows ups
+        int waitMax = 7, minNew = 7, maxNew = 30;
         List<PowerUp> powerUps;
         //List with powerups that is picked up, key is playerindex
         Dictionary<int, PowerUpStatus> activePowerUps;
@@ -27,7 +33,10 @@ namespace SmashBros.Controllers
         Box dropZone;
         Random random;
         
-
+        /// <summary>
+        /// Constructs the powerup controller  
+        /// </summary>
+        /// <param name="dropZone">dropZone for powerups</param>
         public PowerUpController(ScreenManager screen, Box dropZone)
             :base(screen)
         {
@@ -54,6 +63,7 @@ namespace SmashBros.Controllers
         public override void Unload()
         {
             DisposeController(powerUpImg);
+            System.GC.SuppressFinalize(this);
         }
 
         public override void Update(GameTime gameTime)
@@ -99,6 +109,9 @@ namespace SmashBros.Controllers
             }
         }
 
+        /// <summary>
+        /// Adds new random powerup to the map insise the drop zone
+        /// </summary>
         public void addPowerUpToMap()
         {
             ImageModel model = powerUpImg.AddPosition(randomDropPosition());
@@ -114,34 +127,50 @@ namespace SmashBros.Controllers
             waitingPowerUps.Add(status);
         }
 
-
+        /// <summary>
+        /// Create and returns random position inside the dropZone
+        /// </summary>
+        /// <returns></returns>
         private Vector2 randomDropPosition()
         {
             return new Vector2((float)(dropZone.X + random.NextDouble() * dropZone.Width),
                 (float)(dropZone.Y + random.NextDouble() * dropZone.Height));
         }
 
+        /// <summary>
+        /// Returns random powerup from the list
+        /// </summary>
+        /// <returns></returns>
         private PowerUp randomPowerUp()
         {
             return powerUps[random.Next(0, powerUps.Count() - 1)];
         }
 
+        /// <summary>
+        /// Set random time until next powerUp is droped
+        /// uses min and maxNew as upper & lower limitS
+        /// </summary>
         private void generateTimeToNext()
         {
-            timeToNext = random.Next(1, 9);
+            timeToNext = random.Next(minNew,maxNew);
         }
 
         public override void OnNext(GameStateManager value)
         {
         }
 
+        /// <summary>
+        /// Runs when a character collides with a powerUp
+        /// </summary>
         public bool OnCollision(Fixture powerUpGeom, Fixture character, Contact contant)
         {
             if (character.CollisionCategories == Category.Cat11)
             {
+                //Gets the powerupstatus from geomData
                 PowerUpStatus powerUpStatus = (PowerUpStatus)powerUpGeom.Body.UserData;
                 waitingPowerUps.Remove(powerUpStatus);
 
+                //Gets the charactercontroller
                 CharacterController player = (CharacterController)character.Body.UserData;
                 player.AddPowerUp(powerUpStatus.PowerUp);
 
@@ -153,6 +182,7 @@ namespace SmashBros.Controllers
                 powerUpStatus.Image.DisposBoundBox();
                 powerUpImg.RemovePosition(powerUpStatus.Image);
 
+                //Sets the active powerup on the player, so it's removed by the update when time is up
                 if (activePowerUps.ContainsKey(player.model.playerIndex))
                     activePowerUps[player.model.playerIndex] = powerUpStatus;
                 else activePowerUps.Add(player.model.playerIndex, powerUpStatus);
@@ -163,8 +193,12 @@ namespace SmashBros.Controllers
             return true;
         }
 
-        public override void Deactivate()
+        internal void RemovePowerUp(int gotKilled)
         {
+            if (activePowerUps.ContainsKey(gotKilled))
+            {
+                activePowerUps[gotKilled].Player.RemovePowerUp(activePowerUps[gotKilled].PowerUp);
+            }
         }
     }
 }

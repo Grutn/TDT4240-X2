@@ -330,20 +330,21 @@ namespace SmashBros.Controllers
             target.RemovePosition(imagePosition);
         }
 
+
         private void OnPlayerDeath(CharacterController characterController, bool behindScreen)
         {
-            Screen.soundController.PlayGameSound(GameSoundType.death);//behindScreen? GameSoundType.deathFar : GameSoundType.death);
+            Screen.soundController.PlayGameSound(GameSoundType.death);
             Vector2 pos = characterController.model.position;
             int playerIndex = characterController.model.playerIndex;
-            // lifes--
-            // if lifes > 0
             
-            // else unload characterController
             int gotKilled = characterController.model.playerIndex;
             
             int killer;
             if (players[gotKilled].GotKilled(out killer))
             {
+                //Removes powerup from player
+                powerUps.RemovePowerUp(gotKilled);
+                //Updates killer 
                 players[killer].Killed(gotKilled);
                 characterController.Reset(map.CurrentMap.startingPosition[resetPos], behindScreen);
                 if (resetPos == 3) resetPos = 0;

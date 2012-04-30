@@ -143,10 +143,6 @@ namespace SmashBros.Models
             }
         }
         */
-        /// <summary>
-        /// Currently posessed weapon.
-        /// </summary>
-        public Weapon weapon;
 
         /// <summary>
         /// The CURRENT (powerup concidered) maximum magnitude of speed in x-direction this character can have.

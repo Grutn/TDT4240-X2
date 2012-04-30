@@ -144,7 +144,6 @@
     <Compile Include="Models\MoveStats.cs" />
     <Compile Include="Models\Player.cs" />
     <Compile Include="Models\PowerUp.cs" />
-    <Compile Include="Models\Weapon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game.cs" />

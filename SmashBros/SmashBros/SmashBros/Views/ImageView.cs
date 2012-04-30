@@ -19,9 +19,10 @@ namespace SmashBros.Views
     public class ImageView : IView
     {
         public Texture2D Image;
-        
+        /// <summary>
+        /// List with models that the view draws every draw call
+        /// </summary>
         public List<ImageModel> imageModels;
-        public float Rotation { get; set; }
         public float Scale { get{return imageModels.Count() != 0 ? imageModels.First().CurrentScale : 1f;} 
             set{
                 if (imageModels.Count() != 0)
@@ -30,10 +31,18 @@ namespace SmashBros.Views
                 }
             }
         }
+        /// <summary>
+        /// SourceRectangle for the image
+        /// </summary>
         public Rectangle? FrameRectangle;
+        /// <summary>
+        /// How many images there is pr row in the image
+        /// </summary>
         public int FramesPrRow = 0;
+
         public int PosCount { get { return imageModels.Count(); } }
 
+        
         public ImageView(List<ImageModel> imageModels)
         {
             this.imageModels = imageModels;
@@ -58,8 +67,10 @@ namespace SmashBros.Views
             {
                 Rectangle? r = FrameRectangle;
 
+                ///If frame rectangle is set then it needs to check if the current frame needs to be updated
                 if (FrameRectangle.HasValue)
                 {
+                    //Finds row for image by using the framesPrRow
                     int row = (int)Math.Floor((double)i.CurrentFrame / this.FramesPrRow);
 
                     r = new Rectangle(FrameRectangle.Value.Width * (i.CurrentFrame - row * FramesPrRow),
