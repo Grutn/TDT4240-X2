@@ -127,6 +127,10 @@ namespace SmashBros.Controllers
 
         public void EmptyList()
         {
+            foreach (var img in imageModels)
+            {
+                imageQueue.Enqueue(Tuple.Create(false, img));
+            }
         }
 
         /// <summary>

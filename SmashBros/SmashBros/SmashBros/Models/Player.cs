@@ -74,5 +74,14 @@ namespace SmashBros.Model
         /// </summary>
         public CharacterStats SelectedCharacter { get; set; }
 
+
+        internal string HelpToString()
+        {
+            return string.Format("Controllers: \n Navigation : Left Stick {0} \n Normal Attack : A button {1}\n Supper Attack : X button {2}\n Shield: Left bumper {3}",
+                KeyboardEnabled ? "or keyboard "+KeyboardUp.ToString() +", "+KeyboardDown.ToString()+ ", "+ KeyboardLeft.ToString()+", "+KeyboardRight.ToString() : "",
+                KeyboardEnabled ? "or keyboard "+ KeyboardHit.ToString() : "",
+                KeyboardEnabled ? "or keyboard " + KeyboardSuper.ToString() : "", 
+                KeyboardEnabled ? "or keyboard "+ KeyboardSheild.ToString() : "");
+        }
     }
 }

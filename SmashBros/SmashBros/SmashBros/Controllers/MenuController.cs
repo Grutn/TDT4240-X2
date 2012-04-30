@@ -105,7 +105,9 @@ namespace SmashBros.Controllers
             startScreen.OnAnimationDone += BgImageAnimationDone;
             
             selectionScreen = new ImageController(Screen, "Menu/SelectionScreen", 1, true);
+            selectionScreen.IsVisible = false;
             selectionScreen.OnAnimationDone += BgImageAnimationDone;
+            AddController(selectionScreen);
 
 
             //Loads Maps
@@ -266,6 +268,16 @@ namespace SmashBros.Controllers
         public override void Unload()
         {
 
+            Screen.cursorsController.OnCursorClick -= OnCursorClick;
+            Screen.cursorsController.OnCursorCollision -= OnCursorCollision;
+            Screen.cursorsController.OnCursorSeparation -= OnCursorSeparation;
+
+            foreach (var pad in GamePadControllers)
+            {
+                pad.OnStartPress -= OnStartPress;
+                pad.OnBackPress -= OnBackPress;
+            }
+
             SubscribeToGameState = false;
             //Removes Controllers
             DisposeController(startScreen, selectionScreen);
@@ -326,6 +338,7 @@ namespace SmashBros.Controllers
                     {
                         RemoveView(continueText);
                     }
+
                     break;
             }
             
@@ -374,7 +387,7 @@ namespace SmashBros.Controllers
                     AddView(tipsText);
                     break;
                 case GameState.CharacterMenu:
-                    AddController(selectionScreen);
+                    selectionScreen.IsVisible = true;
                     if (value.PreviousState != GameState.MapsMenu)
                         animateIn = selectionScreen;
                     //Loads the sounds for the menu
@@ -383,6 +396,13 @@ namespace SmashBros.Controllers
                     break;
 
                 case GameState.MapsMenu:
+                    selectionScreen.IsVisible = true;
+                    //if selection screen not has position
+                    //then the gameplay has exited to mapselection
+                    if (selectionScreen.GetAt(0) == null)
+                    {
+                        animateIn = selectionScreen;
+                    }
                     MapSelectionVisible = true;
                     break;
                 case GameState.GamePlay:
@@ -393,7 +413,7 @@ namespace SmashBros.Controllers
                 case GameState.GamePause:
                     break;
                 case GameState.GameOver:
-                    AddController(selectionScreen);
+                    selectionScreen.IsVisible = true;
                     animateIn = selectionScreen;
                     GameStatsVisible = true;
                     break;
@@ -689,8 +709,7 @@ namespace SmashBros.Controllers
                     foreach (var stats in gameStats)
                     {
                         int index = GamePadControllers[stats.PlayerIndex].PlayerModel.CharacterIndex;
-                        AddController(characterImages[index]);
-                        ImageModel model = characterImages[index].SetPosition(stats.PlayerIndex * Constants.WindowWidth / 4 + 30, 600);
+                        ImageModel model = characterImages[index].SetPosition(i * Constants.WindowWidth / 4 + 10, 160);
                         characterImages[index].AnimatePos(i * Constants.WindowWidth / 4 + 10, 160, 500);
 
                         i++;
@@ -700,7 +719,8 @@ namespace SmashBros.Controllers
                 {
                     foreach (var img in characterImages)
                     {
-                        RemoveController(img);
+                        img.EmptyList();
+                        img.IsVisible = false;
                     }
                     RemoveView(gameStatsText.ToArray());
                 }

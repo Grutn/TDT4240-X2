@@ -90,7 +90,7 @@ cxCur=1693
 cxMin=10
 
 [Frame2_View0,0]
-Cursor.row=173
-Cursor.column=17
-TopSubLine=156
+Cursor.row=139
+Cursor.column=48
+TopSubLine=214
 

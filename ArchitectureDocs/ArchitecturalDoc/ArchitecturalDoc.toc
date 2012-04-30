@@ -4,35 +4,46 @@
 \contentsline {paragraph}{}{1}
 \contentsline {chapter}{\numberline {1}Introduction}{2}
 \contentsline {chapter}{\numberline {2}Architectural drivers}{3}
-\contentsline {section}{\numberline {2.1}Modify-ability}{3}
-\contentsline {section}{\numberline {2.2}Testability}{3}
-\contentsline {section}{\numberline {2.3}Performance}{3}
-\contentsline {section}{\numberline {2.4}Portability}{3}
-\contentsline {section}{\numberline {2.5}Usability}{3}
-\contentsline {chapter}{\numberline {3}Stakeholders}{4}
-\contentsline {section}{\numberline {3.1}Developers}{4}
-\contentsline {section}{\numberline {3.2}The professor}{4}
-\contentsline {section}{\numberline {3.3}End user}{4}
-\contentsline {paragraph}{The main concern}{4}
-\contentsline {chapter}{\numberline {4}Selection of Architectural Viewpoint}{5}
-\contentsline {section}{\numberline {4.1}Logical view}{5}
-\contentsline {section}{\numberline {4.2}Development view}{5}
-\contentsline {section}{\numberline {4.3}Scenario view}{5}
-\contentsline {section}{\numberline {4.4}State machine}{5}
-\contentsline {chapter}{\numberline {5}Architectural Tactics}{6}
-\contentsline {section}{\numberline {5.1}Modifiability}{6}
-\contentsline {section}{\numberline {5.2}Testability}{6}
-\contentsline {section}{\numberline {5.3}Performance}{6}
-\contentsline {section}{\numberline {5.4}Portability}{6}
-\contentsline {section}{\numberline {5.5}Usability}{6}
-\contentsline {chapter}{\numberline {6}Architectural Patterns}{7}
-\contentsline {section}{\numberline {6.1}MVC - Model, View and Controller}{7}
-\contentsline {section}{\numberline {6.2}SOA - Service Oriented Architecture}{7}
-\contentsline {section}{\numberline {6.3}Observer pattern}{7}
-\contentsline {chapter}{\numberline {7}Views}{8}
-\contentsline {section}{\numberline {7.1}Logical Views}{8}
-\contentsline {section}{\numberline {7.2}Scenario view}{8}
-\contentsline {section}{\numberline {7.3}State machine}{9}
-\contentsline {chapter}{\numberline {8}References}{10}
-\contentsline {section}{\numberline {8.1}Books}{10}
-\contentsline {section}{\numberline {8.2}Webpages}{10}
+\contentsline {section}{\numberline {2.1}Functional Requirements}{3}
+\contentsline {section}{\numberline {2.2}Quality Attributes Requirement}{3}
+\contentsline {section}{\numberline {2.3}Technical Constrainsts}{3}
+\contentsline {section}{\numberline {2.4}Business Constraints}{3}
+\contentsline {section}{\numberline {2.5}Modify-ability}{3}
+\contentsline {section}{\numberline {2.6}Testability}{3}
+\contentsline {section}{\numberline {2.7}Performance}{3}
+\contentsline {section}{\numberline {2.8}Portability}{3}
+\contentsline {section}{\numberline {2.9}Usability}{4}
+\contentsline {chapter}{\numberline {3}Stakeholders}{5}
+\contentsline {section}{\numberline {3.1}Development team}{5}
+\contentsline {section}{\numberline {3.2}Course staff}{5}
+\contentsline {section}{\numberline {3.3}ATAM Group}{5}
+\contentsline {section}{\numberline {3.4}End user}{5}
+\contentsline {paragraph}{The main concern}{5}
+\contentsline {chapter}{\numberline {4}Selection of Architectural Viewpoint}{6}
+\contentsline {section}{\numberline {4.1}Logical view}{6}
+\contentsline {section}{\numberline {4.2}Development view}{6}
+\contentsline {section}{\numberline {4.3}Scenario view}{6}
+\contentsline {section}{\numberline {4.4}State machine}{6}
+\contentsline {chapter}{\numberline {5}Architectural Tactics}{7}
+\contentsline {section}{\numberline {5.1}Modifiability}{7}
+\contentsline {section}{\numberline {5.2}Testability}{7}
+\contentsline {section}{\numberline {5.3}Performance}{7}
+\contentsline {section}{\numberline {5.4}Portability}{7}
+\contentsline {chapter}{\numberline {6}Architectural Patterns}{8}
+\contentsline {section}{\numberline {6.1}MVC - Model, View and Controller}{8}
+\contentsline {section}{\numberline {6.2}SOA - Service Oriented Architecture}{8}
+\contentsline {section}{\numberline {6.3}Observer pattern}{8}
+\contentsline {chapter}{\numberline {7}Views}{9}
+\contentsline {section}{\numberline {7.1}Logical Views}{9}
+\contentsline {section}{\numberline {7.2}Scenario view}{10}
+\contentsline {section}{\numberline {7.3}Development view}{10}
+\contentsline {section}{\numberline {7.4}State machine}{11}
+\contentsline {section}{\numberline {7.5}Consistency among views}{11}
+\contentsline {chapter}{\numberline {8}Summary}{12}
+\contentsline {section}{\numberline {8.1}Architectural Rationale}{12}
+\contentsline {section}{\numberline {8.2}Issues}{12}
+\contentsline {chapter}{\numberline {9}References}{13}
+\contentsline {section}{\numberline {9.1}Books}{13}
+\contentsline {section}{\numberline {9.2}Webpages}{13}
+\contentsline {chapter}{\numberline {10}Changes}{14}
+\contentsline {paragraph}{}{14}
