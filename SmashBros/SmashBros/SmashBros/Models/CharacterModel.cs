@@ -12,7 +12,7 @@ using System.Diagnostics;
 
 namespace SmashBros.Models
 {
-    public enum CharacterState { none, running, braking, jumping, falling, takingHit, attacking, shielding, chargingHit, chargingSuper }
+    public enum CharacterState { none, running, braking, jumping, falling, takingHit, attacking, shielding, charging }
     
     public class CharacterModel
     {
@@ -39,11 +39,10 @@ namespace SmashBros.Models
         
         public void setState(CharacterState newState, MoveStats move = null)
         {
-            if (newState == CharacterState.attacking || newState == CharacterState.chargingHit || newState == CharacterState.chargingSuper || newState == CharacterState.shielding)
+            if (newState == CharacterState.attacking || newState == CharacterState.charging || newState == CharacterState.shielding)
             {
                 if(newState != CharacterState.shielding && move == null) throw new NotImplementedException();
                 attackMode = true;
-                Debug.WriteLine("atmode true");
             }
             else attackMode = false;
             

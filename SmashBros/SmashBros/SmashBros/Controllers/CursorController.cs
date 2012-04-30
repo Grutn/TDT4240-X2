@@ -179,7 +179,7 @@ namespace SmashBros.Controllers
             cursorModel.CurrentTarget = null;
         }
 
-        private void OnCursorNavigate(float directionX, float directionY, int playerIndex, bool newDirection)
+        private void OnCursorNavigate(float directionX, float directionY, int playerIndex, bool newXdirection, bool newYdirection)
         {
             var cursor = playerCursors[playerIndex];
             cursor.SetPosition(cursor.Cursor.PositionX + directionX * Constants.MaxCursorSpeed,

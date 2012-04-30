@@ -377,6 +377,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
     <Compile Include="Maps\HeroStadium.png">
       <Name>HeroStadium</Name>
       <Importer>TextureImporter</Importer>
@@ -433,13 +434,10 @@
     </Compile>
     <Compile Include="Characters\WolverinePose.png">
       <Name>WolverinePose</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
+=======
     <Compile Include="GameStuff\RangeAttacks.png">
       <Name>RangeAttacks</Name>
+>>>>>>> 36104da383ef6ae792c5a75350c3c92f5667c8b1
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

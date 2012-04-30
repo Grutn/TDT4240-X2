@@ -7,10 +7,17 @@ namespace SmashBros.MySystem
 {
     public static class Constants
     {
+<<<<<<< HEAD
         public const bool DebugMode = !true;
         public const bool StartGameplay = !true;
         public const bool Music = true;
         public const bool ZoomMin = !true;
+=======
+        public const bool DebugMode = true;
+        public const bool StartGameplay = true;
+        public const bool Music = !true;
+>>>>>>> 36104da383ef6ae792c5a75350c3c92f5667c8b1
+
         public const int WindowWidth = 1280;
         public const int WindowHeight = 720;
         public const bool FullScreen = false;

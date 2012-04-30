@@ -18,7 +18,7 @@ namespace SmashBros.Models
         /// <summary>
         /// The box that punches people on collision.
         /// </summary>
-        public ImageModel Box;
+        public ImageModel Img;
 
         /// <summary>
         /// Time left to when move is over.
@@ -45,12 +45,18 @@ namespace SmashBros.Models
         /// </summary>
         public bool moveStarted;
 
+        /// <summary>
+        /// Whether the move have ended. Is currently needed by adjustable rangeattacks.
+        /// </summary>
+        public bool Ended;
+
         public MoveModel(MoveStats stats, bool right, int playerIndex)
         {
             Stats = stats;
             attackTimeLeft = stats.Duration;
             chargeTime = 0;
             moveStarted = false;
+            Ended = false;
             Xdirection = right ? new Vector2(1, 1) : new Vector2(-1, 1);
             PlayerIndexes = new List<int>();
             PlayerIndexes.Add(playerIndex);

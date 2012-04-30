@@ -30,6 +30,18 @@ The chapter architectural drivers will discuss the architectural drivers of the 
 \chapter{Architectural drivers}
 The biggest Architectural Driver in this current project is lack of time. This will affect your architecture to make it more compact and easier to implement.
 
+\section{Functional Requirements}
+We need to have a functional game that has multiple maps, characters and power ups. It will need to have fighting implemented and use some basic physics.
+
+\section{Quality Attributes Requirement}
+The game has to run smoothly with no delay between the unser input and actions on the screen. It has to be well tested so that it can be played without crashes.
+
+\section{Technical Constrainsts}
+Our techical constraints are the performance of the PC and XBox. We are also constrained to using C\# and XNA.
+
+\section{Business Constraints}
+As we are not releasing this project, we have no notable business constraints.
+
 \section{Modify-ability}
 We need to have full Modify-ability regarding new characters, stages, moves and etc. This means that we want to be able to change and add characters, stages and moves and etc without having to change parts of the already written code and without having to concerned about how we write the new code.
 
@@ -51,7 +63,7 @@ The game should be very easy both to start and to play. Their should be easy to 
 \section{Development team}
 \begin{itemize}
 \item Want a fun playable game as return for their time-investment.
-\item Need a good grade on the project, and therefor a good architectural structure.
+\item Need a good grade on the project, and therefore a good architectural structure.
 \end{itemize}
 
 \section{Course staff}
@@ -102,31 +114,48 @@ We will do performance testing to weed out resource hogs, and find out which met
 \section{Portability}
 We will only use classes which are supported by Xbox 360, and surround any platform specific code with compiler pragma to avoid duplication of code.
 
-\section{Usability}
-This has nothing to do with the architecture.
 
 \chapter{Architectural Patterns}
 These are the architectural patterns we're planing to use 
 \section{MVC - Model, View and Controller}
+MVC is an architectural patterns which has three components, the models which holds the data, views that generate views based on this data and controllers which alters the data. These three parts are communicating with eachother and combined makes up a program.
 We chose Model View Controller architectural pattern because it gave us the best modifiability  as well as it separates code into small fragments that are easy to test and distribute the work load through the group.
 
 \section{SOA - Service Oriented Architecture}
+The SOA is an architecture which is based on having multiple services(classes used ad services in our case), these are then communicating with eachother with requests and responses. Closely knit with MVC.
 The Game class in the XNA Framework provides an infrastructure for registering and providing application level services. By grouping related functionality into classes and offering them as “services” specified through an interface, the functionality can be provided without compromising modifiability.
 
 \section{Observer pattern}
+The observer pattern architecture consists of an observer and an observable object. When something changes in the observable object, it will notify the observer so that it can handle the change.
 The communication within the game will primarily be through firing of events and registration of callbacks. This will improve the modifiability a lot. We also will use state pattern in the characters and the map class.
 
 \chapter{Views}
-\section{Logical Views}
-\includegraphics[scale=0.45]{logical.jpg}
+*See chapter 4 for initial descriptions.
 
-%\section{Development view}
+\section{Logical Views}
+This diagram show the logical view of our game. It should be noted that this does not cover nearly all classes, this is simplified and the classes are grouped together to create general categories to avoid confusion.\\
+\includegraphics[scale=0.45]{logical.jpg}
 
 \section{Scenario view}
 \includegraphics[scale=0.4]{Seq.jpg}
 
+\section{Development view}
+\includegraphics[scale=0.45]{dev.jpg}
+
 \section{State machine}
+This is a diagram of our game as a state machine, it covers all the general scenes.
 \includegraphics[scale=0.45]{State.jpg}
+
+\section{Consistency among views}
+The views are coherent with each other. The logical view excludes the libraries(DebugView and Farseer Physics) and game assets as well as the basic system functions, as they are irrelevant to this view. Scenario view excludes the views of the MVC as those has no game functionality other than viewing. The state machine shows the scenes of the game.
+
+\chapter{Summary}
+\section{Architectural Rationale}
+We chose MVC as is nicely splits up the game in different categories, it makes both the deveolopment and code review easier as the classes are categorized by functionality. SOA was chosen to increase the modifiability of the game so that it could easily be expanded at a later time by making the classes independant on each other, this knits nicely with observer pattern as it is basically the same thing, only event driven. State machine was selected to nicely split ut the different game states (character selection, options, map selection and game).
+
+\section{Issues}
+We found that our architectural patterns worked nicely together, although it was difficult keeping the programming consistent as SOA and OP are very simlar. \\
+Had issues keeping the functionality of classes within either models, views or controllers due to time issues.
 
 \chapter{References}
 This is the references we used to complete this document 
@@ -142,5 +171,14 @@ This is the references we used to complete this document
 \item http://en.wikipedia.org/wiki/Model–view–controller
 \item http://en.wikipedia.org/wiki/Observer\_pattern
 \end{itemize}
+
+
+
+\chapter{Changes}
+29.04.2012\\
+Updated based on feedback
+\paragraph{}
+30.04.2012\\
+Added more content to complete the document.
 
 \end{document}

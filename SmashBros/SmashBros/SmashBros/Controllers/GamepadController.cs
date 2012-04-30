@@ -31,7 +31,8 @@ namespace SmashBros.Controllers
         private KeyboardState oldKeyboardState;
 
         private Queue<Tuple<TimeSpan, Vector2>> oldNavigations;
-        private bool newDirection = false;
+        private bool newXdirection = false;
+        private bool newYdirection = false;
 
         public Player PlayerModel { get; set; }
         public int PlayerIndex { get { return PlayerModel.PlayerIndex; } }
@@ -137,7 +138,8 @@ namespace SmashBros.Controllers
             if (oldNavigations.Count == 0)
             {
                 oldNavigations.Enqueue(new Tuple<TimeSpan, Vector2> (gameTime.TotalGameTime, new Vector2(directionX, directionY)));
-                newDirection = true;
+                newXdirection = true;
+                newYdirection = true;
             }
             else
             {
@@ -146,13 +148,14 @@ namespace SmashBros.Controllers
                 {
                     Tuple<TimeSpan, Vector2> oldNav = oldNavigations.Peek();
                     if (new TimeSpan(oldNav.Item1.Ticks).Add(new TimeSpan(0,0,0,0,200)).CompareTo(gameTime.TotalGameTime) <= 0) oldNavigations.Dequeue();
-                    newDirection = Math.Abs(directionX - oldNav.Item2.X) > 0.8 || Math.Abs(directionY - oldNav.Item2.Y) > 0.8;
+                    newXdirection = Math.Abs(directionX - oldNav.Item2.X) > 0.8;
+                    newYdirection = Math.Abs(directionY - oldNav.Item2.Y) > 0.8;
                     oldNavigations.Enqueue(new Tuple<TimeSpan, Vector2>(gameTime.TotalGameTime, new Vector2(directionX, directionY)));
                 }
             }
 
             if (OnNavigation != null)
-                OnNavigation.Invoke(directionX, directionY, PlayerIndex, newDirection);
+                OnNavigation.Invoke(directionX, directionY, PlayerIndex, newXdirection, newYdirection);
 
 
             switch (CurrentState)
@@ -212,7 +215,7 @@ namespace SmashBros.Controllers
         public delegate void ButtonDown(float xDirection, float yDirection, float timeUp, int playerIndex);
         public delegate void ButtonUp(float timeDown, int playerIndex);
         public delegate void ButtonPressed(int playerIndex);
-        public delegate void NavigationKey(float xDirection, float yDirection, int playerIndex, bool newDirection);
+        public delegate void NavigationKey(float xDirection, float yDirection, int playerIndex, bool newXdirection, bool newYdirection);
 
 
         public ButtonDown OnHitkeyDown;
