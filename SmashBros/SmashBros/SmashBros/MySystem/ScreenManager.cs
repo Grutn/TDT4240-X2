@@ -101,7 +101,7 @@ namespace SmashBros.MySystem
                 var maps = Serializing.LoadMaps();
                 gamePads[0].PlayerModel.SelectedCharacter = chars[1];
                 gamePads[0].PlayerModel.CharacterIndex = 0;
-                gamePads[1].PlayerModel.SelectedCharacter = chars[2];
+                gamePads[1].PlayerModel.SelectedCharacter = chars[3];
                 gamePads[1].PlayerModel.CharacterIndex = 2;
 
                 GamePlayController game = new GamePlayController(this, maps[0]);
