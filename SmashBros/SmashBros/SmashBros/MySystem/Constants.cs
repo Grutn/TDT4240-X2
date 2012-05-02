@@ -14,7 +14,7 @@ namespace SmashBros.MySystem
         public const bool ZoomMin = !true;
         public const int WindowWidth = 1280;
         public const int WindowHeight = 720;
-        public const bool FullScreen = !true;
+        public const bool FullScreen = true;
 
         public const int FPS = 20;
         public const float MaxZoom = 1.9f;
@@ -23,5 +23,14 @@ namespace SmashBros.MySystem
         public const int ThumbHeight = 210;
         public const float MaxCursorSpeed = 10f;
         public const float GamePlayGravity = 20f;
+
+        //GamePlay
+        public const int CountDownTime = 4;
+
+        //PowerUpStuff
+        public const int PowerUpBeforeDisapear = 10;
+        public const int PowerUpMinTimeBeforeNew = 20;
+        public const int PowerUpMaxTimeBeforeNew = 35;
+
     }
 }

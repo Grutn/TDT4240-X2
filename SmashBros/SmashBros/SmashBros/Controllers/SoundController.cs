@@ -56,6 +56,10 @@ namespace SmashBros.Controllers
         public void LoadGameSounds(ContentManager content, GamePlayController controller, string background)
         {
             getSound(content, "Game/hit");
+            getSound(content, "Game/time");
+            getSound(content, "Game/ko");
+            getSound(content, "Game/death");
+            
             SetBacgroundMusic(content, background, 0.8f);
         }
 

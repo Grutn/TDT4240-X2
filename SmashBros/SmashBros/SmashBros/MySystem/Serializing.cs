@@ -230,6 +230,9 @@ namespace SmashBros.MySystem
                     c.aLR = new ChargeMove(30, 500, 100, 250, 73, 80, 0, new Vector2(20, -20), new Vector2(40, 40), new Vector2(45, -20), new Vector2(10, 10), 50, 250, 67, 69, 69, 73);
                     c.x = new RangeMove(5, 500, 340, 43, 50, 0, new Vector2(1, 1), new Vector2(40, 0), new Vector2(30, 100), new Vector2(13, -3), 0, 0, true);
                     c.xLR = new BodyMove(20, 1000, 500, 850, 51, 66, 0, new Vector2(20, -1), new Vector2(50, 0), new Vector2(50, 0), new Vector2(10, 30), new Vector2(10.0f, -1.0f), 220, 700);
+
+                    c.x.hitSound = "Spiderman/web";
+                    c.a.hitSound = "Spiderman/punch";
                 }
 
                 if (i == 2)
@@ -253,11 +256,13 @@ namespace SmashBros.MySystem
 
                     c.size = new Vector2(30, 80);
 
-                    c.a = new MoveStats(10, 250, 150, 250, 23, 28, 0, new Vector2(1, 0), new Vector2(0, 0), new Vector2(1, 0), new Vector2(10, 10));
+                    c.a = new MoveStats(10, 250, 150, 250, 23, 28, 0, new Vector2(10, 0), new Vector2(0, 0), new Vector2(1, 0), new Vector2(10, 10));
                     c.aUp = new MoveStats(10, 250, 0, 250, 29, 34, 0, new Vector2(2, 10), new Vector2(-10, 0), new Vector2(10, -40), new Vector2(10, 10));
                     c.x = new RangeMove(10, 500, 310, 36, 42, 0, new Vector2(3, 0), new Vector2(25, 0), new Vector2(5, 5), new Vector2(20, 0), 25, 25);
                     c.xLR = new RangeMove(25, 500, 350, 42, 54, 0, new Vector2(0, 0), new Vector2(30, -5), new Vector2(27, 20), new Vector2(6, 0), 1, 23, false, false, null, true, -1, (float)Math.PI * 2, 0, 54, 55);
-                    c.xDown = new RangeMove(25, 500, 350, 56, 62, 0, new Vector2(0, 0), new Vector2(0, 37), new Vector2(10, 5), new Vector2(0, 0), 24, 24);
+                    c.xDown = new RangeMove(25, 500, 350, 56, 62, 0, new Vector2(7, 15), new Vector2(0, 37), new Vector2(10, 5), new Vector2(0, 0), 24, 24);
+
+                    c.xLR.hitSound = "Racoon/bazokaInAir";
                 }
                 else if (i == 3)
                 {
@@ -452,17 +457,28 @@ namespace SmashBros.MySystem
             }
 
             Random r = new Random();
-            for (int i = 0; i < 21; i++)
+            for (int i = 0; i < 20; i++)
             {
-                PowerUp p = new PowerUp()
+                PowerUp p = new PowerUp(){};
+                p.duration = r.Next(5, 15);
+
+                if (i < 5)
                 {
-                    acceleration = r.Next(0, 10),
-                    duration = r.Next(5, 15),
-                    jumpStartVelocity = r.Next(0, 10),
-                    maxSpeed = r.Next(0, 10),
-                    weight = r.Next(0, 100),
-                    imageFrame = i
-                };
+                    p.acceleration = r.Next(0, 10);
+                }
+                else if (i < 10)
+                {
+                    p.jumpStartVelocity = r.Next(0, 10);
+                }
+                else if (i < 15)
+                {
+                    p.maxSpeed = r.Next(0, 10);
+                }
+                else
+                {
+                    p.weight = r.Next(0, 100);
+
+                }
 
                 Write(p, PowerUpFolder, "PowerUp" + i);
             }
