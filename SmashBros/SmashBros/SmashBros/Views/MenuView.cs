@@ -27,17 +27,12 @@ namespace SmashBros.Views
 
         public void SetEntries(World world, params MenuEntry[] entries)
         {
-            foreach (var e in this.Entries)
-            {
-                if(e.boundBox != null)
-                    e.boundBox.Dispose();
-            }
+            DisposeEntries();
 
             this.Entries = new List<MenuEntry>();
 
             float yPos = StartingPosition.Y + 40;
             int i = 0;
-
             foreach (var e in entries)
             {
                 e.textSize = font.MeasureString(e.text);
@@ -57,6 +52,15 @@ namespace SmashBros.Views
                 this.Entries.Add(e);
             }
 
+        }
+
+        public void DisposeEntries()
+        {
+            foreach (var e in this.Entries)
+            {
+                if (e.boundBox != null)
+                    e.boundBox.Dispose();
+            }
         }
 
         public void AddEntries(World world, params MenuEntry[] entries)

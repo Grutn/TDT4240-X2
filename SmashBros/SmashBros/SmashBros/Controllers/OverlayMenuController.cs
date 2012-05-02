@@ -372,6 +372,7 @@ namespace SmashBros.Controllers
                 }
                 else
                 {
+                    menuView.DisposeEntries();
                     foreach (var pad in GamePadControllers)
                     {
                         pad.OnBackPress -= closeMenuBox;
