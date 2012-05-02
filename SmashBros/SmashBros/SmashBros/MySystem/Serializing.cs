@@ -278,8 +278,8 @@ namespace SmashBros.MySystem
                     c.ani_takeHitStart = 57;
                     c.ani_takeHitEnd = 59;
 
-                    c.a = new MoveStats(10, 600, 300, 400, 20, 33, 0, new Vector2(1, 0.5f), new Vector2(0,0), new Vector2(50,-10), new Vector2(10,10));
-                    c.aLR = new ChargeMove(10, 500, 100, 400, 25, 33, 0, new Vector2(10, 1), new Vector2(30, -10), new Vector2(60, -10), new Vector2(30, 5), 500, 3000, 20, 23, 23, 25);
+                    c.a = new MoveStats(10, 600, 400, 500, 20, 33, 0, new Vector2(1, 0.5f), new Vector2(-10,-10), new Vector2(40,-20), new Vector2(10,10));
+                    c.aLR = new ChargeMove(10, 500, 200, 400, 25, 33, 0, new Vector2(10, 1), new Vector2(0, -20), new Vector2(30, -20), new Vector2(30, 5), 500, 3000, 20, 23, 23, 25);
                     c.aUp = new MoveStats(10, 500, 200, 500, 33, 39, 0, new Vector2(10, 10), new Vector2(0, 0), new Vector2(30, 30), new Vector2(10, 10));
                     c.xUp = new BodyMove(20, 5000, 0, 5000, 11, 16, 0, new Vector2(10, 10), new Vector2(0, -50), new Vector2(0, -50), new Vector2(30, 5), new Vector2(7, 7), 0, 5000, (float)Math.PI,0- Math.PI / 2, 16, 16);// after = 17 - 19);
                     c.x = new MoveStats(10, 500, 100, 400, 47, 56, 0, new Vector2(5, 0), new Vector2(0, 0), new Vector2(0, 0), new Vector2(10, 10));
