@@ -20,7 +20,8 @@ namespace SmashBros.Controllers
     /// </summary>
     public class GamePlayController : Controller
     {
-        int countDownTime = 0, gameOverWait = 3000;
+        int countDownTime = Constants.CountDownTime, gameOverWait = 3000;
+
         bool waitForGameOverText = false;
         MapController map;
         CameraController camera;
@@ -332,7 +333,7 @@ namespace SmashBros.Controllers
 
         private void OnPlayerDeath(CharacterController characterController, bool behindScreen)
         {
-            Screen.soundController.PlaySound("Game/ko");
+            Screen.soundController.PlaySound("Game/death");
             Vector2 pos = characterController.model.position;
             int playerIndex = characterController.model.playerIndex;
             

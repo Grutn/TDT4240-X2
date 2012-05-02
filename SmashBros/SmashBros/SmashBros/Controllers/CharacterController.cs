@@ -551,7 +551,7 @@ namespace SmashBros.Controllers
                 view.Rotation = 0;
                 view.BoundBox.Rotation = 0;
                 model.attackMode = false;
-                if (chara.Body.Position.Y + view.size.Y / 2 <= obj.Body.Position.Y - (float)obj.Body.UserData / 2)
+                if ((obj.CollisionCategories == Category.Cat9 || obj.CollisionCategories == Category.Cat10) && chara.Body.Position.Y + view.size.Y / 2 <= obj.Body.Position.Y - (float)obj.Body.UserData / 2)
                 {
                     model.inAir = false;
                     if (obj.CollisionCategories == Category.Cat10) model.onSoftBox = true;

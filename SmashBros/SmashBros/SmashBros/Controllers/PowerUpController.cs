@@ -20,7 +20,10 @@ namespace SmashBros.Controllers
     class PowerUpController : Controller
     {
         //WaitMax=how long poweupsWaits, minNew/maxNew = min/max time before new poweupShows ups
-        int waitMax = 7, minNew = 12, maxNew = 30;
+        int waitMax = Constants.PowerUpBeforeDisapear, 
+            minNew = Constants.PowerUpMinTimeBeforeNew, 
+            maxNew = Constants.PowerUpMaxTimeBeforeNew;
+
         List<PowerUp> powerUps;
         //List with powerups that is picked up, key is playerindex
         Dictionary<int, PowerUpStatus> activePowerUps;
