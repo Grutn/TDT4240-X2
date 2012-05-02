@@ -19,7 +19,7 @@ namespace SmashBros.Views
             this.CurrentFrame = fromFrame;
             this.FromFrame = fromFrame;
             this.ToFrame = toFrame;
-            this.FPS = duration == -1 ? -1 : (toFrame - fromFrame + 2) * 1000f / duration;
+            this.FPS = duration == -1 ? -1 : (toFrame - fromFrame + 1) * 1000f / duration;
             this.Loop = loop;
         }
 

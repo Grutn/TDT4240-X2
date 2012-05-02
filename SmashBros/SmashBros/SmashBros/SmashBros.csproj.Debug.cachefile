@@ -34,6 +34,8 @@ Content\Characters\SpidermanPose.xnb
 Content\Characters\WolverineAnimation.xnb
 Content\Characters\WolverinePose.xnb
 Content\GameStuff\RangeAttacks.xnb
+Content\Maps\GrassTown.xnb
+Content\Maps\GrassTownThumb.xnb
 Content\Fonts\gamefont.xnb
 Content\menufont.xnb
 Content\Fonts\Impact.xnb
@@ -63,6 +65,4 @@ Content\Sound\Spiderman\web.xnb
 Content\Sound\Menu\MenuMusic.xnb
 Content\Sound\Menu\btn.xnb
 Content\Sound\Game\HeroStadium.xnb
-Content\Maps\GrassTown.xnb
-Content\Maps\GrassTownThumb.xnb
 Content\font.xnb

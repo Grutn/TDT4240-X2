@@ -100,7 +100,6 @@ namespace SmashBros.Controllers
                         ConvertUnits.ToSimUnits((move.Stats.SqTo - move.Stats.SqFrom) / (move.Stats.End - move.Stats.Start) * 1000) : move.Stats.BulletVelocity;
                 velocity *= move.Xdirection;
                 velocity = move.Stats.SqFrom == move.Stats.SqTo ? characterVelocity : velocity + characterVelocity;
-                Debug.WriteLine(velocity);
                 move.Img.BoundBox.LinearVelocity = velocity;
                 move.Img.BoundBox.UserData = move;
 
