@@ -418,7 +418,7 @@ namespace SmashBros.Controllers
                         {
                             model.setState(CharacterState.attacking, currentMove.Stats);
                             if (currentMove.Stats.Start == 0) moves.StartMove(view.Position, view.Velocity, currentMove);
-                            if (currentMove.Stats.Adjustable) adjustAngle = model.faceRight ? 0 : Math.PI;
+                            if (currentMove.Stats.Adjustable) adjustAngle = model.faceRight ? 0 : Math.PI; 
                         }
 
                     }
