@@ -52,14 +52,14 @@ namespace SmashBros.Views
                     CurrentFrame = FromFrame;
                 }
                 //Check if elapsed time is large enough for the gams fps
+                int row = (int)Math.Floor((double)CurrentFrame / framesPerRow);
+
+                frame.Y = frame.Height * row;
+                frame.X = frame.Width * (CurrentFrame - row * framesPerRow);
+
                 if (elapsedTime >= 1000 / (FPS == -1? fps : FPS == 0? 0.1 : FPS))
                 {
                     elapsedTime = 0;
-                    int row = (int)Math.Floor((double)CurrentFrame / framesPerRow);
-
-                    frame.Y = frame.Height * row;
-                    frame.X = frame.Width * (CurrentFrame - row * framesPerRow);
-
                     CurrentFrame++;
                 }
             }

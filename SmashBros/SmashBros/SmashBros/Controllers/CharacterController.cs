@@ -540,17 +540,23 @@ namespace SmashBros.Controllers
         private bool Collision(Fixture chara, Fixture obj, Contact list)
         {
             bool returnValue = false;
-            if (model.state == CharacterState.attacking && (obj.CollisionCategories != Category.Cat20 || !((MoveModel)obj.Body.UserData).PlayerIndexes.Contains(model.playerIndex)) && currentMove.Stats.Type == MoveType.Body
+            if (model.state == CharacterState.attacking
+                && (obj.CollisionCategories != Category.Cat20 || !((MoveModel)obj.Body.UserData).PlayerIndexes.Contains(model.playerIndex))
+                && currentMove.Stats.Type == MoveType.Body
                 && (currentMove.Stats.StopAtHit || obj.CollisionCategories != Category.Cat11))
             {
                 moves.EndMove(currentMove);
                 view.Rotation = 0;
                 view.BoundBox.Rotation = 0;
                 model.attackMode = false;
-                model.inAir = false;
-                if (obj.CollisionCategories == Category.Cat10) model.onSoftBox = true;
+                if (chara.Body.Position.Y + view.size.Y / 2 <= obj.Body.Position.Y - (float)obj.Body.UserData / 2)
+                {
+                    model.inAir = false;
+                    if (obj.CollisionCategories == Category.Cat10) model.onSoftBox = true;
+                    model.jumpsLeft = 3;
+                }
+                
                 NaturalState();
-                model.jumpsLeft = 3;
                 returnValue = true;
             }
             else if ((obj.CollisionCategories == Category.Cat9 || obj.CollisionCategories == Category.Cat10)

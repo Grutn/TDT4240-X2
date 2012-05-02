@@ -95,17 +95,14 @@ namespace SmashBros.Controllers
 
                 move.Img.BoundBox.IgnoreGravity = true;
                 move.Img.BoundBox.IsStatic = false;
-
-                Vector2 velocity = move.Stats.Type != MoveType.Range ?
-                        ConvertUnits.ToSimUnits((move.Stats.SqTo - move.Stats.SqFrom) / (move.Stats.End - move.Stats.Start) * 1000) : move.Stats.BulletVelocity;
-                velocity *= move.Xdirection;
-                velocity = move.Stats.SqFrom == move.Stats.SqTo ? characterVelocity : velocity + characterVelocity;
-                move.Img.BoundBox.LinearVelocity = velocity;
                 move.Img.BoundBox.UserData = move;
+                move.Started = true;
 
                 if (move.Stats.Type == MoveType.Range)
                 {
+                    move.Img.BoundBox.LinearVelocity = move.Stats.BulletVelocity * move.Xdirection;
                     move.Img.CurrentFrame = move.Stats.AniBulletFrom;
+                    //if (move.Xdirection == new Vector2(-1, 1)) move.Img.
                     if (move.Stats.Gravity) move.Img.BoundBox.IgnoreGravity = false;
                     move.Img.BoundBox.CollidesWith = Category.Cat11 | Category.Cat10 | Category.Cat9 | Category.Cat8 | Category.Cat7;
                     if (move.Stats.Explotion != null) 
@@ -114,10 +111,11 @@ namespace SmashBros.Controllers
                 }
                 else
                 {
+                    Vector2 velocity = ConvertUnits.ToSimUnits((move.Stats.SqTo - move.Stats.SqFrom) / (move.Stats.End - move.Stats.Start) * 1000) * move.Xdirection;
+                    velocity = move.Stats.SqFrom == move.Stats.SqTo ? characterVelocity : velocity + characterVelocity;
+                    move.Img.BoundBox.LinearVelocity = velocity;
                     move.Img.CurrentFrame = -1;
-                }
-
-                move.Started = true; 
+                } 
             }
         }
 

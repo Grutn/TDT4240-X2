@@ -256,7 +256,7 @@ namespace SmashBros.MySystem
                     c.a = new MoveStats(10, 250, 0, 250, 23, 28, 0, new Vector2(1, 0), new Vector2(0, 0), new Vector2(1, 0), new Vector2(10, 10));
                     c.aUp = new MoveStats(10, 250, 0, 250, 29, 34, 0, new Vector2(2, 10), new Vector2(-10, 0), new Vector2(10, -40), new Vector2(10, 10));
                     c.x = new RangeMove(10, 500, 310, 36, 42, 0, new Vector2(3, 0), new Vector2(25, 0), new Vector2(5, 5), new Vector2(20, 0), 25, 25);
-                    c.xLR = new RangeMove(25, 500, 350, 42, 54, 0, new Vector2(0, 0), new Vector2(30, -5), new Vector2(27, 20), new Vector2(3, 0), 1, 23, false, false, null, true, -1, (float)Math.PI, 0, 54, 55);
+                    c.xLR = new RangeMove(25, 500, 350, 42, 54, 0, new Vector2(0, 0), new Vector2(30, -5), new Vector2(27, 20), new Vector2(6, 0), 1, 23, false, false, null, true, -1, (float)Math.PI * 2, 0, 54, 55);
                     c.xDown = new RangeMove(25, 500, 350, 56, 62, 0, new Vector2(0, 0), new Vector2(0, 37), new Vector2(10, 5), new Vector2(0, 0), 24, 24);
                 }
                 else if (i == 3)
@@ -268,23 +268,23 @@ namespace SmashBros.MySystem
                     c.ani_noneEnd = 0;
                     c.ani_runStart = 1;
                     c.ani_runEnd = 10;
-                    c.ani_brake = 40;
+                    c.ani_brake = 41;
                     c.ani_jumpStart = 11;
                     c.ani_jumpEnd = 16;
                     c.ani_fallStart = 16;
                     c.ani_fallEnd = 16;
                     c.ani_landStart = 17;
                     c.ani_landEnd = 19;
-                    c.ani_takeHitStart = 57;
-                    c.ani_takeHitEnd = 59;
+                    c.ani_takeHitStart = 66;
+                    c.ani_takeHitEnd = 68;
 
-                    c.a = new MoveStats(10, 600, 400, 500, 20, 33, 0, new Vector2(1, 0.5f), new Vector2(-10,-10), new Vector2(40,-20), new Vector2(10,10));
-                    c.aLR = new ChargeMove(10, 500, 200, 400, 25, 33, 0, new Vector2(10, 1), new Vector2(0, -20), new Vector2(30, -20), new Vector2(30, 5), 500, 3000, 20, 23, 23, 25);
-                    c.aUp = new MoveStats(10, 500, 200, 500, 33, 39, 0, new Vector2(10, 10), new Vector2(0, 0), new Vector2(30, 30), new Vector2(10, 10));
-                    c.xUp = new BodyMove(20, 5000, 0, 5000, 11, 16, 0, new Vector2(10, 10), new Vector2(0, -50), new Vector2(0, -50), new Vector2(30, 5), new Vector2(7, 7), 0, 5000, (float)Math.PI,0- Math.PI / 2, 16, 16);// after = 17 - 19);
-                    c.x = new MoveStats(10, 500, 100, 400, 47, 56, 0, new Vector2(5, 0), new Vector2(0, 0), new Vector2(0, 0), new Vector2(10, 10));
-                    c.xLR = new BodyMove(10, 500, 100, 400, 41, 46, 0, new Vector2(10, 1), new Vector2(0, 0), new Vector2(0, 0), new Vector2(10, 10), new Vector2(5, 2));
-                    c.xDown = new BodyMove(10, 1000, 100, 1000, 60, 74, 0, new Vector2(10, 10), new Vector2(0, 40), new Vector2(0, 40), new Vector2(50, 14), new Vector2(0, 12f));
+                    c.a = new MoveStats(10, 600, 400, 500, 20, 34, 0, new Vector2(1, 0.5f), new Vector2(-10,-10), new Vector2(40,-20), new Vector2(10,10));
+                    c.aLR = new ChargeMove(10, 500, 200, 400, 59, 66, 0, new Vector2(10, 1), new Vector2(0, -20), new Vector2(30, -20), new Vector2(30, 5), 200, 3000, 56, 58, 58, 58);
+                    c.aUp = new MoveStats(10, 500, 200, 500, 33, 40, 0, new Vector2(10, 10), new Vector2(0, 0), new Vector2(30, 30), new Vector2(10, 10));
+                    c.xUp = new BodyMove(20, 5000, 0, 5000, 16, 16, 0, new Vector2(10, 10), new Vector2(0, -50), new Vector2(0, -50), new Vector2(30, 5), new Vector2(7, 7), 0, 5000, (float)Math.PI,0- Math.PI / 2, 16, 16);// after = 17 - 19);
+                    c.x = new MoveStats(10, 500, 100, 400, 56, 66, 0, new Vector2(5, 0), new Vector2(0, 0), new Vector2(0, 0), new Vector2(10, 10));
+                    c.xLR = new BodyMove(10, 1500, 400, 1300, 42, 56, 0, new Vector2(10, -1), new Vector2(60, 0), new Vector2(60, 0), new Vector2(10, 10), new Vector2(10, -1), 400, 1300);
+                    c.xDown = new BodyMove(10, 1000, 100, 1000, 69, 83, 0, new Vector2(10, 10), new Vector2(0, 40), new Vector2(0, 40), new Vector2(50, 14), new Vector2(0, 12f));
                 }
                 Write(c, CharacterFolder, "Character" + i);
             }

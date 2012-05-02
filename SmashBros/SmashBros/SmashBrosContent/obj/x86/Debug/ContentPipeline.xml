@@ -233,7 +233,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Characters\SupermanFatAnimation.xnb</Output>
-      <Time>2012-05-02T17:52:54.1564169+02:00</Time>
+      <Time>2012-05-02T21:37:07.7726599+02:00</Time>
     </Item>
     <Item>
       <Source>Maps\CityMapThumb.png</Source>
@@ -323,7 +323,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\GameStuff\RangeAttacks.xnb</Output>
-      <Time>2012-04-30T02:31:57.0116187+02:00</Time>
+      <Time>2012-05-02T21:37:07.7746589+02:00</Time>
     </Item>
     <Item>
       <Source>Maps\GrassTown.png</Source>
@@ -396,42 +396,6 @@
       <Options>None</Options>
       <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Sound\Game\hit.xnb</Output>
       <Time>2012-04-29T21:27:28.7910738+02:00</Time>
-    </Item>
-    <Item>
-      <Source>Sound\Wolwerine\pain.wav</Source>
-      <Name>Sound\Wolwerine\pain</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Sound\Wolwerine\pain.xnb</Output>
-      <Time>2012-04-29T21:27:28.8177877+02:00</Time>
-    </Item>
-    <Item>
-      <Source>Sound\Wolwerine\jump.wav</Source>
-      <Name>Sound\Wolwerine\jump</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Sound\Wolwerine\jump.xnb</Output>
-      <Time>2012-04-29T21:27:28.8147876+02:00</Time>
-    </Item>
-    <Item>
-      <Source>Sound\Wolwerine\kill.wav</Source>
-      <Name>Sound\Wolwerine\kill</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Sound\Wolwerine\kill.xnb</Output>
-      <Time>2012-04-29T21:27:28.8167889+02:00</Time>
-    </Item>
-    <Item>
-      <Source>Sound\Wolwerine\selected.wav</Source>
-      <Name>Sound\Wolwerine\selected</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Sound\Wolwerine\selected.xnb</Output>
-      <Time>2012-04-29T21:27:28.8197857+02:00</Time>
     </Item>
     <Item>
       <Source>Sound\Game\death.wav</Source>
@@ -603,6 +567,42 @@
       <Options>None</Options>
       <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Sound\Game\HeroStadium.xnb</Output>
       <Time>2012-04-30T13:58:20.617448+02:00</Time>
+    </Item>
+    <Item>
+      <Source>Sound\Wolverine\pain.wav</Source>
+      <Name>Sound\Wolverine\pain</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Sound\Wolverine\pain.xnb</Output>
+      <Time>2012-05-02T21:37:07.8572489+02:00</Time>
+    </Item>
+    <Item>
+      <Source>Sound\Wolverine\jump.wav</Source>
+      <Name>Sound\Wolverine\jump</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Sound\Wolverine\jump.xnb</Output>
+      <Time>2012-05-02T21:37:07.8532514+02:00</Time>
+    </Item>
+    <Item>
+      <Source>Sound\Wolverine\kill.wav</Source>
+      <Name>Sound\Wolverine\kill</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Sound\Wolverine\kill.xnb</Output>
+      <Time>2012-05-02T21:37:07.8552509+02:00</Time>
+    </Item>
+    <Item>
+      <Source>Sound\Wolverine\selected.wav</Source>
+      <Name>Sound\Wolverine\selected</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\juliusbuset\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Sound\Wolverine\selected.xnb</Output>
+      <Time>2012-05-02T21:37:07.8602471+02:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
