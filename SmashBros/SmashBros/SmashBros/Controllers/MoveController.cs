@@ -82,6 +82,7 @@ namespace SmashBros.Controllers
 
         public MoveModel newMove(MoveStats stats, bool right)
         {
+            foreach (MoveModel moveModel in moves) if (moveModel.Stats == stats) return null;
             MoveModel move = new MoveModel(stats, right, playerIndex);
             moves.Add(move);
             return move;
