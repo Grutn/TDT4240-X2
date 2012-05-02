@@ -155,7 +155,7 @@ namespace SmashBros.Controllers
 
         private bool OnCollision(Fixture cursor, Fixture box, Contact contact)
         {
-            Screen.soundController.PlayMenuSound(MenuSoundType.btnHover, null);
+            Screen.soundController.PlaySound("Menu/btn");
             int playerIndex = (int)cursor.Body.UserData;
             var cursorModel = playerCursors[playerIndex];
             cursorModel.CurrentTarget = box.Body;

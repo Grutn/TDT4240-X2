@@ -42,10 +42,6 @@ Content\Fonts\Impact.xnb
 Content\Fonts\Impact.large.xnb
 Content\Sound\main.xnb
 Content\Sound\Game\hit.xnb
-Content\Sound\Wolwerine\pain.xnb
-Content\Sound\Wolwerine\jump.xnb
-Content\Sound\Wolwerine\kill.xnb
-Content\Sound\Wolwerine\selected.xnb
 Content\Sound\Game\death.xnb
 Content\Sound\Game\deathFar.xnb
 Content\Sound\Hulk\jump.xnb
@@ -65,4 +61,8 @@ Content\Sound\Spiderman\web.xnb
 Content\Sound\Menu\MenuMusic.xnb
 Content\Sound\Menu\btn.xnb
 Content\Sound\Game\HeroStadium.xnb
+Content\Sound\Wolverine\pain.xnb
+Content\Sound\Wolverine\jump.xnb
+Content\Sound\Wolverine\kill.xnb
+Content\Sound\Wolverine\selected.xnb
 Content\font.xnb

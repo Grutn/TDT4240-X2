@@ -7,26 +7,17 @@ using SmashBros.MySystem;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework;
 using SmashBros.Models;
+using System.Diagnostics;
 
 namespace SmashBros.Controllers
 {
-    public enum GameSoundType { hit, explotion, death, deathFar }
-    public enum PlayerSoundType { Jump, Hit, ChargingHit, ChargedHit, Super, ChargingSuper, ChargedSuper, Kill }
-    public enum MenuSoundType { choose, characterSelected, toMapSelection, optionsInOut, btnHover }
 
     public class SoundController : Controller
     {
-        private SoundEffect _backgroundMusic;
         private SoundEffectInstance backgroundMusic;
-
-        // Gameplay sounds:
-        private Dictionary<GameSoundType, SoundEffect> gameSounds;
-        private Dictionary<int, Dictionary<PlayerSoundType, SoundEffect>> playerSounds;
-        
-        // Menu sounds:
-        private Dictionary<MenuSoundType, object> menuSounds;
-        
         List<SoundEffect> soundEffects;
+        Dictionary<string, Tuple<SoundEffect, SoundEffectInstance>> soundLookUp;
+
 
         //Used to fade bg sound in
         float toVolume;
@@ -34,50 +25,64 @@ namespace SmashBros.Controllers
         public SoundController(ScreenManager screen) : base(screen)
         {
             this.soundEffects = new List<SoundEffect>();
+            this.soundLookUp = new Dictionary<string, Tuple<SoundEffect, SoundEffectInstance>>();
         }
 
-        public override void Load(ContentManager content) {}
+        public override void Load(ContentManager content) {
+            var i = getSound(content, "Menu/btn");
+            i.Volume = 0.3f;
+            i.Pitch = 1f;
+        }
 
         public void LoadSelectionMenuSounds(ContentManager content, MenuController controller, List<CharacterStats> characters)
         {
-            menuSounds = new Dictionary<MenuSoundType, object>();
+            getSound(content, "Menu/chooseCharacter");
 
-            SoundEffectInstance i = createSound(content, "Sound/Menu/chooseCharacter");
-            menuSounds.Add(MenuSoundType.choose,i);
-
-            i = createSound(content, "Sound/Menu/btn");
-            i.Volume = 0.3f;
-            i.Pitch = 1f;
-            menuSounds.Add(MenuSoundType.btnHover, i);
-
-            menuSounds.Add(MenuSoundType.characterSelected, new Dictionary<CharacterStats, SoundEffect>());
             foreach (CharacterStats character in characters)
-                try { ((Dictionary<CharacterStats, SoundEffect>)menuSounds[MenuSoundType.characterSelected]).Add(character, content.Load<SoundEffect>(character.sound_selected)); }
-                catch { }
+            {
+                try
+                {
+                    getSound(content, character.sound_selected);
+                }
+                catch (Exception)
+                {
+                    
+                }
+            }
 
-            SetBacgroundMusic(content, "Sound/Menu/MenuMusic", 0.2f);
+            SetBacgroundMusic(content, "Menu/MenuMusic", 0.2f);
         }
         
         public void LoadGameSounds(ContentManager content, GamePlayController controller, string background)
         {
-            gameSounds = new Dictionary<GameSoundType, SoundEffect>();
-            //gameSounds.Add(GameSoundType.hit, content.Load<SoundEffect>("Sound/Game/hit"));
-            //gameSounds.Add(GameSoundType.death, content.Load<SoundEffect>("Sound/Game/hit"));
-
-            playerSounds = new Dictionary<int, Dictionary<PlayerSoundType, SoundEffect>>();
-
+            getSound(content, "Game/hit");
             SetBacgroundMusic(content, background, 0.8f);
-            
         }
 
-        public void LoadCharacter(ContentManager content, CharacterController controller)
+        public void LoadCharacterGameSounds(ContentManager content, CharacterStats character)
         {
-            playerSounds.Add(controller.model.playerIndex, new Dictionary<PlayerSoundType, SoundEffect>());
+            getSound(content, character.sound_jump);
+            getSound(content, character.sound_kill);
+            getSound(content, character.sound_won);
+            
+            if(character.x != null)
+                getSound(content, character.x.hitSound);
+            if (character.xLR != null)
+                getSound(content, character.xLR.hitSound);
+            if (character.xDown != null)
+                getSound(content, character.xDown.hitSound);
+            if (character.xUp != null)
+                getSound(content, character.xUp.hitSound);
 
-            try { playerSounds[controller.model.playerIndex].Add(PlayerSoundType.Jump, content.Load<SoundEffect>(controller.stats.sound_jump)); }
-            catch { }
-            try { playerSounds[controller.model.playerIndex].Add(PlayerSoundType.Kill, content.Load<SoundEffect>(controller.stats.sound_kill)); }
-            catch { }
+            if (character.a != null)
+                getSound(content, character.a.hitSound);
+            if (character.aLR != null)
+                getSound(content, character.aLR.hitSound);
+            if (character.aDown != null)
+                getSound(content, character.aDown.hitSound);
+            if (character.aUp != null)
+                getSound(content, character.aUp.hitSound);
+
         }
 
         public void SetBacgroundMusic(ContentManager content, string source, float volume)
@@ -87,9 +92,9 @@ namespace SmashBros.Controllers
                 if (backgroundMusic != null) backgroundMusic.Stop();
 
                 toVolume = volume;
-                _backgroundMusic = content.Load<SoundEffect>(source);
-                backgroundMusic = _backgroundMusic.CreateInstance();
-                backgroundMusic.IsLooped = true;
+                backgroundMusic = getSound(content, source);
+                backgroundMusic.Stop();
+                //backgroundMusic.IsLooped = true;
                 backgroundMusic.Volume = 0f;
                 backgroundMusic.Play();
             }
@@ -97,26 +102,27 @@ namespace SmashBros.Controllers
 
         public override void Unload()
         {
-            
-        }
-
-        public void UnloadGameSounds()
-        {
-
-        }
-
-        public void UnloadMenuSounds()
-        {
-            foreach (var sound in menuSounds)
+            foreach (var s in soundLookUp)
             {
-                object effect;
-                if (menuSounds.TryGetValue(sound.Key, out effect)){
-                    if (effect.GetType() == typeof(SoundEffectInstance))
-                        ((SoundEffectInstance)effect).Stop();    
+                s.Value.Item2.Dispose();
+                s.Value.Item1.Dispose();
+            }
+
+            System.GC.SuppressFinalize(this);
+        }
+
+        public void Unload(List<string> sounds)
+        {
+            foreach (var s in sounds)
+            {
+                if (!string.IsNullOrEmpty(s) && soundLookUp.ContainsKey(s))
+                {
+                    soundLookUp[s].Item2.Dispose();
+                    soundLookUp[s].Item1.Dispose();
+                    soundLookUp.Remove(s);
                 }
             }
         }
-
 
         float elapsedTime = 0;
         public override void Update(GameTime gameTime)
@@ -139,50 +145,44 @@ namespace SmashBros.Controllers
             }
         }
 
-        public override void OnNext(MySystem.GameStateManager value) 
+        public override void OnNext(GameStateManager value) 
         {
         }
 
         public override void Deactivate()
         {
-            throw new NotImplementedException();
         }
 
-        public void PlayGameSound(GameSoundType soundtype)
+        public void PlaySound(string id)
         {
-            SoundEffect effect;
-            if(gameSounds.TryGetValue(soundtype, out effect)) effect.Play();
-        }
-
-        public void PlayPlayerSound(int playerIndex, PlayerSoundType soundtype)
-        {
-            SoundEffect effect;
-            if(playerSounds[playerIndex].TryGetValue(soundtype, out effect)) effect.Play();
-        }
-
-        public void PlayMenuSound(MenuSoundType soundtype, CharacterStats character = null)
-        {
-            if (soundtype == MenuSoundType.characterSelected)
+            if (!string.IsNullOrEmpty(id) && soundLookUp.ContainsKey(id))
             {
-                SoundEffect effect;
-                if (((Dictionary<CharacterStats, SoundEffect>)menuSounds[soundtype]).TryGetValue(character, out effect)) effect.Play();
-            }
-            else
-            {
-                object effect;
-                if (menuSounds.TryGetValue(soundtype, out effect))
-                {
-                    SoundEffectInstance s = (SoundEffectInstance)effect;
-                    s.Play();
-                }      
+                soundLookUp[id].Item2.Play();
             }
         }
 
-        private SoundEffectInstance createSound(ContentManager content, string source)
+        private SoundEffectInstance getSound(ContentManager content, string source)
         {
-            SoundEffect soundEffect = content.Load<SoundEffect>(source);
-            soundEffects.Add(soundEffect);
-            return soundEffect.CreateInstance();
+            if (string.IsNullOrEmpty(source)) return null;
+
+            if(soundLookUp.ContainsKey(source))
+            {
+                return soundLookUp[source].Item2;
+            }
+            try
+            {
+                SoundEffect soundEffect = content.Load<SoundEffect>("Sound/" + source);
+                soundLookUp.Add(source, Tuple.Create(soundEffect, soundEffect.CreateInstance()));
+                return soundLookUp.Last().Value.Item2;
+            }
+            catch (Exception)
+            {
+
+                Debug.WriteLine("Missing sound " + source);
+            }
+
+            return null;
+            
         }
     }
 }

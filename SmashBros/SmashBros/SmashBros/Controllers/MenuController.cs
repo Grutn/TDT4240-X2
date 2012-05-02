@@ -272,8 +272,13 @@ namespace SmashBros.Controllers
         
         public override void Unload()
         {
+            List<string> sounds = new List<string>();
+            sounds.Add("Menu/MenuSound");
+            foreach(var s in characterModels){
+                sounds.Add(s.sound_selected);
+            }
+            Screen.soundController.Unload(sounds);
 
-            Screen.soundController.UnloadMenuSounds();
             Screen.cursorsController.OnCursorClick -= OnCursorClick;
             Screen.cursorsController.OnCursorCollision -= OnCursorCollision;
             Screen.cursorsController.OnCursorSeparation -= OnCursorSeparation;
@@ -403,7 +408,7 @@ namespace SmashBros.Controllers
                     //Loads the sounds for the menu
                     CharacterSelectionVisible = true;
                     
-                    Screen.soundController.PlayMenuSound(MenuSoundType.choose);
+                    Screen.soundController.PlaySound("Menu/chooseCharacter");
                     break;
 
                 case GameState.MapsMenu:
@@ -466,16 +471,19 @@ namespace SmashBros.Controllers
                     switch (CurrentState)
                     {
                         case GameState.CharacterMenu:
-                            if (selectKey)
+                            if (selectKey && cursor.Enabled)
                             {
                                 GamePadControllers[playerIndex].PlayerModel.SelectedCharacter = characterModels[(int)targetData];
                                 GamePadControllers[playerIndex].PlayerModel.CharacterIndex = (int)targetData;
                                 Screen.cursorsController.DisableCursor(playerIndex);
 
-                                Screen.soundController.PlayMenuSound(MenuSoundType.characterSelected, characterModels[(int)targetData]);
+                                Screen.soundController.PlaySound(characterModels[(int)targetData].sound_selected);
                             }
-                            else
+                            else if (!selectKey)
                             {
+                                if(GamePadControllers[playerIndex].PlayerModel.SelectedCharacter != null)
+                                    hoverCharacter(playerIndex, characterModels.IndexOf(GamePadControllers[playerIndex].PlayerModel.SelectedCharacter));
+                                
                                 GamePadControllers[playerIndex].PlayerModel.SelectedCharacter = null;
                                 Screen.cursorsController.EnableCursor(playerIndex);
                             }
@@ -569,18 +577,21 @@ namespace SmashBros.Controllers
         private void OnBackPress(int playerIndex)
         {
             //Returns if the popupmenu is open
-            if (Screen.popupMenuController.State != (PopupState.Colapsed | PopupState.Removed)) return;
-
-            if (CurrentState != GameState.GameOver)
+            if (Screen.popupMenuController.State == PopupState.Colapsed || Screen.popupMenuController.State == PopupState.Removed)
             {
-                //If current state is character menu then it goes to start screen, so deselct all chracters
-                if (CurrentState == GameState.CharacterMenu)
-                    GamePadControllers.ForEach(a => a.PlayerModel.SelectedCharacter = null);
 
-                CurrentState = (GameState)MathHelper.Clamp((int)CurrentState - 1, 0, 5);
+                if (CurrentState != GameState.GameOver)
+                {
+                    //If current state is character menu then it goes to start screen, so deselct all chracters
+                    if (CurrentState == GameState.CharacterMenu)
+                        GamePadControllers.ForEach(a => a.PlayerModel.SelectedCharacter = null);
+
+                    CurrentState = (GameState)MathHelper.Clamp((int)CurrentState - 1, 0, 5);
+                }
+                else
+                    CurrentState = GameState.CharacterMenu;
+
             }
-            else
-                CurrentState = GameState.CharacterMenu;
         } 
 
         #endregion

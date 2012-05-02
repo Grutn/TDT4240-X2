@@ -223,24 +223,24 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sound\Wolwerine\pain.wav">
+    <Compile Include="Sound\Wolverine\pain.wav">
       <Name>pain</Name>
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sound\Wolwerine\jump.wav">
+    <Compile Include="Sound\Wolverine\jump.wav">
       <Name>jump</Name>
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>
-    <Compile Include="Sound\Wolwerine\kill.wav">
+    <Compile Include="Sound\Wolverine\kill.wav">
       <Name>kill</Name>
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>
-    <Compile Include="Sound\Wolwerine\selected.wav">
+    <Compile Include="Sound\Wolverine\selected.wav">
       <Name>selected</Name>
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>

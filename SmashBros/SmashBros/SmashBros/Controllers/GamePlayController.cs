@@ -309,9 +309,9 @@ namespace SmashBros.Controllers
             }
         }
 
-        private void OnPlayerHit(Vector2 pos, int damageDone, int newDamagepoints, int puncher, int reciever, GameSoundType soundtype)
+        private void OnPlayerHit(Vector2 pos, int damageDone, int newDamagepoints, int puncher, int reciever, string sound)
         {
-            Screen.soundController.PlayGameSound(soundtype);
+            Screen.soundController.PlaySound(sound);
 
             this.players[puncher].DidHit(damageDone, reciever);
             this.players[reciever].GotHit(newDamagepoints, puncher);
@@ -332,7 +332,7 @@ namespace SmashBros.Controllers
 
         private void OnPlayerDeath(CharacterController characterController, bool behindScreen)
         {
-            Screen.soundController.PlayGameSound(GameSoundType.death);
+            Screen.soundController.PlaySound("Game/ko");
             Vector2 pos = characterController.model.position;
             int playerIndex = characterController.model.playerIndex;
             
