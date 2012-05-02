@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SmashBros.Model;
 using SmashBros.Views;
 using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
@@ -143,10 +142,6 @@ namespace SmashBros.Models
             }
         }
         */
-        /// <summary>
-        /// Currently posessed weapon.
-        /// </summary>
-        public Weapon weapon;
 
         /// <summary>
         /// The CURRENT (powerup concidered) maximum magnitude of speed in x-direction this character can have.

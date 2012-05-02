@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 using SmashBros.Controllers;
 using SmashBros.Models;
 
-namespace SmashBros.Model
+namespace SmashBros.Models
 {
     public enum MoveType { Regular, Charge, Body, BodyCharge, Range }
 

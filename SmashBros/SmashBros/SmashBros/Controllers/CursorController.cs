@@ -7,7 +7,6 @@ using Microsoft.Xna.Framework.Content;
 using SmashBros.MySystem;
 using SmashBros.Views;
 using FarseerPhysics.Dynamics;
-using SmashBros.Model;
 using FarseerPhysics.Dynamics.Contacts;
 using SmashBros.Models;
 using System.Diagnostics;

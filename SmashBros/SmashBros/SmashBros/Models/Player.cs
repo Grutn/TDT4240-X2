@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace SmashBros.Model
+namespace SmashBros.Models
 {
     /// <summary>
     /// This class contains each players settings. 

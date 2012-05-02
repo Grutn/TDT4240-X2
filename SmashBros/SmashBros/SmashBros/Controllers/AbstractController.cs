@@ -24,7 +24,6 @@ namespace SmashBros.Controllers
         /// A controller must take in a screen because the 
         /// screen is used to essential features of the controller
         /// </summary>
-        /// <param name="screen"></param>
         public Controller(ScreenManager screen)
         {
             this.Screen = screen;
@@ -59,7 +58,7 @@ namespace SmashBros.Controllers
         /// Should be used de remove other controller from active list
         /// And if wanted remove other view
         /// </summary>
-        public abstract void Deactivate();
+        public virtual void Deactivate() { }
 
         #region Add & Remove Views
         /// <summary>

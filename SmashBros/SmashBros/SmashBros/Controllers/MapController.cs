@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using FarseerPhysics.Dynamics;
-using SmashBros.Model;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
 using SmashBros.Views;
 using FarseerPhysics.Factories;
 using SmashBros.MySystem;
+using SmashBros.Models;
 
 namespace SmashBros.Controllers
 {

@@ -11,8 +11,14 @@ using SmashBros.Models;
 
 namespace SmashBros.Controllers
 {
+
+    /// <summary>
+    /// Holds one players gamestats 
+    /// and updates it. Also displays som stats on the screen, like damgePercent
+    /// </summary>
     public class PlayerStatsController : Controller
     {
+        //Views
         private TextBox percentBox;
         private ImageView percentBg;
         private ImageController lifes;

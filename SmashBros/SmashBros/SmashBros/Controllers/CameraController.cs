@@ -9,8 +9,8 @@ using Microsoft.Xna.Framework;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework.Graphics;
-using SmashBros.Model;
 using FarseerPhysics.Collision.Shapes;
+using SmashBros.Models;
 
 namespace SmashBros.Controllers
 {

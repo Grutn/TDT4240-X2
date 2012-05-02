@@ -5,8 +5,8 @@ using System.Text;
 using Microsoft.Xna.Framework.Content;
 using SmashBros.MySystem;
 using Microsoft.Xna.Framework.Audio;
-using SmashBros.Model;
 using Microsoft.Xna.Framework;
+using SmashBros.Models;
 
 namespace SmashBros.Controllers
 {

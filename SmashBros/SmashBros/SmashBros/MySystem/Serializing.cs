@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SmashBros.Model;
 using System.IO;
 using Newtonsoft.Json;
 using System.Diagnostics;
@@ -309,14 +308,14 @@ namespace SmashBros.MySystem
                 map.thumbImage = "Maps/CityMapThumb";
                 map.backgroundMusic = "Sound/Game/HeroStadium";
                 map.size = new Box(3500, 1600, -800, 0);
-                map.zoomBox = new Box(3000, 1300, -800, 100);
+                map.zoomBox = new Box(10000, 10000, -5000, -5000);
                 map.DropZone = new Box(200, 800, 500, 100);
 
 
                 if (i == 0)
                 {
                     map.name = "Hero Stadium";
-                    map.bgImage = "Maps/CloudBg";
+                    map.bgImage = "Maps/CityBg";
                     map.mapImage = "Maps/HeroStadium";
                     map.thumbImage = "Maps/HeroStadiumThumb";
                     map.size = new Box(3400, 2000, -1100, -1200);
@@ -333,6 +332,28 @@ namespace SmashBros.MySystem
                     map.AddStartPos(1170, 140);
                     map.AddStartPos(530, -70);
                     map.AddStartPos(870, -70);
+                }
+                else if (i == 1)
+                {
+                    map.name = "Grass Town";
+                    map.bgImage = "Maps/CloudBg";
+                    map.mapImage = "Maps/GrassTown";
+                    map.thumbImage = "Maps/GrassTownThumb";
+                    map.size = new Box(4000, 2600, -1000, -800);
+                    map.zoomBox = new Box(3160, 2300, -560, -580);
+                    map.DropZone = new Box(1800, 900, 75, -176);
+
+                    map.AddBox(205,850, 310, 250);
+                    map.AddBox(980,880, 805, 265);
+                    map.AddBox(1755, 860, 315, 245);
+
+                    map.AddFloatBox(545, 512, 325);
+                    map.AddFloatBox(1385, 524, 445);
+
+                    map.AddStartPos(750, 614);
+                    map.AddStartPos(1260, 614);
+                    map.AddStartPos(192, 610);
+                    map.AddStartPos(1750, 630);
                 }
                 else
                 {

@@ -12,9 +12,9 @@ using SmashBros.MySystem;
 using FarseerPhysics.DebugViews;
 using FarseerPhysics;
 using System.Threading;
-using SmashBros.Model;
 using SmashBros.Controllers;
 using SmashBros.Models;
+using System.IO;
 
 namespace SmashBros.MySystem
 {
@@ -56,6 +56,7 @@ namespace SmashBros.MySystem
             Exit();
         }
 
+        Texture2D Image;
         protected override void LoadContent()
         {
 
@@ -68,6 +69,7 @@ namespace SmashBros.MySystem
             ControllerViewManager = new ControllerViewManager(Game.GraphicsDevice, content);
             //Adds the sound controller
             ControllerViewManager.AddController(soundController);
+
 
             //Loads and add the fonts to the a list so controllers easily can reach this just by the name of the string
             fonts.Add("Impact", content.Load<SpriteFont>("Fonts/Impact"));
@@ -104,7 +106,7 @@ namespace SmashBros.MySystem
                 gamePads[1].PlayerModel.SelectedCharacter = chars[1];
                 gamePads[1].PlayerModel.CharacterIndex = 2;
 
-                GamePlayController game = new GamePlayController(this, maps[0]);
+                GamePlayController game = new GamePlayController(this, maps[1]);
                 ControllerViewManager.AddController(game);
             }
             else
