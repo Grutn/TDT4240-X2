@@ -24,6 +24,7 @@ namespace SmashBros.Controllers
             : base(screen)
         {
             Img = new ImageController(Screen, characterStats.moveAnimations, 120, false);
+            Img.FramesPerRow = 6;
             Img.SetFrameRectangle(100, 100);
             Img.OriginDefault = new Vector2(50, 50);
             moves = new List<MoveModel>();
@@ -101,7 +102,7 @@ namespace SmashBros.Controllers
                 if (move.Stats.Type == MoveType.Range)
                 {
                     move.Img.BoundBox.LinearVelocity = move.Stats.BulletVelocity * move.Xdirection;
-                    move.Img.CurrentFrame = move.Stats.AniBulletFrom;
+                    Img.AnimateFrame(move.Img, move.Stats.AniBulletFrom, move.Stats.AniBulletTo, 14);
                     //if (move.Xdirection == new Vector2(-1, 1)) move.Img.
                     if (move.Stats.Gravity) move.Img.BoundBox.IgnoreGravity = false;
                     move.Img.BoundBox.CollidesWith = Category.Cat11 | Category.Cat10 | Category.Cat9 | Category.Cat8 | Category.Cat7;

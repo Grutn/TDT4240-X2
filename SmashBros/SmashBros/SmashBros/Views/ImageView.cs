@@ -65,17 +65,24 @@ namespace SmashBros.Views
 
             foreach (var i in this.imageModels)
             {
-                Rectangle? r = FrameRectangle;
+                Rectangle? r = null;
 
                 ///If frame rectangle is set then it needs to check if the current frame needs to be updated
                 if (FrameRectangle.HasValue)
                 {
                     //Finds row for image by using the framesPrRow
-                    int row = (int)Math.Floor((double)i.CurrentFrame / this.FramesPrRow);
+                    int row = (int)Math.Floor((float)i.CurrentFrame / (float)this.FramesPrRow);
+                    r = new Rectangle()
+                    {
+                        Y = FrameRectangle.Value.Height * row,
+                        X = FrameRectangle.Value.Width * (i.CurrentFrame - (row * FramesPrRow)),
+                        Width = FrameRectangle.Value.Width,
+                        Height = FrameRectangle.Value.Height
+                    };
 
-                    r = new Rectangle(FrameRectangle.Value.Width * (i.CurrentFrame - row * FramesPrRow),
-                        row * FrameRectangle.Value.Height, 
-                        FrameRectangle.Value.Width, FrameRectangle.Value.Height);
+                    if(FramesPrRow == 6 && i.EndFrame == 23)
+                        Debug.WriteLine(string.Format("Fram{4},H{0},W{1},X{2},Y{3}", r.Value.Height, r.Value.Width, r.Value.X, r.Value.Y,i.CurrentFrame));
+
                 }
 
                 //Gets the position of image by checking if imagemodel has 
@@ -88,7 +95,8 @@ namespace SmashBros.Views
                     pos = ConvertUnits.ToDisplayUnits(i.BoundBox.Position);
                     rotation = i.BoundBox.Rotation;
                 }
-                
+                if (FramesPrRow == 6 && i.EndFrame == 23)
+                    Debug.WriteLine(string.Format("Fram{4},H{0},W{1},X{2},Y{3}", r.Value.Height, r.Value.Width, r.Value.X, r.Value.Y, i.CurrentFrame));
                 spriteBatch.Draw(Image, pos + i.Offset, r, Color.White, rotation, i.Origin, i.CurrentScale, i.SpriteEffect, 0);
             }
         }
