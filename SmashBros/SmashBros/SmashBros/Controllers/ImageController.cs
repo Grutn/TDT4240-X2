@@ -300,6 +300,16 @@ namespace SmashBros.Controllers
                 AnimateScale(imageModels.First(), toScale, timeInMs, loop);
         }
 
+        public void AnimateFrame(ImageModel model, int startFrame, int endFrame, int fps)
+        {
+            model.StartFrame = startFrame;
+            model.CurrentFrame = startFrame;
+            model.EndFrame = endFrame;
+            model.timeTotal = ((endFrame - startFrame) / fps) * 1000;
+
+            model.animateFrame = true;
+        }
+
         /// <summary>
         /// Annimates the given model to the given position(x,y)
         /// </summary>
@@ -344,6 +354,10 @@ namespace SmashBros.Controllers
             }
             else
             {
+                if (model.animateFrame)
+                {
+                    model.CurrentFrame = model.StartFrame + (int)Math.Round((model.EndFrame - model.StartFrame) * percent);
+                }
                 if (model.animateScale)
                     model.CurrentScale = model.StartScale + (model.EndScale + -model.StartScale) * percent;
                 if (model.animatePos)

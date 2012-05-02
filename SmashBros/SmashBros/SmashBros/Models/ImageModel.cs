@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using SmashBros.MySystem;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SmashBros.Models
 {
@@ -41,7 +42,9 @@ namespace SmashBros.Models
         /// </summary>
         public int Id { get; set; }
 
-        public bool AnimationOn { get { return animatePos || animateScale; } set { animateScale = false; animatePos = false; } }
+        public bool AnimationOn { get { return animatePos || animateScale || animateFrame; }
+            set { animateScale = false; animatePos = false; animateFrame = false; }
+        }
 
      
         /// <summary>
@@ -69,6 +72,8 @@ namespace SmashBros.Models
         /// </summary>
         public bool animateScale { get; set; }
 
+        public bool animateFrame { get; set; }
+
         /// <summary>
         /// BOund box for this image
         /// </summary>
@@ -91,6 +96,9 @@ namespace SmashBros.Models
         /// event if loop
         /// </summary>
         public Action<ImageModel> Callback;
+
+        public SpriteEffects SpriteEffect;
+
         #endregion
 
 
