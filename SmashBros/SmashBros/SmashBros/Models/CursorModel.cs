@@ -17,7 +17,7 @@ namespace SmashBros.Models
            OnCollisionEventHandler col, OnSeparationEventHandler sep,bool enabled = false)
         {
             Cursor = new Sprite(content, "Cursors/Player" + pad.PlayerIndex, 70, 70, 280 * pad.PlayerIndex + 100, 680);
-            Cursor.BoundRect(world, 1, 1, BodyType.Dynamic);
+            Cursor.BoundRect(world, 5, 5, BodyType.Dynamic);
             Cursor.StaticPosition = true;
             Cursor.Category = Category.Cat4;
             Cursor.CollidesWith = Category.Cat5;
@@ -25,7 +25,7 @@ namespace SmashBros.Models
             Cursor.Mass = 1;
             Cursor.UserData = pad.PlayerIndex;
             Cursor.BoundBox.IgnoreGravity = true;
-            Cursor.Origin = new Vector2(60, 0);
+            Cursor.Origin = new Vector2(50, 20);
 
             this.Pad = pad;
             this.Navigation = navigationMethod;

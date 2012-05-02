@@ -20,7 +20,7 @@ namespace SmashBros.Controllers
     /// </summary>
     public class GamePlayController : Controller
     {
-        int countDownTime = 4, gameOverWait = 3000;
+        int countDownTime = 0, gameOverWait = 3000;
         bool waitForGameOverText = false;
         MapController map;
         CameraController camera;

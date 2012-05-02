@@ -30,7 +30,6 @@ namespace SmashBros.Controllers
             {
                 var c = new CursorModel(content, World, pad, OnCursorNavigate, OnCollision, OnSeparation, false);
                 c.SetMinMaxPos(10, Constants.WindowWidth - 25, 10, Constants.WindowHeight - 30);
-                
                 pad.OnHitKeyPressed += CheckForCursorPress;
                 pad.OnSuperKeyPressed += CheckForCursorDeslect;
 
