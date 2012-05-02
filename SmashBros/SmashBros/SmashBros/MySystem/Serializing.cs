@@ -183,10 +183,10 @@ namespace SmashBros.MySystem
                     c.animations = "Characters/WolverineAnimation";
                     c.thumbnail = "Characters/WolverineThumb";
                     c.image = "Characters/WolverinePose";
-                    c.sound_selected = "Sound/Wolverine/selected";
-                    c.sound_jump = "Sound/Spiderman/jump";
-                    c.sound_kill = "Sound/Wolwerine/kill";
-                    c.sound_punch = "Sound/Spiderman/punch";
+                    c.sound_selected = "Wolverine/selected";
+                    c.sound_jump = "Spiderman/jump";
+                    c.sound_kill = "Wolverine/kill";
+                    c.sound_punch = "Wolverine/punch";
                     c.size = new Vector2(40, 120);
                     c.moveAnimations = "GameStuff/RangeAttacks";
 
@@ -218,10 +218,10 @@ namespace SmashBros.MySystem
                     c.thumbnail = "Characters/SpidermanThumb";
                     c.image = "Characters/SpidermanPose";
                     c.animations = "Characters/SpidermanAnimation";
-                    c.sound_selected = "Sound/Spiderman/selected";
-                    c.sound_jump = "Sound/Spiderman/jump";
-                    c.sound_kill = "Sound/Wolwerine/kill";
-                    c.sound_punch = "Sound/Spiderman/punch";
+                    c.sound_selected = "Spiderman/selected";
+                    c.sound_jump = "Spiderman/jump";
+                    c.sound_kill = "Wolwerine/kill";
+                    c.sound_punch = "Spiderman/punch";
 
                     c.size = new Vector2(40, 120);
 
@@ -307,7 +307,7 @@ namespace SmashBros.MySystem
                 map.bgImage = "Maps/CityBg";
                 map.mapImage = "Maps/CityMap";
                 map.thumbImage = "Maps/CityMapThumb";
-                map.backgroundMusic = "Sound/Game/HeroStadium";
+                map.backgroundMusic = "Game/HeroStadium";
                 map.size = new Box(3500, 1600, -800, 0);
                 map.zoomBox = new Box(10000, 10000, -5000, -5000);
                 map.DropZone = new Box(200, 800, 500, 100);

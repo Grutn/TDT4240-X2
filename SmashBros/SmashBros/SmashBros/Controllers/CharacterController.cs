@@ -143,7 +143,7 @@ namespace SmashBros.Controllers
             pad.OnShieldKeyUp += ShieldKeyUp;
 
             AddController(moves);
-            Screen.soundController.LoadCharacter(content, this);
+            Screen.soundController.LoadCharacterGameSounds(content, stats);
         }
 
         public override void Unload()
@@ -593,13 +593,13 @@ namespace SmashBros.Controllers
 
         public void HitByExplotion(int playerIndex, Vector2 pos)
         {
-            if (OnHit != null) OnHit.Invoke(ConvertUnits.ToDisplayUnits(pos), 5, model.damagePoints, playerIndex, model.playerIndex, GameSoundType.explotion);
+            if (OnHit != null) OnHit.Invoke(ConvertUnits.ToDisplayUnits(pos), 5, model.damagePoints, playerIndex, model.playerIndex, null);
         }
-
-        public delegate void HitOccured(Vector2 pos, int damageDone, int newDamagepoints, int puncher_playerIndex, int reciever_playerIndex, GameSoundType soundtype);
-        public delegate void CharacterDied(CharacterController characterController, bool behindScreen = false);
 
         public event HitOccured OnHit;
         public event CharacterDied OnCharacterDeath;
     }
+
+    public delegate void HitOccured(Vector2 pos, int damageDone, int newDamagepoints, int puncher_playerIndex, int reciever_playerIndex, string punchSound);
+    public delegate void CharacterDied(CharacterController characterController, bool behindScreen = false);
 }

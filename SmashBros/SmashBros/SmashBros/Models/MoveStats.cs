@@ -66,7 +66,7 @@ namespace SmashBros.Models
         /// <summary>
         /// Which gamesoundtype to play when hit occurs.
         /// </summary>
-        public GameSoundType hitSound = GameSoundType.hit;
+        public string hitSound = "Game/hit";
 
         /// <summary>
         /// Minimum/Maximum ventetid før angrepsfirkant opprettes og angrepet utføres.
