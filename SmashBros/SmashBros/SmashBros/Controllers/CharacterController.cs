@@ -120,7 +120,7 @@ namespace SmashBros.Controllers
             view.BoundRect(World, stats.size.X, stats.size.Y);
             view.BoundBox.UserData = this;
             view.Layer = 100;
-            view.FramesPerRow = 9;
+            view.FramesPerRow = 10;
             view.BoundBox.Friction = 0;
             view.BoundBox.IgnoreGravity = true;
             AddView(view);

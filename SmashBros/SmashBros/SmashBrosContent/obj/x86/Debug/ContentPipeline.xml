@@ -134,7 +134,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Characters\SpidermanAnimation.xnb</Output>
-      <Time>2012-04-30T11:37:18.3204623+02:00</Time>
+      <Time>2012-05-03T01:24:19.3169479+02:00</Time>
     </Item>
     <Item>
       <Source>Menu\PopupMenu.png</Source>
@@ -188,7 +188,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Characters\RoketRacoonAnimation.xnb</Output>
-      <Time>2012-04-30T11:37:18.3124669+02:00</Time>
+      <Time>2012-05-03T01:13:34.4700374+02:00</Time>
     </Item>
     <Item>
       <Source>Characters\RoketRacoonPose.png</Source>
@@ -233,7 +233,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Characters\SupermanFatAnimation.xnb</Output>
-      <Time>2012-05-02T21:31:29.0833313+02:00</Time>
+      <Time>2012-05-03T01:13:34.4740348+02:00</Time>
     </Item>
     <Item>
       <Source>Maps\CityMapThumb.png</Source>
@@ -305,7 +305,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Characters\WolverineAnimation.xnb</Output>
-      <Time>2012-04-30T11:03:02.7969693+02:00</Time>
+      <Time>2012-05-03T01:13:34.4760339+02:00</Time>
     </Item>
     <Item>
       <Source>Characters\WolverinePose.png</Source>
@@ -603,6 +603,15 @@
       <Options>None</Options>
       <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Sound\Game\HeroStadium.xnb</Output>
       <Time>2012-04-30T08:19:50.5399479+02:00</Time>
+    </Item>
+    <Item>
+      <Source>Sound\Game\GrassTown.wav</Source>
+      <Name>Sound\Game\GrassTown</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tha.000\Dropbox\Projects\TDT4240-X2\SmashBros\SmashBros\SmashBros\bin\x86\Debug\Content\Sound\Game\GrassTown.xnb</Output>
+      <Time>2012-05-03T00:31:05.7699152+02:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
