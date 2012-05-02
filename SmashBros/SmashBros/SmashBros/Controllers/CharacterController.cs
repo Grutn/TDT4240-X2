@@ -179,6 +179,7 @@ namespace SmashBros.Controllers
                     {
                         model.resetTimeLeft = -1;
                         view.Rotation = 0;
+                        view.BoundBox.Rotation = 0;
                         view.Scale = 0.6f;
                     }
                     else if (model.resetTimeLeft <= 4000 && model.resetTimeLeft >= 2000)
@@ -202,7 +203,7 @@ namespace SmashBros.Controllers
                         }
                     }
                     
-                    if (model.state == CharacterState.attacking && currentMove.Stats.Type != MoveType.Range && currentMove.moveStarted)
+                    if (model.state == CharacterState.attacking && currentMove.Stats.Type != MoveType.Range && currentMove.Started)
                     {
                         Vector2 moveVelocity = ConvertUnits.ToSimUnits((currentMove.Stats.SqTo - currentMove.Stats.SqFrom) / (currentMove.Stats.End - currentMove.Stats.Start) * 1000);
                         if (!model.faceRight) moveVelocity *= new Vector2(-1, 1);
@@ -271,28 +272,46 @@ namespace SmashBros.Controllers
                                 moves.StartMove(view.Position, view.Velocity, currentMove);
                                 
                             }
-                            if (currentMove.Stats.Type == MoveType.Body && currentMove.attackTimeLeft <= Math.Abs(currentMove.Stats.BodyStart - currentMove.Stats.Duration)
+                            
+                            if (!currentMove.Stats.Adjustable && currentMove.Stats.Type == MoveType.Body && currentMove.attackTimeLeft <= Math.Abs(currentMove.Stats.BodyStart - currentMove.Stats.Duration)
                                 && currentMove.attackTimeLeft >= Math.Abs(currentMove.Stats.BodyEnd - currentMove.Stats.Duration))
                             {
                                 view.Velocity = currentMove.Stats.BodySpeed * currentMove.Xdirection;
                             }
-
-                            if (currentMove.Stats.Adjustable && currentMove.attackTimeLeft <= Math.Abs(currentMove.Stats.Start - currentMove.Stats.Duration))
+                            else
                             {
-                                float velocity = currentMove.Stats.Type == MoveType.Body? view.Velocity.Length() : currentMove.Img.BoundBox.LinearVelocity.Length();
-                                adjustAngle += model.faceRight ?
-                                    navigation.Y * currentMove.Stats.AdjustAcc * gameTime.ElapsedGameTime.Milliseconds / 1000f :
-                                    -navigation.Y * currentMove.Stats.AdjustAcc* 1f * gameTime.ElapsedGameTime.Milliseconds / 1000f;
-                                Vector2 newVelocity = new Vector2(velocity * (float)Math.Cos(adjustAngle), velocity * (float)Math.Sin(adjustAngle));
-                                currentMove.Img.BoundBox.LinearVelocity = newVelocity;
-                                if (currentMove.Stats.Type == MoveType.Body)
+                                if (currentMove.attackTimeLeft <= currentMove.Stats.Duration - 100)
+                                    adjustAngle += model.faceRight ?
+                                        navigation.Y * currentMove.Stats.AdjustAcc * gameTime.ElapsedGameTime.Milliseconds / 1000f :
+                                        -navigation.Y * currentMove.Stats.AdjustAcc* 1f * gameTime.ElapsedGameTime.Milliseconds / 1000f;
+                                if (currentMove.Stats.Type == MoveType.Range && currentMove.attackTimeLeft <= currentMove.Stats.Duration - currentMove.Stats.Start)
                                 {
-                                    view.Velocity = newVelocity;
-                                    view.BoundBox.Rotation = (float)adjustAngle;
-                                    view.Rotation = (float)adjustAngle;
+                                    float velocity = currentMove.Img.BoundBox.LinearVelocity.Length();
+                                    Vector2 newVelocity = new Vector2(velocity * (float)Math.Cos(adjustAngle), velocity * (float)Math.Sin(adjustAngle));
+                                    currentMove.Img.BoundBox.LinearVelocity = newVelocity;
+                                    try { currentMove.Img.BoundBox.Rotation = (float)adjustAngle; }
+                                    catch { }
                                 }
-                                try { currentMove.Img.BoundBox.Rotation = (float)adjustAngle; } catch { }
+                                else if (currentMove.Stats.Type == MoveType.Body 
+                                    && currentMove.attackTimeLeft <= currentMove.Stats.Duration - currentMove.Stats.BodyStart
+                                    && currentMove.attackTimeLeft >= currentMove.Stats.Duration - currentMove.Stats.BodyEnd)
+                                {
+                                    float velocity = currentMove.Stats.BodySpeed.Length();
+                                    float newAngle = (float)(adjustAngle - currentMove.Stats.StartAngle);
+                                    Vector2 newVelocity = new Vector2(velocity * (float)Math.Cos(adjustAngle), velocity * (float)Math.Sin(adjustAngle));
+                                    view.Velocity = newVelocity;
+                                    view.BoundBox.Rotation = newAngle;
+                                    view.Rotation = newAngle;
+                                    if(currentMove.attackTimeLeft <= currentMove.Stats.Duration - currentMove.Stats.Start
+                                        && currentMove.attackTimeLeft <= currentMove.Stats.Duration - currentMove.Stats.Start)
+                                    {
+                                        currentMove.Img.BoundBox.Rotation = newAngle;
+                                        float posLength = ConvertUnits.ToSimUnits(currentMove.Stats.SqFrom.Length());
+                                        currentMove.Img.BoundBox.Position = view.BoundBox.Position + new Vector2(posLength * (float)Math.Cos(adjustAngle), posLength * (float)Math.Sin(adjustAngle));
+                                    }
+                                }
                             }
+
                             break;
                         case CharacterState.takingHit:
                             if (view.VelocityY >= 0)
@@ -407,7 +426,7 @@ namespace SmashBros.Controllers
                         {
                             model.setState(CharacterState.attacking, currentMove.Stats);
                             if (currentMove.Stats.Start == 0) moves.StartMove(view.Position, view.Velocity, currentMove);
-                            if (currentMove.Stats.Adjustable) adjustAngle = model.faceRight ? 0 : Math.PI; 
+                            if (currentMove.Stats.Adjustable) adjustAngle = model.faceRight ? currentMove.Stats.StartAngle : Math.PI - currentMove.Stats.StartAngle;
                         }
 
                     }
@@ -455,7 +474,6 @@ namespace SmashBros.Controllers
                         {
                             model.setState(CharacterState.attacking, currentMove.Stats);
                             if (currentMove.Stats.Start == 0) moves.StartMove(view.Position, view.Velocity, currentMove);
-                            if (currentMove.Stats.Type == MoveType.Body && currentMove.Stats.BodyStart == 0) view.Velocity = currentMove.Stats.BodySpeed * currentMove.Xdirection;
                             if (currentMove.Stats.Adjustable) adjustAngle = model.faceRight ? currentMove.Stats.StartAngle : Math.PI - currentMove.Stats.StartAngle;
                         }
                     }
@@ -472,10 +490,7 @@ namespace SmashBros.Controllers
         {
             if (model.state == CharacterState.charging)
             {
-                if (currentMove.chargeTime > currentMove.Stats.MinWait)
-                {
-                    model.setState(CharacterState.attacking, currentMove.Stats);
-                }
+                if (currentMove.chargeTime > currentMove.Stats.MinWait) model.setState(CharacterState.attacking, currentMove.Stats);
                 else startAfterMinCharge = true;
             }
         }
@@ -525,14 +540,20 @@ namespace SmashBros.Controllers
         private bool Collision(Fixture chara, Fixture obj, Contact list)
         {
             bool returnValue = false;
-            if (model.state == CharacterState.attacking && currentMove.Stats.Type == MoveType.Body && currentMove.Stats.Adjustable && (currentMove.Stats.StopAtHit || obj.CollisionCategories != Category.Cat11))
+            if (model.state == CharacterState.attacking && (obj.CollisionCategories != Category.Cat20 || !((MoveModel)obj.Body.UserData).PlayerIndexes.Contains(model.playerIndex)) && currentMove.Stats.Type == MoveType.Body
+                && (currentMove.Stats.StopAtHit || obj.CollisionCategories != Category.Cat11))
             {
                 moves.EndMove(currentMove);
                 view.Rotation = 0;
                 view.BoundBox.Rotation = 0;
                 model.attackMode = false;
+                model.inAir = false;
+                if (obj.CollisionCategories == Category.Cat10) model.onSoftBox = true;
+                NaturalState();
+                model.jumpsLeft = 3;
+                returnValue = true;
             }
-            if ((obj.CollisionCategories == Category.Cat9 || obj.CollisionCategories == Category.Cat10)
+            else if ((obj.CollisionCategories == Category.Cat9 || obj.CollisionCategories == Category.Cat10)
                 && (chara.Body.Position.Y + view.size.Y / 2 <= obj.Body.Position.Y - (float)obj.Body.UserData / 2 && view.VelocityY >= -0.001))
             {
                 model.inAir = false;

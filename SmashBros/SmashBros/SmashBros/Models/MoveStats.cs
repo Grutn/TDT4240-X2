@@ -222,7 +222,7 @@ namespace SmashBros.Models
         {
             Adjustable = adjustAcc != 0;
             AdjustAcc = adjustAcc;
-            startAngle = startAngle;
+            StartAngle = startAngle;
             AniAdjustmodeFrom = aniAdjustmodeFrom;
             AniAdjustmodeTo = aniAdjustmodeTo;
             StopAtHit = stopAtHit;
