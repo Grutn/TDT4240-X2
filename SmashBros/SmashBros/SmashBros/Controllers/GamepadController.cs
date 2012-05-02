@@ -10,7 +10,7 @@ using SmashBros.MySystem;
 using Microsoft.Xna.Framework.Input;
 using System.Diagnostics;
 using FarseerPhysics.Dynamics.Contacts;
-using SmashBros.Model;
+using SmashBros.Models;
 
 namespace SmashBros.Controllers
 {

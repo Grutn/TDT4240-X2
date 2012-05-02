@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SmashBros.Models;
 using SmashBros.Controllers;
 
-namespace SmashBros.Model
+namespace SmashBros.Models
 {
     public class PowerUp
     {

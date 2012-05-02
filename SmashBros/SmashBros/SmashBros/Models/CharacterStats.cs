@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
-namespace SmashBros.Model
+namespace SmashBros.Models
 {
     public class CharacterStats
     {

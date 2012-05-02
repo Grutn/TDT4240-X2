@@ -5,7 +5,6 @@ using System.Text;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
 using SmashBros.MySystem;
-using SmashBros.Model;
 using SmashBros.Views;
 using SmashBros.Models;
 using FarseerPhysics.Dynamics;
@@ -52,7 +51,7 @@ namespace SmashBros.Controllers
             powerUpImg = new ImageController(Screen, "GameStuff/PowerUps", 120, false);
             powerUpImg.FrameRectangle = new Rectangle(0, 0, 50, 50);
             powerUpImg.OriginDefault = new Vector2(25, 25);
-            powerUpImg.FramesPerRow = 5;
+            //powerUpImg.FramesPerRow = 5;
             powerUpImg.ScaleDefault = 0;
             AddController(powerUpImg);
 
@@ -123,7 +122,7 @@ namespace SmashBros.Controllers
 
             PowerUpStatus status = new PowerUpStatus(randomPowerUp(), model);
             model.BoundBox.UserData = status;
-            model.CurrentFrame = (int)MathHelper.Clamp(status.PowerUp.imageFrame, 0f, 3f);
+            //model.CurrentFrame = (int)MathHelper.Clamp(status.PowerUp.imageFrame, 0f, 3f);
             waitingPowerUps.Add(status);
         }
 

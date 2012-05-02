@@ -25,7 +25,7 @@ namespace SmashBros.Models
             Cursor.Mass = 1;
             Cursor.UserData = pad.PlayerIndex;
             Cursor.BoundBox.IgnoreGravity = true;
-            Cursor.Origin = new Vector2(35, 35);
+            Cursor.Origin = new Vector2(60, 0);
 
             this.Pad = pad;
             this.Navigation = navigationMethod;

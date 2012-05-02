@@ -8,7 +8,7 @@ using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using System.Runtime.Serialization;
 
-namespace SmashBros.Model
+namespace SmashBros.Models
 {
     public class Map
     {

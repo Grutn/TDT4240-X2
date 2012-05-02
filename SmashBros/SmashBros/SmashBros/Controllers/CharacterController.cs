@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SmashBros.Model;
 using Microsoft.Xna.Framework;
 using SmashBros.MySystem;
 using Microsoft.Xna.Framework.Content;

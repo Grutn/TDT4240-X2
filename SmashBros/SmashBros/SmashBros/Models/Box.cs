@@ -7,7 +7,7 @@ using FarseerPhysics.Dynamics;
 using System.Runtime.Serialization;
 using SmashBros.MySystem;
 
-namespace SmashBros.Model
+namespace SmashBros.Models
 {
     /// <summary>
     /// Same as rectangle only with floats instead of ints, and is Serializable
