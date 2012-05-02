@@ -230,7 +230,7 @@ namespace SmashBros.MySystem
                     c.aLR = new ChargeMove(30, 500, 100, 250, 73, 80, 0, new Vector2(20, -20), new Vector2(40, 40), new Vector2(45, -20), new Vector2(10, 10), 50, 250, 67, 69, 69, 73);
                     c.x = new RangeMove(5, 500, 340, 43, 50, 0, new Vector2(1, 1), new Vector2(40, 0), new Vector2(30, 100), new Vector2(13, -3), 0, 0, true);
                     c.xLR = new BodyMove(20, 1000, 500, 850, 51, 66, 0, new Vector2(20, -1), new Vector2(50, 0), new Vector2(50, 0), new Vector2(10, 30), new Vector2(10.0f, -1.0f), 220, 700);
-                    c.xUp = new BodyMove(20, 1000, 500, 850, 80, 97, 0, new Vector2(-1, 20), new Vector2(0, 50), new Vector2(0, 50), new Vector2(30, 10), new Vector2(4.0f, -9.0f), 400, 1000);
+                    c.xUp = new BodyMove(20, 1000, 300, 500, 80, 97, 0, new Vector2(10, -10), new Vector2(30, 50), new Vector2(50, -50), new Vector2(10, 10), new Vector2(4.0f, -9.0f), 300, 600);
                     
                     c.x.hitSound = "Spiderman/web";
                     c.a.hitSound = "Spiderman/punch";

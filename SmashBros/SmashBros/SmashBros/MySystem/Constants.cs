@@ -8,8 +8,8 @@ namespace SmashBros.MySystem
 {
     public static class Constants
     {
-        public const bool DebugMode = !true;
-        public const bool StartGameplay = !true;
+        public const bool DebugMode = true;
+        public const bool StartGameplay = true;
         public const bool Music = true;
         public const bool ZoomMin = !true;
         public const int WindowWidth = 1280;
@@ -25,7 +25,7 @@ namespace SmashBros.MySystem
         public const float GamePlayGravity = 20f;
 
         //GamePlay
-        public const int CountDownTime = 4;
+        public const int CountDownTime = 0;
 
         //PowerUpStuff
         public const int PowerUpBeforeDisapear = 10;
