@@ -81,6 +81,7 @@ namespace SmashBros.Controllers
 
         public MoveModel newMove(MoveStats stats, bool right)
         {
+            foreach (MoveModel moveModel in moves) if (moveModel.Stats == stats) return null;
             MoveModel move = new MoveModel(stats, right, playerIndex);
             moves.Add(move);
             return move;
@@ -101,7 +102,7 @@ namespace SmashBros.Controllers
                 if (move.Stats.Type == MoveType.Range)
                 {
                     move.Img.BoundBox.LinearVelocity = move.Stats.BulletVelocity * move.Xdirection;
-                    move.Img.CurrentFrame = move.Stats.AniBulletFrom;
+                    Img.AnimateFrame(move.Img, move.Stats.AniBulletFrom, move.Stats.AniBulletTo, 14);
                     //if (move.Xdirection == new Vector2(-1, 1)) move.Img.
                     if (move.Stats.Gravity) move.Img.BoundBox.IgnoreGravity = false;
                     move.Img.BoundBox.CollidesWith = Category.Cat11 | Category.Cat10 | Category.Cat9 | Category.Cat8 | Category.Cat7;

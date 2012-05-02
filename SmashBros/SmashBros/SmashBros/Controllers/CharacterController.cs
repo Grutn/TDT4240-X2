@@ -219,7 +219,7 @@ namespace SmashBros.Controllers
                     {
                         if (model.inAir)
                             velocityPlus.Y += stats.gravity * gameTime.ElapsedGameTime.Milliseconds / 1000f;
-                        else if (view.VelocityX * navigation.X < 0 || navigation.X == 0)
+                        else if (view.VelocityX * navigation.X < 0 || navigation.X == 0 || model.attackMode)
                             velocityPlus.X += -(view.VelocityX / model.maxSpeed) * 3 * model.acceleration * gameTime.ElapsedGameTime.Milliseconds / 1000;
                     }
 
@@ -278,7 +278,7 @@ namespace SmashBros.Controllers
                             {
                                 view.Velocity = currentMove.Stats.BodySpeed * currentMove.Xdirection;
                             }
-                            else
+                            else if (currentMove.Stats.Adjustable)
                             {
                                 if (currentMove.attackTimeLeft <= currentMove.Stats.Duration - 100)
                                     adjustAngle += model.faceRight ?
@@ -377,7 +377,7 @@ namespace SmashBros.Controllers
             {
                 if (directionX !=0 && directionX * view.VelocityX >= 0) model.faceRight = directionX > 0;
                 
-                if (directionY < -0.9 && newYdir && model.jumpsLeft > 1 && view.VelocityY > -model.JumpStartVelocity + 4)
+                if (directionY < -0.95 && newYdir && model.jumpsLeft > 1 && view.VelocityY > -model.JumpStartVelocity + 4)
                 {
                     model.setState(CharacterState.jumping);
                     view.VelocityY = -model.JumpStartVelocity;
@@ -410,7 +410,7 @@ namespace SmashBros.Controllers
                     MoveStats moveStats;
                     if ((newXdir || newYdir) && (Math.Abs(navigation.X) > 0.9 || newYdir && Math.Abs(navigation.Y) > 0.9))
                     {
-                        if (Math.Abs(navigation.X) >= Math.Abs(navigation.Y) || (!model.inAir && navigation.Y > 0)) moveStats = stats.aLR;
+                        if (Math.Abs(navigation.X) >= Math.Abs(navigation.Y) || (!model.inAir && navigation.Y > 0) || (view.VelocityY < -stats.jumpStartVelocity + 2 && navigation.Y < 0)) moveStats = newXdir? stats.aLR : stats.a;
                         else moveStats = model.inAir && navigation.Y > 0 ? stats.aDown : stats.aUp;
                     }
                     else moveStats = stats.a;
@@ -418,6 +418,7 @@ namespace SmashBros.Controllers
                     if (moveStats != null)
                     {
                         currentMove = moves.newMove(moveStats, model.faceRight);
+                        if (currentMove == null) return;
                         if (currentMove.Stats.Type == MoveType.Charge)
                         {
                             model.setState(CharacterState.charging, currentMove.Stats);
@@ -466,6 +467,7 @@ namespace SmashBros.Controllers
                     if (moveStats != null)
                     {
                         currentMove = moves.newMove(moveStats, model.faceRight);
+                        if (currentMove == null) return;
                         if (currentMove.Stats.Type == MoveType.Charge)
                         {
                             model.setState(CharacterState.charging);
