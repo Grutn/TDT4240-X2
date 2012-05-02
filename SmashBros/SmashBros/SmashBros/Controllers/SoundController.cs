@@ -60,7 +60,7 @@ namespace SmashBros.Controllers
             getSound(content, "Game/ko");
             getSound(content, "Game/death");
             
-            SetBacgroundMusic(content, background, 0.8f);
+            SetBacgroundMusic(content, background, 0.6f);
         }
 
         public void LoadCharacterGameSounds(ContentManager content, CharacterStats character)
