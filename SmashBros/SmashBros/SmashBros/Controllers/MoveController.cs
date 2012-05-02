@@ -88,7 +88,7 @@ namespace SmashBros.Controllers
 
         public void StartMove(Vector2 characterPosition, Vector2 characterVelocity, MoveModel move)
         {
-            if (!move.moveStarted)
+            if (!move.Started)
             {
                 move.Img = Img.AddPosition(characterPosition + move.Stats.SqFrom * move.Xdirection);
                 move.Img.SetBoundBox(World, (int)move.Stats.SqSize.X, (int)move.Stats.SqSize.Y, Vector2.Zero, Category.Cat20, Category.Cat11);
@@ -117,7 +117,7 @@ namespace SmashBros.Controllers
                     move.Img.CurrentFrame = -1;
                 }
 
-                move.moveStarted = true; 
+                move.Started = true; 
             }
         }
 
@@ -134,13 +134,13 @@ namespace SmashBros.Controllers
         public void Freeze()
         {
             foreach (MoveModel move in moves)
-                if (move.Stats.Type == MoveType.Range && move.moveStarted) move.Img.BoundBox.LinearVelocity = new Vector2(0, 0);
+                if (move.Stats.Type == MoveType.Range && move.Started) move.Img.BoundBox.LinearVelocity = new Vector2(0, 0);
         }
 
         public void UnFreeze()
         {
             foreach (MoveModel move in moves)
-                if (move.Stats.Type == MoveType.Range && move.moveStarted) move.Img.BoundBox.LinearVelocity = move.Stats.BulletVelocity;
+                if (move.Stats.Type == MoveType.Range && move.Started) move.Img.BoundBox.LinearVelocity = move.Stats.BulletVelocity;
         }
 
         private bool Collision(Fixture moveFixture, Fixture geom2, Contact list)

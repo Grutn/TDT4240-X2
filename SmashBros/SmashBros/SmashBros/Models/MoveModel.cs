@@ -42,7 +42,7 @@ namespace SmashBros.Models
         /// <summary>
         /// Whether the movebox have bin created etc.
         /// </summary>
-        public bool moveStarted;
+        public bool Started;
 
         /// <summary>
         /// Whether the move have ended. Is currently needed by adjustable rangeattacks.
@@ -54,7 +54,7 @@ namespace SmashBros.Models
             Stats = stats;
             attackTimeLeft = stats.Duration;
             chargeTime = 0;
-            moveStarted = false;
+            Started = false;
             Ended = false;
             Xdirection = right ? new Vector2(1, 1) : new Vector2(-1, 1);
             PlayerIndexes = new List<int>();
