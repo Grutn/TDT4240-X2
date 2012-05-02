@@ -545,9 +545,11 @@ namespace SmashBros.Controllers
             if (model.state == CharacterState.attacking
                 && (obj.CollisionCategories != Category.Cat20 || !((MoveModel)obj.Body.UserData).PlayerIndexes.Contains(model.playerIndex))
                 && currentMove.Stats.Type == MoveType.Body
-                && (currentMove.Stats.StopAtHit || obj.CollisionCategories != Category.Cat11))
+                && (currentMove.Stats.StopAtHit || obj.CollisionCategories != Category.Cat11)
+                && currentMove.attackTimeLeft <= currentMove.Stats.Duration - currentMove.Stats.BodyStart)
             {
                 moves.EndMove(currentMove);
+                moves.RemoveMove(currentMove);
                 view.Rotation = 0;
                 view.BoundBox.Rotation = 0;
                 model.attackMode = false;
@@ -592,12 +594,6 @@ namespace SmashBros.Controllers
                     model.setState(CharacterState.takingHit);
 
                     if (OnHit != null) OnHit.Invoke(ConvertUnits.ToDisplayUnits(obj.Body.Position), damage, model.damagePoints, move.PlayerIndexes.First(), model.playerIndex, stats.hitSound);
-
-                    if (move.Stats.Type == MoveType.Range)
-                    {
-                        moves.EndMove(move);
-                        moves.RemoveMove(move);
-                    }
 
                     //if (move.Adjustable && ((AdjustableMove)move).StopAtHit) move.attackTimeLeft = 0;
                 }

@@ -260,7 +260,7 @@ namespace SmashBros.MySystem
                     c.aUp = new MoveStats(10, 250, 0, 250, 29, 34, 0, new Vector2(2, 10), new Vector2(-10, 0), new Vector2(10, -40), new Vector2(10, 10));
                     c.x = new RangeMove(10, 500, 310, 36, 42, 0, new Vector2(3, 0), new Vector2(25, 0), new Vector2(5, 5), new Vector2(20, 0), 25, 25);
                     c.xLR = new RangeMove(25, 500, 350, 42, 54, 0, new Vector2(0, 0), new Vector2(30, -5), new Vector2(27, 20), new Vector2(6, 0), 1, 23, false, false, null, true, -1, (float)Math.PI * 2, 0, 54, 55);
-                    c.xDown = new RangeMove(25, 500, 350, 56, 62, 0, new Vector2(7, 15), new Vector2(0, 37), new Vector2(10, 5), new Vector2(0, 0), 24, 24);
+                    c.xDown = new RangeMove(25, 500, 350, 56, 62, 0, new Vector2(0, -10), new Vector2(0, 37), new Vector2(10, 5), new Vector2(0, 0), 24, 24);
 
                     c.xLR.hitSound = "Racoon/bazokaInAir";
                 }

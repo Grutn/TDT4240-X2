@@ -44,6 +44,16 @@ namespace SmashBros.Controllers
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
+            for (int i = 0; i < moves.Count; i++)
+            {
+                MoveModel move = moves[i];
+                if (move.Stats.Type != MoveType.Range && (move.attackTimeLeft <= 0 || move.Ended))
+                {
+                    EndMove(move);
+                    RemoveMove(move);
+                }
+            }
+            DebugWrite(playerIndex +"LOL", moves.Count);
             for (int i = 0; i < explotions.Count; i++)
             {
                 Explotion explotion = explotions[i];
@@ -82,7 +92,7 @@ namespace SmashBros.Controllers
 
         public MoveModel newMove(MoveStats stats, bool right)
         {
-            foreach (MoveModel moveModel in moves) if (moveModel.Stats == stats) return null;
+            foreach (MoveModel moveModel in moves) if (moveModel.Stats.Equals(stats)) return null;
             MoveModel move = new MoveModel(stats, right, playerIndex);
             moves.Add(move);
             return move;
