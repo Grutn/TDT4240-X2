@@ -16,7 +16,7 @@ namespace SmashBros.MySystem
         public const int WindowHeight = 720;
         public const bool FullScreen = !true;
 
-        public const int FPS = 20;
+        public const int FPS = 14;
         public const float MaxZoom = 1.9f;
         public const float MinZoom = 0.5f;
         public const int ThumbWith = 210;

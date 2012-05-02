@@ -177,7 +177,7 @@ namespace SmashBros.Controllers
 
             UpdateTimer(PlayerModel.KeyboardHit, Buttons.A, directionX, directionY, elapsed, OnHitkeyDown, OnHitKeyUp, OnHitKeyPressed, ref HitDownTimer, ref HitUpTimer);
 
-            UpdateTimer(PlayerModel.KeyboardSheild, Buttons.RightShoulder, directionX, directionY, elapsed, OnShieldkeyDown, OnShieldKeyUp, OnShieldKeyPressed, ref ShieldDownTimer, ref ShieldUpTimer);
+            UpdateTimer(PlayerModel.KeyboardSheild, Buttons.RightTrigger, directionX, directionY, elapsed, OnShieldkeyDown, OnShieldKeyUp, OnShieldKeyPressed, ref ShieldDownTimer, ref ShieldUpTimer);
 
             UpdateTimer(PlayerModel.KeyboardSuper, Buttons.X, directionX, directionY, elapsed, OnSuperkeyDown, OnSuperKeyUp, OnSuperKeyPressed, ref SuperDownTimer, ref SuperUpTimer);
 

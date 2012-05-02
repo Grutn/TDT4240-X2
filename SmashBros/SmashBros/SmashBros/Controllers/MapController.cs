@@ -49,10 +49,10 @@ namespace SmashBros.Controllers
             float x = Model.size.X, y = Model.size.Y,
                 w = Model.size.Width, h = Model.size.Height;
 
-            boxes.Add(CreateEdge(x, y, 10, h));//left
-            boxes.Add(CreateEdge(x, y, w, 10, Category.Cat7));//top
-            boxes.Add(CreateEdge(x + w, y, 10, h));//right
-            boxes.Add(CreateEdge(x, y + h, w, 10));//bottom
+            boxes.Add(CreateEdge(x, y, 40, h));//left
+            boxes.Add(CreateEdge(x, y, w, 40, Category.Cat7));//top
+            boxes.Add(CreateEdge(x + w, y, 40, h));//right
+            boxes.Add(CreateEdge(x, y + h, w, 40));//bottom
 
         }
 
