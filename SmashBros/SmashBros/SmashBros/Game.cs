@@ -32,7 +32,7 @@ namespace SmashBros {
             Serializing.GenereateModels();
 
             Content.RootDirectory = "Content";
-            IsMouseVisible = true;
+            IsMouseVisible = !true;
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferWidth = Constants.WindowWidth;
             graphics.PreferredBackBufferHeight = Constants.WindowHeight;

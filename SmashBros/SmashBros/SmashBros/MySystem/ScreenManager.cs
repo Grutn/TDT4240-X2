@@ -53,7 +53,7 @@ namespace SmashBros.MySystem
         public void Exit()
         {
             ControllerViewManager.Dispose();
-            Exit();
+            Game.Exit();
         }
 
         Texture2D Image;
