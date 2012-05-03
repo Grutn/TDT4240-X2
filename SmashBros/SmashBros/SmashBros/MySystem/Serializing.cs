@@ -204,7 +204,7 @@ namespace SmashBros.MySystem
                     c.ani_takeHitEnd = 27;
                     c.ani_brake = 26;
 
-                    c.size = new Vector2(40, 120);
+                    c.size = new Vector2(40, 90);
 
                     c.a = new MoveStats(10, 500, 250, 350, 28, 34, 0, new Vector2(10, 0), new Vector2(20, 15), new Vector2(50, -5), new Vector2(10, 10));
                     c.xDown = new BodyMove(30, 1000, 450, 700, 40, 52, 0, new Vector2(0, -10), new Vector2(0, -10), new Vector2(0, -50), new Vector2(100, 10), new Vector2(0, -3), 450, 750);
@@ -223,14 +223,14 @@ namespace SmashBros.MySystem
                     c.sound_kill = "Wolwerine/kill";
                     c.sound_punch = "Spiderman/punch";
 
-                    c.size = new Vector2(40, 120);
+                    c.size = new Vector2(40, 110);
 
                     c.a = new MoveStats(10, 500, 150, 300, 26, 32, 0, new Vector2(10, 0), new Vector2(20, 15), new Vector2(50, -5), new Vector2(10, 10));
                     c.aUp = new BodyMove(10, 500, 275, 360, 32, 42, 0, new Vector2(-3, -20), new Vector2(0, -60), new Vector2(0, -60), new Vector2(10, 10), new Vector2(0, -5.0f), 100, 300);
                     c.aLR = new ChargeMove(30, 500, 100, 250, 73, 80, 0, new Vector2(20, -20), new Vector2(40, 40), new Vector2(45, -20), new Vector2(10, 10), 50, 250, 67, 69, 69, 73);
                     c.x = new RangeMove(5, 500, 340, 43, 50, 0, new Vector2(1, 1), new Vector2(40, 0), new Vector2(30, 100), new Vector2(13, -3), 0, 0, true);
                     c.xLR = new BodyMove(20, 1000, 500, 850, 51, 66, 0, new Vector2(20, -1), new Vector2(50, 0), new Vector2(50, 0), new Vector2(10, 30), new Vector2(10.0f, -1.0f), 220, 700);
-                    c.xUp = new BodyMove(20, 1000, 500, 850, 80, 97, 0, new Vector2(-1, 20), new Vector2(0, 50), new Vector2(0, 50), new Vector2(30, 10), new Vector2(4.0f, -9.0f), 400, 1000);
+                    c.xUp = new BodyMove(20, 1000, 300, 500, 80, 97, 0, new Vector2(10, -10), new Vector2(30, 50), new Vector2(50, -50), new Vector2(10, 10), new Vector2(4.0f, -9.0f), 300, 600);
                     
                     c.x.hitSound = "Spiderman/web";
                     c.a.hitSound = "Spiderman/punch";
@@ -283,7 +283,7 @@ namespace SmashBros.MySystem
                     c.ani_landEnd = 19;
                     c.ani_takeHitStart = 66;
                     c.ani_takeHitEnd = 68;
-
+                    c.size = new Vector2(50, 110);
                     c.a = new MoveStats(10, 600, 400, 500, 20, 34, 0, new Vector2(1, 0.5f), new Vector2(-10,-10), new Vector2(40,-20), new Vector2(10,10));
                     c.aLR = new ChargeMove(10, 500, 100, 400, 59, 66, 0, new Vector2(10, 1), new Vector2(20, -25), new Vector2(20, -25), new Vector2(60, 5), 200, 3000, 56, 58, 58, 58);
                     c.aUp = new MoveStats(10, 500, 200, 350, 33, 40, 0, new Vector2(10, 10), new Vector2(-10, -30), new Vector2(10, -60), new Vector2(10, 10));

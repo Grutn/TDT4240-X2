@@ -80,9 +80,6 @@ namespace SmashBros.Views
                         Height = FrameRectangle.Value.Height
                     };
 
-                    if(FramesPrRow == 6 && i.EndFrame == 23)
-                        Debug.WriteLine(string.Format("Fram{4},H{0},W{1},X{2},Y{3}", r.Value.Height, r.Value.Width, r.Value.X, r.Value.Y,i.CurrentFrame));
-
                 }
 
                 //Gets the position of image by checking if imagemodel has 
@@ -95,8 +92,7 @@ namespace SmashBros.Views
                     pos = ConvertUnits.ToDisplayUnits(i.BoundBox.Position);
                     rotation = i.BoundBox.Rotation;
                 }
-                if (FramesPrRow == 6 && i.EndFrame == 23)
-                    Debug.WriteLine(string.Format("Fram{4},H{0},W{1},X{2},Y{3}", r.Value.Height, r.Value.Width, r.Value.X, r.Value.Y, i.CurrentFrame));
+               
                 spriteBatch.Draw(Image, pos + i.Offset, r, Color.White, rotation, i.Origin, i.CurrentScale, i.SpriteEffect, 0);
             }
         }
